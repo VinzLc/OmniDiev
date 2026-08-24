@@ -340,7 +340,8 @@ On te donne des noms relevés dans les livres, chacun accompagné d'un extrait d
 - un individu et le peuple auquel il appartient
 
 Dans le doute, ne regroupe pas : une fusion abusive fond deux personnages en un seul et fausse toute l'encyclopédie.
-N'émets que les groupes d'au moins deux membres. « canonique » doit être le nom le plus reconnaissable parmi les membres.`;
+N'émets QUE les groupes d'au moins deux membres — un groupe à un seul nom n'a aucun effet et gaspille la réponse. Si aucun regroupement ne s'impose, renvoie une liste vide.
+« canonique » doit être le nom le plus reconnaissable parmi les membres.`;
 
 type MergeGroup = { canonique: string; membres: string[] };
 
@@ -388,14 +389,27 @@ async function mergeIdentities(
         system: MERGE_SYSTEM,
         prompt: `NOMS RELEVÉS :\n${listing}`,
         schema: MERGE_SCHEMA,
-        maxTokens: 8000,
+        // Le budget doit suivre le nombre de noms : à 538 candidats, 8 000
+        // tokens tronquaient la réponse au milieu du JSON.
+        maxTokens: Math.min(32000, 4000 + candidates.length * 40),
         spend,
         model: MODEL,
       }),
       "fusion des identités",
     );
     groups = r?.groupes ?? [];
-    store("merges", fingerprint, { groupes: groups });
+
+    // Ne jamais mettre en cache un résultat vide : il vaut désactivation
+    // définitive de la passe, alors qu'il traduit presque toujours un échec.
+    const useful = groups.filter((g) => new Set(g.membres.map(fold)).size >= 2).length;
+    if (useful) {
+      store("merges", fingerprint, { groupes: groups });
+    } else {
+      console.warn(
+        `  ⚠ fusion sans effet sur ${candidates.length} noms — non mise en cache, ` +
+        `relancez pour réessayer`,
+      );
+    }
   }
 
   const byName = new Map<string, string>();

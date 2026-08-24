@@ -33,14 +33,25 @@ export async function askJson<T>(
 ): Promise<T | null> {
   const { system, prompt, schema, maxTokens = 2000, spend, model = CODEX_MODEL } = opts;
 
+  /*
+   * Toujours en streaming, quelle que soit la taille demandée.
+   *
+   * Le SDK refuse une requête non streamée dont `max_tokens` autorise une
+   * réponse de plus de dix minutes : « Streaming is required for operations
+   * that may take longer than 10 minutes ». Réduire le budget pour l'éviter
+   * n'est pas une solution — c'est ainsi que la passe de fusion rendait un JSON
+   * tronqué, donc illisible, donc silencieusement vide.
+   */
   const call = (structured: boolean) =>
-    client.messages.create({
-      model,
-      max_tokens: maxTokens,
-      system: structured ? system : `${system}\n\nRéponds UNIQUEMENT par un objet JSON valide, sans texte autour.`,
-      messages: [{ role: "user", content: prompt }],
-      ...(structured ? { output_config: { format: { type: "json_schema" as const, schema } } } : {}),
-    });
+    client.messages
+      .stream({
+        model,
+        max_tokens: maxTokens,
+        system: structured ? system : `${system}\n\nRéponds UNIQUEMENT par un objet JSON valide, sans texte autour.`,
+        messages: [{ role: "user", content: prompt }],
+        ...(structured ? { output_config: { format: { type: "json_schema" as const, schema } } } : {}),
+      })
+      .finalMessage();
 
   let msg;
   try {
@@ -57,7 +68,19 @@ export async function askJson<T>(
   }
 
   const text = msg.content.filter((b) => b.type === "text").map((b) => b.text).join("");
-  return parseJson<T>(text);
+  const parsed = parseJson<T>(text);
+
+  // Une réponse illisible doit lever, pas revenir vide : `withRetry` ne
+  // rattrape que les exceptions, et un `null` silencieux se ferait passer pour
+  // un succès — c'est ainsi qu'une passe de fusion tronquée a été mise en cache
+  // comme si elle n'avait rien trouvé, la désactivant pour de bon.
+  if (msg.stop_reason === "max_tokens") {
+    throw new Error(`réponse tronquée au budget de ${maxTokens} tokens`);
+  }
+  if (parsed === null) {
+    throw new Error(`réponse JSON illisible (${text.length} caractères, ${msg.stop_reason})`);
+  }
+  return parsed;
 }
 
 function parseJson<T>(text: string): T | null {
