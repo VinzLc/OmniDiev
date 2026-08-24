@@ -18,6 +18,17 @@ Tourne entièrement en local. Seule la génération des réponses passe par l'AP
 
 ---
 
+## Le Codex en ligne
+
+Les fiches d'entités sont publiées en site statique :
+**[vinzlc.github.io/OmniDiev](https://vinzlc.github.io/OmniDiev/)**
+
+Seul le Codex y figure — 511 fiches, du texte généré. L'index de recherche contient le
+texte intégral des romans et ne quitte pas la machine ; l'Oracle, qui a besoin d'une clé
+API, ne peut pas tourner sur un hébergeur statique. `npm run site` construit le site,
+`npm run deploy` le publie, et la construction refuse de livrer si elle détecte un
+secret ou un index de recherche dans la sortie.
+
 ## Démarrage
 
 ```bash
@@ -209,6 +220,8 @@ système interdit d'en rien révéler. Utile pour une lecture en cours.
 | `npm run embed` | fragments → vecteurs (local, ~17 min) |
 | `npm run codex` | construit le Codex (API Claude) |
 | `npm run build` / `npm start` | build et serveur de production |
+| `npm run site` | construit le site statique du Codex dans `out/` |
+| `npm run deploy` | construit puis publie sur la branche `gh-pages` |
 
 ## Authentification
 

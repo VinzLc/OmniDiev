@@ -9,7 +9,14 @@ import { Codex } from "@/components/Codex";
 const ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
 
 /** Valeur d'attente, le temps que /api/status réponde. */
-const SAGAS_FALLBACK = 3;
+const SAGAS_FALLBACK = 4;
+
+/**
+ * Build statique (GitHub Pages) : le Codex seul, sans route serveur.
+ * L'Oracle a besoin d'une clé API — qu'un site statique ne peut pas détenir —
+ * et d'un index qui contient le texte intégral des romans.
+ */
+const STATIC = process.env.NEXT_PUBLIC_STATIC === "1";
 
 /**
  * Le nombre en toutes lettres, pour la prose.
@@ -68,6 +75,7 @@ export default function Page() {
   const field = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
+    if (STATIC) return;
     fetch("/api/status").then((r) => r.json()).then(setStatus).catch(() => setStatus(null));
   }, []);
 
@@ -189,6 +197,30 @@ export default function Page() {
   const last = turns.at(-1);
   const shown = last?.role === "oracle" ? last : null;
   const notReady = status && (!status.ready || !status.auth.ready);
+
+  if (STATIC) {
+    return (
+      <div className="shell">
+        <header className="masthead">
+          <div className="brand">
+            <Sigil className="sigil" />
+            <h1>Le Codex d&apos;Émeraude</h1>
+            <span className="tagline">Anne Robillard · quatre épopées</span>
+          </div>
+          <div className="spacer" />
+          <a
+            className="masthead-link"
+            href="https://github.com/VinzLc/OmniDiev"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Le code sur GitHub ↗
+          </a>
+        </header>
+        <Codex standalone />
+      </div>
+    );
+  }
 
   return (
     <div className="shell">

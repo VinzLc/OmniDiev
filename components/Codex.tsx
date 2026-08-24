@@ -40,10 +40,30 @@ type Detail = {
 
 const KINDS = ["personnage", "lieu", "peuple", "objet", "concept", "événement"];
 
+/**
+ * Racine des données du Codex.
+ *
+ * Les fiches sont des fichiers statiques, servis tels quels en local comme sur
+ * GitHub Pages : une seule source, donc aucun risque que le site publié montre
+ * autre chose que l'application. `basePath` couvre le sous-répertoire du dépôt.
+ */
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 const fold = (s: string) =>
   s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
-export function Codex({ maxOrder }: { maxOrder: number }) {
+export function Codex({
+  maxOrder: fixedMaxOrder,
+  standalone = false,
+}: {
+  /** Limite de lecture pilotée par l'application ; ignorée si `standalone`. */
+  maxOrder?: number;
+  /**
+   * Le recueil porte alors son propre sélecteur de lecture : sur le site
+   * statique, il n'y a pas de bandeau d'application pour le fournir.
+   */
+  standalone?: boolean;
+}) {
   const [index, setIndex] = useState<Index | null>(null);
   const [query, setQuery] = useState("");
   const [kinds, setKinds] = useState<Set<string>>(new Set());
@@ -51,11 +71,14 @@ export function Codex({ maxOrder }: { maxOrder: number }) {
   const [selected, setSelected] = useState<string | null>(null);
   const [detail, setDetail] = useState<Detail | null>(null);
   const [loading, setLoading] = useState(false);
+  const [ownMaxOrder, setOwnMaxOrder] = useState(0);
+
+  const maxOrder = standalone ? ownMaxOrder : (fixedMaxOrder ?? 0);
 
   const grid = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch("/api/codex").then((r) => r.json()).then(setIndex).catch(() => setIndex(null));
+    fetch(`${BASE}/codex/index.json`).then((r) => r.json()).then(setIndex).catch(() => setIndex(null));
     // Lien direct vers une fiche : /?fiche=sierra
     const id = new URLSearchParams(window.location.search).get("fiche");
     if (id) setSelected(id);
@@ -66,9 +89,9 @@ export function Codex({ maxOrder }: { maxOrder: number }) {
     if (!selected) { setDetail(null); return; }
     let cancelled = false;
     setLoading(true);
-    fetch(`/api/codex/${selected}`)
+    fetch(`${BASE}/codex/${selected}.json`)
       .then((r) => r.json())
-      .then((d) => { if (!cancelled) { setDetail(d.error ? null : d); setLoading(false); } })
+      .then((d) => { if (!cancelled) { setDetail(d?.id ? d : null); setLoading(false); } })
       .catch(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
   }, [selected]);
@@ -162,6 +185,28 @@ export function Codex({ maxOrder }: { maxOrder: number }) {
             </button>
           ))}
         </div>
+
+        {standalone && index?.books && (
+          <select
+            className="dex-limit"
+            value={ownMaxOrder}
+            onChange={(e) => setOwnMaxOrder(Number(e.target.value))}
+            title="Masquer les entités qui n'apparaissent pas encore"
+          >
+            <option value={0}>J&apos;ai tout lu</option>
+            {index.sagas.map((sg) => (
+              <optgroup key={sg.id} label={sg.name}>
+                {index.books
+                  .filter((b) => b.saga === sg.id)
+                  .map((b) => (
+                    <option key={b.order} value={b.order}>
+                      {b.label} — {b.title}
+                    </option>
+                  ))}
+              </optgroup>
+            ))}
+          </select>
+        )}
 
         <span className="dex-count">
           {shown.length === total ? `${total} fiches` : `${shown.length} / ${total}`}

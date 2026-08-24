@@ -11,9 +11,12 @@
     "extract": "tsx scripts/extract.ts",
     "corpus": "tsx scripts/build-corpus.ts",
     "embed": "tsx scripts/build-embeddings.ts",
-    "codex": "tsx scripts/build-codex.ts",
+    "codex": "tsx scripts/build-codex.ts && tsx scripts/build-pages.ts",
     "doctor": "tsx scripts/doctor.ts",
-    "ingest": "npm run extract && npm run corpus && npm run embed"
+    "ingest": "npm run extract && npm run corpus && npm run embed",
+    "pages": "tsx scripts/build-pages.ts",
+    "site": "tsx scripts/build-site.ts",
+    "deploy": "npm run site && gh-pages -d out -t"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.120.0",
@@ -28,6 +31,7 @@
     "@types/node": "^22.15.3",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
+    "gh-pages": "^6.3.0",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   }

@@ -18,3 +18,7 @@ data/
 # local. Le motif couvre toutes les épopées, présentes et à venir — n'en
 # nommer qu'une laissait passer les suivantes.
 Epop*/
+
+# Dossier temporaire du build statique (scripts/build-site.ts).
+.api.parked/
+out/
