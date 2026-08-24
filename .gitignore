@@ -1,0 +1,20 @@
+node_modules/
+.next/
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+
+# ── Secrets ────────────────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Sorties régénérables ───────────────────────────────────────────────────
+# `npm run ingest` les reconstruit depuis les PDF ; `npm run codex` le Codex.
+data/
+
+# ── Sources ────────────────────────────────────────────────────────────────
+# Les romans d'Anne Robillard sont des œuvres sous droits : ils restent en
+# local. Le motif couvre toutes les épopées, présentes et à venir — n'en
+# nommer qu'une laissait passer les suivantes.
+Epop*/

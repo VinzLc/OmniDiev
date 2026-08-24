@@ -1,0 +1,34 @@
+{
+  "name": "omnidiev",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Oracle des Chevaliers d'Émeraude — un bot qui connaît les 12 tomes d'Anne Robillard",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "extract": "tsx scripts/extract.ts",
+    "corpus": "tsx scripts/build-corpus.ts",
+    "embed": "tsx scripts/build-embeddings.ts",
+    "codex": "tsx scripts/build-codex.ts",
+    "doctor": "tsx scripts/doctor.ts",
+    "ingest": "npm run extract && npm run corpus && npm run embed"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.120.0",
+    "@huggingface/transformers": "^3.7.6",
+    "next": "^15.5.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}
