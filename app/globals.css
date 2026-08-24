@@ -732,6 +732,7 @@ a { color: var(--emerald); }
   position: relative;
   display: grid;
   gap: 4px;
+  align-content: start;
   padding: 13px 14px 11px;
   text-align: left;
   border: 1px solid var(--line-soft);
@@ -784,6 +785,11 @@ a { color: var(--emerald); }
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  /* Le clamp seul ne suffit pas quand la carte s'étire : la boîte gagne de la
+     hauteur et laisse reparaître une quatrième ligne, coupée. La borne va ici
+     et non sur la carte — un `overflow: hidden` sur un élément de grille annule
+     sa taille minimale automatique et l'écrase à néant. */
+  max-height: calc(1.5em * 3);
 }
 
 .dex-foot {
@@ -915,6 +921,7 @@ a { color: var(--emerald); }
 .gen-card {
   display: grid;
   gap: 5px;
+  align-content: start;
   padding: 13px 14px;
   text-align: left;
   border: 1px solid var(--line-soft);
