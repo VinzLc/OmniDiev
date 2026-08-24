@@ -5,6 +5,7 @@ import { Sigil } from "@/components/Sigil";
 import { Answer } from "@/components/Answer";
 import { Sources, type CodexHit, type SourceHit } from "@/components/Sources";
 import { Codex } from "@/components/Codex";
+import { Genealogy } from "@/components/Genealogy";
 
 const ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
 
@@ -68,7 +69,7 @@ export default function Page() {
   // Position absolue du dernier tome lu, sur les 24 : 0 signifie « tout lu ».
   const [maxOrder, setMaxOrder] = useState<number>(0);
   const [focus, setFocus] = useState<number | null>(null);
-  const [tab, setTab] = useState<"oracle" | "codex">("oracle");
+  const [tab, setTab] = useState<"oracle" | "codex" | "genealogie">("oracle");
 
   const abort = useRef<AbortController | null>(null);
   const thread = useRef<HTMLDivElement>(null);
@@ -186,7 +187,9 @@ export default function Page() {
     if (opened.current) return;
     opened.current = true;
     const params = new URLSearchParams(window.location.search);
-    if (params.get("tab") === "codex" || params.get("fiche")) setTab("codex");
+    const asked = params.get("tab");
+    if (asked === "codex" || params.get("fiche")) setTab("codex");
+    else if (asked === "genealogie" || params.get("arbre")) setTab("genealogie");
     const q = params.get("q");
     if (q?.trim()) void ask(q);
     // `ask` change à chaque rendu ; le garde-fou ci-dessus suffit à n'ouvrir
@@ -207,6 +210,24 @@ export default function Page() {
             <h1>Le Codex d&apos;Émeraude</h1>
             <span className="tagline">Anne Robillard · quatre épopées</span>
           </div>
+          <nav className="tabs" role="tablist">
+            <button
+              role="tab"
+              aria-selected={tab !== "genealogie"}
+              className={tab !== "genealogie" ? "on" : ""}
+              onClick={() => setTab("codex")}
+            >
+              Codex
+            </button>
+            <button
+              role="tab"
+              aria-selected={tab === "genealogie"}
+              className={tab === "genealogie" ? "on" : ""}
+              onClick={() => setTab("genealogie")}
+            >
+              Généalogie
+            </button>
+          </nav>
           <div className="spacer" />
           <a
             className="masthead-link"
@@ -217,7 +238,7 @@ export default function Page() {
             Le code sur GitHub ↗
           </a>
         </header>
-        <Codex standalone />
+        {tab === "genealogie" ? <Genealogy /> : <Codex standalone />}
       </div>
     );
   }
@@ -250,6 +271,14 @@ export default function Page() {
           >
             Codex
             {status?.codex && <span className="tab-badge">{status.codex.entries}</span>}
+          </button>
+          <button
+            role="tab"
+            aria-selected={tab === "genealogie"}
+            className={tab === "genealogie" ? "on" : ""}
+            onClick={() => setTab("genealogie")}
+          >
+            Généalogie
           </button>
         </nav>
 
@@ -294,7 +323,9 @@ export default function Page() {
         )}
       </header>
 
-      {tab === "codex" ? (
+      {tab === "genealogie" ? (
+        <Genealogy />
+      ) : tab === "codex" ? (
         <Codex maxOrder={maxOrder} />
       ) : (
       <div className="workspace">

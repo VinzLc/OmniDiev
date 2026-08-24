@@ -11,12 +11,13 @@
     "extract": "tsx scripts/extract.ts",
     "corpus": "tsx scripts/build-corpus.ts",
     "embed": "tsx scripts/build-embeddings.ts",
-    "codex": "tsx scripts/build-codex.ts && tsx scripts/build-pages.ts",
+    "codex": "tsx scripts/build-codex.ts && tsx scripts/build-genealogy.ts && tsx scripts/build-pages.ts",
     "doctor": "tsx scripts/doctor.ts",
     "ingest": "npm run extract && npm run corpus && npm run embed",
     "pages": "tsx scripts/build-pages.ts",
     "site": "tsx scripts/build-site.ts",
-    "deploy": "npm run site && gh-pages -d out -t"
+    "deploy": "npm run site && gh-pages -d out -t",
+    "genealogie": "tsx scripts/build-genealogy.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.120.0",

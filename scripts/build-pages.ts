@@ -10,9 +10,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { codexIndex, codexDetail, codexIds } from "../lib/codex-view.ts";
+import { genealogyIndex, genealogyTree, genealogyIds } from "../lib/genealogy-view.ts";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const OUT = path.join(ROOT, "public", "codex");
+const GEN = path.join(ROOT, "public", "genealogie");
 
 function main() {
   const index = codexIndex();
@@ -35,11 +37,32 @@ function main() {
     fs.writeFileSync(path.join(OUT, `${id}.json`), body);
   }
 
+  // ── Généalogie ──────────────────────────────────────────────────────────
+  const gen = genealogyIndex();
+  let genBytes = 0;
+  if (gen.ready) {
+    fs.rmSync(GEN, { recursive: true, force: true });
+    fs.mkdirSync(GEN, { recursive: true });
+    fs.writeFileSync(path.join(GEN, "index.json"), JSON.stringify(gen));
+    for (const id of genealogyIds()) {
+      const tree = genealogyTree(id);
+      if (!tree) continue;
+      const body = JSON.stringify(tree);
+      genBytes += body.length;
+      fs.writeFileSync(path.join(GEN, `${id}.json`), body);
+    }
+  }
+
   const size = (n: number) => (n / 1e6).toFixed(2) + " Mo";
   console.log(`${index.entries.length} fiches → ${path.relative(ROOT, OUT)}/`);
   console.log(`  index.json  ${size(fs.statSync(path.join(OUT, "index.json")).size)}`);
   console.log(`  fiches      ${size(bytes)}`);
   console.log(`  total       ${size(fs.statSync(path.join(OUT, "index.json")).size + bytes)}`);
+  if (gen.ready) {
+    console.log(`${gen.trees.length} arbres → ${path.relative(ROOT, GEN)}/  ${size(genBytes)}`);
+  } else {
+    console.log("Généalogie absente — lancez : npm run genealogie");
+  }
 }
 
 main();

@@ -23,7 +23,7 @@ Tourne entièrement en local. Seule la génération des réponses passe par l'AP
 Les fiches d'entités sont publiées en site statique :
 **[vinzlc.github.io/OmniDiev](https://vinzlc.github.io/OmniDiev/)**
 
-Seul le Codex y figure — 511 fiches, du texte généré. L'index de recherche contient le
+Seuls le Codex et la Généalogie y figurent — 511 fiches et 135 arbres, du texte généré. L'index de recherche contient le
 texte intégral des romans et ne quitte pas la machine ; l'Oracle, qui a besoin d'une clé
 API, ne peut pas tourner sur un hébergeur statique. `npm run site` construit le site,
 `npm run deploy` le publie, et la construction refuse de livrer si elle détecte un
@@ -194,11 +194,38 @@ instantanés — et le détail se charge à la demande.
 Le sélecteur « J'ai lu jusqu'à… » s'y applique aussi : les fiches dont l'entrée en
 scène est encore à venir disparaissent du recueil.
 
+### La généalogie
+
+Un troisième onglet dresse les arbres de parenté. Les relations du Codex la décrivent en
+prose — « son fils dieu-dragon », « père biologique, le ressuscite » ; une expression
+régulière n'y suffit pas, car « Itzaman — retrouve son fils captif » ferait d'Itzaman
+l'enfant d'Onyx, et « frère d'armes » n'est pas une fratrie. Un arbre affirme des faits :
+c'est donc le modèle qui trie, à partir des relations déjà calculées et sans relire les
+romans (~0,36 $).
+
+Trois garde-fous à l'assemblage :
+
+- **Seules des personnes ont une parenté** — sans quoi « Shola », un royaume, figurait
+  parmi les parents de Kira.
+- **Les contradictions de sens sont tranchées** par la déclaration de l'intéressé : la
+  fiche d'un enfant établit mieux sa filiation que celle du parent. À force égale, on
+  écarte les deux plutôt que d'inventer une génération. 55 filiations rejetées.
+- **Un lien plus proche l'emporte** : qui est déjà parent, enfant ou conjoint ne peut pas
+  être aussi frère ou sœur — sans cette règle, les ascendances divines partagées
+  faisaient de Nemeroff à la fois le fils et le frère d'Onyx.
+
+Chaque arbre est **centré sur une personne** et borné à deux générations de part et
+d'autre. Les composantes connexes ne conviendraient pas : de proche en proche, les
+alliances relient 173 personnages sur vingt-neuf générations — illisible, et faux dès
+qu'une arête l'est. Les traits sont tracés en SVG d'après les positions réelles des
+cartes, mesurées après rendu.
+
 ### Liens profonds
 
 - `/?q=Qui%20est%20Onyx%20%3F` — pose la question au chargement
 - `/?tab=codex` — ouvre le recueil
 - `/?fiche=sierra` — ouvre une fiche précise
+- `/?arbre=onyx` — ouvre un arbre généalogique
 
 ### Le contrôle anti-divulgation
 
@@ -218,7 +245,8 @@ système interdit d'en rien révéler. Utile pour une lecture en cours.
 | `npm run extract` | PDF → texte brut (nécessite `poppler`) ; `-- --saga 2` pour une seule épopée |
 | `npm run corpus` | texte → fragments + index BM25 |
 | `npm run embed` | fragments → vecteurs (local, ~17 min) |
-| `npm run codex` | construit le Codex (API Claude) |
+| `npm run codex` | construit le Codex, la généalogie et les fichiers statiques |
+| `npm run genealogie` | recalcule les seuls arbres de parenté |
 | `npm run build` / `npm start` | build et serveur de production |
 | `npm run site` | construit le site statique du Codex dans `out/` |
 | `npm run deploy` | construit puis publie sur la branche `gh-pages` |
@@ -292,7 +320,7 @@ lib/          books · parse · ocr-repair · chunk · text · bm25 · embed
 scripts/      extract.sh · build-corpus · build-embeddings · build-codex · doctor
 app/          page · layout · globals.css
               api/chat · api/status · api/codex · api/codex/[id]
-components/   Sigil · Answer · Sources · Codex
+components/   Sigil · Answer · Sources · Codex · Genealogy
 data/         raw/ · index/ · codex-cache/        (régénérables, non versionnés)
 Epopée1/      les 12 PDF sources                  (non versionnés)
 ```
@@ -327,8 +355,12 @@ fournissent le dictionnaire de référence.
   incrustés en image. Les livres sont indexés d'un seul tenant, et leurs citations portent
   la mention « Hors chapitre ». Les pages, elles, restent exactes. Leurs positions
   seraient récupérables via `pdfimages` si le découpage devenait nécessaire.
-- **23 fragments sur 16 876** commencent par une lettrine perdue par l'OCR
+- **23 fragments sur 19 842** commencent par une lettrine perdue par l'OCR
   (« e monde céleste » pour « Le monde céleste ») — 0,14 %, dans les scans.
+- Le Codex garde deux fiches pour **« Fan de Shola » et « Reine de Shola »**, une seule
+  et même personne. La généalogie réunit les doublons que le Codex déclare lui-même par
+  un alias — sept l'ont été — mais cette paire-là n'en porte pas, et Kira apparaît donc
+  avec deux mères.
 - Les prologues des tomes 9 à 12 récapitulent les tomes précédents : le même texte
   apparaît donc dans plusieurs tomes, et la recherche peut le remonter en double.
 - Les vecteurs sont tronqués à 512 tokens par fragment ; la fin des fragments les plus
