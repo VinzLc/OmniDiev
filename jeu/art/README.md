@@ -71,6 +71,12 @@ dessins s'accorderont d'eux-mêmes sur leurs gris. Les ranger de force ne servir
 leur ferait perdre leur teinte — le premier jet retournait ainsi le manteau vert-olive de
 Wellan en noir violacé, parce qu'un gris de la palette se trouvait numériquement proche.
 
+**Les quasi-jumelles sont fusionnées.** Deux états d'un même personnage ne reviennent pas
+avec exactement les mêmes noirs : le repos porte `#222621`, la marche `#222620`. L'écart est
+invisible et sans intention, mais chacune coûtait une place — onze des seize sur Wellan, si
+bien qu'il ne restait rien pour les carnations et que le sprite avait le visage vert. Deux
+teintes que l'œil ne sépare pas sont désormais une seule.
+
 ## Ce qui reste difficile
 
 La génération d'images n'a pas supprimé le problème, elle l'a déplacé. Trois écueils, par

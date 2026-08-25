@@ -120,6 +120,19 @@ const SNAP = 0.12;
  */
 const NEUTRAL = 0.05;
 
+/**
+ * En deçà de cette distance, deux teintes sont la même et ne doivent pas coûter
+ * deux places.
+ *
+ * Un outil qui rend deux états d'un même personnage ne redonne pas exactement
+ * les mêmes noirs : le repos porte #222621, la marche #222620. L'écart est
+ * invisible et sans intention. Laissés distincts, ces jumeaux ont occupé onze
+ * des seize places de Wellan — il ne restait rien pour les carnations, qui se
+ * sont repliées sur la teinte survivante la plus proche, un vert. Le sprite
+ * avait le visage vert.
+ */
+const MERGE = 0.03;
+
 type SnapStat = { before: number; after: number; adopted: string[] };
 
 /**
@@ -198,14 +211,41 @@ function snap(frames: Frame[], palette: RGB[]): SnapStat {
     for (const [h, n] of local) share.set(h, Math.max(share.get(h) ?? 0, n / opaque));
   }
 
-  const kept = [...share.entries()].sort((a, b) => b[1] - a[1]).slice(0, MAX_COLORS).map(([h]) => h);
+  /*
+   * Fusion des quasi-jumelles, la plus portante l'emportant. C'est le geste
+   * qu'un pixel-artiste fait à la main : deux noirs qu'on ne distingue pas sont
+   * un seul noir.
+   */
+  const ranked = [...share.entries()].sort((a, b) => b[1] - a[1]);
+  const toRgb = (h: string): RGB => [
+    parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16),
+  ];
+  const reps: { hex: string; lab: RGB }[] = [];
+  const merged = new Map<string, string>();
+  for (const [h, weight] of ranked) {
+    const l = oklab(toRgb(h));
+    const near = reps.find((r) => Math.hypot(r.lab[0] - l[0], r.lab[1] - l[1], r.lab[2] - l[2]) <= MERGE);
+    if (near) {
+      merged.set(h, near.hex);
+      share.set(near.hex, Math.max(share.get(near.hex) ?? 0, weight));
+    } else {
+      reps.push({ hex: h, lab: l });
+      merged.set(h, h);
+    }
+  }
+
+  const kept = reps
+    .map((r) => r.hex)
+    .sort((a, b) => (share.get(b) ?? 0) - (share.get(a) ?? 0))
+    .slice(0, MAX_COLORS);
   const keptRgb: RGB[] = kept.map((h) => [
     parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16),
   ]);
   const keptLab = keptRgb.map(oklab);
   const final = new Map<number, RGB>();
   for (const [k, rgb] of map) {
-    final.set(k, kept.includes(hex(rgb)) ? rgb : keptRgb[nearest(rgb, keptRgb, keptLab)]);
+    const rep = merged.get(hex(rgb)) ?? hex(rgb);
+    final.set(k, kept.includes(rep) ? toRgb(rep) : keptRgb[nearest(rgb, keptRgb, keptLab)]);
   }
 
   for (const f of frames) {
@@ -238,26 +278,77 @@ function pngs(dir: string): string[] {
 }
 
 /**
- * Range les images par direction.
+ * Rang d'un état dans le cycle.
  *
- * On ne devine pas le schéma d'export : on lit le nom des fichiers. Un outil
- * qui livrera demain quatre images de marche par direction tombera dans le même
+ * Le repos ouvre la marche, toujours. Se fier au tri alphabétique des dossiers
+ * marcherait aujourd'hui — « Idle » précède « walk » par accident de casse — et
+ * casserait le jour où un export livrera « Walk » et « idle ». On nomme donc ce
+ * qu'on attend au lieu de le laisser au hasard de l'ASCII.
+ */
+function stateRank(state: string): number {
+  const s = state.toLowerCase();
+  if (/idle|repos|stand|immobile/.test(s)) return 0;
+  if (/walk|marche|run|course/.test(s)) return 1;
+  return 2;
+}
+
+/**
+ * Range les images par direction, chaque direction ordonnée par état.
+ *
+ * On ne devine pas le schéma d'export : on lit les chemins. Un outil qui
+ * livrera demain quatre images de marche par direction tombera dans le même
  * classement sans qu'il faille toucher à ce code.
  */
-function byDirection(files: string[]): Map<string, string[]> {
-  const groups = new Map<string, string[]>();
-  for (const f of files.sort()) {
+function byDirection(files: string[], root: string): Map<string, string[]> {
+  const groups = new Map<string, { file: string; state: string }[]>();
+  for (const f of files) {
     const base = path.basename(f).toLowerCase();
     const dir = DIRECTIONS.find((d) => base.includes(d));
     if (!dir) continue;
-    groups.set(dir, [...(groups.get(dir) ?? []), f]);
+    const state = path.relative(root, f).split(path.sep)[0] ?? "";
+    groups.set(dir, [...(groups.get(dir) ?? []), { file: f, state }]);
   }
-  return groups;
+
+  const out = new Map<string, string[]>();
+  for (const [dir, list] of groups) {
+    list.sort((a, b) => stateRank(a.state) - stateRank(b.state) || a.file.localeCompare(b.file));
+    out.set(dir, list.map((x) => x.file));
+  }
+  return out;
+}
+
+/** Nom des états traversés, dans l'ordre du cycle. */
+function statesOf(files: string[], root: string): string[] {
+  const seen = new Map<string, number>();
+  for (const f of files) {
+    const st = path.relative(root, f).split(path.sep)[0] ?? "";
+    if (st && !seen.has(st)) seen.set(st, stateRank(st));
+  }
+  return [...seen.entries()].sort((a, b) => a[1] - b[1]).map(([s]) => s);
+}
+
+/**
+ * Écart de ligne de sol entre les images d'une même rangée.
+ *
+ * Un cycle de marche fait varier la silhouette — l'enjambée descend d'un pixel
+ * ou deux, c'est la marche elle-même. Au-delà, ce n'est plus une foulée mais un
+ * personnage mal calé, qui sautera à chaque pas dans le moteur.
+ */
+function baselineSpread(frames: Frame[]): number {
+  const bottoms = frames.map((f) => {
+    for (let y = f.height - 1; y >= 0; y--)
+      for (let x = 0; x < f.width; x++)
+        if (f.data[(y * f.width + x) * f.channels + 3] >= 16) return y;
+    return -1;
+  });
+  return Math.max(...bottoms) - Math.min(...bottoms);
 }
 
 async function build(id: string, palette: RGB[]): Promise<boolean> {
   const dir = path.join(SOURCES, id);
-  const groups = byDirection(pngs(dir));
+  const files = pngs(dir);
+  const groups = byDirection(files, dir);
+  const states = statesOf(files, dir);
 
   const missing = ROWS.filter((r) => !groups.has(r));
   if (missing.length) {
@@ -299,6 +390,7 @@ async function build(id: string, palette: RGB[]): Promise<boolean> {
   await sharp(sheet, { raw: { width: W, height: H, channels: 4 } }).png({ compressionLevel: 9 }).toFile(dest);
 
   const frameCount = groups.get("south")!.length;
+  const spread = Math.max(...ROWS.map((_, r) => baselineSpread(frames.slice(r * COLS, (r + 1) * COLS))));
   console.log(`${C.green}✓${C.off} ${id} → ${path.relative(ROOT, dest)}  ${W}×${H}`);
   console.log(`  ${C.dim}palette ${stat.before} → ${stat.after} teintes${C.off}`);
   if (stat.adopted.length) {
@@ -309,8 +401,12 @@ async function build(id: string, palette: RGB[]): Promise<boolean> {
   for (let i = 0; i < ROWS.length; i++) {
     console.log(`  ${C.dim}rangée ${i + 1} ${ROW_LABEL[ROWS[i]].padEnd(14)} ${ROWS[i]}${C.off}`);
   }
-  if (frameCount < COLS) {
-    console.log(`  ${C.yellow}${frameCount} image(s) par direction : les 4 colonnes répètent le repos — le sprite ne marche pas encore${C.off}`);
+  console.log(`  ${C.dim}cycle ${states.join(" → ")}${states.length < COLS ? ", répété" : ""} sur ${COLS} colonnes${C.off}`);
+  if (frameCount < 2) {
+    console.log(`  ${C.yellow}une seule pose : les 4 colonnes la répètent — le sprite ne marche pas encore${C.off}`);
+  }
+  if (spread > 2) {
+    console.log(`  ${C.yellow}ligne de sol variable de ${spread} px dans une rangée — le sprite sautera à chaque pas${C.off}`);
   }
   return true;
 }
