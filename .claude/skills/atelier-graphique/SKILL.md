@@ -54,6 +54,25 @@ Deux paramètres puissants et encore inexploités : `force_colors` avec une `col
 la création de personnage, et `color_palette` sur `create-tileset`. Ils imposent la palette
 **à la génération** — ce qui supprime le problème au lieu de le corriger après coup.
 
+## Ne pas régénérer un personnage déjà validé
+
+Le rendu s'écarte parfois du texte — Wellan avait les cheveux auburn là où les romans disent
+« blond foncé ». Le réflexe est de régénérer avec une consigne corrigée. **Deux tentatives,
+deux échecs**, une génération chacune.
+
+L'endpoint `create-character-with-4-directions` ne produit pas le style du gabarit
+`mannequin` employé par l'interface web : le géant est revenu frêle, sans armure, sans cape
+ni croix dorée. La couleur des cheveux était corrigée, tout le reste perdu.
+
+La première tentative a en plus changé trois variables d'un coup — formulation,
+`force_colors`, `flat shading` — si bien qu'on ne savait plus laquelle avait nui. **Changer
+une chose à la fois**, surtout quand chaque essai coûte.
+
+**Préférer la retouche.** `jeu/art/sources/<id>.retouche.json` déclare un décalage de teinte
+que `art:normalise` applique à toutes les images d'un coup. Viser demande la couleur *et* la
+position : les mèches partagent leurs bruns avec les cuirs du corps, et la tête porte aussi
+la peau et les yeux. Conserver la luminance — c'est elle qui porte le modelé.
+
 ## Les pièges déjà payés
 
 **La palette de `CONTEXTE.md` est une consigne de génération, pas une cible de

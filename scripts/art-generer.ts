@@ -19,7 +19,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
-import { animate, awaitJobs, balance, characterZip, characters, money } from "../lib/pixellab.ts";
+import sharp from "sharp";
+import { animate, awaitJobs, balance, characterZip, characters, money, post } from "../lib/pixellab.ts";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const SOURCES = path.join(ROOT, "jeu", "art", "sources");
@@ -39,8 +40,89 @@ async function showBalance(prefix = "Solde") {
   return b;
 }
 
+/**
+ * La palette du monde en image, pour `color_image`.
+ *
+ * Le service accepte une image de référence et sait s'y tenir. Imposer les
+ * couleurs à la génération vaut mieux que les rattraper après coup : ce qui
+ * n'est jamais sorti de la palette n'a pas de modelé à perdre.
+ */
+async function paletteImage(): Promise<{ type: "base64"; base64: string; format: "png" }> {
+  const src = fs.readFileSync(path.join(ROOT, "jeu", "art", "CONTEXTE.md"), "utf8");
+  const hexes = [...new Set(src.match(/#[0-9A-Fa-f]{6}\b/g) ?? [])];
+  const cols = Math.ceil(Math.sqrt(hexes.length));
+  const rows = Math.ceil(hexes.length / cols);
+  const cell = 16;
+  const buf = Buffer.alloc(cols * cell * rows * cell * 4, 0);
+  hexes.forEach((h, i) => {
+    const [r, g, b] = [1, 3, 5].map((o) => parseInt(h.slice(o, o + 2), 16));
+    const cx = (i % cols) * cell, cy = Math.floor(i / cols) * cell, W = cols * cell;
+    for (let y = 0; y < cell; y++) for (let x = 0; x < cell; x++) {
+      const o = ((cy + y) * W + cx + x) * 4;
+      buf[o] = r; buf[o + 1] = g; buf[o + 2] = b; buf[o + 3] = 255;
+    }
+  });
+  const png = await sharp(buf, { raw: { width: cols * cell, height: rows * cell, channels: 4 } }).png().toBuffer();
+  console.log(`${C.dim}palette de référence : ${hexes.length} teintes, ${cols * cell}×${rows * cell} px${C.off}`);
+  return { type: "base64", base64: png.toString("base64"), format: "png" };
+}
+
+/**
+ * Crée un personnage à partir d'une commande versionnée.
+ *
+ * Le rendu va dans un dossier distinct : une régénération peut décevoir, et
+ * écraser un personnage déjà validé pour découvrir ensuite que le nouveau est
+ * moins bon coûterait bien plus qu'une génération.
+ */
+async function create(id: string) {
+  const file = path.join(ROOT, "jeu", "art", "commandes", `${id}.pixellab.txt`);
+  if (!fs.existsSync(file)) {
+    console.error(`Commande absente : ${path.relative(ROOT, file)}`);
+    process.exit(1);
+  }
+  const description = fs.readFileSync(file, "utf8").trim();
+  const before = await showBalance("Solde avant");
+  console.log(`\n${id} — création, ${description.length} caractères de description`);
+
+  /*
+   * `force_colors` et un rendu plat se paient cher sur un personnage.
+   * Premier essai avec les deux : les cheveux ont bien viré au blond, mais le
+   * géant est devenu frêle, l'armure a disparu, la croix dorée avec. Trois
+   * variables changées d'un coup — on ne savait plus laquelle avait nui. Ils
+   * sont donc explicites, et l'appel nu reproduit ce qui a marché.
+   */
+  const forcer = process.argv.includes("--forcer-couleurs");
+  const body: Record<string, unknown> = {
+    description,
+    image_size: { width: 32, height: 32 },
+    view: "low top-down",
+    ...(forcer ? { color_image: await paletteImage(), force_colors: true, shading: "flat shading" } : {}),
+  };
+
+  const r = await post<Record<string, unknown>>("/create-character-with-4-directions", body);
+  const ids = (r.background_job_ids as string[]) ?? [r.background_job_id as string].filter(Boolean);
+  console.log(`personnage ${r.character_id}, ${ids.length} travail/travaux. Attente…`);
+
+  const { spent } = await awaitJobs(ids, (d, t, usd) => process.stdout.write(`\r  ${d}/${t}   ${money(usd)}   `));
+  console.log();
+
+  const dir = path.join(SOURCES, `${id}-v2`);
+  fs.mkdirSync(dir, { recursive: true });
+  const tmp = path.join(dir, ".export.zip");
+  fs.writeFileSync(tmp, await characterZip(String(r.character_id)));
+  execFileSync("unzip", ["-o", "-q", tmp, "-d", dir]);
+  fs.unlinkSync(tmp);
+
+  const after = await balance();
+  console.log(`\n${C.green}✓${C.off} ${path.relative(ROOT, dir)}/`);
+  console.log(`${C.dim}coût ${money(spent)} — générations ${before.subscription?.generations} → ${after.subscription?.generations}${C.off}`);
+  console.log(`\n${C.yellow}Regarder le rendu avant de remplacer l'existant.${C.off}`);
+}
+
 async function main() {
   if (process.argv.includes("--solde")) { await showBalance(); return; }
+  const creer = arg("creer");
+  if (creer) { await create(creer); return; }
 
   const who = arg("perso");
   const action = arg("action") ?? "walking";

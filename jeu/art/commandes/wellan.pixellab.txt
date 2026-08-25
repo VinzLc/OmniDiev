@@ -1,6 +1,6 @@
 Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
 
-CHARACTER: Wellan, commander of the Knights of Emerald, medieval fantasy. Tall and broad-shouldered, a giant among his brothers-in-arms — the largest silhouette of any sprite. Dark blond hair (dark blond, ash blond, not red or auburn  ) worn loose to the shoulders. Piercing blue eyes. Clean-shaven, stern.
+CHARACTER: Wellan, commander of the Knights of Emerald, medieval fantasy. Tall and broad-shouldered, a giant among his brothers-in-arms — the largest silhouette of any sprite. DARK BLOND hair — ash blond, the colour of dry wheat, NOT red, NOT auburn, NOT brown — worn loose to the shoulders. Piercing blue eyes. Short beard, stern.
 
 ARMOR: black tunic and black leather boots. Over them a two-tone surcoat split vertically: one half emerald green, one half black — a black cross on the green half, a green dragon on the black half. Gold cross set with emeralds on the breastplate. This uniform must read instantly at 32 px.
 
@@ -12,10 +12,5 @@ PALETTE — these 16 colors only:
 #2D5FA8 (blue eyes)
 
 STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
-
-SHEET: 128x128 px total, 4 columns x 4 rows of 32x32 sprites, on a strict 32 px grid.
-Row 1 walking toward the viewer (front). Row 2 walking away (back). Row 3 walking left (side). Row 4 walking right (side).
-Columns in every row: idle, left step, idle, right step.
-Same character, same palette, same proportions across all 16 frames.
 
 BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

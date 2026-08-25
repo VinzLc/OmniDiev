@@ -307,6 +307,70 @@ function snap(frames: Frame[], palette: RGB[]): SnapStat {
   };
 }
 
+type Retouche = { cheveux?: { teinte: number; saturationMax: number } };
+
+function hsl(r: number, g: number, b: number): [number, number, number] {
+  r /= 255; g /= 255; b /= 255;
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn;
+  if (!d) return [0, 0, l];
+  const sat = d / (1 - Math.abs(2 * l - 1));
+  let h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  h *= 60;
+  return [h < 0 ? h + 360 : h, sat, l];
+}
+
+function fromHsl(h: number, s: number, l: number): RGB {
+  const c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs((h / 60) % 2 - 1)), m = l - c / 2;
+  const [r, g, b] = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x]
+    : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
+  return [r, g, b].map((v) => Math.round((v + m) * 255)) as RGB;
+}
+
+/**
+ * Reteint la chevelure sans toucher au reste.
+ *
+ * Le texte fait autorité sur l'apparence, et le rendu s'en écarte parfois. Deux
+ * régénérations ont corrigé la couleur des cheveux de Wellan en perdant tout ce
+ * qui faisait le personnage — le géant devenait frêle, l'armure disparaissait.
+ * Un décalage de teinte, lui, ne change que ce qu'on vise.
+ *
+ * Encore faut-il viser juste. La couleur seule ne suffit pas : les mèches
+ * partagent leurs bruns avec les cuirs du corps. La position seule ne suffit pas
+ * non plus : la tête porte aussi la peau, les yeux, le haut de l'armure. Il faut
+ * les deux — un ton chaud et sombre, situé dans la bande de la tête.
+ *
+ * La luminance est conservée telle quelle : c'est elle qui porte le modelé. Ce
+ * qui était sombre le reste, et un décalage du rouge vers le jaune y devient
+ * imperceptible — exactement le comportement d'une vraie chevelure blond foncé.
+ */
+function retoucher(frames: Frame[], r: Retouche): number {
+  if (!r.cheveux) return 0;
+  const { teinte, saturationMax } = r.cheveux;
+  let touched = 0;
+
+  for (const f of frames) {
+    let top = f.height;
+    for (let y = 0; y < f.height && top === f.height; y++) {
+      for (let x = 0; x < f.width; x++) if (f.data[(y * f.width + x) * f.channels + 3] >= 16) { top = y; break; }
+    }
+
+    for (let y = top; y < Math.min(top + 13, f.height); y++) {
+      for (let x = 0; x < f.width; x++) {
+        const o = (y * f.width + x) * f.channels;
+        if (f.data[o + 3] < 16) continue;
+        const [h, sat, l] = hsl(f.data[o], f.data[o + 1], f.data[o + 2]);
+        // Chaud et sombre : la chevelure. La peau est plus claire, l'or plus
+        // jaune, le contour et l'armure trop peu saturés pour entrer ici.
+        if (h >= 32 || sat <= 0.25 || l > 0.58) continue;
+        const [nr, ng, nb] = fromHsl(teinte, Math.min(sat * 0.75, saturationMax), l);
+        f.data[o] = nr; f.data[o + 1] = ng; f.data[o + 2] = nb;
+        touched++;
+      }
+    }
+  }
+  return touched;
+}
+
 /** Les PNG d'un dossier, sous-dossiers compris. */
 function pngs(dir: string): string[] {
   const out: string[] = [];
@@ -450,6 +514,12 @@ async function build(id: string, palette: RGB[]): Promise<boolean> {
   const frames: Frame[] = [];
   for (const row of chosen) for (const f of row) frames.push(await readPng(f));
 
+  const retoucheFile = path.join(SOURCES, `${id}.retouche.json`);
+  let retouched = 0;
+  if (fs.existsSync(retoucheFile)) {
+    retouched = retoucher(frames, JSON.parse(fs.readFileSync(retoucheFile, "utf8")) as Retouche);
+  }
+
   const stat = snap(frames, palette);
 
   const W = SPRITE * COLS, H = SPRITE * ROWS.length;
@@ -471,6 +541,7 @@ async function build(id: string, palette: RGB[]): Promise<boolean> {
   const spread = Math.max(...ROWS.map((_, r) => baselineSpread(frames.slice(r * COLS, (r + 1) * COLS))));
   console.log(`${C.green}✓${C.off} ${id} → ${path.relative(ROOT, dest)}  ${W}×${H}`);
   console.log(`  ${C.dim}palette ${stat.before} → ${stat.after} teintes${C.off}`);
+  if (retouched) console.log(`  ${C.dim}retouche : ${retouched} pixels de chevelure reteints${C.off}`);
   if (stat.adopted.length) {
     console.log(`  ${C.yellow}${stat.adopted.length} teinte(s) sans équivalent dans CONTEXTE.md, conservées :${C.off}`);
     console.log(`  ${C.dim}${stat.adopted.join(" ")}${C.off}`);
