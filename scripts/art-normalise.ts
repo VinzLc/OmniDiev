@@ -95,7 +95,49 @@ type Frame = { data: Buffer; width: number; height: number; channels: number };
 
 async function readPng(file: string): Promise<Frame> {
   const { data, info } = await sharp(file).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-  return { data, width: info.width, height: info.height, channels: info.channels };
+  return fit({ data, width: info.width, height: info.height, channels: info.channels });
+}
+
+/**
+ * Ramène une image à la taille du sprite, calée sur le sol.
+ *
+ * L'API d'animation rend une toile plus large que la pose de repos — 44×44 pour
+ * un sprite de 32 — afin de laisser de l'air au mouvement. Recadrer au centre
+ * géométrique décalerait le personnage ; on cale donc sur ce qui compte, la
+ * ligne de sol, et on centre horizontalement sur le contenu. Les images d'une
+ * même direction retombent ainsi exactement où était le repos.
+ */
+function fit(f: Frame): Frame {
+  if (f.width === SPRITE && f.height === SPRITE) return f;
+
+  let top = f.height, bottom = -1, left = f.width, right = -1;
+  for (let y = 0; y < f.height; y++) {
+    for (let x = 0; x < f.width; x++) {
+      if (f.data[(y * f.width + x) * f.channels + 3] < 16) continue;
+      if (y < top) top = y;
+      if (y > bottom) bottom = y;
+      if (x < left) left = x;
+      if (x > right) right = x;
+    }
+  }
+  if (bottom < 0) return { data: Buffer.alloc(SPRITE * SPRITE * 4, 0), width: SPRITE, height: SPRITE, channels: 4 };
+
+  /* Le repos occupe la toile jusqu'à un pixel du bas : on reproduit cette
+   * assise plutôt que de coller le personnage au bord. */
+  const ox = Math.round(left - (SPRITE - (right - left + 1)) / 2);
+  const oy = bottom - (SPRITE - 2);
+
+  const out = Buffer.alloc(SPRITE * SPRITE * 4, 0);
+  for (let y = 0; y < SPRITE; y++) {
+    for (let x = 0; x < SPRITE; x++) {
+      const sx = x + ox, sy = y + oy;
+      if (sx < 0 || sy < 0 || sx >= f.width || sy >= f.height) continue;
+      const si = (sy * f.width + sx) * f.channels, di = (y * SPRITE + x) * 4;
+      out[di] = f.data[si]; out[di + 1] = f.data[si + 1];
+      out[di + 2] = f.data[si + 2]; out[di + 3] = f.data[si + 3];
+    }
+  }
+  return { data: out, width: SPRITE, height: SPRITE, channels: 4 };
 }
 
 /**
@@ -300,25 +342,67 @@ function stateRank(state: string): number {
  * classement sans qu'il faille toucher à ce code.
  */
 function byDirection(files: string[], root: string): Map<string, string[]> {
-  const groups = new Map<string, { file: string; state: string }[]>();
+  type Item = { file: string; state: string; animation: boolean };
+  const groups = new Map<string, Item[]>();
+
   for (const f of files) {
-    const base = path.basename(f).toLowerCase();
-    const dir = DIRECTIONS.find((d) => base.includes(d));
+    const rel = path.relative(root, f);
+    const parts = rel.split(path.sep);
+    const animation = parts.includes("animations");
+
+    /*
+     * Une pose de rotation porte sa direction dans le nom du fichier ; une image
+     * d'animation la porte dans le chemin, et s'appelle « frame_000.png ». On
+     * cherche donc dans le dossier pour les secondes, dans le nom pour les
+     * premières — sans quoi la moitié du rendu resterait invisible.
+     */
+    const hay = animation ? parts.slice(0, -1).join("/").toLowerCase() : path.basename(f).toLowerCase();
+    const dir = DIRECTIONS.find((d) => hay.includes(d));
     if (!dir) continue;
-    const state = path.relative(root, f).split(path.sep)[0] ?? "";
-    groups.set(dir, [...(groups.get(dir) ?? []), { file: f, state }]);
+
+    groups.set(dir, [...(groups.get(dir) ?? []), { file: f, state: parts[0] ?? "", animation }]);
   }
 
   const out = new Map<string, string[]>();
   for (const [dir, list] of groups) {
+    /*
+     * Une vraie animation prime sur des poses juxtaposées : elle a été calculée
+     * comme un mouvement continu, là où deux états séparés ne sont que deux
+     * dessins qu'on fait alterner.
+     */
+    const anim = list.filter((x) => x.animation).sort((a, b) => a.file.localeCompare(b.file));
+    if (anim.length >= 2) { out.set(dir, cycle(anim.map((x) => x.file))); continue; }
+
     list.sort((a, b) => stateRank(a.state) - stateRank(b.state) || a.file.localeCompare(b.file));
     out.set(dir, list.map((x) => x.file));
   }
   return out;
 }
 
+/**
+ * Réduit une animation aux quatre images d'une colonne de planche.
+ *
+ * L'API garde la pose de repos en tête puis boucle : la dernière image revient
+ * sur la première. La conserver ferait battre le cycle deux fois au même
+ * endroit. On l'écarte, puis on échantillonne régulièrement ce qui reste — ce
+ * qui vaut pour cinq images comme pour seize.
+ */
+function cycle(frames: string[]): string[] {
+  const usable = frames.length > COLS ? frames.slice(0, -1) : frames;
+  if (usable.length <= COLS) return usable;
+  return Array.from({ length: COLS }, (_, i) => usable[Math.round((i * usable.length) / COLS)]);
+}
+
 /** Nom des états traversés, dans l'ordre du cycle. */
 function statesOf(files: string[], root: string): string[] {
+  const anim = new Set<string>();
+  for (const f of files) {
+    const parts = path.relative(root, f).split(path.sep);
+    const i = parts.indexOf("animations");
+    if (i >= 0 && parts[i + 1]) anim.add(parts[i + 1]);
+  }
+  if (anim.size) return [...anim].sort();
+
   const seen = new Map<string, number>();
   for (const f of files) {
     const st = path.relative(root, f).split(path.sep)[0] ?? "";
@@ -365,12 +449,6 @@ async function build(id: string, palette: RGB[]): Promise<boolean> {
 
   const frames: Frame[] = [];
   for (const row of chosen) for (const f of row) frames.push(await readPng(f));
-
-  const odd = frames.find((f) => f.width !== SPRITE || f.height !== SPRITE);
-  if (odd) {
-    console.log(`${C.red}✗${C.off} ${id} — une image fait ${odd.width}×${odd.height}, attendu ${SPRITE}×${SPRITE}`);
-    return false;
-  }
 
   const stat = snap(frames, palette);
 

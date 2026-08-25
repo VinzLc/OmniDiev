@@ -7,6 +7,7 @@ data/index/codex.json  →  npm run art  →  commandes/<id>.md
 data/raw/*.txt             (le script)     (à jouer dans l'outil génératif)
                                                     ↓
                                            sources/<id>/       le rendu brut, tel qu'il tombe
+                                                    ↑          npm run art:generer (API PixelLab)
                                                     ↓          npm run art:normalise
                                            personnages/<id>.png   la planche que Godot lit
                                                     ↓          npm run art:verifier
@@ -56,6 +57,29 @@ dossier fait la liaison — aucun autre réglage n'est nécessaire.
 Les rangées, dans l'ordre : **face, dos, profil gauche, profil droit**. Un outil qui ne rend
 qu'une pose de repos remplit les quatre colonnes du même dessin — le sprite entre dans le
 moteur sans marcher encore, et la planche se refait quand l'animation arrive.
+
+## Commander directement à PixelLab
+
+La clé va dans `.env.local` (`PIXELLAB_API_KEY=…`), qui est ignoré par git.
+
+```bash
+npm run art:generer -- --solde                                  # crédits restants
+npm run art:generer -- --perso Wellan --action walking --frames 4
+npm run art:generer -- --perso Wellan --action walking --directions south,north,east,west
+```
+
+**Une direction par défaut.** Engager les quatre doit être écrit — le service facture à la
+génération, et le mode `pro` en consomme vingt à quarante *par direction*. La commande
+annonce le solde avant, le coût après.
+
+L'animation part du `character_id` déjà validé plutôt que d'une nouvelle description : c'est
+ce qui garantit que le personnage animé soit le même que celui qu'on a accepté. La cohérence
+cesse d'être une affaire de chance.
+
+Mesuré sur Wellan : **une génération par direction** pour un cycle de quatre images, à
+0 USD sur l'essai. L'API rend une toile de 44×44 là où le sprite en fait 32 — le
+normaliseur recadre en calant sur la ligne de sol, jamais sur le centre géométrique, qui
+décalerait le personnage.
 
 ## Ce que la normalisation fait aux couleurs
 
