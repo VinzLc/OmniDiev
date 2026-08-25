@@ -19,7 +19,8 @@
     "deploy": "npm run site && gh-pages -d out -t",
     "genealogie": "tsx scripts/build-genealogy.ts",
     "verifier": "tsx scripts/verify-kinship.ts",
-    "art": "tsx scripts/build-art-prompts.ts"
+    "art": "tsx scripts/build-art-prompts.ts",
+    "art:verifier": "tsx scripts/verify-art.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.120.0",
@@ -28,7 +29,8 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-markdown": "^10.1.0",
-    "remark-gfm": "^4.0.1"
+    "remark-gfm": "^4.0.1",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",
