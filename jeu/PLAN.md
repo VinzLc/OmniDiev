@@ -24,15 +24,27 @@ rassembler. **Le découpage narratif est déjà fait.**
 **Wellan paraît dans 43 des 44 volumes**, sur les quatre épopées. Le fil du protagoniste
 n'est pas un choix arbitraire : c'est celui que l'œuvre impose.
 
-## Le goulot n'est pas le code
+## Le goulot s'est déplacé
 
-Le style GBA exige tilesets, sprites de marche en quatre directions, portraits de dialogue
-et interface. Claude ne sait pas dessiner de pixel art, et les spritesheets générées n'ont
-pas la cohérence qu'un jeu demande. **C'est ce qui plafonnera le projet.**
+Le style GBA exige tilesets, sprites de marche en quatre directions et portraits. Claude ne
+sait pas dessiner de pixel art — mais une IA générative spécialisée, si. Le rôle de Claude
+devient donc d'**écrire les commandes** ; celui de l'humain, de les jouer et de rapporter
+les images.
 
-Trois voies : pack sous licence libre (rapide, générique), artiste (le bon résultat, du
-budget), ou toi. On démarre en placeholder pour ne pas bloquer la preuve que la chaîne
-fonctionne ; la direction artistique se décide à l'étape 4.
+Ce qui change tout : **les romans décrivent les personnages.** Wellan, ce n'est pas une
+invention — c'est *« les cheveux blond foncé frôlant ses épaules, les yeux d'un bleu
+perçant, un géant parmi ses frères d'armes »*.
+
+```bash
+npm run art -- --lot etape0
+```
+
+Le script joint, pour chaque entité : la fiche du Codex (le rôle), **les phrases des romans
+qui décrivent l'apparence**, la spécification technique, et le chemin du fichier attendu.
+
+La difficulté restante n'est plus de produire, mais de **tenir la cohérence** — seize images
+d'une planche doivent montrer la même personne, les tuiles doivent s'abouter. Voir
+[jeu/art/README.md](art/README.md).
 
 ## L'échelle, sans euphémisme
 
@@ -76,8 +88,8 @@ Combat, magie, inventaire, progression. L'étape la plus longue des cinq.
 
 ### 4 — La direction artistique
 
-Remplacer les placeholders, une fois les besoins réels connus. Le faire trop tôt, c'est le
-refaire deux fois.
+La production d'images tourne en parallèle dès l'étape 0. Cette étape est celle du regard
+d'ensemble : harmoniser les palettes, reprendre ce qui jure, fixer une charte.
 
 > **Terminé quand** une capture d'écran donne envie d'y jouer.
 
@@ -95,7 +107,7 @@ Outillage d'édition de cartes, chapitres en série.
 |---|---|---|
 | Moteur | **Godot 4.6** | Déjà installé, et vérifié : s'exécute en ligne de commande et lance du GDScript. |
 | Dépôt | **Même dépôt, `jeu/`** | Accès direct au Codex, un seul `git pull`, aucune donnée dupliquée. |
-| Graphismes | **Pack libre en placeholder** | Jouable tout de suite ; la direction artistique attend l'étape 4. |
+| Graphismes | **Génération pilotée par le texte** | `npm run art` écrit les commandes depuis les romans ; les images reviennent dans `jeu/art/`. |
 | Orchestration | **Pas de `squad`** | Orchestrateur pour GitHub Copilot. Il résout le débit de code, qui n'est pas notre goulot. |
 
 ## Ce qui reste ouvert

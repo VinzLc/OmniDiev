@@ -18,7 +18,8 @@
     "site": "tsx scripts/build-site.ts",
     "deploy": "npm run site && gh-pages -d out -t",
     "genealogie": "tsx scripts/build-genealogy.ts",
-    "verifier": "tsx scripts/verify-kinship.ts"
+    "verifier": "tsx scripts/verify-kinship.ts",
+    "art": "tsx scripts/build-art-prompts.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.120.0",
