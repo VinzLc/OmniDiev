@@ -3,11 +3,14 @@
 Le circuit : **le texte commande, l'IA générative dessine, Godot consomme.**
 
 ```
-data/index/codex.json   →  npm run art  →  jeu/art/commandes/<id>.md
-data/raw/*.txt              (le script)      (à jouer dans l'outil génératif)
-                                                        ↓
-                                          jeu/art/personnages/<id>.png
-                                          jeu/art/lieux/<id>.png
+data/index/codex.json  →  npm run art  →  commandes/<id>.md
+data/raw/*.txt             (le script)     (à jouer dans l'outil génératif)
+                                                    ↓
+                                           sources/<id>/       le rendu brut, tel qu'il tombe
+                                                    ↓          npm run art:normalise
+                                           personnages/<id>.png   la planche que Godot lit
+                                                    ↓          npm run art:verifier
+                                              conforme, ou la liste de ce qui cloche
 ```
 
 ## L'ordre des opérations
@@ -33,13 +36,40 @@ fichier attendu en retour.
 
 ## Où déposer les images
 
-| Type | Dossier | Format |
-|---|---|---|
-| Personnages | `jeu/art/personnages/<id>.png` | 128×128 — 4 colonnes × 4 rangées de 32×32 |
-| Lieux | `jeu/art/lieux/<id>.png` | tuiles de 16×16, planche de 16 colonnes |
+**Le rendu brut va dans `sources/<id>/`, tel que l'outil le livre** — arborescence, dossiers
+d'états, `metadata.json`, sans rien réorganiser. Puis :
+
+```bash
+npm run art:normalise -- wellan    # sources/wellan/ → personnages/wellan.png
+npm run art:verifier               # contrôle tout ce qui est destiné à Godot
+```
 
 L'identifiant est celui de la fiche du Codex : `wellan`, `chateau-d-emeraude`. Le nom du
-fichier fait la liaison — aucun autre réglage n'est nécessaire.
+dossier fait la liaison — aucun autre réglage n'est nécessaire.
+
+| Étape | Emplacement | Forme |
+|---|---|---|
+| Rendu brut | `sources/<id>/` | ce que l'outil livre, intact |
+| Planche assemblée | `personnages/<id>.png` | 128×128 — 4 colonnes × 4 rangées de 32×32 |
+| Décors | `lieux/<id>.png` | tuiles de 16×16, planche de 16 colonnes |
+
+Les rangées, dans l'ordre : **face, dos, profil gauche, profil droit**. Un outil qui ne rend
+qu'une pose de repos remplit les quatre colonnes du même dessin — le sprite entre dans le
+moteur sans marcher encore, et la planche se refait quand l'animation arrive.
+
+## Ce que la normalisation fait aux couleurs
+
+Elle aligne l'image sur la palette du monde, **sans l'y écraser**.
+
+Une teinte colorée assez proche d'une couleur de `CONTEXTE.md` s'y range : c'est ce qui fait
+que le vert de l'Ordre soit le même sur Wellan et sur le personnage dessiné trois semaines
+plus tard. Une teinte colorée sans équivalent est conservée et signalée — à ajouter à la
+palette si elle doit resservir.
+
+**Les neutres, eux, ne sont jamais touchés.** Un noir n'a pas d'identité à unifier : deux
+dessins s'accorderont d'eux-mêmes sur leurs gris. Les ranger de force ne servirait à rien et
+leur ferait perdre leur teinte — le premier jet retournait ainsi le manteau vert-olive de
+Wellan en noir violacé, parce qu'un gris de la palette se trouvait numériquement proche.
 
 ## Ce qui reste difficile
 

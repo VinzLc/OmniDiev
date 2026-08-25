@@ -20,7 +20,8 @@
     "genealogie": "tsx scripts/build-genealogy.ts",
     "verifier": "tsx scripts/verify-kinship.ts",
     "art": "tsx scripts/build-art-prompts.ts",
-    "art:verifier": "tsx scripts/verify-art.ts"
+    "art:verifier": "tsx scripts/verify-art.ts",
+    "art:normalise": "tsx scripts/art-normalise.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.120.0",

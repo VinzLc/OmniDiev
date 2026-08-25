@@ -1,6 +1,6 @@
 Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
 
-CHARACTER: Wellan, commander of the Knights of Emerald, medieval fantasy. Tall and broad-shouldered, a giant among his brothers-in-arms — the largest silhouette of any sprite. Dark blond hair worn loose to the shoulders. Piercing blue eyes. Clean-shaven, stern.
+CHARACTER: Wellan, commander of the Knights of Emerald, medieval fantasy. Tall and broad-shouldered, a giant among his brothers-in-arms — the largest silhouette of any sprite. Dark blond hair (dark blond, ash blond, not red or auburn  ) worn loose to the shoulders. Piercing blue eyes. Clean-shaven, stern.
 
 ARMOR: black tunic and black leather boots. Over them a two-tone surcoat split vertically: one half emerald green, one half black — a black cross on the green half, a green dragon on the black half. Gold cross set with emeralds on the breastplate. This uniform must read instantly at 32 px.
 
