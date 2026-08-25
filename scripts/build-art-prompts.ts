@@ -61,6 +61,8 @@ function personPrompt(e: CodexEntry): string {
 
   return `# ${e.name} — sprite de personnage
 
+> À jouer après avoir posé [le contexte](../CONTEXTE.md) dans la session.
+
 *Fiche Codex : ${e.gloss}*
 
 ## Ce que le texte dit de son apparence
@@ -102,6 +104,8 @@ function placePrompt(e: CodexEntry): string {
   const traits = placeOf(e.name, 4);
 
   return `# ${e.name} — jeu de tuiles
+
+> À jouer après avoir posé [le contexte](../CONTEXTE.md) dans la session.
 
 *Fiche Codex : ${e.gloss}*
 

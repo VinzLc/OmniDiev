@@ -10,6 +10,15 @@ data/raw/*.txt              (le script)      (à jouer dans l'outil génératif)
                                           jeu/art/lieux/<id>.png
 ```
 
+## L'ordre des opérations
+
+1. **Une fois par session**, poser [`CONTEXTE.md`](CONTEXTE.md) dans l'IA graphique : le
+   style, la palette du monde, les formats, le protocole de cohérence.
+2. **Puis** jouer les commandes de `commandes/`, une par une.
+
+Le contexte ne se répète pas dans chaque commande — c'est ce qui garantit que deux images
+produites à des jours d'intervalle appartiennent au même jeu.
+
 ## Produire des commandes
 
 ```bash

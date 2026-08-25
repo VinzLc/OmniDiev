@@ -1,5 +1,7 @@
 # Émeraude Ier — sprite de personnage
 
+> À jouer après avoir posé [le contexte](../CONTEXTE.md) dans la session.
+
 *Fiche Codex : Roi fondateur de l'Ordre des Chevaliers d'Émeraude qui règne avec bienveillance et sagesse jusqu'à sa mort.*
 
 ## Ce que le texte dit de son apparence

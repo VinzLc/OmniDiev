@@ -1,5 +1,7 @@
 # Wellan — sprite de personnage
 
+> À jouer après avoir posé [le contexte](../CONTEXTE.md) dans la session.
+
 *Fiche Codex : Chef des Chevaliers d'Émeraude qui passe dix années au Royaume des Ombres et revient transformé par la magie, hanté par des responsabilités croissantes jusqu'à son sacrifice ultime.*
 
 ## Ce que le texte dit de son apparence

@@ -1,5 +1,7 @@
 # Château d'Émeraude — jeu de tuiles
 
+> À jouer après avoir posé [le contexte](../CONTEXTE.md) dans la session.
+
 *Fiche Codex : Forteresse royale du nord qui sert de siège aux Chevaliers d'Émeraude et de centre de formation pour les futurs défenseurs du royaume.*
 
 ## Ce que le texte dit du lieu
