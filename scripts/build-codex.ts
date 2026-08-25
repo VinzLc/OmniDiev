@@ -27,6 +27,7 @@ import { BOOKS, SAGAS, ROMAN, bookAt, bookId, bookLabel, sagaOf } from "../lib/b
 import { parseBook, collectVocab } from "../lib/parse.ts";
 import { buildDictionary, repairText } from "../lib/ocr-repair.ts";
 import { fold } from "../lib/text.ts";
+import { loadRejections, rejectionsFor, type Rejection } from "../lib/corrections.ts";
 import { pool } from "../lib/pool.ts";
 import { askJson, withRetry, newSpend, dollars, CODEX_MODEL, type Spend } from "../lib/claude.ts";
 import type { Codex, CodexEntry, ChapterSummary, EntityKind } from "../lib/codex.ts";
@@ -479,6 +480,9 @@ Consignes :
 /** Pièces qu'un incident réseau ou un solde épuisé a empêché de produire. */
 const failures: string[] = [];
 
+/** Liens de parenté qu'aucune fiche ne doit affirmer. */
+let rejections: Rejection[] = [];
+
 async function pass2(client: Anthropic, chapters: ChapterText[], spend: Spend): Promise<CodexEntry[]> {
   const byKey = aggregate(chapters);
   await mergeIdentities(client, byKey, spend);
@@ -499,13 +503,20 @@ async function pass2(client: Anthropic, chapters: ChapterText[], spend: Spend): 
     const body = notes
       .map((n) => `- ${bookLabel(bookAt(n.order))}, ${n.label} : ${n.role}`)
       .join("\n");
+
+    const banned = rejectionsFor(agg.canonical, rejections);
+    const warning = banned.length
+      ? "\n\nLIENS À NE PAS AFFIRMER — une vérification les a écartés. N'énonce aucune " +
+        "parenté entre ces personnes, ni dans la description, ni dans les liens :\n" +
+        banned.map((r) => `- ${r.from} et ${r.to} : ${r.motif.slice(0, 160)}`).join("\n")
+      : "";
     const card = await withRetry(
       () => askJson<{
         nom: string; alias: string[]; type: EntityKind; accroche: string;
         description: string; evolution: string; relations: { nom: string; nature: string }[];
       }>(client, {
         system: CARD_SYSTEM,
-        prompt: `ENTITÉ : ${agg.canonical} (${agg.kind})\nVariantes relevées : ${[...agg.variants.keys()].join(", ")}\nTomes : ${[...agg.books].sort((a, b) => a - b).map((o) => bookLabel(bookAt(o))).join(" · ")}\n\nMENTIONS (${notes.length} sur ${agg.notes.length}) :\n${body}`,
+        prompt: `ENTITÉ : ${agg.canonical} (${agg.kind})\nVariantes relevées : ${[...agg.variants.keys()].join(", ")}\nTomes : ${[...agg.books].sort((a, b) => a - b).map((o) => bookLabel(bookAt(o))).join(" · ")}\n\nMENTIONS (${notes.length} sur ${agg.notes.length}) :\n${body}${warning}`,
         schema: CARD_SCHEMA,
         maxTokens: 2200,
         spend,
@@ -562,12 +573,20 @@ const slug = (k: string) => k.replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").
  * dès que l'ensemble des mentions change.
  */
 function cardKey(k: string, agg: Aggregate): string {
+  // Les exclusions entrent dans l'empreinte : corriger une parenté doit
+  // refaire la fiche concernée, et elle seule.
+  const banned = rejectionsFor(agg.canonical, rejections)
+    .map((r) => `${r.from}>${r.to}`)
+    .sort()
+    .join(",");
   // L'empreinte cite les tomes par leur identifiant stable, jamais par leur
   // position : insérer un hors-série au milieu de la série décale toutes les
   // positions suivantes et invaliderait, sans raison, des fiches inchangées.
   const material = agg.notes
     .map((n) => `${bookId(bookAt(n.order))}|${n.label}|${n.role}`)
-    .join("\n");
+    .join("\n") + (banned ? `\n!${banned}` : "");
+  // Le marqueur n'est ajouté que s'il y a réellement une exclusion : l'ajouter
+  // à vide changerait l'empreinte de chaque fiche et referait tout le Codex.
   const digest = createHash("sha1").update(material).digest("hex").slice(0, 10);
   return `${slug(k)}.${digest}`;
 }
@@ -616,6 +635,9 @@ Six à dix phrases : l'intrigue principale, les bascules, l'état des lieux à l
 // ── Assemblage ────────────────────────────────────────────────────────────
 
 async function main() {
+  rejections = loadRejections(ROOT);
+  if (rejections.length) console.log(`${rejections.length} liens de parenté écartés par vérification`);
+
   console.log("Lecture des tomes…");
   const chapters = readChapters();
   const chars = chapters.reduce((s, c) => s + c.text.length, 0);

@@ -18,6 +18,7 @@ import { loadEnv } from "../lib/env.ts";
 import { credentials } from "../lib/credentials.ts";
 import { loadCodex, type CodexEntry } from "../lib/codex.ts";
 import { fold } from "../lib/text.ts";
+import { loadRejections } from "../lib/corrections.ts";
 import { pool } from "../lib/pool.ts";
 import { askJson, withRetry, newSpend, dollars, CODEX_MODEL } from "../lib/claude.ts";
 
@@ -80,6 +81,10 @@ N'invente aucun lien. Écarte impitoyablement :
   citées — « retrouve son fils captif » ne fait pas de l'allié un enfant ;
 - mentor, tuteur, protecteur, maître : ce ne sont pas des parents.
 
+Chaque ligne se lit « Pour X, Y est : … » — la qualification porte sur Y, vu depuis X.
+Si tu lis « Pour Fabian, Onyx est : père », alors Onyx est le père de Fabian, et Fabian
+est donc l'ENFANT d'Onyx. Ne confonds pas ce sens.
+
 Chaque nom doit apparaître tel quel dans les relations fournies. Dans le doute, omets.`;
 
 function signals(entries: CodexEntry[]) {
@@ -127,8 +132,10 @@ async function main() {
   const targets = entries.filter((e) => around.has(e.id));
   console.log(`${targets.length} entités portent un signal de parenté, sur ${entries.length}`);
 
+  // « v2 » : les relevés précédents ont été établis sur des lignes au sens
+  // ambigu ; leurs résultats inversaient les filiations.
   const key = (e: CodexEntry) =>
-    `${e.id}.${createHash("sha1").update(JSON.stringify(around.get(e.id))).digest("hex").slice(0, 10)}`;
+    `${e.id}.${createHash("sha1").update("v2" + JSON.stringify(around.get(e.id))).digest("hex").slice(0, 10)}`;
 
   const todo = targets.filter((e) => !cached(key(e)));
   console.log(`${targets.length - todo.length} en cache, ${todo.length} à établir`);
@@ -150,8 +157,16 @@ async function main() {
     fs.mkdirSync(CACHE, { recursive: true });
 
     await pool(todo, CONCURRENCY, async (e) => {
+      /*
+       * Le sens de lecture doit être explicite.
+       *
+       * « Fabian → Onyx : père » est ambigu hors contexte : le modèle y lisait
+       * « le père d'Onyx est Fabian », et rangeait ainsi ses dix enfants parmi
+       * ses parents. La convention du Codex — la nature qualifie la cible du
+       * point de vue de la source — est écrite en toutes lettres.
+       */
       const lines = (around.get(e.id) ?? [])
-        .map((r) => `- ${r.from} → ${r.to} : ${r.nature}`)
+        .map((r) => `- Pour ${r.from}, ${r.to} est : ${r.nature}`)
         .join("\n");
       const kin = await withRetry(
         () => askJson<Kin>(client, {
@@ -225,6 +240,17 @@ async function main() {
   }
 
   const canon = (id: string) => canonical.get(id) ?? id;
+
+  /** Liens écartés par vérification : ils ne doivent pas revenir par un arbre. */
+  const banned = new Set<string>();
+  for (const r of loadRejections(ROOT)) {
+    const a = byName.get(fold(r.from))?.id;
+    const b = byName.get(fold(r.to))?.id;
+    if (!a || !b) continue;
+    banned.add(`${canon(a)}|${canon(b)}`);
+    banned.add(`${canon(b)}|${canon(a)}`);
+  }
+  const isBanned = (a: string, b: string) => banned.has(`${a}|${b}`);
   const resolve = (name: string) => {
     const found = byName.get(fold(name))?.id ?? null;
     if (!found) return null;
@@ -251,15 +277,15 @@ async function main() {
     const me = canon(e.id);
     for (const p of kin.parents ?? []) {
       const id = resolve(p.nom);
-      if (id && id !== me) edges.push({ child: me, parent: id, self: true, nature: p.nature });
+      if (id && id !== me && !isBanned(me, id)) edges.push({ child: me, parent: id, self: true, nature: p.nature });
     }
     for (const c of kin.enfants ?? []) {
       const id = resolve(c.nom);
-      if (id && id !== me) edges.push({ child: id, parent: me, self: false, nature: c.nature });
+      if (id && id !== me && !isBanned(me, id)) edges.push({ child: id, parent: me, self: false, nature: c.nature });
     }
     for (const sp of kin.conjoints ?? []) {
       const id = resolve(sp.nom);
-      if (id && id !== me) { addSpouse(me, id); addSpouse(id, me); }
+      if (id && id !== me && !isBanned(me, id)) { addSpouse(me, id); addSpouse(id, me); }
     }
   }
 
