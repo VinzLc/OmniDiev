@@ -1,0 +1,36 @@
+{
+  "group_id": "0f9cb150-efa6-4b59-b315-1086c7437552",
+  "states": [
+    {
+      "character": {
+        "id": "731df936-1f23-4715-93f6-a197a2175f1d",
+        "name": "Idle",
+        "prompt": "Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).\n\nCHARACTER: Wellan, commander of the Knights of Emerald, medieval fantasy. Tall and broad-shouldered, a giant among his brothers-in-arms \u2014 the largest silhouette of any sprite. Dark blond hair worn loose to the shoulders. Piercing blue eyes. Clean-shaven, stern.\n\nARMOR: black tunic and black leather boots. Over them a two-tone surcoat split vertically: one half emerald green, one half black \u2014 a black cross on the green half, a green dragon on the black half. Gold cross set with emeralds on the breastplate. This uniform must read instantly at 32 px.\n\nPALETTE \u2014 these 16 colors only:\n#0B0A10 #23202E #453F52 #736C82 #DED9E4 (black, stone)\n#0F3826 #1C7A4E #43C47F (emerald green)\n#3D2A12 #7A5223 #C08F34 #F0D174 (gold, leather)\n#A9714E #D9A57C #F2D3B0 (skin)\n#2D5FA8 (blue eyes)\n\nSTYLE: flat fills only. Two-tone shading \u2014 one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.\n\nSHEET: 128x128 px total, 4 columns x 4 rows of 32x32 sprites, on a strict 32 px grid.\nRow 1 walking toward the viewer (front). Row 2 walking away (back). Row 3 walking left (side). Row 4 walking right (side).\nColumns in every row: idle, left step, idle, right step.\nSame character, same palette, same proportions across all 16 frames.\n\nBACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.\n",
+        "size": {
+          "width": 32,
+          "height": 32
+        },
+        "template_id": "mannequin",
+        "directions": 8,
+        "view": "low top-down",
+        "created_at": "2026-08-25T18:13:22.536829+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "south-east": "Idle/rotations/south-east.png",
+          "east": "Idle/rotations/east.png",
+          "north-east": "Idle/rotations/north-east.png",
+          "north": "Idle/rotations/north.png",
+          "north-west": "Idle/rotations/north-west.png",
+          "west": "Idle/rotations/west.png",
+          "south-west": "Idle/rotations/south-west.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-25T18:16:59.886095"
+}

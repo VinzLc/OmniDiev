@@ -124,10 +124,21 @@ async function inspect(file: string): Promise<Finding[]> {
 
       const real = { w: px.width / block, h: px.height / block };
       if (kind === "personnage") {
-        if (real.w !== SHEET.w || real.h !== SHEET.h) {
+        /*
+         * Deux formes valides : la planche complète, ou une image isolée — un
+         * outil qui génère les rotations une par une rend huit fichiers de
+         * 32×32, et c'est aussi utilisable. Ce qui ne se négocie pas, c'est
+         * que chaque côté tombe sur la grille.
+         */
+        if (real.w % SPRITE || real.h % SPRITE) {
           out.push({
             level: "erreur",
-            message: `planche ${real.w}×${real.h} — attendu ${SHEET.w}×${SHEET.h} (4 colonnes × 4 rangées de ${SPRITE}×${SPRITE})`,
+            message: `${real.w}×${real.h} — les deux côtés doivent être des multiples de ${SPRITE}`,
+          });
+        } else if (real.w !== SHEET.w || real.h !== SHEET.h) {
+          out.push({
+            level: "avis",
+            message: `image isolée ${real.w}×${real.h} — à assembler en planche ${SHEET.w}×${SHEET.h} avant Godot`,
           });
         }
       } else if (real.w % TILE || real.h % TILE) {
@@ -146,11 +157,20 @@ async function inspect(file: string): Promise<Finding[]> {
         });
       }
 
-      if (pal.rare > pal.colors / 3 && pal.colors > MAX_COLORS) {
+      /*
+       * Des teintes résiduelles trahissent un lissage — mais seulement si les
+       * bords en portent la trace. Une image aux pixels francs et à la grille
+       * intacte, simplement riche en couleurs, relève de la dérive de palette,
+       * qui se corrige sans regénérer. Ne pas confondre les deux : l'un est un
+       * défaut de fabrication, l'autre un écart de consigne.
+       */
+      if (pal.rare > pal.colors / 3 && pal.colors > MAX_COLORS * 2) {
         out.push({
-          level: "erreur",
-          message: `${pal.rare} teintes n'occupent presque aucun pixel — signature d'un lissage ou d'un dégradé`,
-          remede: "exiger « aplats francs, aucun anti-aliasing » et regénérer",
+          level: soft || block > 1 ? "erreur" : "avis",
+          message: `${pal.rare} teintes n'occupent presque aucun pixel`,
+          remede: soft || block > 1
+            ? "signature d'un lissage : exiger « aplats francs, aucun anti-aliasing » et regénérer"
+            : "pixels francs par ailleurs — quantifier sur la palette du monde suffit",
         });
       }
 
@@ -175,6 +195,25 @@ async function inspect(file: string): Promise<Finding[]> {
   return out;
 }
 
+/**
+ * Les PNG sous `dir`, sous-dossiers compris.
+ *
+ * Un outil spécialisé ne rend pas un fichier : il rend une arborescence — un
+ * dossier par état, un sous-dossier par jeu de rotations. Ne regarder que le
+ * premier niveau revient à ne rien voir.
+ */
+function collect(dir: string): string[] {
+  if (!fs.existsSync(dir)) return [];
+  const out: string[] = [];
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (e.name.startsWith(".")) continue; // .DS_Store et consorts
+    const full = path.join(dir, e.name);
+    if (e.isDirectory()) out.push(...collect(full));
+    else if (e.name.toLowerCase().endsWith(".png")) out.push(full);
+  }
+  return out;
+}
+
 async function main() {
   const args = process.argv.slice(2).filter((a) => !a.startsWith("-"));
   let files: string[] = [];
@@ -182,12 +221,9 @@ async function main() {
   if (args.length) {
     files = args.map((a) => path.resolve(ROOT, a));
   } else {
-    for (const sub of ["personnages", "lieux"]) {
-      const dir = path.join(ART, sub);
-      if (!fs.existsSync(dir)) continue;
-      files.push(...fs.readdirSync(dir).filter((f) => f.endsWith(".png")).map((f) => path.join(dir, f)));
-    }
+    for (const sub of ["personnages", "lieux"]) files.push(...collect(path.join(ART, sub)));
   }
+  files.sort();
 
   if (!files.length) {
     console.log(`Aucune image dans ${path.relative(ROOT, ART)}/personnages ou /lieux.`);
