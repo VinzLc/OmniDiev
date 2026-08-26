@@ -42,6 +42,11 @@ npm run art:generer -- --perso Wellan --action walking --frames 4          # une
 npm run art:generer -- --perso Wellan --action walking --directions south,north,east,west
 ```
 
+**Ce que ça coûte, mesuré :** un jeu de tuiles **0,007 USD**, un personnage **0,011 USD**.
+Dessiner les 363 silhouettes restantes reviendrait à quatre dollars. L'art n'est plus la
+contrainte — le temps d'écriture l'est. Continuer néanmoins à annoncer la dépense : bon
+marché n'est pas gratuit, et le mode `pro` reste vingt à quarante fois plus cher.
+
 **Sonder une direction avant d'engager les quatre.** Mesuré : un cycle de quatre images
 coûte **une génération par direction**. Mais le mode `pro` en consomme **vingt à quarante
 par direction** — s'y aventurer par accident vide un budget en un appel.
@@ -72,6 +77,16 @@ une chose à la fois**, surtout quand chaque essai coûte.
 que `art:normalise` applique à toutes les images d'un coup. Viser demande la couleur *et* la
 position : les mèches partagent leurs bruns avec les cuirs du corps, et la tête porte aussi
 la peau et les yeux. Conserver la luminance — c'est elle qui porte le modelé.
+
+## Étendre la palette plutôt qu'écraser l'image
+
+La palette du monde est née des mots de couleur du premier tome — noir, vert, or. Elle
+ignorait le froid. Le premier jet de Shola est donc sorti **moucheté de vert** : faute
+d'équivalent, les bleus d'un plateau enneigé se rangeaient sur le vert de l'Ordre.
+
+La correction n'a pas demandé de regénérer. Trois teintes ajoutées à `CONTEXTE.md`, une
+normalisation, et la neige est devenue de la neige. **Quand une région apporte des couleurs
+que le monde ne connaît pas, c'est le monde qui s'étend.**
 
 ## Les pièges déjà payés
 

@@ -1,0 +1,32 @@
+{
+  "group_id": "5b433022-8c67-4ca2-9f89-6420557a9f66",
+  "states": [
+    {
+      "character": {
+        "id": "ae9aa626-240e-48e3-986b-4bed667e75b4",
+        "name": "Idle",
+        "prompt": "Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).\n\nCHARACTER: Fan, Queen of Shola, a snowbound northern kingdom. A woman in her thirties, slender and upright, of unmistakable rank. DELICATE FEATURES and SILVER EYES \u2014 pale, luminous, striking even at this size. Long straight silver-white hair falling below her shoulders, unbound.\n\nROBES: a long pale ice-blue gown reaching the ground, over a white underdress. A heavy white fur mantle across her shoulders against the cold. A thin silver circlet, no gems. Everything about her is cold-toned: white, ice blue, silver. No gold, no green, no brown.\n\nShe must read at 32 pixels as a queen of the snows: pale silhouette, silver crown, fur at the shoulders.\n\nPALETTE \u2014 these 14 colors only:\n#0B0A10 #22222C #454652 #71727E (black, dark)\n#E3F3FE #A8D6E0 #5E9AA8 (ice blue, snow)\n#F2F2F5 #DDDDE4 #A6A8B2 (white, silver)\n#5B9BD8 #2D5FA8 (silver-blue eyes)\n#D9A57C #F2D3B0 (skin)\n\nSTYLE: flat fills only. Two-tone shading \u2014 one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.\n\nBACKGROUND: fully transparent. No scenery, no ground, no throne, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.",
+        "size": {
+          "width": 36,
+          "height": 36
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-08-26T12:33:08.824356+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-26T12:34:11.351296"
+}

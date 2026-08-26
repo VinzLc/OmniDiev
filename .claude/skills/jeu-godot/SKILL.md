@@ -26,6 +26,14 @@ chapitre reste ouvert et n'appelle jamais le suivant — c'est le premier piège
 
 Les répliques sont **écrites**, jamais prélevées dans les romans : le dépôt est public.
 
+**Tous les chapitres ne sont pas jouables tels quels.** Le roman coupe d'un lieu à l'autre ;
+un jeu qui suit un seul protagoniste ne le peut pas. Le chapitre I,5 se déroule au château
+pendant que Wellan est sur la route : sa scène a été repliée sur le sommeil de Wellan, ce que
+les pouvoirs télépathiques de Kira autorisent et que le chapitre I,8 confirme.
+
+Replier ainsi ou sauter — mais le dire dans le champ `avertissement` de la scène, et
+n'inventer aucun pouvoir pour justifier le montage.
+
 ## Vérifier sans jouer
 
 ```bash

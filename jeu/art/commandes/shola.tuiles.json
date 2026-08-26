@@ -1,0 +1,7 @@
+{
+  "lower_description": "deep windswept snow of a far northern plateau, cold white with faint blue shadows in the drifts, a few wind ridges",
+  "upper_description": "the polished pale blue ice floor of a glacial palace, smooth translucent slabs with fine internal cracks, cold and glassy — no snow, no stone, no warm tones",
+  "transition_description": "wind-blown snow gathering along the rim of the ice floor",
+  "shape_style": "square",
+  "_pourquoi": "Shola, royaume montagneux du nord, enneigé et isolé, dont le palais est de glace. Le tileset oppose la neige du plateau au dallage glacé du palais. Leçons appliquées : le liseré n'appartient qu'à la transition, on ne bride ni le détail ni le motif, et l'on exige explicitement l'absence de l'autre terrain dans chacun."
+}

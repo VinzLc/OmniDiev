@@ -791,7 +791,7 @@
     25,
     38
    ],
-   "planche": null,
+   "planche": "fan.png",
    "teinte": "#C08F34",
    "liens": [
     {
@@ -11907,7 +11907,7 @@
   "shola": {
    "nom": "Shola",
    "role": "Royaume montagneux du nord, enneigé et isolé, détruit lors de la première invasion des dragons et des guerriers-insectes.",
-   "tuiles": null
+   "tuiles": "shola.png"
   },
   "riviere-mardall": {
    "nom": "Rivière Mardall",
@@ -11942,7 +11942,7 @@
   "foret": {
    "nom": "Forêt",
    "role": "Vaste territoire boisé du continent d'Enkidiev, lieu de refuge pour créatures magiques, divins et fugitifs.",
-   "tuiles": null
+   "tuiles": "foret.png"
   },
   "royaume-d-emeraude": {
    "nom": "Royaume d'Émeraude",

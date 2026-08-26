@@ -1,0 +1,16 @@
+{
+  "tuile": 16,
+  "colonnes": 16,
+  "ordre": "signature des coins, NO NE SO SE lus en binaire — colonne = NO*8 + NE*4 + SO*2 + SE",
+  "terrain0": {
+    "couleur": "#523c34"
+  },
+  "terrain1": {
+    "couleur": "#38b072"
+  },
+  "decrits": {
+    "lower": "dark forest loam thick with fallen brown leaves and small twigs, featuring moderate surface texture and simple two-tone light and shadow",
+    "upper": "short green grass and low moss, open and even with moderate surface variation and simple two-tone light and shadow"
+  },
+  "note": "Les deux terrains sont séparés par regroupement des couleurs des images, non lus dans les étiquettes : le service les a déjà rendues permutées. « decrits » rappelle ce qui a été demandé, sans garantir l'ordre."
+}

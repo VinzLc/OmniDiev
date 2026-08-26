@@ -1,0 +1,93 @@
+{
+  "id": "i-07",
+  "titre": "Le massacre de Shola",
+  "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 7",
+  "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure.",
+  "salle": "palais-de-glace",
+  "ambiance": { "teinte": "#7a8296", "lumieres": true },
+
+  "_especes": "Des traînards de la première vague. L'immunité à la magie vient de la fiche des hommes-insectes, pas d'un souci d'équilibre.",
+  "especes": {
+    "hommes-insectes": { "nom": "Homme-insecte", "vie": 3, "degats": 1, "vitesse": 32, "teinte": "#8b2020", "immunise_magie": true }
+  },
+
+  "etapes": [
+    {
+      "id": "le-palais-vide",
+      "objectif": "Traverser le palais",
+      "apparaissent": [
+        { "fiche": "santo", "x": 9, "y": 12, "regarde": "nord" },
+        { "fiche": "bergeau", "x": 19, "y": 12, "regarde": "nord" }
+      ],
+      "attend": { "parler": "santo" },
+      "dialogues": {
+        "santo": [
+          { "qui": "recit", "dit": "Il n'y a plus personne à Shola. Ni dans la cour, ni dans les couloirs, ni sur les marches du palais de glace." },
+          { "qui": "recit", "dit": "Il y a des gens partout. Ce n'est pas la même chose." },
+          { "qui": "santo", "dit": "Je n'ai rien à faire ici, Wellan. Pas un seul." },
+          { "qui": "wellan", "dit": "Cherche quand même. Dans les cuisines, sous les tables. Les enfants se cachent bien." },
+          { "qui": "santo", "dit": "J'ai regardé sous les tables." }
+        ],
+        "bergeau": [
+          { "qui": "bergeau", "dit": "Ils n'ont rien emporté. Ni l'or, ni les bêtes, ni les vivres. Ils sont venus, ils ont tué, ils sont repartis." },
+          { "qui": "bergeau", "dit": "On ne fait pas ça pour piller. On fait ça pour chercher." }
+        ]
+      }
+    },
+    {
+      "id": "les-trainards",
+      "objectif": "Nettoyer la salle du trône",
+      "vague": [ { "espece": "hommes-insectes", "nombre": 4 } ],
+      "attend": { "vague_defaite": true },
+      "dialogues": {
+        "bergeau": [ { "qui": "bergeau", "dit": "Le fer, Wellan ! Rien d'autre ne les entame !" } ]
+      }
+    },
+    {
+      "id": "la-reine",
+      "objectif": "La Reine",
+      "apparaissent": [
+        { "fiche": "fan", "x": 14, "y": 6, "regarde": "sud" }
+      ],
+      "attend": { "parler": "fan" },
+      "dialogues": {
+        "fan": [
+          { "qui": "recit", "dit": "Elle est adossée au trône de glace, la main sur le flanc. Le poignard est resté dedans. Il est noir et il ne brille pas." },
+          { "qui": "fan", "dit": "Chevalier. Vous avez fait vite. Vous n'avez pas fait assez vite, mais vous avez fait vite." },
+          { "qui": "wellan", "dit": "Ne parlez pas. Santo — SANTO !" },
+          { "qui": "fan", "dit": "Il ne pourra rien. Le poison n'est pas d'ici." },
+          { "qui": "fan", "dit": "Écoutez-moi pendant que je peux encore choisir mes mots. Ils ne sont pas venus pour Shola." },
+          { "qui": "wellan", "dit": "Pour quoi, alors ?" },
+          { "qui": "fan", "dit": "Pour ma fille. Kira n'est pas l'enfant du Roi Shill." },
+          { "qui": "recit", "dit": "Elle laisse le silence s'installer, et vous comprenez avant qu'elle ne le dise." },
+          { "qui": "fan", "dit": "Son père est l'Empereur Noir. Elle est née contre ses plans, et il la cherche depuis." },
+          { "qui": "fan", "dit": "C'est pour cela que je vous l'ai mise dans les bras devant votre roi et devant votre cour. Personne ne cache un enfant en le montrant à tout le monde." },
+          { "qui": "wellan", "dit": "Que voulez-vous que je fasse ?" },
+          { "qui": "fan", "dit": "Que vous ne le disiez à personne. Ni à vos frères, ni à votre roi, ni à elle. Surtout pas à elle." },
+          { "qui": "recit", "dit": "Elle détache une chaîne de son cou et la referme dans votre main. Le métal est tiède, ce qui est la seule chaleur de tout ce palais." },
+          { "qui": "fan", "dit": "Vous la lui donnerez quand elle sera en âge de comprendre ce qu'elle porte. Pas avant." },
+          { "qui": "wellan", "dit": "Je le jure sur mon honneur de Chevalier." },
+          { "qui": "recit", "dit": "Elle sourit — les traits délicats, les yeux argentés — et elle ne dit plus rien." }
+        ]
+      }
+    }
+  ],
+
+  "fin": {
+    "objectif": "Il faut redescendre",
+    "attend": { "parler": "bergeau" },
+    "dialogues": {
+      "bergeau": [
+        { "qui": "bergeau", "dit": "Le palais craque. La glace travaille, elle ne tiendra pas la nuit." },
+        { "qui": "wellan", "dit": "On la met au caveau. On brûle les autres. Puis on descend à la plage." },
+        { "qui": "bergeau", "dit": "La plage ?" },
+        { "qui": "wellan", "dit": "Ils sont venus de la mer. Je veux savoir combien ils étaient, et sur quoi." },
+        { "qui": "recit", "dit": "Vous ne dites pas le reste. Vous ne le direz à personne, et vous porterez cette chaîne pendant des années sans que quiconque vous demande ce qu'elle est." }
+      ],
+      "santo": [
+        { "qui": "santo", "dit": "Tu étais seul avec elle quand elle est morte. Tu veux en parler ?" },
+        { "qui": "wellan", "dit": "Non." }
+      ]
+    }
+  }
+}

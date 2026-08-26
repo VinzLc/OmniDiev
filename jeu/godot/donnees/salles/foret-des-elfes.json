@@ -1,0 +1,22 @@
+{
+  "id": "foret-des-elfes",
+  "lieu": "foret",
+  "nom": "La forêt des Elfes",
+  "taille": [26, 17],
+  "depart": [13, 13],
+  "_zones": "Une clairière étroite, plus fermée que le camp de Diamant : chez les Elfes on ne coupe pas les arbres.",
+  "fond": 0,
+  "zones": [
+    { "terrain": 1, "x": 9, "y": 3, "l": 8, "h": 9 },
+    { "terrain": 1, "x": 6, "y": 6, "l": 5, "h": 4 }
+  ],
+  "personnages": [
+    { "fiche": "santo", "x": 11, "y": 11, "regarde": "nord" },
+    { "fiche": "bergeau", "x": 15, "y": 11, "regarde": "nord" },
+    { "fiche": "chloe", "x": 10, "y": 8, "regarde": "est" },
+    { "fiche": "dempsey", "x": 16, "y": 8, "regarde": "ouest" },
+    { "fiche": "falcon", "x": 12, "y": 6, "regarde": "sud" },
+    { "fiche": "jasson", "x": 14, "y": 6, "regarde": "sud" }
+  ],
+  "objets": [ { "type": "brasier", "x": 13, "y": 9 } ]
+}

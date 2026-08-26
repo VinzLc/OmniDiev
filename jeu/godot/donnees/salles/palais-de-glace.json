@@ -1,0 +1,17 @@
+{
+  "id": "palais-de-glace",
+  "lieu": "shola",
+  "nom": "Le palais de glace de Shola",
+  "taille": [28, 18],
+  "depart": [14, 15],
+
+  "_zones": "terrain 0 = la neige du plateau (#a8d5df), terrain 1 = le dallage de glace du palais (#e1f2fd). La salle du trône occupe le centre ; la neige entre par les brèches.",
+  "fond": 0,
+  "zones": [
+    { "terrain": 1, "x": 6, "y": 3, "l": 15, "h": 10 },
+    { "terrain": 1, "x": 12, "y": 12, "l": 4, "h": 4 }
+  ],
+
+  "personnages": [],
+  "objets": []
+}

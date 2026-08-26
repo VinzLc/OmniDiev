@@ -61,6 +61,12 @@ grande surface doit être neutre pour de bon.
 `#5C3570` `#A76BC4` — le mauve de Kira, sa signature dans toute la saga
 `#2D5FA8` `#5B9BD8` — le bleu perçant des yeux de Wellan, l'eau
 `#8B2020` `#D14545` — le sang, le feu, l'Empereur Noir
+`#5E9AA8` `#A8D6E0` `#E3F3FE` — les froids du nord : la neige de Shola, la glace, le cristal
+
+Les trois derniers ont été ajoutés après coup. La palette était née des mots de couleur du
+premier tome, où l'on parle surtout de noir, de vert et d'or ; elle ignorait le froid. Faute
+d'équivalent, les bleus d'un plateau enneigé se rangeaient sur le vert de l'Ordre, et Shola
+sortait mouchetée de vert.
 
 ## L'uniforme des Chevaliers, tel que le texte le décrit
 

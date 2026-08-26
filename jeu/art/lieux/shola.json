@@ -1,0 +1,16 @@
+{
+  "tuile": 16,
+  "colonnes": 16,
+  "ordre": "signature des coins, NO NE SO SE lus en binaire — colonne = NO*8 + NE*4 + SO*2 + SE",
+  "terrain0": {
+    "couleur": "#a8d5df"
+  },
+  "terrain1": {
+    "couleur": "#e1f2fd"
+  },
+  "decrits": {
+    "lower": "deep windswept snow with moderate surface drifts and simple two-tone light and shadow across cold white powder",
+    "upper": "polished pale blue ice slabs with fine internal fracture lines and simple two-tone light and shadow on a smooth glassy surface"
+  },
+  "note": "Les deux terrains sont séparés par regroupement des couleurs des images, non lus dans les étiquettes : le service les a déjà rendues permutées. « decrits » rappelle ce qui a été demandé, sans garantir l'ordre."
+}
