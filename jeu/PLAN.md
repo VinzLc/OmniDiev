@@ -58,7 +58,7 @@ D'où la méthode : **chaque étape doit être jouable, pas seulement livrée.**
 
 ## Les étapes
 
-### 0 — Le squelette qui marche ← prochaine
+### 0 — Le squelette qui marche ✓
 
 Wellan se déplace dans une salle du Château d'Émeraude, se cogne aux murs, parle à un
 personnage. Rien d'autre.
@@ -66,14 +66,28 @@ personnage. Rien d'autre.
 > **Terminé quand** `git pull` puis `npm run jeu` ouvre une fenêtre où l'on marche et où une
 > boîte de dialogue s'affiche — sur une machine qui n'a jamais vu le projet.
 
-### 1 — La passerelle Codex → jeu
+Fait. Une salle du Château, un cycle de marche en quatre directions, des murs qui arrêtent,
+une boîte de dialogue. Le mode `--capture` rejoue la scène tout seul et enregistre ce qu'il
+voit, en passant par le chemin d'entrée d'un vrai joueur.
+
+### 1 — La passerelle Codex → jeu ✓
 
 Un script transforme les fiches en données de jeu : personnages, lieux, répliques. C'est ce
 qui rend l'échelle tenable.
 
 > **Terminé quand** ajouter un personnage ne demande que son identifiant de fiche.
 
-### 2 — Une vraie scène du roman
+Fait. `npm run jeu:donnees` verse les 365 personnages et 57 lieux du Codex dans
+`monde.json` — noms, rôles, tomes de présence, liens. Une salle est un fichier de données ;
+un personnage y tient en un identifiant de fiche et trois nombres, et ses répliques se
+déduisent de sa fiche. Sans planche, il paraît en silhouette teintée : le contenu n'attend
+pas l'art.
+
+Une limite posée d'emblée : **les répliques viennent des fiches, jamais des romans.**
+`monde.json` est versionné pour qu'un `git pull` suffise, or `data/` ne l'est pas — y verser
+de la prose d'Anne Robillard la republierait.
+
+### 2 — Une vraie scène du roman ← prochaine
 
 Le chapitre I,1 rejouable : la fondation de l'Ordre, les sept enfants, le Roi Émeraude Ier.
 

@@ -23,7 +23,8 @@
     "art:verifier": "tsx scripts/verify-art.ts",
     "art:normalise": "tsx scripts/art-normalise.ts",
     "art:generer": "tsx scripts/art-generer.ts",
-    "jeu": "tsx scripts/jeu.ts"
+    "jeu": "npm run jeu:donnees && tsx scripts/jeu.ts",
+    "jeu:donnees": "tsx scripts/build-jeu-donnees.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.120.0",

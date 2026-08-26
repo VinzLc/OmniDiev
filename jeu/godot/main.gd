@@ -1,123 +1,92 @@
 extends Node2D
 ##
-## Étape 0 — Wellan marche dans une salle du Château d'Émeraude.
+## La salle se lit, elle ne s'écrit plus.
 ##
-## Tout est bâti ici plutôt que décrit dans un .tscn : la scène tient en une
-## centaine de lignes lisibles, et rien ne dépend d'identifiants que l'éditeur
-## aurait générés.
+## Rien ici ne connaît Wellan, le Château ni le Roi. La scène ouvre deux
+## fichiers — le monde produit depuis le Codex, et la salle écrite à la main —
+## et bâtit ce qu'ils décrivent. Ajouter un personnage tient en trois nombres et
+## l'identifiant de sa fiche ; son nom, son rôle et ses liens en viennent tout
+## seuls.
 ##
-## Les deux planches viennent de l'atelier graphique et sont copiées dans
-## assets/ par `npm run jeu`. Leur disposition n'est pas une convention interne
-## mais celle qu'écrit `art:normalise` :
-##
-##   wellan.png              4 colonnes × 4 rangées de 32×32
-##                           rangées : face, dos, profil gauche, profil droit
-##   chateau-d-emeraude.png  16 tuiles de 16×16 en une rangée, rangées par
-##                           signature de coins — colonne = NO*8+NE*4+SO*2+SE
+## C'est ce qui rend l'échelle tenable : 365 personnages et 57 lieux attendent
+## dans monde.json, et aucun ne demandera qu'on retouche ce fichier.
 
 const TUILE := 16
 const SPRITE := 32
-const SALLE := Vector2i(26, 15)      ## la salle, en tuiles
-const VITESSE := 58.0                ## pixels par seconde
-const CADENCE := 7.0                 ## images du cycle de marche par seconde
+const VITESSE := 58.0
+const CADENCE := 7.0
 
 ## Rangée de la planche pour chaque direction regardée.
 const RANGEE := { "sud": 0, "nord": 1, "ouest": 2, "est": 3 }
+
+const DONNEES := "res://donnees/"
+const SALLE_INITIALE := "salle-du-trone"
+
+var _monde: Dictionary
+var _salle: Dictionary
 
 var _wellan: CharacterBody2D
 var _vue: Sprite2D
 var _direction := "sud"
 var _phase := 0.0
-var _boite: CanvasLayer
+
+var _proche := ""              ## identifiant de fiche à portée, vide sinon
+var _pages: PackedStringArray = []
+var _page := 0
+var _ouverte := false
+
+var _cadre: Panel
 var _texte: RichTextLabel
 var _invite: Label
-var _dans_la_zone := false
-var _ouverte := false
 
 
 func _ready() -> void:
 	# Vue de dessus : ce qui est plus bas à l'écran est plus près, donc devant.
-	# Sans cela, Wellan passe derrière un objet qu'il devrait masquer.
 	y_sort_enabled = true
+
+	_monde = _lire(DONNEES + "monde.json")
+	_salle = _lire(DONNEES + "salles/%s.json" % SALLE_INITIALE)
+	if _monde.is_empty() or _salle.is_empty():
+		push_error("Données absentes. Lancer : npm run jeu:donnees")
+		return
 
 	_batir_le_sol()
 	_batir_les_murs()
 	_batir_wellan()
 	_batir_le_dialogue()
-	_batir_le_brasero()
+	_peupler()
 
-	# Mode de contrôle : on rend quelques images, on en garde une, on sort. Sert
-	# à regarder la scène sans avoir à la jouer — la seule façon de vérifier
-	# qu'elle est juste, puisqu'aucune mesure ne dit qu'un décor est lisible.
 	if OS.get_cmdline_args().has("--capture"):
 		_capturer()
 
 
-## Joue une courte partie et en garde des images.
-##
-## On passe par `Input.action_press` plutôt que par les variables internes : le
-## code traversé est exactement celui d'un joueur, touches comprises. Une
-## vérification qui contourne le chemin normal ne prouve rien de ce chemin.
-func _capturer() -> void:
-	await _garder("00-depart", 12)
-
-	# Monter l'allée : la direction doit passer au dos, le cycle doit défiler,
-	# et la position doit vraiment changer.
-	var depart := _wellan.global_position
-	Input.action_press("ui_up")
-	await _garder("01-marche-nord", 40)
-	Input.action_release("ui_up")
-	var parcouru := depart.distance_to(_wellan.global_position)
-	print("PARCOURU %.1f px, direction %s" % [parcouru, _direction])
-
-	# Buter contre le mur. On le pose à deux pas plutôt que de le faire traverser
-	# la salle : en mode capture, l'enregistrement des images ralentit la boucle
-	# et la physique prend du retard, si bien qu'une longue marche mesure la
-	# lenteur du test et non le comportement du jeu.
-	_wellan.global_position = Vector2(13.0 * TUILE, 3.0 * TUILE)
-	Input.action_press("ui_up")
-	await _garder("02-contre-le-mur", 90)
-	Input.action_release("ui_up")
-	print("ARRET y=%.1f (le mur occupe y<0)" % _wellan.global_position.y)
-
-	# Redescendre jusqu'au brasier, puis parler. On le repose au-dessus de lui et
-	# on le laisse s'en approcher par ses propres jambes : c'est l'entrée dans la
-	# zone qu'on éprouve, pas l'endurance du test.
-	_wellan.global_position = Vector2(13.0 * TUILE, 3.5 * TUILE)
-	Input.action_press("ui_down")
-	await _garder("03-marche-sud", 90)
-	Input.action_release("ui_down")
-	print("ZONE %s à y=%.1f" % [_dans_la_zone, _wellan.global_position.y])
-
-	if _dans_la_zone:
-		# `Input.action_press` ne fait que positionner l'état de l'action : aucun
-		# événement ne remonte, et `_unhandled_input` n'en voit rien. Pour
-		# éprouver le chemin d'un vrai joueur il faut injecter l'événement.
-		var touche := InputEventAction.new()
-		touche.action = "ui_accept"
-		touche.pressed = true
-		Input.parse_input_event(touche)
-		await _garder("04-dialogue", 20)
-		print("DIALOGUE %s" % _ouverte)
-
-	get_tree().quit()
+func _lire(chemin: String) -> Dictionary:
+	if not FileAccess.file_exists(chemin):
+		return {}
+	var contenu = JSON.parse_string(FileAccess.get_file_as_string(chemin))
+	return contenu if contenu is Dictionary else {}
 
 
-func _garder(nom: String, images: int) -> void:
-	for i in images:
-		await get_tree().process_frame
-	get_viewport().get_texture().get_image().save_png("res://capture-%s.png" % nom)
+func _taille() -> Vector2i:
+	var t: Array = _salle.get("taille", [26, 15])
+	return Vector2i(int(t[0]), int(t[1]))
 
 
 ## Le sol, en tuiles de Wang.
 ##
 ## Chaque tuile se choisit par ses quatre coins : on demande à chaque sommet de
-## la grille s'il est tapis ou dalle, et les quatre réponses forment le numéro
-## de la colonne. C'est ce qui permet au tapis d'avoir n'importe quelle forme
-## sans qu'on dessine un seul cas particulier.
+## la grille s'il est tapis ou dalle, et les quatre réponses forment le numéro de
+## la colonne. C'est ce qui permet au tapis d'avoir n'importe quelle forme sans
+## qu'on dessine un seul cas particulier.
 func _batir_le_sol() -> void:
+	var lieu: Dictionary = _monde["lieux"].get(_salle.get("lieu", ""), {})
+	var tuiles = lieu.get("tuiles")
+	if tuiles == null:
+		push_error("Le lieu « %s » n'a pas de tuiles." % _salle.get("lieu", ""))
+		return
+
 	var atlas := TileSetAtlasSource.new()
-	atlas.texture = load("res://assets/chateau-d-emeraude.png")
+	atlas.texture = load("res://assets/" + str(tuiles))
 	atlas.texture_region_size = Vector2i(TUILE, TUILE)
 	for i in 16:
 		atlas.create_tile(Vector2i(i, 0))
@@ -130,33 +99,29 @@ func _batir_le_sol() -> void:
 	carte.tile_set = jeu
 	add_child(carte)
 
-	for y in SALLE.y:
-		for x in SALLE.x:
+	var taille := _taille()
+	for y in taille.y:
+		for x in taille.x:
 			var signature := 0
 			for coin in [Vector2i(x, y), Vector2i(x + 1, y), Vector2i(x, y + 1), Vector2i(x + 1, y + 1)]:
 				signature = (signature << 1) | (0 if _est_tapis(coin) else 1)
 			carte.set_cell(Vector2i(x, y), 0, Vector2i(signature, 0))
 
 
-## Le tapis : une allée centrale, élargie en son milieu.
-##
-## Sa forme n'est pas décorative. Une caméra qui tient quinze tuiles de large
-## doit montrer une frontière presque tout le temps, sans quoi le joueur ne voit
-## qu'un aplat — et le raccord, qui a coûté cinq générations, ne se voit jamais.
 func _est_tapis(sommet: Vector2i) -> bool:
-	var allee := sommet.x >= 11 and sommet.x <= 15 and sommet.y >= 2 and sommet.y <= SALLE.y - 2
-	var estrade := sommet.x >= 8 and sommet.x <= 18 and sommet.y >= 3 and sommet.y <= 8
-	return allee or estrade
+	for zone in _salle.get("tapis", []):
+		if sommet.x >= int(zone["x"]) and sommet.x <= int(zone["x"]) + int(zone["l"]) \
+			and sommet.y >= int(zone["y"]) and sommet.y <= int(zone["y"]) + int(zone["h"]):
+			return true
+	return false
 
 
 ## Les murs.
 ##
 ## Faute de tuiles murales, la salle est bordée d'une bande sombre et de
-## collisions. Ce n'est pas un pis-aller visuel : une grande salle voûtée dont
-## on ne voit pas les bords se lit très bien ainsi, et le jour où les tuiles
-## arriveront, seul l'habillage changera.
+## collisions. Le jour où les tuiles arriveront, seul l'habillage changera.
 func _batir_les_murs() -> void:
-	var sol := Rect2(Vector2.ZERO, Vector2(SALLE) * TUILE)
+	var sol := Rect2(Vector2.ZERO, Vector2(_taille()) * TUILE)
 	var mur := 8.0
 
 	var cadre := ColorRect.new()
@@ -168,13 +133,12 @@ func _batir_les_murs() -> void:
 
 	var corps := StaticBody2D.new()
 	add_child(corps)
-	var bords := [
-		Rect2(sol.position.x, sol.position.y - mur, sol.size.x, mur),                  # haut
-		Rect2(sol.position.x, sol.end.y, sol.size.x, mur),                             # bas
-		Rect2(sol.position.x - mur, sol.position.y - mur, mur, sol.size.y + mur * 2),  # gauche
-		Rect2(sol.end.x, sol.position.y - mur, mur, sol.size.y + mur * 2),             # droite
-	]
-	for bord in bords:
+	for bord in [
+		Rect2(sol.position.x, sol.position.y - mur, sol.size.x, mur),
+		Rect2(sol.position.x, sol.end.y, sol.size.x, mur),
+		Rect2(sol.position.x - mur, sol.position.y - mur, mur, sol.size.y + mur * 2),
+		Rect2(sol.end.x, sol.position.y - mur, mur, sol.size.y + mur * 2),
+	]:
 		var forme := CollisionShape2D.new()
 		var rect := RectangleShape2D.new()
 		rect.size = bord.size
@@ -183,25 +147,38 @@ func _batir_les_murs() -> void:
 		corps.add_child(forme)
 
 
+## La vue d'un personnage : sa planche s'il en a une, la silhouette sinon.
+##
+## Un personnage sans art n'est pas absent du jeu — il y paraît teinté d'après
+## son identifiant, et on lui parle. Attendre que l'art soit prêt pour écrire le
+## contenu reviendrait à ne jamais avancer.
+func _sprite_de(fiche: Dictionary) -> Sprite2D:
+	var vue := Sprite2D.new()
+	var region := AtlasTexture.new()
+	var planche = fiche.get("planche")
+	if planche != null:
+		region.atlas = load("res://assets/" + str(planche))
+	else:
+		region.atlas = load(DONNEES + "silhouette.png")
+		vue.modulate = Color(fiche.get("teinte", "#736c82"))
+	region.region = Rect2(0, 0, SPRITE, SPRITE)
+	vue.texture = region
+	# Le sprite est calé sur ses pieds : c'est ce point qui touche le sol.
+	vue.offset = Vector2(0, -SPRITE / 2.0 + 2)
+	return vue
+
+
 func _batir_wellan() -> void:
+	var depart: Array = _salle.get("depart", [1, 1])
 	_wellan = CharacterBody2D.new()
-	# Au bas de l'allée, face à l'estrade : il y a quelque part où aller.
-	_wellan.position = Vector2(13.0 * TUILE, (SALLE.y - 2) * TUILE)
+	_wellan.position = Vector2(float(depart[0]) * TUILE, float(depart[1]) * TUILE)
 	add_child(_wellan)
 
-	_vue = Sprite2D.new()
-	var region := AtlasTexture.new()
-	region.atlas = load("res://assets/wellan.png")
-	region.region = Rect2(0, 0, SPRITE, SPRITE)
-	_vue.texture = region
-	# Le sprite est calé sur ses pieds : c'est ce point qui touche le sol, et
-	# c'est lui qui doit coïncider avec la position du corps.
-	_vue.offset = Vector2(0, -SPRITE / 2.0 + 2)
+	_vue = _sprite_de(_monde["personnages"].get("wellan", {}))
 	_wellan.add_child(_vue)
 
-	# La collision ne prend que le bas du personnage. Un rectangle à sa taille
-	# entière l'empêcherait de s'approcher des murs, alors que dans une vue de
-	# dessus seuls ses pieds occupent le sol.
+	# La collision ne prend que le bas du personnage : dans une vue de dessus,
+	# seuls ses pieds occupent le sol.
 	var forme := CollisionShape2D.new()
 	var boite := RectangleShape2D.new()
 	boite.size = Vector2(12, 8)
@@ -209,26 +186,52 @@ func _batir_wellan() -> void:
 	forme.position = Vector2(0, -4)
 	_wellan.add_child(forme)
 
+	var taille := _taille()
 	var camera := Camera2D.new()
-	# Le double : la vue tient une quinzaine de tuiles en largeur, comme les jeux
-	# dont on s'inspire. Sans cela, la salle entière entre dans l'écran et le
-	# personnage n'est plus qu'un point.
 	camera.zoom = Vector2(2, 2)
 	camera.limit_left = -8
 	camera.limit_top = -8
-	camera.limit_right = SALLE.x * TUILE + 8
-	camera.limit_bottom = SALLE.y * TUILE + 8
+	camera.limit_right = taille.x * TUILE + 8
+	camera.limit_bottom = taille.y * TUILE + 8
 	camera.position_smoothing_enabled = true
 	camera.position_smoothing_speed = 8.0
 	_wellan.add_child(camera)
 
 
-func _batir_le_brasero() -> void:
-	# Rien à afficher encore — le lieu se signale par une invite. Il tiendra sa
-	# tuile quand l'atelier en produira une.
+func _peupler() -> void:
+	for habitant in _salle.get("personnages", []):
+		var id := str(habitant["fiche"])
+		var fiche: Dictionary = _monde["personnages"].get(id, {})
+		if fiche.is_empty():
+			push_warning("Fiche inconnue : %s" % id)
+			continue
+
+		var corps := StaticBody2D.new()
+		corps.position = Vector2(float(habitant["x"]) * TUILE, float(habitant["y"]) * TUILE)
+		add_child(corps)
+
+		var vue := _sprite_de(fiche)
+		var region: AtlasTexture = vue.texture
+		region.region = Rect2(0, RANGEE.get(habitant.get("regarde", "sud"), 0) * SPRITE, SPRITE, SPRITE)
+		corps.add_child(vue)
+
+		var forme := CollisionShape2D.new()
+		var boite := RectangleShape2D.new()
+		boite.size = Vector2(12, 8)
+		forme.shape = boite
+		forme.position = Vector2(0, -4)
+		corps.add_child(forme)
+
+		_zone_de_parole(corps, id)
+
+	for objet in _salle.get("objets", []):
+		_batir_objet(str(objet.get("type", "")), Vector2(float(objet["x"]) * TUILE, float(objet["y"]) * TUILE))
+
+
+## De quoi savoir qu'on peut parler, et à qui.
+func _zone_de_parole(parent: Node2D, id: String) -> void:
 	var zone := Area2D.new()
-	zone.position = Vector2(13.0 * TUILE, 5.0 * TUILE)
-	add_child(zone)
+	parent.add_child(zone)
 
 	var forme := CollisionShape2D.new()
 	var cercle := CircleShape2D.new()
@@ -236,38 +239,49 @@ func _batir_le_brasero() -> void:
 	forme.shape = cercle
 	zone.add_child(forme)
 
+	zone.body_entered.connect(func(corps: Node) -> void:
+		if corps == _wellan:
+			_proche = id
+			_invite.visible = not _ouverte)
+	zone.body_exited.connect(func(corps: Node) -> void:
+		if corps == _wellan and _proche == id:
+			_proche = ""
+			_invite.visible = false)
+
+
+func _batir_objet(genre: String, ou: Vector2) -> void:
 	# Un jalon, pas un décor : il tiendra sa tuile quand l'atelier en produira
-	# une. Cerclé de noir pour qu'il se lise comme un objet et non comme un
-	# défaut du sol.
-	var socle := ColorRect.new()
-	socle.color = Color("#0b0a10")
-	socle.size = Vector2(12, 12)
-	socle.position = Vector2(-6, -6)
-	zone.add_child(socle)
+	# une. Cerclé de noir pour se lire comme un objet et non comme un défaut du
+	# sol.
+	#
+	# En Sprite2D et non en ColorRect : un Control ne participe pas au tri par
+	# profondeur et se dessine dans l'ordre de l'arbre. Le brasier passait ainsi
+	# devant Wellan et lui posait un carré noir sur la tête.
+	var image := Image.create(12, 12, false, Image.FORMAT_RGBA8)
+	image.fill(Color("#0b0a10"))
+	var coeur := Color("#f0d174") if genre == "brasier" else Color("#736c82")
+	for y in range(3, 9):
+		for x in range(3, 9):
+			image.set_pixel(x, y, coeur)
 
-	var flamme := ColorRect.new()
-	flamme.color = Color("#f0d174")
-	flamme.size = Vector2(6, 6)
-	flamme.position = Vector2(-3, -3)
-	zone.add_child(flamme)
-
-	zone.body_entered.connect(func(corps): if corps == _wellan: _dans_la_zone = true; _invite.visible = true)
-	zone.body_exited.connect(func(corps): if corps == _wellan: _dans_la_zone = false; _invite.visible = false)
+	var vue := Sprite2D.new()
+	vue.texture = ImageTexture.create_from_image(image)
+	vue.position = ou
+	add_child(vue)
 
 
 func _batir_le_dialogue() -> void:
-	_boite = CanvasLayer.new()
-	add_child(_boite)
+	var couche := CanvasLayer.new()
+	add_child(couche)
 
-	var fond := Panel.new()
-	fond.anchor_left = 0.0
-	fond.anchor_right = 1.0
-	fond.anchor_top = 1.0
-	fond.anchor_bottom = 1.0
-	fond.offset_left = 12
-	fond.offset_right = -12
-	fond.offset_top = -92
-	fond.offset_bottom = -12
+	_cadre = Panel.new()
+	_cadre.anchor_right = 1.0
+	_cadre.anchor_top = 1.0
+	_cadre.anchor_bottom = 1.0
+	_cadre.offset_left = 12
+	_cadre.offset_right = -12
+	_cadre.offset_top = -92
+	_cadre.offset_bottom = -12
 
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("#0b0a10")
@@ -275,9 +289,9 @@ func _batir_le_dialogue() -> void:
 	style.set_border_width_all(2)
 	style.set_corner_radius_all(2)
 	style.set_content_margin_all(10)
-	fond.add_theme_stylebox_override("panel", style)
-	fond.visible = false
-	_boite.add_child(fond)
+	_cadre.add_theme_stylebox_override("panel", style)
+	_cadre.visible = false
+	couche.add_child(_cadre)
 
 	_texte = RichTextLabel.new()
 	_texte.bbcode_enabled = true
@@ -288,12 +302,12 @@ func _batir_le_dialogue() -> void:
 	_texte.offset_right = -10
 	_texte.offset_bottom = -8
 	# Douze pixels dans une fenêtre qui en fait 270 de haut. À quinze, la
-	# réplique débordait du cadre et Godot ajoutait une barre de défilement —
-	# une boîte de dialogue qu'il faut faire défiler n'en est pas une.
+	# réplique débordait et Godot ajoutait une barre de défilement — une boîte de
+	# dialogue qu'il faut faire défiler n'en est pas une.
 	_texte.add_theme_font_size_override("normal_font_size", 12)
 	_texte.add_theme_font_size_override("bold_font_size", 12)
 	_texte.scroll_active = false
-	fond.add_child(_texte)
+	_cadre.add_child(_texte)
 
 	_invite = Label.new()
 	_invite.text = "Espace"
@@ -303,29 +317,65 @@ func _batir_le_dialogue() -> void:
 	_invite.anchor_bottom = 1.0
 	_invite.offset_left = -40
 	_invite.offset_right = 40
-	_invite.offset_top = -110
-	_invite.offset_bottom = -92
+	_invite.offset_top = -112
+	_invite.offset_bottom = -94
 	_invite.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_invite.add_theme_color_override("font_color", Color("#f0d174"))
 	_invite.visible = false
-	_boite.add_child(_invite)
+	couche.add_child(_invite)
 
-	_boite.set_meta("fond", fond)
+
+## Les répliques d'un personnage, tirées de sa fiche.
+##
+## Rien n'est écrit à la main ici : le rôle vient du Codex, les liens aussi.
+## C'est ce qui fait qu'un personnage ajouté par son seul identifiant ait
+## quelque chose à dire dès la première seconde.
+func _repliques(id: String) -> PackedStringArray:
+	var fiche: Dictionary = _monde["personnages"].get(id, {})
+	var nom := str(fiche.get("nom", id))
+	var pages := PackedStringArray()
+	pages.append("[b]%s[/b]\n%s" % [nom, fiche.get("role", "")])
+
+	var liens: Array = fiche.get("liens", [])
+	if not liens.is_empty():
+		var dits := PackedStringArray()
+		for lien in liens.slice(0, 2):
+			# Le Codex empile les nuances d'un lien en les séparant par des
+			# points-virgules. Tout dire ferait de la réplique une fiche ; on
+			# garde la première nuance, qui est la plus générale.
+			var nature := str(lien["nature"]).split(";")[0].strip_edges()
+			dits.append("%s — %s" % [lien["nom"], nature])
+		pages.append("[b]%s[/b]\n%s" % [nom, "\n".join(dits)])
+
+	var tomes: Array = fiche.get("tomes", [])
+	if tomes.size() > 1:
+		pages.append("[b]%s[/b]\nParaît dans %d des 44 volumes, du tome %d au tome %d."
+			% [nom, tomes.size(), int(tomes[0]), int(tomes[-1])])
+	return pages
+
+
+func _afficher() -> void:
+	if _page >= _pages.size():
+		_ouverte = false
+		_cadre.visible = false
+		_invite.visible = _proche != ""
+		return
+	_texte.text = _pages[_page]
 
 
 func _unhandled_input(evenement: InputEvent) -> void:
 	if not evenement.is_action_pressed("ui_accept"):
 		return
-	var fond: Panel = _boite.get_meta("fond")
 	if _ouverte:
-		_ouverte = false
-		fond.visible = false
-		_invite.visible = _dans_la_zone
-	elif _dans_la_zone:
+		_page += 1
+		_afficher()
+	elif _proche != "":
+		_pages = _repliques(_proche)
+		_page = 0
 		_ouverte = true
-		fond.visible = true
+		_cadre.visible = true
 		_invite.visible = false
-		_texte.text = "[b]Wellan[/b]\nLe feu du Château ne s'éteint jamais. Tant qu'il brûle, l'Ordre tient."
+		_afficher()
 
 
 func _physics_process(delta: float) -> void:
@@ -357,3 +407,42 @@ func _physics_process(delta: float) -> void:
 func _dessiner(colonne: int) -> void:
 	var region: AtlasTexture = _vue.texture
 	region.region = Rect2(colonne * SPRITE, RANGEE[_direction] * SPRITE, SPRITE, SPRITE)
+
+
+## Joue une courte partie et en garde des images.
+##
+## On passe par `Input.parse_input_event` : le code traversé est exactement celui
+## d'un joueur, touches comprises. Une vérification qui contourne le chemin
+## normal ne prouve rien de ce chemin.
+func _capturer() -> void:
+	await _garder("00-salle", 12)
+
+	var depart := _wellan.global_position
+	Input.action_press("ui_up")
+	await _garder("01-marche", 40)
+	Input.action_release("ui_up")
+	print("PARCOURU %.1f px, direction %s" % [depart.distance_to(_wellan.global_position), _direction])
+
+	# Aborder le Roi, sur l'estrade.
+	_wellan.global_position = Vector2(13.0 * TUILE, 7.0 * TUILE)
+	Input.action_press("ui_up")
+	await _garder("02-vers-le-roi", 60)
+	Input.action_release("ui_up")
+	print("PROCHE « %s »" % _proche)
+
+	if _proche != "":
+		for page in 3:
+			var touche := InputEventAction.new()
+			touche.action = "ui_accept"
+			touche.pressed = true
+			Input.parse_input_event(touche)
+			await _garder("03-dialogue-%d" % page, 12)
+			print("PAGE %d ouverte=%s" % [page, _ouverte])
+
+	get_tree().quit()
+
+
+func _garder(nom: String, images: int) -> void:
+	for i in images:
+		await get_tree().process_frame
+	get_viewport().get_texture().get_image().save_png("res://capture-%s.png" % nom)
