@@ -8,6 +8,7 @@
  *
  * Usage :
  *   npm run jeu
+ *   npm run jeu -- --scene i-01   joue un chapitre précis
  *   npm run jeu -- --editeur      ouvre l'éditeur au lieu de jouer
  */
 import fs from "node:fs";
@@ -68,8 +69,18 @@ function main() {
     return;
   }
 
-  console.log(`${C.green}Le jeu démarre.${C.off} Flèches pour marcher, Espace pour parler.`);
-  const r = spawnSync(bin, ["--path", PROJET], { stdio: "inherit" });
+  /*
+   * Les arguments de scène passent au moteur, après `++`.
+   *
+   * Avant `++`, Godot les revendique : un mot sans tiret y est pris pour un
+   * chemin de scène à charger, et le jeu refuse de démarrer sur « i-01 ».
+   */
+  const passe: string[] = [];
+  const i = process.argv.indexOf("--scene");
+  if (i >= 0 && process.argv[i + 1]) passe.push("++", "--scene", process.argv[i + 1]);
+
+  console.log(`${C.green}Le jeu démarre.${C.off} Flèches pour marcher, Espace pour parler, J l'épée, K le feu.`);
+  const r = spawnSync(bin, ["--path", PROJET, ...passe], { stdio: "inherit" });
   process.exitCode = r.status ?? 0;
 }
 

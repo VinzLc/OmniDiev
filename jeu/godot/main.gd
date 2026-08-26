@@ -76,7 +76,7 @@ func _ready() -> void:
 	y_sort_enabled = true
 
 	_monde = _lire(DONNEES + "monde.json")
-	_scene = _lire(DONNEES + "scenes/%s.json" % SCENE_INITIALE)
+	_scene = _lire(DONNEES + "scenes/%s.json" % _scene_demandee())
 	_salle = _lire(DONNEES + "salles/%s.json" % _scene.get("salle", ""))
 	if _monde.is_empty() or _salle.is_empty() or _scene.is_empty():
 		push_error("Données absentes. Lancer : npm run jeu:donnees")
@@ -90,7 +90,9 @@ func _ready() -> void:
 	_peupler()
 	_entrer_dans_l_etape()
 
-	if OS.get_cmdline_args().has("--capture"):
+	# Le drapeau peut arriver des deux côtés de `++` selon la façon dont on
+	# lance : on regarde les deux listes plutôt que d'imposer un ordre.
+	if OS.get_cmdline_args().has("--capture") or OS.get_cmdline_user_args().has("--capture"):
 		_capturer()
 
 
@@ -107,6 +109,18 @@ func _declarer_les_touches() -> void:
 		var touche := InputEventKey.new()
 		touche.physical_keycode = nom[1]
 		InputMap.action_add_event(nom[0], touche)
+
+
+## Quelle scène jouer ? `++ --scene i-01` sur la ligne de commande.
+##
+## Les arguments passent après `++`, non avant : tout ce qui précède appartient
+## au moteur, et un mot sans tiret y est pris pour un chemin de scène à charger.
+func _scene_demandee() -> String:
+	var arguments := OS.get_cmdline_user_args()
+	var i := arguments.find("--scene")
+	if i >= 0 and i + 1 < arguments.size():
+		return arguments[i + 1]
+	return SCENE_INITIALE
 
 
 func _lire(chemin: String) -> Dictionary:

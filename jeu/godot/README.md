@@ -1,8 +1,9 @@
 # Le jeu
 
 ```bash
-npm run jeu              # jouer
-npm run jeu -- --editeur # ouvrir l'éditeur Godot
+npm run jeu                    # la nuit de Zénor (chapitre I,26)
+npm run jeu -- --scene i-01    # la salle du trône (chapitre I,1)
+npm run jeu -- --editeur       # ouvrir l'éditeur Godot
 ```
 
 | | |
