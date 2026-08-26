@@ -14,13 +14,22 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 
 [display]
 
-; 480×270 : seize tuiles de large sur la hauteur, en 16/9. La fenêtre est
-; agrandie d'un facteur entier pour que les pixels restent carrés.
-window/size/viewport_width=480
-window/size/viewport_height=270
-window/size/window_width_override=1440
-window/size/window_height_override=810
+; 640×360 : vingt tuiles de large sur onze, en 16/9.
+;
+; C'est le viewport qu'on agrandit, non le zoom de la caméra. Une caméra à 1,75
+; ferait rendre un sprite de 32 pixels sur 56 : les pixels cesseraient d'être
+; carrés, ce qui est précisément ce qu'on cherche à préserver. Le zoom reste
+; donc à 2, entier, et c'est la toile qui gagne du champ.
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1600
+window/size/window_height_override=900
+window/size/resizable=true
 window/stretch/mode="viewport"
+
+; Sur un écran Retina, rendre à la définition physique plutôt qu'aux points :
+; l'agrandissement de 2,5 y devient beaucoup moins visible.
+window/dpi/allow_hidpi=true
 
 [rendering]
 

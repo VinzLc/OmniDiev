@@ -557,10 +557,12 @@ func _annoncer_le_chapitre() -> void:
 	var rang := suite.find(_chapitre) + 1
 	var mot: RichTextLabel = _ouverture.get_child(0)
 
+	# Tailles relevées d'un tiers avec le viewport : à 640×360, une police réglée
+	# pour 270 pixels de haut se lit deux fois plus petite qu'avant.
 	var entete := "Chapitre %d sur %d" % [rang, suite.size()] if rang > 0 else "Hors campagne"
 	# La référence au tome et au chapitre a été retirée : elle parle du livre au
 	# joueur, là où tout le reste lui parle du monde.
-	mot.text = "[center][font_size=11][color=#a6a8b2]%s[/color][/font_size]\n\n[b][color=#f0d174]%s[/color][/b]\n\n[font_size=11][color=#a6a8b2]Espace[/color][/font_size][/center]" % [
+	mot.text = "[center][font_size=14][color=#a6a8b2]%s[/color][/font_size]\n\n[b][color=#f0d174]%s[/color][/b]\n\n[font_size=14][color=#a6a8b2]Espace[/color][/font_size][/center]" % [
 		entete, str(_scene.get("titre", _chapitre))]
 	_ouverture.visible = true
 
@@ -787,10 +789,10 @@ func _batir_le_dialogue() -> void:
 	_cadre.anchor_right = 1.0
 	_cadre.anchor_top = 1.0
 	_cadre.anchor_bottom = 1.0
-	_cadre.offset_left = 12
-	_cadre.offset_right = -12
-	_cadre.offset_top = -92
-	_cadre.offset_bottom = -12
+	_cadre.offset_left = 16
+	_cadre.offset_right = -16
+	_cadre.offset_top = -120
+	_cadre.offset_bottom = -16
 
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("#0b0a10")
@@ -813,8 +815,8 @@ func _batir_le_dialogue() -> void:
 	# Douze pixels dans une fenêtre qui en fait 270 de haut. À quinze, la
 	# réplique débordait et Godot ajoutait une barre de défilement — une boîte de
 	# dialogue qu'il faut faire défiler n'en est pas une.
-	_texte.add_theme_font_size_override("normal_font_size", 12)
-	_texte.add_theme_font_size_override("bold_font_size", 12)
+	_texte.add_theme_font_size_override("normal_font_size", 15)
+	_texte.add_theme_font_size_override("bold_font_size", 15)
 	_texte.scroll_active = false
 	_cadre.add_child(_texte)
 
@@ -829,13 +831,13 @@ func _batir_le_dialogue() -> void:
 	_invite.anchor_right = 1.0
 	_invite.anchor_top = 1.0
 	_invite.anchor_bottom = 1.0
-	_invite.offset_left = -84
-	_invite.offset_right = -12
-	_invite.offset_top = -26
-	_invite.offset_bottom = -8
+	_invite.offset_left = -112
+	_invite.offset_right = -16
+	_invite.offset_top = -34
+	_invite.offset_bottom = -10
 	_invite.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_invite.add_theme_color_override("font_color", Color("#f0d174"))
-	_invite.add_theme_font_size_override("font_size", 11)
+	_invite.add_theme_font_size_override("font_size", 14)
 	_invite.visible = false
 	couche.add_child(_invite)
 
@@ -852,8 +854,8 @@ func _batir_le_dialogue() -> void:
 	_bandeau.anchor_bottom = 0.5
 	_bandeau.offset_left = 0
 	_bandeau.offset_right = 0
-	_bandeau.offset_top = -34
-	_bandeau.offset_bottom = 34
+	_bandeau.offset_top = -46
+	_bandeau.offset_bottom = 46
 	var voile := StyleBoxFlat.new()
 	voile.bg_color = Color(0.043, 0.039, 0.063, 0.88)
 	voile.border_color = Color("#71727e")
@@ -871,22 +873,22 @@ func _batir_le_dialogue() -> void:
 	_recit.offset_left = 24
 	_recit.offset_right = -24
 	_recit.scroll_active = false
-	_recit.add_theme_font_size_override("normal_font_size", 12)
-	_recit.add_theme_font_size_override("italics_font_size", 12)
+	_recit.add_theme_font_size_override("normal_font_size", 15)
+	_recit.add_theme_font_size_override("italics_font_size", 15)
 	_bandeau.add_child(_recit)
 
 	# L'objectif reste affiché : sans lui, un chapitre en quatre temps se joue à
 	# tâtons, et le joueur croit que le jeu ne réagit pas alors qu'il attend.
 	_objectif = Label.new()
 	_objectif.anchor_right = 1.0
-	_objectif.offset_left = 14
-	_objectif.offset_top = 8
+	_objectif.offset_left = 18
+	_objectif.offset_top = 10
 	_objectif.offset_right = -14
 	_objectif.add_theme_color_override("font_color", Color("#f0d174"))
 	_objectif.add_theme_color_override("font_shadow_color", Color("#0b0a10"))
 	_objectif.add_theme_constant_override("shadow_offset_x", 1)
 	_objectif.add_theme_constant_override("shadow_offset_y", 1)
-	_objectif.add_theme_font_size_override("font_size", 12)
+	_objectif.add_theme_font_size_override("font_size", 15)
 	couche.add_child(_objectif)
 
 	_jauge_vie = _jauge(couche, 8, Color("#8b2020"), Color("#d14545"))
@@ -902,10 +904,10 @@ func _batir_le_dialogue() -> void:
 	_defaite.anchor_right = 0.5
 	_defaite.anchor_top = 1.0
 	_defaite.anchor_bottom = 1.0
-	_defaite.offset_left = -130
-	_defaite.offset_right = 130
-	_defaite.offset_top = -74
-	_defaite.offset_bottom = -12
+	_defaite.offset_left = -170
+	_defaite.offset_right = 170
+	_defaite.offset_top = -96
+	_defaite.offset_bottom = -16
 	var deuil := StyleBoxFlat.new()
 	deuil.bg_color = Color("#0b0a10")
 	deuil.border_color = Color("#8b2020")
@@ -928,10 +930,10 @@ func _batir_le_dialogue() -> void:
 	# Assez haut pour la source et l'invite. Au premier réglage le cadre faisait
 	# cent pixels : la référence au tome débordait sur deux lignes et « Espace »
 	# passait sous le bord. Rien ne mesure qu'un cadre est trop court.
-	_ouverture.offset_left = -200
-	_ouverture.offset_right = 200
-	_ouverture.offset_top = -66
-	_ouverture.offset_bottom = 66
+	_ouverture.offset_left = -260
+	_ouverture.offset_right = 260
+	_ouverture.offset_top = -86
+	_ouverture.offset_bottom = 86
 	var cartouche := StyleBoxFlat.new()
 	cartouche.bg_color = Color("#0b0a10")
 	cartouche.border_color = Color("#c08f34")
@@ -946,8 +948,8 @@ func _batir_le_dialogue() -> void:
 	titre.anchor_right = 1.0
 	titre.anchor_bottom = 1.0
 	titre.scroll_active = false
-	titre.add_theme_font_size_override("normal_font_size", 12)
-	titre.add_theme_font_size_override("bold_font_size", 14)
+	titre.add_theme_font_size_override("normal_font_size", 15)
+	titre.add_theme_font_size_override("bold_font_size", 18)
 	_ouverture.add_child(titre)
 
 	_acheve = Panel.new()

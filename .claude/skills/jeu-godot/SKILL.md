@@ -66,6 +66,14 @@ sur deux fichiers pendant que dix existaient : le jeu se lançait sans Kira, san
 sans les ennemis ni la neige de Shola. Rien ne le signalait — un personnage sans planche
 paraît en silhouette, ce qui est un comportement prévu. On copie le dossier, pas une liste.
 
+**Agrandir la vue se fait par le viewport, jamais par le zoom de la caméra.** Une caméra à
+1,75 ferait rendre un sprite de 32 pixels sur 56 : les pixels cesseraient d'être carrés. Le
+zoom reste entier et c'est la toile qui gagne du champ — 640×360 pour vingt tuiles de large.
+
+Et **toute l'interface est réglée en pixels de viewport** : l'agrandir sans relever les
+polices et les cadres la rapetisse d'autant. Vingt-huit valeurs ont dû suivre le passage de
+270 à 360.
+
 **GDScript n'a pas de commentaires en bloc.** `/* … */` fait échouer le chargement du script
 entier, avec pour seul message « Expected statement, found "/" ».
 
