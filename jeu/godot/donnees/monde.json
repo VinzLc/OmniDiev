@@ -648,7 +648,7 @@
     24,
     25
    ],
-   "planche": null,
+   "planche": "santo.png",
    "teinte": "#C08F34",
    "liens": [
     {
@@ -742,7 +742,7 @@
     23,
     25
    ],
-   "planche": null,
+   "planche": "jasson.png",
    "teinte": "#43C47F",
    "liens": [
     {
@@ -882,7 +882,7 @@
     24,
     25
    ],
-   "planche": null,
+   "planche": "bergeau.png",
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -1212,7 +1212,7 @@
     25,
     38
    ],
-   "planche": null,
+   "planche": "falcon.png",
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -1342,7 +1342,7 @@
     25,
     38
    ],
-   "planche": null,
+   "planche": "chloe.png",
    "teinte": "#736C82",
    "liens": [
     {
@@ -1807,7 +1807,7 @@
     25,
     38
    ],
-   "planche": null,
+   "planche": "dempsey.png",
    "teinte": "#C08F34",
    "liens": [
     {

@@ -1,0 +1,32 @@
+{
+  "group_id": "6119eec6-0c71-4706-af80-466a147bce7c",
+  "states": [
+    {
+      "character": {
+        "id": "3e4fb058-6ae2-4a80-9918-b875d90e40c5",
+        "name": "Idle",
+        "prompt": "Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).\n\nCHARACTER: Dempsey, a Knight of Emerald, born Prince of B\u00e9ryl. A cool-headed scout and tracker, watchful and still. He holds himself with the straightness of someone raised at a court and no longer interested in it. Dark blond hair combed back, a short trimmed beard, level grey eyes.\n\nUNIFORM \u2014 identical for every Knight of Emerald: black tunic and black leather boots. Over them a two-tone surcoat split vertically, one half emerald green and one half black \u2014 a black cross on the green half, a green dragon on the black half. A gold cross set with emeralds on the breastplate. This uniform must read instantly at 32 px and must be the same on every Knight.\n\nPALETTE \u2014 these 16 colors only:\n#0B0A10 #22222C #454652 #71727E #DDDDE4 (black, stone)\n#0F3826 #1C7A4E #43C47F (emerald green)\n#3D2A12 #7A5223 #C08F34 #F0D174 (gold, leather)\n#A9714E #D9A57C #F2D3B0 (skin)\n#2D5FA8 (blue)\n\nSTYLE: flat fills only. Two-tone shading \u2014 one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.\n\nBACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.",
+        "size": {
+          "width": 36,
+          "height": 36
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-08-26T18:10:43.683138+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-26T18:11:40.589023"
+}

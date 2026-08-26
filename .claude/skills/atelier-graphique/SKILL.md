@@ -78,6 +78,23 @@ que `art:normalise` applique à toutes les images d'un coup. Viser demande la co
 position : les mèches partagent leurs bruns avec les cuirs du corps, et la tête porte aussi
 la peau et les yeux. Conserver la luminance — c'est elle qui porte le modelé.
 
+## Un uniforme partagé ne supporte aucun vêtement dans le bloc personnel
+
+Les sept Chevaliers portent le même surcot. Le bloc d'uniforme est donc écrit une fois et
+inséré **au caractère près** dans les sept commandes — un script les compose, sinon les
+textes dérivent et l'Ordre se disloque.
+
+Mais il suffit qu'une consigne personnelle mentionne un vêtement pour que tout se défasse.
+Jasson, à qui l'on décrivait « une tunique verte sous la cuirasse », est sorti en armure
+blanche ; Dempsey, porteur d'« une corde de cuir et un petit cor à la ceinture », en plastron
+crème. Deux fois, la mention a supplanté l'uniforme au lieu de s'y ajouter.
+
+Ajouter « rien de blanc ni d'argenté » n'y a rien changé : **une consigne négative ne corrige
+pas une consigne positive concurrente**, elle s'y empile. Ce qui a marché est de vider le
+bloc personnel de tout vêtement et de tout équipement, et de n'y laisser que le visage, les
+cheveux et le port. Bergeau, dont la consigne n'en mentionnait aucun, était juste du premier
+coup.
+
 ## Étendre la palette plutôt qu'écraser l'image
 
 La palette du monde est née des mots de couleur du premier tome — noir, vert, or. Elle
@@ -175,3 +192,14 @@ plutôt que de les suivre.
 
 Écart connu et non corrigé : Wellan a les cheveux auburn dans le rendu, « blond foncé » dans
 le texte.
+
+**Ce que le texte donne pour distinguer sept hommes en même uniforme**, et qui vaut mieux
+que n'importe quelle invention : Bergeau a « les cheveux bruns et les yeux dorés », plus
+grand et plus musclé ; Falcon promène « son regard turquoise » ; Chloé est « mince mais
+vigoureuse, cheveux blonds assez courts, yeux d'un bleu très clair ». Santo joue de la harpe,
+Dempsey est prince de Béryl et pisteur, Jasson est le rieur. `lib/appearance.ts` sort les
+trois premières ; les fiches du Codex donnent les trois autres.
+
+Wellan reste plus large que tous — 24 pixels contre 14. Ce n'est pas une dérive de style
+mais l'écart entre l'interface web et l'API : il tombe juste, puisque le texte en fait « un
+géant parmi ses frères d'armes ».

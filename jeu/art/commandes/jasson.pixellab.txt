@@ -1,0 +1,16 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Jasson, a Knight of Emerald from the border of Perle and Turquoise. A cheerful, quick young man — the lightest figure of the seven, loose-limbed and ready to move. Light brown hair, untidy, falling over one eye. A half-smile: he is the one who jokes before a fight.
+
+UNIFORM — identical for every Knight of Emerald: black tunic and black leather boots. Over them a two-tone surcoat split vertically, one half emerald green and one half black — a black cross on the green half, a green dragon on the black half. A gold cross set with emeralds on the breastplate. This uniform must read instantly at 32 px and must be the same on every Knight.
+
+PALETTE — these 16 colors only:
+#0B0A10 #22222C #454652 #71727E #DDDDE4 (black, stone)
+#0F3826 #1C7A4E #43C47F (emerald green)
+#3D2A12 #7A5223 #C08F34 #F0D174 (gold, leather)
+#A9714E #D9A57C #F2D3B0 (skin)
+#2D5FA8 (blue)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.
