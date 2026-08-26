@@ -79,13 +79,23 @@ var _phase := 0.0
 var _a_portee := {}            ## tous ceux dont on est assez près
 var _proche := ""              ## celui qu'on aborderait, le plus proche d'entre eux
 var _interlocuteur := ""       ## à qui l'on parle en ce moment
-var _pages: PackedStringArray = []
+## Une page sait de quel genre elle est.
+##
+## Une parole et une description ne se lisent pas de la même façon : l'une sort
+## d'une bouche, l'autre est ce que le joueur constate. Les confondre dans un
+## même cadre effaçait la différence, et les maladresses des personnages — qui
+## font le sel de ces échanges — se perdaient dans la narration.
+var _pages: Array = []
 var _page := 0
 var _ouverte := false
 
 var _cadre: Panel
 var _texte: RichTextLabel
 var _invite: Label
+var _bandeau: Panel          ## les descriptions, distinctes des paroles
+var _recit: RichTextLabel
+var _recit_capture := false   ## une seule image de description suffit au contrôle
+var _invite_capture := false
 
 
 func _ready() -> void:
@@ -540,8 +550,10 @@ func _annoncer_le_chapitre() -> void:
 	var mot: RichTextLabel = _ouverture.get_child(0)
 
 	var entete := "Chapitre %d sur %d" % [rang, suite.size()] if rang > 0 else "Hors campagne"
-	mot.text = "[center][font_size=11][color=#a6a8b2]%s[/color][/font_size]\n[b][color=#f0d174]%s[/color][/b]\n[font_size=10][color=#71727e]%s[/color][/font_size]\n\n[font_size=11][color=#a6a8b2]Espace[/color][/font_size][/center]" % [
-		entete, str(_scene.get("titre", _chapitre)), str(_scene.get("source", ""))]
+	# La référence au tome et au chapitre a été retirée : elle parle du livre au
+	# joueur, là où tout le reste lui parle du monde.
+	mot.text = "[center][font_size=11][color=#a6a8b2]%s[/color][/font_size]\n\n[b][color=#f0d174]%s[/color][/b]\n\n[font_size=11][color=#a6a8b2]Espace[/color][/font_size][/center]" % [
+		entete, str(_scene.get("titre", _chapitre))]
 	_ouverture.visible = true
 
 
@@ -753,20 +765,62 @@ func _batir_le_dialogue() -> void:
 	_texte.scroll_active = false
 	_cadre.add_child(_texte)
 
+	## L'invite se range dans le coin.
+	##
+	## Au milieu de l'écran elle se posait sur la scène, juste au-dessus du
+	## cadre, et attirait l'œil là où il n'y avait rien à voir. Un rappel de
+	## touche n'a pas à disputer le centre au décor.
 	_invite = Label.new()
 	_invite.text = "Espace"
-	_invite.anchor_left = 0.5
-	_invite.anchor_right = 0.5
+	_invite.anchor_left = 1.0
+	_invite.anchor_right = 1.0
 	_invite.anchor_top = 1.0
 	_invite.anchor_bottom = 1.0
-	_invite.offset_left = -40
-	_invite.offset_right = 40
-	_invite.offset_top = -112
-	_invite.offset_bottom = -94
-	_invite.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_invite.offset_left = -84
+	_invite.offset_right = -12
+	_invite.offset_top = -26
+	_invite.offset_bottom = -8
+	_invite.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_invite.add_theme_color_override("font_color", Color("#f0d174"))
+	_invite.add_theme_font_size_override("font_size", 11)
 	_invite.visible = false
 	couche.add_child(_invite)
+
+	## Le bandeau des descriptions.
+	##
+	## Ce qu'on lit n'est pas ce qu'on entend. La parole garde le cadre du bas,
+	## bordé d'or, avec le nom de qui parle ; la description prend un bandeau
+	## large, sans bordure ni nom, en italique et en argent — la couleur du
+	## narrateur, non celle d'une voix. Les deux ne peuvent plus se confondre,
+	## et les maladresses des personnages redeviennent audibles comme telles.
+	_bandeau = Panel.new()
+	_bandeau.anchor_right = 1.0
+	_bandeau.anchor_top = 0.5
+	_bandeau.anchor_bottom = 0.5
+	_bandeau.offset_left = 0
+	_bandeau.offset_right = 0
+	_bandeau.offset_top = -34
+	_bandeau.offset_bottom = 34
+	var voile := StyleBoxFlat.new()
+	voile.bg_color = Color(0.043, 0.039, 0.063, 0.88)
+	voile.border_color = Color("#71727e")
+	voile.border_width_top = 1
+	voile.border_width_bottom = 1
+	voile.set_content_margin_all(10)
+	_bandeau.add_theme_stylebox_override("panel", voile)
+	_bandeau.visible = false
+	couche.add_child(_bandeau)
+
+	_recit = RichTextLabel.new()
+	_recit.bbcode_enabled = true
+	_recit.anchor_right = 1.0
+	_recit.anchor_bottom = 1.0
+	_recit.offset_left = 24
+	_recit.offset_right = -24
+	_recit.scroll_active = false
+	_recit.add_theme_font_size_override("normal_font_size", 12)
+	_recit.add_theme_font_size_override("italics_font_size", 12)
+	_bandeau.add_child(_recit)
 
 	# L'objectif reste affiché : sans lui, un chapitre en quatre temps se joue à
 	# tâtons, et le joueur croit que le jeu ne réagit pas alors qu'il attend.
@@ -900,36 +954,73 @@ func _jauger(reste: int, sur: int) -> void:
 	_jauge_vie.anchor_right = clampf(float(reste) / float(sur), 0.0, 1.0)
 
 
+## Le personnage se tourne vers celui qui l'aborde.
+##
+## Parler au dos de quelqu'un est ce qui trahissait le plus que ces gens sont
+## des décors posés : le Roi répondait à Wellan sans le regarder. Il suffit de
+## reprendre la rangée de sa planche selon l'axe qui les sépare — celui des deux
+## écarts qui domine, comme pour la marche.
+##
+## Il garde ensuite cette orientation. Un personnage qui reprendrait sa pose
+## d'origine sitôt la conversation finie aurait l'air de se détourner.
+func _tourner_vers_moi(id: String) -> void:
+	if not _habitants.has(id):
+		return
+	var corps: Node2D = _habitants[id]
+	var vue: Sprite2D = null
+	for enfant in corps.get_children():
+		if enfant is Sprite2D:
+			vue = enfant
+			break
+	if vue == null or not (vue.texture is AtlasTexture):
+		return
+
+	var ecart := _wellan.global_position - corps.global_position
+	var sens := "sud"
+	if absf(ecart.x) > absf(ecart.y):
+		sens = "est" if ecart.x > 0.0 else "ouest"
+	else:
+		sens = "sud" if ecart.y > 0.0 else "nord"
+
+	var region: AtlasTexture = vue.texture
+	region.region = Rect2(region.region.position.x, RANGEE[sens] * SPRITE, SPRITE, SPRITE)
+
+
 ## Ce que dit un personnage.
 ##
 ## La scène en cours d'abord : si le chapitre lui a écrit des répliques pour
 ## cette étape, ce sont celles-là. Sa fiche à défaut — de sorte qu'aucun
 ## personnage ne soit jamais muet, même ajouté à la dernière minute et sans une
 ## ligne écrite pour lui.
-func _repliques(id: String) -> PackedStringArray:
+func _repliques(id: String) -> Array:
 	var ecrites: Dictionary = _etape_courante().get("dialogues", {})
 	if ecrites.has(id):
-		var pages := PackedStringArray()
+		var pages := []
 		for ligne in ecrites[id]:
 			var qui := str(ligne.get("qui", ""))
 			var dit := str(ligne.get("dit", ""))
 			if qui == "recit":
-				# Le récit n'a pas de nom : c'est ce que le joueur voit, non ce
-				# qu'on lui dit.
-				pages.append("[i]%s[/i]" % dit)
+				pages.append({ "genre": "recit", "texte": dit })
 			else:
 				var nom := str(_monde["personnages"].get(qui, {}).get("nom", qui))
-				pages.append("[b]%s[/b]\n%s" % [nom, dit])
+				pages.append({ "genre": "parole", "nom": nom, "texte": dit })
 		return pages
 	return _fiche_en_repliques(id)
 
 
 ## Le pis-aller : ce que la fiche du Codex permet de dire.
-func _fiche_en_repliques(id: String) -> PackedStringArray:
+## Le pis-aller : ce que la fiche du Codex permet de dire.
+##
+## Ce n'est pas une parole — le personnage ne récite pas son rôle. C'est ce que
+## Wellan sait de lui, donc une description.
+##
+## Le décompte des volumes a été retiré : dire « paraît dans 43 des 44 volumes »
+## parle du livre au joueur, non du monde au personnage, et rompt tout ce que la
+## scène venait d'établir.
+func _fiche_en_repliques(id: String) -> Array:
 	var fiche: Dictionary = _monde["personnages"].get(id, {})
 	var nom := str(fiche.get("nom", id))
-	var pages := PackedStringArray()
-	pages.append("[b]%s[/b]\n%s" % [nom, fiche.get("role", "")])
+	var pages := [{ "genre": "recit", "texte": "%s. %s" % [nom, fiche.get("role", "")] }]
 
 	var liens: Array = fiche.get("liens", [])
 	if not liens.is_empty():
@@ -940,12 +1031,7 @@ func _fiche_en_repliques(id: String) -> PackedStringArray:
 			# garde la première nuance, qui est la plus générale.
 			var nature := str(lien["nature"]).split(";")[0].strip_edges()
 			dits.append("%s — %s" % [lien["nom"], nature])
-		pages.append("[b]%s[/b]\n%s" % [nom, "\n".join(dits)])
-
-	var tomes: Array = fiche.get("tomes", [])
-	if tomes.size() > 1:
-		pages.append("[b]%s[/b]\nParaît dans %d des 44 volumes, du tome %d au tome %d."
-			% [nom, tomes.size(), int(tomes[0]), int(tomes[-1])])
+		pages.append({ "genre": "recit", "texte": "\n".join(dits) })
 	return pages
 
 
@@ -953,6 +1039,7 @@ func _afficher() -> void:
 	if _page >= _pages.size():
 		_ouverte = false
 		_cadre.visible = false
+		_bandeau.visible = false
 		_invite.visible = _proche != ""
 		# On ne compte l'échange que s'il a été mené jusqu'au bout : entamer une
 		# conversation et s'en aller ne fait pas avancer le chapitre.
@@ -961,7 +1048,16 @@ func _afficher() -> void:
 			_interlocuteur = ""
 			_avancer_si_possible()
 		return
-	_texte.text = _pages[_page]
+	var page: Dictionary = _pages[_page]
+	if str(page.get("genre", "parole")) == "recit":
+		_cadre.visible = false
+		_bandeau.visible = true
+		_recit.text = "[center][i][color=#dddde4]%s[/color][/i][/center]" % str(page.get("texte", ""))
+	else:
+		_bandeau.visible = false
+		_cadre.visible = true
+		_texte.text = "[b][color=#f0d174]%s[/color][/b]\n%s" % [
+			str(page.get("nom", "")), str(page.get("texte", ""))]
 
 
 func _unhandled_input(evenement: InputEvent) -> void:
@@ -994,8 +1090,8 @@ func _unhandled_input(evenement: InputEvent) -> void:
 		_pages = _repliques(_proche)
 		_page = 0
 		_ouverte = true
-		_cadre.visible = true
 		_invite.visible = false
+		_tourner_vers_moi(_proche)
 		_afficher()
 
 
@@ -1249,7 +1345,43 @@ func _capturer() -> void:
 	else:
 		print("PAS ACHEVE après %d tours, étape %d" % [garde, _etape])
 
+	await _eprouver_les_orientations()
 	get_tree().quit()
+
+
+## Les quatre orientations, sur un même personnage.
+##
+## Le parcours de campagne aborde toujours par le sud : il prouve que le
+## personnage se tourne, jamais qu'il se tourne du bon côté. On éprouve donc la
+## géométrie séparément, en déplaçant Wellan autour de lui.
+func _eprouver_les_orientations() -> void:
+	var cible := ""
+	for id in _habitants:
+		cible = str(id)
+		break
+	if cible == "":
+		print("ORIENTATION : plus personne dans la salle")
+		return
+
+	var corps: Node2D = _habitants[cible]
+	for essai in [
+		{ "ou": Vector2(0, TUILE), "attendu": "sud" },
+		{ "ou": Vector2(0, -TUILE), "attendu": "nord" },
+		{ "ou": Vector2(TUILE, 0), "attendu": "est" },
+		{ "ou": Vector2(-TUILE, 0), "attendu": "ouest" },
+	]:
+		_wellan.global_position = corps.global_position + essai["ou"]
+		_tourner_vers_moi(cible)
+		var rang := -1
+		for enfant in corps.get_children():
+			if enfant is Sprite2D and enfant.texture is AtlasTexture:
+				rang = int((enfant.texture as AtlasTexture).region.position.y / SPRITE)
+		var obtenu := "?"
+		for sens in RANGEE:
+			if RANGEE[sens] == rang:
+				obtenu = sens
+		print("ORIENTATION %s %s attendu, %s obtenu" % [
+			"OK" if obtenu == essai["attendu"] else "FAUX", essai["attendu"], obtenu])
 
 
 ## Regarde les effets, image par image.
@@ -1329,6 +1461,17 @@ func _parler_a(id: String, nom_image: String) -> void:
 		print("HORS DE PORTEE %s (proche=%s)" % [id, _proche])
 		return
 
+	# Une image avant d'ouvrir : c'est le seul moment où l'invite se voit, et
+	# elle est là pour être vue.
+	if not _invite_capture:
+		_invite_capture = true
+		# Deux images d'attente : l'invite s'allume dans la passe de physique, et
+		# le tampon dessiné a un tour de retard. Capturer aussitôt rendait un
+		# écran où elle n'était pas encore peinte, et l'on aurait conclu qu'elle
+		# ne s'affichait pas.
+		await _attendre(3)
+		get_viewport().get_texture().get_image().save_png("res://capture-invite.png")
+
 	var pages := 0
 	while pages < 12:
 		_touche("ui_accept")
@@ -1336,9 +1479,24 @@ func _parler_a(id: String, nom_image: String) -> void:
 		pages += 1
 		if pages == 2 and _ouverte:
 			get_viewport().get_texture().get_image().save_png("res://capture-%s.png" % nom_image)
+		# Et une image dès qu'une description paraît : c'est l'autre affichage,
+		# et rien ne prouverait autrement qu'il s'ouvre.
+		if _bandeau.visible and not _recit_capture:
+			_recit_capture = true
+			get_viewport().get_texture().get_image().save_png("res://capture-description.png")
 		if not _ouverte and pages > 1:
 			break
-	print("PARLE %s en %d pages" % [id, pages])
+
+	# Le personnage s'est-il tourné ? La rangée de sa planche le dit.
+	var tourne := "?"
+	if _habitants.has(id):
+		for enfant in _habitants[id].get_children():
+			if enfant is Sprite2D and enfant.texture is AtlasTexture:
+				var rang := int((enfant.texture as AtlasTexture).region.position.y / SPRITE)
+				for sens in RANGEE:
+					if RANGEE[sens] == rang:
+						tourne = sens
+	print("PARLE %s en %d pages, regarde vers %s" % [id, pages, tourne])
 
 
 func _garder(nom: String, images: int) -> void:

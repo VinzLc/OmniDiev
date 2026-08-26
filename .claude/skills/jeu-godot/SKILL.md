@@ -72,6 +72,18 @@ tiret y est pris pour un chemin de scène à charger.
 **Un `Control` ne participe pas au tri par profondeur** et se dessine dans l'ordre de
 l'arbre. Les objets du décor sont des `Sprite2D`, sinon un meuble passe devant le joueur.
 
+**Le tampon dessiné a un tour de retard sur l'état.** Une invite allumée dans la passe de
+physique n'est pas encore peinte quand on capture : l'image montrait un coin vide et l'on
+concluait qu'elle ne s'affichait pas. Attendre deux ou trois images avant de saisir.
+
+**Deux affichages, non un.** La parole garde le cadre du bas, bordé d'or, avec le nom de qui
+parle ; la description prend un bandeau large et centré, sans bordure ni nom, en italique et
+en argent. Une page porte son genre (`parole` ou `recit`) — les confondre dans un même cadre
+effaçait la différence et noyait les maladresses des personnages dans la narration.
+
+**Un personnage abordé se tourne vers Wellan**, et garde ensuite cette orientation : se
+détourner sitôt la conversation finie serait pire que ne s'être jamais tourné.
+
 **Au démarrage, la compilation des shaders affame la physique.** Un test qui compte les
 images ne garantit rien : attendre la condition.
 
