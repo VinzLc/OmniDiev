@@ -22,3 +22,11 @@ Epop*/
 # Dossier temporaire du build statique (scripts/build-site.ts).
 .api.parked/
 out/
+
+# ── Godot ──────────────────────────────────────────────────────────────────
+# Cache d'import, reconstruit au premier lancement par `npm run jeu`.
+.godot/
+# Planches copiées depuis jeu/art/ ; elles y sont déjà versionnées.
+jeu/godot/assets/
+# Images du mode --capture, qui ne servent qu'à vérifier une scène.
+jeu/godot/capture*.png

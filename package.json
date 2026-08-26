@@ -22,7 +22,8 @@
     "art": "tsx scripts/build-art-prompts.ts",
     "art:verifier": "tsx scripts/verify-art.ts",
     "art:normalise": "tsx scripts/art-normalise.ts",
-    "art:generer": "tsx scripts/art-generer.ts"
+    "art:generer": "tsx scripts/art-generer.ts",
+    "jeu": "tsx scripts/jeu.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.120.0",

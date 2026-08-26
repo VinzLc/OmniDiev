@@ -1,0 +1,30 @@
+; Projet Godot — Les Chevaliers d'Émeraude
+;
+; La scène n'est pas décrite ici mais construite dans main.gd. Un .tscn écrit à
+; la main dépend d'identifiants de ressources générés par l'éditeur ; le code,
+; lui, se relit et se corrige.
+
+config_version=5
+
+[application]
+
+config/name="Les Chevaliers d'Émeraude"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.6", "GL Compatibility")
+
+[display]
+
+; 480×270 : seize tuiles de large sur la hauteur, en 16/9. La fenêtre est
+; agrandie d'un facteur entier pour que les pixels restent carrés.
+window/size/viewport_width=480
+window/size/viewport_height=270
+window/size/window_width_override=1440
+window/size/window_height_override=810
+window/stretch/mode="viewport"
+
+[rendering]
+
+; Sans cela, Godot lisse les textures à l'agrandissement et le pixel art fond.
+textures/canvas_textures/default_texture_filter=0
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
