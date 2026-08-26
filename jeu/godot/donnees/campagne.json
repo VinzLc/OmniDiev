@@ -1,5 +1,10 @@
 {
   "titre": "Les Chevaliers d'Émeraude",
   "_chapitres": "L'ordre de lecture. Les trous sont assumés : on écrit les chapitres au fur et à mesure, et la campagne enchaîne ce qui existe. Ajouter un chapitre, c'est écrire son fichier de scène et glisser son identifiant ici.",
-  "chapitres": ["i-01", "i-02", "i-26"]
+  "chapitres": [
+    "i-01",
+    "i-02",
+    "i-03",
+    "i-26"
+  ]
 }

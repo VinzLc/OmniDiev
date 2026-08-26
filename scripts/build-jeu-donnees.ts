@@ -82,6 +82,122 @@ async function silhouette(fichier: string) {
   await sharp(buf, { raw: { width: L, height: H, channels: 4 } }).png().toFile(fichier);
 }
 
+/**
+ * Les effets de combat, dessinés plutôt que générés.
+ *
+ * Un arc d'épée et une boule de feu sont des formes exactes : un rayon, un
+ * angle, une couleur par couronne. Le calcul les rend plus nets qu'un modèle,
+ * les rend identiques à chaque fois, et ne coûte rien. On ne commande une image
+ * que pour ce qu'on ne sait pas décrire en chiffres.
+ */
+async function effets(dossier: string) {
+  const PAL = {
+    blanc: [242, 242, 245], argent: [166, 168, 178], acier: [113, 114, 126],
+    or: [240, 209, 116], ambre: [192, 143, 52], braise: [139, 32, 32], noir: [11, 10, 16],
+  } as const;
+
+  const toile = (l: number, h: number) => Buffer.alloc(l * h * 4, 0);
+  const poser = (buf: Buffer, l: number, x: number, y: number, c: readonly number[]) => {
+    if (x < 0 || y < 0 || x >= l) return;
+    const o = (y * l + x) * 4;
+    buf[o] = c[0]; buf[o + 1] = c[1]; buf[o + 2] = c[2]; buf[o + 3] = 255;
+  };
+
+  /* ── La taillade ──────────────────────────────────────────────────────
+   * Trois images d'un arc qui descend, dessinées pointant vers l'est. Le
+   * moteur les fait pivoter par quarts de tour : à 90 degrés une image de
+   * pixel art tourne sans perdre un pixel, ce qui ne serait pas vrai d'un
+   * angle quelconque.
+   */
+  const S = 32, pivot = { x: 4, y: 16 };
+  /*
+   * Un coup, non une auréole.
+   *
+   * Deux essais l'ont montré. Trop mince, l'arc passe pour un défaut
+   * d'affichage. Trop large — cent soixante degrés au deuxième jet, presque un
+   * demi-cercle d'un blanc épais — il cerne le personnage et se lit comme un
+   * halo. Une lame balaie un quart de tour à peine, et près du corps.
+   */
+  const arcs = [
+    { de: -58, a: -18, r0: 8, r1: 12 },
+    { de: -26, a: 26, r0: 9, r1: 13 },
+    { de: 18, a: 58, r0: 10, r1: 14 },
+  ];
+  const lame = toile(S * arcs.length, S);
+  arcs.forEach((arc, n) => {
+    for (let y = 0; y < S; y++) {
+      for (let x = 0; x < S; x++) {
+        const dx = x - pivot.x, dy = y - pivot.y;
+        const r = Math.hypot(dx, dy);
+        const a = (Math.atan2(dy, dx) * 180) / Math.PI;
+        if (r < arc.r0 || r > arc.r1 || a < arc.de || a > arc.a) continue;
+        /* Une seule ligne blanche au cœur, de l'acier autour : c'est le fil de
+         * la lame qu'on voit, non une traînée de peinture. */
+        const dedans = (r - arc.r0) / (arc.r1 - arc.r0);
+        const c = dedans < 0.2 || dedans > 0.85 ? PAL.acier
+          : dedans > 0.45 && dedans < 0.65 ? PAL.blanc : PAL.argent;
+        poser(lame, S * arcs.length, n * S + x, y, c);
+      }
+    }
+  });
+  await sharp(lame, { raw: { width: S * arcs.length, height: S, channels: 4 } })
+    .png().toFile(path.join(dossier, "taillade.png"));
+
+  /* ── La boule de feu ──────────────────────────────────────────────────
+   * Quatre images d'une braise qui bat. Le noyau reste, la couronne respire :
+   * c'est ce battement qui distingue un feu d'un disque orange.
+   */
+  const F = 16, battements = [0, 0.6, 1, 0.6];
+  const feu = toile(F * battements.length, F);
+  battements.forEach((b, n) => {
+    for (let y = 0; y < F; y++) {
+      for (let x = 0; x < F; x++) {
+        const r = Math.hypot(x - F / 2 + 0.5, y - F / 2 + 0.5);
+        const enfle = 5.2 + b * 1.3;
+        if (r > enfle) continue;
+        const c = r < 1.8 ? PAL.blanc : r < 3.0 ? PAL.or : r < enfle - 1.2 ? PAL.ambre : PAL.braise;
+        poser(feu, F * battements.length, n * F + x, y, c);
+      }
+    }
+  });
+  await sharp(feu, { raw: { width: F * battements.length, height: F, channels: 4 } })
+    .png().toFile(path.join(dossier, "feu.png"));
+
+  /* ── L'éclat ──────────────────────────────────────────────────────────
+   * Trois images d'une couronne qui s'ouvre et s'amincit — ce qui reste
+   * quand le feu a porté.
+   */
+  /*
+   * Des rais qui partent du centre, non une couronne.
+   *
+   * Le premier jet évidait un anneau : cela donnait un beignet, pas une gerbe.
+   * Une explosion se lit à ce qui s'en échappe, donc on trace huit branches
+   * qui s'allongent et s'éloignent.
+   */
+  const rayons = [{ r0: 0, r1: 4 }, { r0: 2, r1: 6.5 }, { r0: 4.5, r1: 7.5 }];
+  const eclat = toile(F * rayons.length, F);
+  rayons.forEach((etape, n) => {
+    const teinte = n === 0 ? PAL.blanc : n === 1 ? PAL.or : PAL.ambre;
+    for (let branche = 0; branche < 8; branche++) {
+      const a = (branche * Math.PI) / 4;
+      for (let r = etape.r0; r <= etape.r1; r += 0.4) {
+        const x = Math.round(F / 2 - 0.5 + Math.cos(a) * r);
+        const y = Math.round(F / 2 - 0.5 + Math.sin(a) * r);
+        poser(eclat, F * rayons.length, n * F + x, y, teinte);
+        // Les branches s'épaississent près du centre, comme une flamme.
+        if (r < etape.r0 + 1.5) {
+          poser(eclat, F * rayons.length, n * F + x + 1, y, teinte);
+          poser(eclat, F * rayons.length, n * F + x, y + 1, teinte);
+        }
+      }
+    }
+  });
+  await sharp(eclat, { raw: { width: F * rayons.length, height: F, channels: 4 } })
+    .png().toFile(path.join(dossier, "eclat.png"));
+
+  return { taillade: arcs.length, feu: battements.length, eclat: rayons.length };
+}
+
 type Personnage = {
   nom: string;
   role: string;
@@ -188,10 +304,13 @@ function main() {
     console.log(`  ${C.dim}${f} → ${salle.taille?.[0]}×${salle.taille?.[1]} tuiles${noms.length ? `, ${noms.join(", ")}` : ""}${C.off}`);
   }
 
-  silhouette(path.join(SORTIE, "silhouette.png")).then(() => {
-    console.log(`  ${C.dim}silhouette d'attente écrite${C.off}`);
-    if (fautes) process.exitCode = 1;
-  });
+  silhouette(path.join(SORTIE, "silhouette.png"))
+    .then(() => effets(SORTIE))
+    .then((n) => {
+      console.log(`  ${C.dim}silhouette d'attente écrite${C.off}`);
+      console.log(`  ${C.dim}effets dessinés : taillade ${n.taillade} images, feu ${n.feu}, éclat ${n.eclat}${C.off}`);
+      if (fautes) process.exitCode = 1;
+    });
 }
 
 main();

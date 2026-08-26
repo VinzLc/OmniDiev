@@ -102,6 +102,8 @@ func _ready() -> void:
 	# lance : on regarde les deux listes plutôt que d'imposer un ordre.
 	if OS.get_cmdline_args().has("--capture") or OS.get_cmdline_user_args().has("--capture"):
 		_capturer()
+	elif OS.get_cmdline_user_args().has("--effets"):
+		_capturer_les_effets()
 
 
 ## Les touches d'action.
@@ -457,7 +459,7 @@ func _faire_debarquer(id: String, espece: Dictionary, ou: Vector2) -> void:
 	qui.add_child(forme)
 
 	qui.peri.connect(func() -> void:
-		_etincelle(qui.global_position + Vector2(0, -10), Color("#d14545"), 0.25)
+		_etincelle(qui.global_position + Vector2(0, -10), Color("#d14545"), 0.3)
 		qui.queue_free())
 
 	_ennemis.append({
@@ -938,7 +940,10 @@ func _frapper() -> void:
 		if qui is Combattant and qui != _wellan:
 			qui.encaisser(DEGATS_EPEE, "fer")
 
-	_etincelle(devant, Color("#dddde4"), 0.12)
+	# L'arc part du personnage, non de la zone frappée : c'est le geste qu'on
+	# montre, et il doit sortir de la main.
+	_jouer_effet("taillade.png", 3, SPRITE, _wellan.global_position + Vector2(0, -10),
+		QUART.get(_direction, 0.0), REPOS_EPEE / 4.0, 4.0)
 
 
 ## Le feu de Theandras, déesse protectrice des Chevaliers.
@@ -947,14 +952,28 @@ func _lancer() -> void:
 		return
 	_energie -= COUT_DU_SORT
 
-	var vue := ColorRect.new()
-	vue.color = Color("#f0d174")
-	vue.size = Vector2(5, 5)
-	vue.position = Vector2(-2.5, -2.5)
 	var porteur := Node2D.new()
 	porteur.position = _wellan.global_position + Vector2(0, -10)
-	porteur.add_child(vue)
 	add_child(porteur)
+
+	# La braise bat en boucle tant que le trait vole : elle ne s'éteint pas au
+	# bout de quatre images, elle recommence.
+	var vue := Sprite2D.new()
+	var region := AtlasTexture.new()
+	region.atlas = load(DONNEES + "feu.png")
+	region.region = Rect2(0, 0, 16, 16)
+	vue.texture = region
+	porteur.add_child(vue)
+
+	var battement := Timer.new()
+	battement.wait_time = 0.07
+	porteur.add_child(battement)
+	# Même raison qu'au-dessus : capture par valeur, donc un dictionnaire.
+	var braise := { "image": 0 }
+	battement.timeout.connect(func() -> void:
+		braise["image"] = (int(braise["image"]) + 1) % 4
+		region.region = Rect2(int(braise["image"]) * 16, 0, 16, 16))
+	battement.start()
 
 	_traits.append({ "noeud": porteur, "sens": _vers(_direction), "reste": PORTEE_SORT })
 
@@ -967,18 +986,56 @@ func _vers(sens: String) -> Vector2:
 		_: return Vector2.RIGHT
 
 
+## L'angle de chaque direction, pour faire pivoter un effet dessiné vers l'est.
+##
+## Des quarts de tour seulement : à 90 degrés une image de pixel art tourne sans
+## perdre un pixel, ce qui ne serait pas vrai d'un angle quelconque.
+const QUART := { "est": 0.0, "sud": 90.0, "ouest": 180.0, "nord": 270.0 }
+
+
+## Joue une petite animation puis s'efface.
+##
+## Les effets sont des planches d'images côte à côte, comme les personnages :
+## on avance la fenêtre, et l'on retire le nœud à la dernière.
+func _jouer_effet(planche: String, images: int, cote: int, ou: Vector2,
+		angle_deg: float, cadence: float, pivot_x := 0.0) -> Sprite2D:
+	var vue := Sprite2D.new()
+	var region := AtlasTexture.new()
+	region.atlas = load(DONNEES + planche)
+	region.region = Rect2(0, 0, cote, cote)
+	vue.texture = region
+	vue.offset = Vector2(cote / 2.0 - pivot_x, 0)
+	vue.rotation_degrees = angle_deg
+	vue.position = ou
+	add_child(vue)
+
+	var minuteur := Timer.new()
+	minuteur.wait_time = cadence
+	vue.add_child(minuteur)
+
+	# Le compteur vit dans un dictionnaire, non dans une variable.
+	#
+	# Les fonctions anonymes de GDScript capturent par valeur : incrémenter un
+	# entier de l'extérieur ne modifie qu'une copie, et le compte ne monte
+	# jamais. Les arcs ne mouraient donc pas — ils s'empilaient, et c'est cet
+	# empilement qu'on prenait pour une auréole autour du personnage. Un
+	# dictionnaire, lui, se capture par référence.
+	var etat := { "image": 0 }
+	minuteur.timeout.connect(func() -> void:
+		etat["image"] += 1
+		if etat["image"] >= images:
+			vue.queue_free()
+			return
+		region.region = Rect2(int(etat["image"]) * cote, 0, cote, cote))
+	minuteur.start()
+	return vue
+
+
 func _etincelle(ou: Vector2, teinte: Color, duree: float) -> void:
-	var eclat := ColorRect.new()
-	eclat.color = teinte
-	eclat.size = Vector2(6, 6)
-	var porteur := Node2D.new()
-	porteur.position = ou
-	porteur.add_child(eclat)
-	eclat.position = Vector2(-3, -3)
-	add_child(porteur)
-	get_tree().create_timer(duree).timeout.connect(func() -> void:
-		if is_instance_valid(porteur):
-			porteur.queue_free())
+	# La gerbe d'impact : trois images qui s'ouvrent. La teinte demandée règle
+	# l'ardeur, pour distinguer un coup porté d'un adversaire qui tombe.
+	var vue := _jouer_effet("eclat.png", 3, 16, ou, 0.0, duree / 3.0)
+	vue.modulate = teinte
 
 
 ## Les sorts en vol : on les avance, on regarde ce qu'ils rencontrent.
@@ -1006,7 +1063,7 @@ func _avancer_les_traits(delta: float) -> void:
 				# poursuit sa course au lieu de s'éteindre. Le joueur voit que ça
 				# ne prend pas.
 				if qui.encaisser(DEGATS_SORT, "magie"):
-					_etincelle(porteur.position, Color("#f0d174"), 0.15)
+					_etincelle(porteur.position, Color("#ffffff"), 0.21)
 					atteint = true
 					break
 
@@ -1102,6 +1159,52 @@ func _capturer() -> void:
 		print("ACHEVE : %s" % mot.text.replace("\n", " "))
 	else:
 		print("PAS ACHEVE après %d tours, étape %d" % [garde, _etape])
+
+	get_tree().quit()
+
+
+## Regarde les effets, image par image.
+##
+## On les prend pendant qu'ils jouent, non après : une animation captée à sa
+## fin ne montre que le vide qu'elle laisse. C'est la même faute que la boîte de
+## dialogue photographiée une fois fermée.
+func _capturer_les_effets() -> void:
+	await _attendre(20)
+	if _vague_debout() == 0 and not _ennemis.is_empty():
+		pass
+
+	# La taillade, dans les quatre directions.
+	for sens in ["sud", "est", "nord", "ouest"]:
+		# Une prise par direction, bien séparée : trop rapprochées, l'arc
+		# précédent traîne encore et l'on croit voir un anneau.
+		await _attendre(40)
+		_direction = sens
+		_prochain_coup = 0.0
+		_frapper()
+		await _attendre(5)
+		var lames := 0
+		for enfant in get_children():
+			if enfant is Sprite2D and enfant.texture is AtlasTexture:
+				var at: AtlasTexture = enfant.texture
+				if str(at.atlas.resource_path).ends_with("taillade.png"):
+					lames += 1
+		print("  %s : %d lame(s) à l'écran" % [sens, lames])
+		get_viewport().get_texture().get_image().save_png("res://capture-taillade-%s.png" % sens)
+	print("TAILLADE dans quatre sens")
+
+	# La boule de feu en vol, puis son éclat.
+	_direction = "est"
+	_energie = ENERGIE_MAX
+	_lancer()
+	for n in 3:
+		await _attendre(9)
+		get_viewport().get_texture().get_image().save_png("res://capture-feu-%d.png" % n)
+	print("FEU %d trait(s) en vol" % _traits.size())
+
+	_etincelle(_wellan.global_position + Vector2(28, -10), Color("#ffffff"), 0.3)
+	await _attendre(4)
+	get_viewport().get_texture().get_image().save_png("res://capture-eclat.png")
+	print("ECLAT")
 
 	get_tree().quit()
 
