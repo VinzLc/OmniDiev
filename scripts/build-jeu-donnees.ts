@@ -97,8 +97,8 @@ async function effets(dossier: string) {
   } as const;
 
   const toile = (l: number, h: number) => Buffer.alloc(l * h * 4, 0);
-  const poser = (buf: Buffer, l: number, x: number, y: number, c: readonly number[]) => {
-    if (x < 0 || y < 0 || x >= l) return;
+  const poser = (buf: Buffer, l: number, x: number, y: number, c: readonly number[], h = Infinity) => {
+    if (x < 0 || y < 0 || x >= l || y >= h) return;
     const o = (y * l + x) * 4;
     buf[o] = c[0]; buf[o + 1] = c[1]; buf[o + 2] = c[2]; buf[o + 3] = 255;
   };
@@ -109,19 +109,48 @@ async function effets(dossier: string) {
    * pixel art tourne sans perdre un pixel, ce qui ne serait pas vrai d'un
    * angle quelconque.
    */
-  const S = 32, pivot = { x: 4, y: 16 };
   /*
-   * Un coup, non une auréole.
+   * Soixante-quatre pixels de côté, le pivot à gauche.
    *
-   * Deux essais l'ont montré. Trop mince, l'arc passe pour un défaut
-   * d'affichage. Trop large — cent soixante degrés au deuxième jet, presque un
-   * demi-cercle d'un blanc épais — il cerne le personnage et se lit comme un
-   * halo. Une lame balaie un quart de tour à peine, et près du corps.
+   * Ce n'est pas la largeur qui contraint mais la hauteur : au bout d'un arc
+   * ouvert à soixante degrés, le rayon monte presque autant qu'il avance. Une
+   * cellule de cinquante plafonnait la lame à vingt-huit pixels — moins que la
+   * zone frappée d'origine. Il fallait donc grandir la toile pour allonger le
+   * geste, non pousser les nombres dans celle qu'on avait.
+   */
+  const S = 64, pivot = { x: 8, y: 32 };
+  /*
+   * Un coup, non une auréole — mais un coup qui porte.
+   *
+   * Trois essais. Trop mince, l'arc passe pour un défaut d'affichage. Trop
+   * large — cent soixante degrés au deuxième jet, presque un demi-cercle d'un
+   * blanc épais — il cerne le personnage et se lit comme un halo. Resserré, il
+   * ne portait plus qu'à quatorze pixels quand la zone frappée en couvrait
+   * trente-sept : on touchait ce qu'on ne voyait pas atteindre, et le coup
+   * paraissait court.
+   *
+   * Ce qui donne l'allonge est le rayon ; ce qui faisait l'auréole était
+   * l'angle. On pousse donc le premier et l'on retient le second.
+   *
+   * Reste la forme du bandeau, et c'est elle qui a demandé le plus d'essais.
+   * Épais et tiré de la main jusqu'au bout du geste, il remplit le coin et se
+   * lit comme un bloc. Mince et d'épaisseur constante, il flotte loin du corps
+   * comme une virgule détachée.
+   *
+   * Une taillade est effilée : large au milieu du geste, pincée aux deux bouts,
+   * là où la lame entre et sort du champ. On fait donc varier l'épaisseur en
+   * sinus le long de l'arc. Au centre la bande touche presque l'épaule, aux
+   * extrémités elle s'efface — et c'est ce pincement, non le rayon seul, qui
+   * fait lire un coup plutôt qu'un objet posé à côté du personnage.
+   *
+   * L'épaisseur se mesure vers l'intérieur autant que vers l'extérieur : un
+   * premier réglage laissait huit pixels de vide entre l'épaule et le fer, et
+   * la lame semblait flotter à côté du personnage plutôt que sortir de sa main.
    */
   const arcs = [
-    { de: -58, a: -18, r0: 8, r1: 12 },
-    { de: -26, a: 26, r0: 9, r1: 13 },
-    { de: 18, a: 58, r0: 10, r1: 14 },
+    { de: -55, a: -6, milieu: 24, epaisseur: 18 },
+    { de: -30, a: 30, milieu: 26, epaisseur: 22 },
+    { de: 6, a: 55, milieu: 25, epaisseur: 18 },
   ];
   const lame = toile(S * arcs.length, S);
   arcs.forEach((arc, n) => {
@@ -130,13 +159,20 @@ async function effets(dossier: string) {
         const dx = x - pivot.x, dy = y - pivot.y;
         const r = Math.hypot(dx, dy);
         const a = (Math.atan2(dy, dx) * 180) / Math.PI;
-        if (r < arc.r0 || r > arc.r1 || a < arc.de || a > arc.a) continue;
+        if (a < arc.de || a > arc.a) continue;
+
+        // Position le long de l'arc, de 0 à 1 : l'épaisseur y suit un sinus.
+        const t = (a - arc.de) / (arc.a - arc.de);
+        const large = arc.epaisseur * Math.sin(Math.PI * t);
+        const r0 = arc.milieu - large / 2, r1 = arc.milieu + large / 2;
+        if (large < 1.2 || r < r0 || r > r1) continue;
+
         /* Une seule ligne blanche au cœur, de l'acier autour : c'est le fil de
          * la lame qu'on voit, non une traînée de peinture. */
-        const dedans = (r - arc.r0) / (arc.r1 - arc.r0);
+        const dedans = (r - r0) / (r1 - r0);
         const c = dedans < 0.2 || dedans > 0.85 ? PAL.acier
           : dedans > 0.45 && dedans < 0.65 ? PAL.blanc : PAL.argent;
-        poser(lame, S * arcs.length, n * S + x, y, c);
+        poser(lame, S * arcs.length, n * S + x, y, c, S);
       }
     }
   });

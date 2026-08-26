@@ -86,5 +86,19 @@ Dessinés par calcul dans `build-jeu-donnees.ts`, pas générés : un arc et une
 formes exactes. `taillade.png` pointe vers l'est et le moteur la fait pivoter **par quarts de
 tour** — à 90 degrés une image de pixel art tourne sans perdre un pixel.
 
-Un arc trop mince passe pour un défaut d'affichage ; trop large, il cerne le personnage et
-se lit comme un halo. Un quart de tour, près du corps.
+Un arc trop mince passe pour un défaut d'affichage ; trop large en **angle**, il cerne le
+personnage et se lit comme un halo. Le rayon donne l'allonge, l'angle donne le halo : pousser
+le premier, retenir le second.
+
+L'épaisseur suit un sinus le long de l'arc — large au milieu du geste, pincée aux deux bouts.
+Un bandeau d'épaisseur constante flotte à côté du personnage comme une virgule détachée ; un
+bandeau plein remplit le coin et se lit comme un bloc.
+
+**La cellule contraint par sa hauteur, non par sa largeur** : au bout d'un arc ouvert à
+soixante degrés, le rayon monte presque autant qu'il avance. Allonger le geste demande
+d'agrandir la toile, non de pousser les nombres dans celle qu'on a.
+
+**Relever la portée sur l'arc, jamais l'inverse.** La zone frappée couvrait de sept pixels
+derrière Wellan à trente-sept devant pendant que la lame n'en atteignait que quatorze : on
+touchait ce qu'on ne voyait pas atteindre, et le coup paraissait court. Un joueur juge la
+portée sur ce qu'il voit.

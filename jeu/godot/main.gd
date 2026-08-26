@@ -13,6 +13,7 @@ extends Node2D
 
 const TUILE := 16
 const SPRITE := 32
+const TAILLADE := 64          ## côté d'une image d'arc, plus large que le sprite
 const VITESSE := 58.0
 const CADENCE := 7.0
 
@@ -29,7 +30,17 @@ const ENERGIE_MAX := 100.0
 const COUT_DU_SORT := 25.0
 const REGAIN := 14.0          ## énergie par seconde
 const REPOS_EPEE := 0.38      ## secondes entre deux coups
-const PORTEE_EPEE := 22.0
+## Jusqu'où porte le fer, et la demi-largeur du balayage.
+##
+## La zone couvrait autrefois de sept pixels derrière Wellan à trente-sept
+## devant, pendant que l'arc dessiné n'en atteignait que dix-neuf. On frappait
+## donc ce qu'on ne voyait pas atteindre, et le coup paraissait court — un
+## joueur juge la portée sur ce qu'il voit, non sur ce qui touche.
+##
+## Les deux valeurs sont relevées sur l'arc lui-même — de quinze à trente-sept
+## pixels devant Wellan, et plus rien derrière. Ce qu'on voit est ce qui touche.
+const PORTEE_EPEE := 37.0
+const LARGEUR_COUP := 11.0
 const DEGATS_EPEE := 1
 const DEGATS_SORT := 3
 const VITESSE_SORT := 170.0
@@ -927,9 +938,9 @@ func _frapper() -> void:
 		return
 	_prochain_coup = maintenant + REPOS_EPEE
 
-	var devant := _wellan.global_position + _vers(_direction) * PORTEE_EPEE * 0.7
+	var devant := _wellan.global_position + _vers(_direction) * (PORTEE_EPEE - LARGEUR_COUP)
 	var forme := CircleShape2D.new()
-	forme.radius = PORTEE_EPEE
+	forme.radius = LARGEUR_COUP
 
 	var demande := PhysicsShapeQueryParameters2D.new()
 	demande.shape = forme
@@ -942,8 +953,8 @@ func _frapper() -> void:
 
 	# L'arc part du personnage, non de la zone frappée : c'est le geste qu'on
 	# montre, et il doit sortir de la main.
-	_jouer_effet("taillade.png", 3, SPRITE, _wellan.global_position + Vector2(0, -10),
-		QUART.get(_direction, 0.0), REPOS_EPEE / 4.0, 4.0)
+	_jouer_effet("taillade.png", 3, TAILLADE, _wellan.global_position + Vector2(0, -10),
+		QUART.get(_direction, 0.0), REPOS_EPEE / 4.0, 8.0)
 
 
 ## Le feu de Theandras, déesse protectrice des Chevaliers.
