@@ -1,0 +1,78 @@
+{
+  "id": "i-02",
+  "titre": "L'enfant mauve",
+  "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 2",
+  "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure.",
+  "salle": "salle-du-trone",
+
+  "etapes": [
+    {
+      "id": "l-arrivee",
+      "objectif": "Voir ce qu'Armène a ramené",
+      "apparaissent": [
+        { "fiche": "armene", "x": 13, "y": 9, "regarde": "nord" },
+        { "fiche": "kira", "x": 12, "y": 10, "regarde": "nord" }
+      ],
+      "attend": { "parler": "armene" },
+      "dialogues": {
+        "armene": [
+          { "qui": "armene", "dit": "Les cuisines se sont vidées quand je l'ai portée à table. Toutes. En un souffle." },
+          { "qui": "armene", "dit": "Alors je l'ai nourrie moi-même. Elle a mangé comme mangent les enfants qui ont eu faim." },
+          { "qui": "wellan", "dit": "Qui est-elle ?" },
+          { "qui": "armene", "dit": "La fille de la Reine Fan de Shola et du Prince Shill. Elle s'appelle Kira." },
+          { "qui": "recit", "dit": "Elle a la peau mauve, les oreilles longues et pointues, de petites griffes à la place des ongles. Ses yeux tiennent la lumière comme deux lampes qu'on aurait oublié d'éteindre." }
+        ],
+        "kira": [
+          { "qui": "recit", "dit": "L'enfant lève la tête vers vous. Elle ne recule pas." }
+        ]
+      }
+    },
+    {
+      "id": "le-magicien",
+      "objectif": "Entendre Élund",
+      "attend": { "parler": "elund" },
+      "dialogues": {
+        "elund": [
+          { "qui": "elund", "dit": "Regardez-la, Chevalier. Les griffes. Les dents. Ce n'est pas une enfant de Shola, c'est ce que le nord maudit nous renvoie." },
+          { "qui": "elund", "dit": "J'ai passé quarante ans à lire le ciel pour reconnaître ce genre de chose quand elle franchit une porte." },
+          { "qui": "wellan", "dit": "Sa mère me l'a mise dans les bras, Élund. Elle savait ce qu'elle nous donnait." },
+          { "qui": "elund", "dit": "C'est bien ce qui m'inquiète." }
+        ],
+        "kira": [
+          { "qui": "recit", "dit": "L'enfant a suivi la conversation d'un visage à l'autre. Elle a compris — vous en êtes certain, sans savoir pourquoi." }
+        ]
+      }
+    },
+    {
+      "id": "la-decision",
+      "objectif": "Écouter la décision du Roi",
+      "attend": { "parler": "emeraude-ier" },
+      "dialogues": {
+        "emeraude-ier": [
+          { "qui": "emeraude-ier", "dit": "Élund me conseille de la renvoyer. Il a peut-être raison. Il a souvent raison." },
+          { "qui": "recit", "dit": "Le Roi descend de l'estrade et s'accroupit devant l'enfant, ce qu'aucun de vous ne l'a jamais vu faire." },
+          { "qui": "emeraude-ier", "dit": "Renvoyer où ? Elle n'a plus de royaume que celui-ci." },
+          { "qui": "emeraude-ier", "dit": "Elle sera Chevalier d'Émeraude. Qu'Élund lui trouve un maître quand elle sera en âge, et qu'on ne me reparle plus de la reconduire." },
+          { "qui": "elund", "dit": "Majesté —" },
+          { "qui": "emeraude-ier", "dit": "Non." }
+        ]
+      }
+    }
+  ],
+
+  "fin": {
+    "objectif": "L'étoile rouge",
+    "attend": { "parler": "elund" },
+    "dialogues": {
+      "elund": [
+        { "qui": "recit", "dit": "Une étoile rouge traverse le ciel au-dessus de la cour, lente, et s'éteint au nord." },
+        { "qui": "elund", "dit": "Là. Vous l'avez vue comme moi." },
+        { "qui": "elund", "dit": "Ce n'est pas une étoile, Chevalier. C'est un avertissement, et il va vers Shola." },
+        { "qui": "recit", "dit": "Wellan ne répond pas. Il pense à une femme qu'il a vue une fois, et il a soudain très froid." }
+      ],
+      "emeraude-ier": [
+        { "qui": "emeraude-ier", "dit": "Le magicien a pâli. Je ne l'avais pas vu pâlir depuis vingt ans." }
+      ]
+    }
+  }
+}

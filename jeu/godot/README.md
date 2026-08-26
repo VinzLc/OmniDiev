@@ -1,8 +1,9 @@
 # Le jeu
 
 ```bash
-npm run jeu                    # la nuit de Zénor (chapitre I,26)
-npm run jeu -- --scene i-01    # la salle du trône (chapitre I,1)
+npm run jeu                    # reprendre la partie où on l'a laissée
+npm run jeu -- --recommencer   # repartir du premier chapitre
+npm run jeu -- --scene i-02    # jouer un chapitre précis, sans toucher à la partie
 npm run jeu -- --editeur       # ouvrir l'éditeur Godot
 ```
 
@@ -30,6 +31,23 @@ dans les fosses et enflammer, brûlent très bien.
 
 Ce n'est pas de l'équilibrage : ce sont deux registres de combat que l'œuvre impose, et que
 le joueur doit reconnaître pour s'en sortir.
+
+## La campagne
+
+`donnees/campagne.json` donne l'ordre de lecture. Un chapitre achevé appelle le suivant, et
+la partie se retrouve où on l'a laissée — la progression est notée dans le dossier
+utilisateur de Godot, jamais dans le dépôt.
+
+```json
+{ "chapitres": ["i-01", "i-02", "i-26"] }
+```
+
+Les trous sont assumés : on écrit les chapitres au fur et à mesure, et la campagne enchaîne
+ce qui existe. **Ajouter un chapitre, c'est écrire son fichier de scène et glisser son
+identifiant dans cette liste.**
+
+Le bloc `fin` d'une scène est une étape comme les autres, condition comprise. Sans condition,
+le chapitre reste ouvert et n'appelle jamais le suivant.
 
 ## Comment une scène est écrite
 

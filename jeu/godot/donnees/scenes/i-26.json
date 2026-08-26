@@ -152,6 +152,10 @@
           "dit": "J'ai vu leur squelette à Zénor avant de les voir vivants. Je préférais le squelette."
         }
       ]
+    },
+    "_attend": "La clôture est une étape comme les autres : sans condition, le chapitre reste ouvert et n'appelle jamais le suivant.",
+    "attend": {
+      "parler": "jasson"
     }
   },
   "_ambiance": "Le chapitre place le débarquement dans la nuit. Une teinte d'ambiance assombrit toute la scène ; les braseros y percent des halos. Sans cela, une nuit de bataille se joue en plein jour et la moitié du texte ne veut plus rien dire.",

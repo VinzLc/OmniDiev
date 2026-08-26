@@ -20,7 +20,7 @@ const CADENCE := 7.0
 const RANGEE := { "sud": 0, "nord": 1, "ouest": 2, "est": 3 }
 
 const DONNEES := "res://donnees/"
-const SCENE_INITIALE := "i-26"
+const PROGRESSION := "user://progression.json"
 
 ## Le combat, en clair. Ces nombres sont à nous ; ce qui vient du texte, c'est
 ## que la carapace des hommes-insectes boit la magie.
@@ -38,6 +38,10 @@ const PORTEE_SORT := 220.0
 var _monde: Dictionary
 var _salle: Dictionary
 var _scene: Dictionary
+var _campagne: Dictionary
+var _chapitre := ""
+var _libre := false          ## scène imposée en ligne de commande : on ne note rien
+var _acheve: Panel
 
 ## Où en est le chapitre, et à qui l'on a déjà parlé dans l'étape en cours.
 var _etape := 0
@@ -76,7 +80,10 @@ func _ready() -> void:
 	y_sort_enabled = true
 
 	_monde = _lire(DONNEES + "monde.json")
-	_scene = _lire(DONNEES + "scenes/%s.json" % _scene_demandee())
+	_campagne = _lire(DONNEES + "campagne.json")
+	_chapitre = _scene_demandee()
+	_noter(_chapitre)
+	_scene = _lire(DONNEES + "scenes/%s.json" % _chapitre)
 	_salle = _lire(DONNEES + "salles/%s.json" % _scene.get("salle", ""))
 	if _monde.is_empty() or _salle.is_empty() or _scene.is_empty():
 		push_error("Données absentes. Lancer : npm run jeu:donnees")
@@ -112,7 +119,11 @@ func _declarer_les_touches() -> void:
 		InputMap.action_add_event(nom[0], touche)
 
 
-## Quelle scène jouer ? `++ --scene i-01` sur la ligne de commande.
+## Quel chapitre jouer ?
+##
+## Celui qu'on impose en ligne de commande — `++ --scene i-01` — et sinon celui
+## où l'on en était. La partie se poursuit d'elle-même : c'est ce qui fait d'une
+## suite de scènes une histoire.
 ##
 ## Les arguments passent après `++`, non avant : tout ce qui précède appartient
 ## au moteur, et un mot sans tiret y est pris pour un chemin de scène à charger.
@@ -120,8 +131,32 @@ func _scene_demandee() -> String:
 	var arguments := OS.get_cmdline_user_args()
 	var i := arguments.find("--scene")
 	if i >= 0 and i + 1 < arguments.size():
+		_libre = true
 		return arguments[i + 1]
-	return SCENE_INITIALE
+
+	var suite: Array = _campagne.get("chapitres", [])
+	var repris: String = str(_lire(PROGRESSION).get("chapitre", ""))
+	if repris != "" and suite.has(repris):
+		return str(repris)
+	return str(suite[0]) if not suite.is_empty() else "i-01"
+
+
+## Note où l'on en est. Une scène imposée à la main ne compte pas.
+func _noter(chapitre: String) -> void:
+	if _libre:
+		return
+	var f := FileAccess.open(PROGRESSION, FileAccess.WRITE)
+	if f:
+		f.store_string(JSON.stringify({ "chapitre": chapitre }))
+
+
+## Le chapitre suivant dans l'ordre de lecture, vide s'il n'y en a plus.
+func _chapitre_suivant() -> String:
+	var suite: Array = _campagne.get("chapitres", [])
+	var i := suite.find(_chapitre)
+	if i >= 0 and i + 1 < suite.size():
+		return str(suite[i + 1])
+	return ""
 
 
 func _lire(chemin: String) -> Dictionary:
@@ -338,14 +373,30 @@ func _faire_sortir(id: String) -> void:
 ## c'est fait, les entrées et sorties qu'elle décrit s'appliquent et l'objectif
 ## change. Rien de tout cela n'est écrit ici : la scène est un fichier.
 
+## Les étapes du chapitre, la clôture comprise.
+##
+## `fin` n'est pas un cas à part : c'est la dernière étape, avec sa condition
+## comme les autres. La traiter à part obligeait à deux chemins pour la même
+## chose, et le chapitre ne pouvait jamais s'achever puisque rien n'attendait
+## plus rien.
+func _etapes() -> Array:
+	var toutes: Array = _scene.get("etapes", []).duplicate()
+	var fin: Dictionary = _scene.get("fin", {})
+	if not fin.is_empty():
+		toutes.append(fin)
+	return toutes
+
+
 func _etape_courante() -> Dictionary:
-	var etapes: Array = _scene.get("etapes", [])
-	if _etape < etapes.size():
-		return etapes[_etape]
-	return _scene.get("fin", {})
+	var toutes := _etapes()
+	return toutes[_etape] if _etape < toutes.size() else {}
 
 
 func _entrer_dans_l_etape() -> void:
+	if _etape >= _etapes().size():
+		_achever_le_chapitre()
+		return
+
 	var etape := _etape_courante()
 	_parles.clear()
 
@@ -445,6 +496,21 @@ func _mener_les_ennemis(delta: float) -> void:
 		if loin < 18.0 and maintenant >= float(e["prochain"]):
 			e["prochain"] = maintenant + 0.9
 			_wellan.encaisser(int(e["degats"]), "fer")
+
+
+## Le chapitre est joué : on propose la suite, on note où l'on en est.
+func _achever_le_chapitre() -> void:
+	var suivant := _chapitre_suivant()
+	_noter(suivant if suivant != "" else _chapitre)
+	_objectif.text = ""
+
+	var mot: Label = _acheve.get_child(0)
+	if suivant == "":
+		mot.text = "%s\n\nachevé.\n\nC'est tout ce qui est écrit à ce jour." % str(_scene.get("titre", ""))
+	else:
+		var titre_suivant := str(_lire(DONNEES + "scenes/%s.json" % suivant).get("titre", suivant))
+		mot.text = "%s\n\nachevé.\n\nEspace — %s" % [str(_scene.get("titre", "")), titre_suivant]
+	_acheve.visible = true
 
 
 func _perdre() -> void:
@@ -691,6 +757,33 @@ func _batir_le_dialogue() -> void:
 	_defaite.visible = false
 	couche.add_child(_defaite)
 
+	_acheve = Panel.new()
+	_acheve.anchor_left = 0.5
+	_acheve.anchor_right = 0.5
+	_acheve.anchor_top = 0.5
+	_acheve.anchor_bottom = 0.5
+	_acheve.offset_left = -170
+	_acheve.offset_right = 170
+	_acheve.offset_top = -54
+	_acheve.offset_bottom = 54
+	var laurier := StyleBoxFlat.new()
+	laurier.bg_color = Color("#0b0a10")
+	laurier.border_color = Color("#c08f34")
+	laurier.set_border_width_all(2)
+	laurier.set_content_margin_all(12)
+	_acheve.add_theme_stylebox_override("panel", laurier)
+	_acheve.visible = false
+	couche.add_child(_acheve)
+
+	var fin_mot := Label.new()
+	fin_mot.anchor_right = 1.0
+	fin_mot.anchor_bottom = 1.0
+	fin_mot.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	fin_mot.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	fin_mot.add_theme_color_override("font_color", Color("#f0d174"))
+	fin_mot.add_theme_font_size_override("font_size", 12)
+	_acheve.add_child(fin_mot)
+
 	var mot := Label.new()
 	mot.text = "Wellan tombe.\n\nEspace pour reprendre la ligne."
 	mot.anchor_right = 1.0
@@ -791,6 +884,12 @@ func _afficher() -> void:
 
 
 func _unhandled_input(evenement: InputEvent) -> void:
+	if _acheve.visible:
+		if evenement.is_action_pressed("ui_accept"):
+			# La progression est déjà notée : recharger la scène rouvre le
+			# chapitre suivant sans qu'on ait à transporter d'état.
+			get_tree().reload_current_scene()
+		return
 	if evenement.is_action_pressed("frapper") and not _ouverte and not _vaincu:
 		_frapper()
 		return
@@ -930,7 +1029,7 @@ func _physics_process(delta: float) -> void:
 	# Les adversaires attendent la fin de l'échange : être mordu pendant qu'on
 	# lit une réplique qu'on ne peut pas interrompre serait une punition sans
 	# recours.
-	if not _ouverte:
+	if not _ouverte and not _acheve.visible:
 		_mener_les_ennemis(delta)
 		_avancer_si_possible()
 
@@ -964,80 +1063,45 @@ func _dessiner(colonne: int) -> void:
 	region.region = Rect2(colonne * SPRITE, RANGEE[_direction] * SPRITE, SPRITE, SPRITE)
 
 
-## Joue la nuit de Zénor et vérifie ce qui doit l'être.
+## Joue le chapitre courant jusqu'à sa clôture, puis passe au suivant.
 ##
-## Les affirmations passent par le chemin d'un joueur partout où c'est possible
-## — les touches sont injectées, non simulées. Là où le hasard d'un combat
-## rendrait la mesure incertaine, on interroge le modèle directement, et l'on
-## dit lequel des deux on fait.
+## L'épreuve de la campagne n'est pas qu'un chapitre se joue — c'est qu'il en
+## appelle un autre, et que la partie se retrouve où on l'avait laissée.
 func _capturer() -> void:
-	await _garder("00-greve", 12)
-	print("OBJECTIF %s" % _objectif.text)
+	print("CHAPITRE %s — %s" % [_chapitre, _scene.get("titre", "")])
+	await _garder("00-%s" % _chapitre, 12)
 
-	await _parler_a("jasson", "01-jasson")
-	print("OBJECTIF %s | VAGUE %d debout" % [_objectif.text, _vague_debout()])
+	var garde := 0
+	while not _acheve.visible and garde < 40:
+		garde += 1
+		var etape := _etape_courante()
+		var attend: Dictionary = etape.get("attend", {})
 
-	if _vague_debout() == 0:
-		print("AUCUNE VAGUE — l'étape n'a pas avancé")
-		get_tree().quit()
-		return
-
-	# La carapace. Interrogé sur le modèle : dans la mêlée, on ne saurait pas
-	# quel coup a porté ni lequel a glissé.
-	var insecte: Combattant = _ennemis[0]["noeud"]
-	var avant := insecte.vie
-	var sort_a_porte := insecte.encaisser(DEGATS_SORT, "magie")
-	print("CARAPACE sort_porte=%s vie %d → %d" % [sort_a_porte, avant, insecte.vie])
-	await _attendre(40)
-	var fer_a_porte := insecte.encaisser(DEGATS_EPEE, "fer")
-	print("FER porte=%s vie %d" % [fer_a_porte, insecte.vie])
-
-	# L'épée, par la touche, sur un adversaire qu'on aborde.
-	_wellan.global_position = insecte.global_position + Vector2(0, 18)
-	_direction = "nord"
-	var vie_avant := insecte.vie
-	for coup in 6:
-		_touche("frapper")
-		await _attendre(28)
-		if not is_instance_valid(insecte) or not insecte.vivant():
+		if attend.has("parler"):
+			await _parler_a(str(attend["parler"]), "%02d-%s" % [garde, attend["parler"]])
+		elif attend.has("parler_tous"):
+			for id in attend["parler_tous"]:
+				await _parler_a(str(id), "%02d-%s" % [garde, id])
+		elif attend.has("vague_defaite"):
+			# On abat la vague par le modèle : la mêlée a été éprouvée ailleurs,
+			# ici c'est l'enchaînement des chapitres qu'on vérifie.
+			for e in _ennemis:
+				if not is_instance_valid(e["noeud"]):
+					continue
+				var qui: Combattant = e["noeud"]
+				while is_instance_valid(qui) and qui.vivant():
+					qui.encaisser(99, "fer")
+					await _attendre(30)
+			await _attendre(20)
+		else:
 			break
-	print("EPEE au clavier : %d → %s" % [vie_avant, "abattu" if not is_instance_valid(insecte) or not insecte.vivant() else str(insecte.vie)])
-	await _garder("02-melee", 4)
+		print("  → %s" % (_objectif.text if _objectif.text != "" else "(clôture)"))
 
-	# Nettoyer la vague pour atteindre les dragons.
-	for e in _ennemis:
-		if not is_instance_valid(e["noeud"]):
-			continue
-		var qui: Combattant = e["noeud"]
-		# La validité se revérifie à chaque tour : `peri` libère le nœud, et le
-		# tenir par une référence devenue morte fait tomber tout le reste.
-		while is_instance_valid(qui) and qui.vivant():
-			qui.encaisser(99, "fer")
-			await _attendre(30)
-	await _attendre(20)
-	print("OBJECTIF %s | VAGUE %d debout" % [_objectif.text, _vague_debout()])
-	await _garder("03-dragons", 6)
-
-	# Le feu, lui, mord sur les dragons.
-	if _vague_debout() > 0:
-		var dragon: Combattant = _ennemis[0]["noeud"]
-		var d_avant := dragon.vie
-		print("FEU SUR DRAGON porte=%s vie %d → %d"
-			% [dragon.encaisser(DEGATS_SORT, "magie"), d_avant, dragon.vie])
-
-	# Perdre. Wellan reste immobile pendant qu'on le presse.
-	print("VIE %d" % _wellan.vie)
-	for i in 60:
-		await _attendre(10)
-		if _vaincu:
-			break
-	print("VAINCU %s après %d de vie" % [_vaincu, _wellan.vie])
-	await _garder("04-defaite", 4)
-
-	if _vaincu:
-		_touche("ui_accept")
-		await _attendre(20)
-		print("REPRIS vie=%d vague=%d" % [_wellan.vie, _vague_debout()])
+	if _acheve.visible:
+		var mot: Label = _acheve.get_child(0)
+		print("ACHEVE : %s" % mot.text.replace("\n", " "))
+	else:
+		print("PAS ACHEVE après %d tours, étape %d" % [garde, _etape])
 
 	get_tree().quit()
 

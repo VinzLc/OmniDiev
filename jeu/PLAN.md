@@ -136,11 +136,18 @@ fixée dans [la charte](art/CHARTE.md).
 dispositif, non un oubli — mais l'étape ne sera close que quand les visages du chapitre I,1
 existeront.
 
-### 5 — La mise à l'échelle
+### 5 — La mise à l'échelle ← en cours
 
 Outillage d'édition de cartes, chapitres en série.
 
 > **Terminé quand** un chapitre supplémentaire coûte des heures, pas des semaines.
+
+L'épine dorsale existe : `campagne.json` donne l'ordre de lecture, un chapitre achevé appelle
+le suivant, et la partie se retrouve où on l'a laissée. **Ajouter un chapitre, c'est écrire
+son fichier de scène et glisser son identifiant dans la liste** — plus les personnages qu'il
+exige, une génération chacun.
+
+Trois chapitres sont jouables à la suite : I,1 · I,2 · I,26. Il en reste 1 438.
 
 ---
 

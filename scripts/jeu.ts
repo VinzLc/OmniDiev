@@ -8,7 +8,8 @@
  *
  * Usage :
  *   npm run jeu
- *   npm run jeu -- --scene i-01   joue un chapitre précis
+ *   npm run jeu -- --scene i-01   joue un chapitre précis, sans toucher à la partie
+ *   npm run jeu -- --recommencer  efface la progression et reprend au premier chapitre
  *   npm run jeu -- --editeur      ouvre l'éditeur au lieu de jouer
  */
 import fs from "node:fs";
@@ -51,6 +52,24 @@ function main() {
   fs.mkdirSync(ASSETS, { recursive: true });
   for (const r of REQUIS) fs.copyFileSync(r.de, path.join(ASSETS, r.vers));
   console.log(`${C.dim}${REQUIS.length} planche(s) copiée(s) dans ${path.relative(ROOT, ASSETS)}/${C.off}`);
+
+  if (process.argv.includes("--recommencer")) {
+    /* La progression vit dans le dossier utilisateur de Godot, sous le nom du
+     * projet. On la cherche plutôt que de la calculer : le chemin dépend de la
+     * plateforme, et une mauvaise devinette effacerait le mauvais fichier. */
+    const base = path.join(process.env.HOME ?? "", "Library", "Application Support", "Godot", "app_userdata");
+    let efface = 0;
+    const fouiller = (d: string) => {
+      if (!fs.existsSync(d)) return;
+      for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+        const p = path.join(d, e.name);
+        if (e.isDirectory()) fouiller(p);
+        else if (e.name === "progression.json") { fs.unlinkSync(p); efface++; }
+      }
+    };
+    fouiller(base);
+    console.log(`${C.dim}${efface ? "progression effacée" : "aucune partie en cours"}${C.off}`);
+  }
 
   const bin = godot();
   const version = spawnSync(bin, ["--version"], { encoding: "utf8" }).stdout.trim();

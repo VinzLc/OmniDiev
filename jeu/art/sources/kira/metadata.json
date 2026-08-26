@@ -1,0 +1,32 @@
+{
+  "group_id": "5e5404f2-6e37-4401-87fe-61b2ff53f5e1",
+  "states": [
+    {
+      "character": {
+        "id": "33e1919f-4935-4711-bfce-475966da50b1",
+        "name": "Idle",
+        "prompt": "Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).\n\nCHARACTER: Kira, a small child of about four, medieval fantasy \u2014 but she is not human. Her SKIN IS MAUVE, a clear soft violet over her whole face, hands and arms. Long POINTED EARS standing out through her hair. Luminescent pale eyes that seem lit from behind. Small sharp teeth showing slightly. Fine claws instead of fingernails.\n\nHAIR: straight lavender-white hair to the jaw, a little untidy.\n\nCLOTHES: a plain undyed linen shift, too big for her, and bare feet. Nothing rich \u2014 she has just arrived and owns nothing.\n\nShe is a child: short, slight, a large head for her body. She must read at 32 pixels as unmistakably violet-skinned and pointed-eared.\n\nPALETTE \u2014 these 14 colors only:\n#0B0A10 #22222C #454652 #71727E (black, dark)\n#5C3570 #A76BC4 (mauve skin, shadow and light)\n#DDDDE4 #F2F2F5 (pale hair, linen)\n#A6A8B2 (linen shadow)\n#5B9BD8 #2D5FA8 (luminescent eyes)\n#3D2A12 #7A5223 #C08F34 (a little leather and gold)\n\nSTYLE: flat fills only. Two-tone shading \u2014 one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions.\n\nBACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.",
+        "size": {
+          "width": 28,
+          "height": 28
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-08-26T12:08:43.345207+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-26T12:09:46.229952"
+}
