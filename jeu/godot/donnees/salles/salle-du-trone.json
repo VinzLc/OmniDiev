@@ -5,19 +5,22 @@
   "taille": [26, 15],
   "depart": [13, 13],
 
-  "_tapis": "Rectangles de tapis, en tuiles. Le reste de la salle est dallé. La forme n'est pas décorative : une caméra qui tient quinze tuiles doit montrer une frontière presque tout le temps, sinon le raccord ne se voit jamais.",
+  "_tapis": "Rectangles de tapis, en tuiles. Le reste est dallé. La forme n'est pas décorative : une caméra qui tient quinze tuiles doit montrer une frontière presque tout le temps, sinon le raccord ne se voit jamais.",
   "tapis": [
     { "x": 11, "y": 2, "l": 5, "h": 12 },
     { "x": 8, "y": 3, "l": 11, "h": 6 }
   ],
 
-  "_personnages": "« fiche » est l'identifiant de la fiche du Codex, et rien d'autre n'est requis : le nom, le rôle et les liens en viennent. Un personnage sans planche paraît en silhouette teintée.",
+  "_personnages": "« fiche » est l'identifiant de la fiche du Codex, et rien d'autre n'est requis : le nom, le rôle et les liens en viennent. Un personnage sans planche paraît en silhouette teintée. La Reine Fan et Kira n'y sont pas : la scène les fait entrer.",
   "personnages": [
     { "fiche": "emeraude-ier", "x": 13, "y": 4, "regarde": "sud" },
-    { "fiche": "santo", "x": 9, "y": 7, "regarde": "est" },
-    { "fiche": "kira", "x": 17, "y": 7, "regarde": "ouest" },
-    { "fiche": "bergeau", "x": 11, "y": 10, "regarde": "nord" },
-    { "fiche": "jasson", "x": 15, "y": 10, "regarde": "nord" }
+    { "fiche": "elund", "x": 18, "y": 5, "regarde": "ouest" },
+    { "fiche": "santo", "x": 9, "y": 8, "regarde": "est" },
+    { "fiche": "chloe", "x": 17, "y": 8, "regarde": "ouest" },
+    { "fiche": "bergeau", "x": 9, "y": 10, "regarde": "est" },
+    { "fiche": "jasson", "x": 17, "y": 10, "regarde": "ouest" },
+    { "fiche": "dempsey", "x": 9, "y": 12, "regarde": "est" },
+    { "fiche": "falcon", "x": 17, "y": 12, "regarde": "ouest" }
   ],
 
   "_objets": "Les braseros encadrent le trône. Le premier jet en posait un seul au milieu de l'allée, à l'endroit même où Wellan apparaît : il lui touchait la tête au premier écran.",

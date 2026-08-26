@@ -20,17 +20,26 @@ const CADENCE := 7.0
 const RANGEE := { "sud": 0, "nord": 1, "ouest": 2, "est": 3 }
 
 const DONNEES := "res://donnees/"
-const SALLE_INITIALE := "salle-du-trone"
+const SCENE_INITIALE := "i-01"
 
 var _monde: Dictionary
 var _salle: Dictionary
+var _scene: Dictionary
+
+## Où en est le chapitre, et à qui l'on a déjà parlé dans l'étape en cours.
+var _etape := 0
+var _parles := {}
+var _habitants := {}
+var _objectif: Label
 
 var _wellan: CharacterBody2D
 var _vue: Sprite2D
 var _direction := "sud"
 var _phase := 0.0
 
-var _proche := ""              ## identifiant de fiche à portée, vide sinon
+var _a_portee := {}            ## tous ceux dont on est assez près
+var _proche := ""              ## celui qu'on aborderait, le plus proche d'entre eux
+var _interlocuteur := ""       ## à qui l'on parle en ce moment
 var _pages: PackedStringArray = []
 var _page := 0
 var _ouverte := false
@@ -45,8 +54,9 @@ func _ready() -> void:
 	y_sort_enabled = true
 
 	_monde = _lire(DONNEES + "monde.json")
-	_salle = _lire(DONNEES + "salles/%s.json" % SALLE_INITIALE)
-	if _monde.is_empty() or _salle.is_empty():
+	_scene = _lire(DONNEES + "scenes/%s.json" % SCENE_INITIALE)
+	_salle = _lire(DONNEES + "salles/%s.json" % _scene.get("salle", ""))
+	if _monde.is_empty() or _salle.is_empty() or _scene.is_empty():
 		push_error("Données absentes. Lancer : npm run jeu:donnees")
 		return
 
@@ -55,6 +65,7 @@ func _ready() -> void:
 	_batir_wellan()
 	_batir_le_dialogue()
 	_peupler()
+	_entrer_dans_l_etape()
 
 	if OS.get_cmdline_args().has("--capture"):
 		_capturer()
@@ -200,35 +211,110 @@ func _batir_wellan() -> void:
 
 func _peupler() -> void:
 	for habitant in _salle.get("personnages", []):
-		var id := str(habitant["fiche"])
-		var fiche: Dictionary = _monde["personnages"].get(id, {})
-		if fiche.is_empty():
-			push_warning("Fiche inconnue : %s" % id)
-			continue
-
-		var corps := StaticBody2D.new()
-		corps.position = Vector2(float(habitant["x"]) * TUILE, float(habitant["y"]) * TUILE)
-		add_child(corps)
-
-		var vue := _sprite_de(fiche)
-		var region: AtlasTexture = vue.texture
-		region.region = Rect2(0, RANGEE.get(habitant.get("regarde", "sud"), 0) * SPRITE, SPRITE, SPRITE)
-		corps.add_child(vue)
-
-		var forme := CollisionShape2D.new()
-		var boite := RectangleShape2D.new()
-		boite.size = Vector2(12, 8)
-		forme.shape = boite
-		forme.position = Vector2(0, -4)
-		corps.add_child(forme)
-
-		_zone_de_parole(corps, id)
-
+		_faire_entrer(habitant)
 	for objet in _salle.get("objets", []):
 		_batir_objet(str(objet.get("type", "")), Vector2(float(objet["x"]) * TUILE, float(objet["y"]) * TUILE))
 
 
+func _faire_entrer(habitant: Dictionary) -> void:
+	var id := str(habitant["fiche"])
+	var fiche: Dictionary = _monde["personnages"].get(id, {})
+	if fiche.is_empty():
+		push_warning("Fiche inconnue : %s" % id)
+		return
+	if _habitants.has(id):
+		return
+
+	var corps := StaticBody2D.new()
+	corps.position = Vector2(float(habitant["x"]) * TUILE, float(habitant["y"]) * TUILE)
+	add_child(corps)
+
+	var vue := _sprite_de(fiche)
+	var region: AtlasTexture = vue.texture
+	region.region = Rect2(0, RANGEE.get(habitant.get("regarde", "sud"), 0) * SPRITE, SPRITE, SPRITE)
+	corps.add_child(vue)
+
+	var forme := CollisionShape2D.new()
+	var boite := RectangleShape2D.new()
+	boite.size = Vector2(12, 8)
+	forme.shape = boite
+	forme.position = Vector2(0, -4)
+	corps.add_child(forme)
+
+	_zone_de_parole(corps, id)
+	_habitants[id] = corps
+
+
+func _faire_sortir(id: String) -> void:
+	if not _habitants.has(id):
+		return
+	_a_portee.erase(id)
+	if _proche == id:
+		_proche = ""
+		_invite.visible = false
+	_habitants[id].queue_free()
+	_habitants.erase(id)
+
+
+## ── Le chapitre ───────────────────────────────────────────────────────────
+##
+## Une étape attend qu'on ait parlé à quelqu'un, ou à tout un groupe. Quand
+## c'est fait, les entrées et sorties qu'elle décrit s'appliquent et l'objectif
+## change. Rien de tout cela n'est écrit ici : la scène est un fichier.
+
+func _etape_courante() -> Dictionary:
+	var etapes: Array = _scene.get("etapes", [])
+	if _etape < etapes.size():
+		return etapes[_etape]
+	return _scene.get("fin", {})
+
+
+func _entrer_dans_l_etape() -> void:
+	var etape := _etape_courante()
+	_parles.clear()
+
+	for sortant in etape.get("disparaissent", []):
+		_faire_sortir(str(sortant))
+	for entrant in etape.get("apparaissent", []):
+		_faire_entrer(entrant)
+
+	_objectif.text = str(etape.get("objectif", ""))
+
+
+## L'étape est-elle satisfaite par ce qu'on vient d'entendre ?
+func _avancer_si_possible() -> void:
+	var attend: Dictionary = _etape_courante().get("attend", {})
+	if attend.is_empty():
+		return
+
+	if attend.has("parler") and _parles.has(str(attend["parler"])):
+		_etape += 1
+		_entrer_dans_l_etape()
+		return
+
+	if attend.has("parler_tous"):
+		var reste := 0
+		for id in attend["parler_tous"]:
+			if not _parles.has(str(id)):
+				reste += 1
+		if reste == 0:
+			_etape += 1
+			_entrer_dans_l_etape()
+		else:
+			# Un objectif qui décompte vaut mieux qu'un objectif qui répète :
+			# le joueur voit ce qui lui reste sans tenir le compte lui-même.
+			_objectif.text = "%s (%d)" % [_etape_courante().get("objectif", ""), reste]
+
+
 ## De quoi savoir qu'on peut parler, et à qui.
+##
+## On retient tous ceux qui sont à portée, et l'on tranche par la distance à
+## chaque image plutôt qu'à l'entrée dans la zone.
+##
+## Le premier jet nommait simplement le dernier entré. Dans une salle où six
+## Chevaliers se tiennent à deux tuiles les uns des autres, leurs cercles se
+## recoupent, et Wellan abordait quelqu'un qu'il n'avait pas visé — sans qu'on
+## puisse rien y faire, puisque se rapprocher ne changeait rien.
 func _zone_de_parole(parent: Node2D, id: String) -> void:
 	var zone := Area2D.new()
 	parent.add_child(zone)
@@ -241,12 +327,26 @@ func _zone_de_parole(parent: Node2D, id: String) -> void:
 
 	zone.body_entered.connect(func(corps: Node) -> void:
 		if corps == _wellan:
-			_proche = id
-			_invite.visible = not _ouverte)
+			_a_portee[id] = parent)
 	zone.body_exited.connect(func(corps: Node) -> void:
-		if corps == _wellan and _proche == id:
-			_proche = ""
-			_invite.visible = false)
+		if corps == _wellan:
+			_a_portee.erase(id))
+
+
+func _choisir_l_interlocuteur() -> void:
+	var meilleur := ""
+	var plus_court := INF
+	for id in _a_portee:
+		var qui: Node2D = _a_portee[id]
+		if not is_instance_valid(qui):
+			continue
+		var d := _wellan.global_position.distance_to(qui.global_position)
+		if d < plus_court:
+			plus_court = d
+			meilleur = str(id)
+	_proche = meilleur
+	if not _ouverte:
+		_invite.visible = _proche != ""
 
 
 func _batir_objet(genre: String, ou: Vector2) -> void:
@@ -324,13 +424,47 @@ func _batir_le_dialogue() -> void:
 	_invite.visible = false
 	couche.add_child(_invite)
 
+	# L'objectif reste affiché : sans lui, un chapitre en quatre temps se joue à
+	# tâtons, et le joueur croit que le jeu ne réagit pas alors qu'il attend.
+	_objectif = Label.new()
+	_objectif.anchor_right = 1.0
+	_objectif.offset_left = 14
+	_objectif.offset_top = 8
+	_objectif.offset_right = -14
+	_objectif.add_theme_color_override("font_color", Color("#f0d174"))
+	_objectif.add_theme_color_override("font_shadow_color", Color("#0b0a10"))
+	_objectif.add_theme_constant_override("shadow_offset_x", 1)
+	_objectif.add_theme_constant_override("shadow_offset_y", 1)
+	_objectif.add_theme_font_size_override("font_size", 12)
+	couche.add_child(_objectif)
 
-## Les répliques d'un personnage, tirées de sa fiche.
+
+## Ce que dit un personnage.
 ##
-## Rien n'est écrit à la main ici : le rôle vient du Codex, les liens aussi.
-## C'est ce qui fait qu'un personnage ajouté par son seul identifiant ait
-## quelque chose à dire dès la première seconde.
+## La scène en cours d'abord : si le chapitre lui a écrit des répliques pour
+## cette étape, ce sont celles-là. Sa fiche à défaut — de sorte qu'aucun
+## personnage ne soit jamais muet, même ajouté à la dernière minute et sans une
+## ligne écrite pour lui.
 func _repliques(id: String) -> PackedStringArray:
+	var ecrites: Dictionary = _etape_courante().get("dialogues", {})
+	if ecrites.has(id):
+		var pages := PackedStringArray()
+		for ligne in ecrites[id]:
+			var qui := str(ligne.get("qui", ""))
+			var dit := str(ligne.get("dit", ""))
+			if qui == "recit":
+				# Le récit n'a pas de nom : c'est ce que le joueur voit, non ce
+				# qu'on lui dit.
+				pages.append("[i]%s[/i]" % dit)
+			else:
+				var nom := str(_monde["personnages"].get(qui, {}).get("nom", qui))
+				pages.append("[b]%s[/b]\n%s" % [nom, dit])
+		return pages
+	return _fiche_en_repliques(id)
+
+
+## Le pis-aller : ce que la fiche du Codex permet de dire.
+func _fiche_en_repliques(id: String) -> PackedStringArray:
 	var fiche: Dictionary = _monde["personnages"].get(id, {})
 	var nom := str(fiche.get("nom", id))
 	var pages := PackedStringArray()
@@ -359,6 +493,12 @@ func _afficher() -> void:
 		_ouverte = false
 		_cadre.visible = false
 		_invite.visible = _proche != ""
+		# On ne compte l'échange que s'il a été mené jusqu'au bout : entamer une
+		# conversation et s'en aller ne fait pas avancer le chapitre.
+		if _interlocuteur != "":
+			_parles[_interlocuteur] = true
+			_interlocuteur = ""
+			_avancer_si_possible()
 		return
 	_texte.text = _pages[_page]
 
@@ -370,6 +510,7 @@ func _unhandled_input(evenement: InputEvent) -> void:
 		_page += 1
 		_afficher()
 	elif _proche != "":
+		_interlocuteur = _proche
 		_pages = _repliques(_proche)
 		_page = 0
 		_ouverte = true
@@ -379,6 +520,8 @@ func _unhandled_input(evenement: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	_choisir_l_interlocuteur()
+
 	if _ouverte:
 		_wellan.velocity = Vector2.ZERO
 		_dessiner(0)
@@ -409,13 +552,19 @@ func _dessiner(colonne: int) -> void:
 	region.region = Rect2(colonne * SPRITE, RANGEE[_direction] * SPRITE, SPRITE, SPRITE)
 
 
-## Joue une courte partie et en garde des images.
+## Joue le chapitre en entier et en garde des images.
 ##
-## On passe par `Input.parse_input_event` : le code traversé est exactement celui
-## d'un joueur, touches comprises. Une vérification qui contourne le chemin
-## normal ne prouve rien de ce chemin.
+## On passe par `Input.parse_input_event` : le code traversé est celui d'un
+## joueur, touches comprises. Une vérification qui contourne le chemin normal ne
+## prouve rien de ce chemin.
+##
+## Wellan est reposé près de chacun plutôt que promené à travers la salle :
+## l'enregistrement des images ralentit la boucle et la physique prend du
+## retard, si bien qu'une longue marche mesure la lenteur du test et non le
+## comportement du jeu. La marche, elle, est éprouvée une fois, au début.
 func _capturer() -> void:
 	await _garder("00-salle", 12)
+	print("OBJECTIF %s" % _objectif.text)
 
 	var depart := _wellan.global_position
 	Input.action_press("ui_up")
@@ -423,23 +572,52 @@ func _capturer() -> void:
 	Input.action_release("ui_up")
 	print("PARCOURU %.1f px, direction %s" % [depart.distance_to(_wellan.global_position), _direction])
 
-	# Aborder le Roi, sur l'estrade.
-	_wellan.global_position = Vector2(13.0 * TUILE, 7.0 * TUILE)
-	Input.action_press("ui_up")
-	await _garder("02-vers-le-roi", 60)
-	Input.action_release("ui_up")
-	print("PROCHE « %s »" % _proche)
+	await _parler_a("emeraude-ier", "02-le-roi")
+	print("OBJECTIF %s" % _objectif.text)
 
-	if _proche != "":
-		for page in 3:
-			var touche := InputEventAction.new()
-			touche.action = "ui_accept"
-			touche.pressed = true
-			Input.parse_input_event(touche)
-			await _garder("03-dialogue-%d" % page, 12)
-			print("PAGE %d ouverte=%s" % [page, _ouverte])
+	for compagnon in ["santo", "bergeau", "jasson", "dempsey", "falcon", "chloe"]:
+		await _parler_a(compagnon, "03-%s" % compagnon)
+		print("OBJECTIF %s" % _objectif.text)
+
+	await _parler_a("armene", "04-armene")
+	print("OBJECTIF %s" % _objectif.text)
+
+	await _parler_a("fan", "05-la-reine")
+	print("OBJECTIF %s" % _objectif.text)
+	print("ETAPE %d sur %d" % [_etape, _scene.get("etapes", []).size()])
 
 	get_tree().quit()
+
+
+## Aborde un personnage et l'écoute jusqu'au bout.
+func _parler_a(id: String, nom_image: String) -> void:
+	if not _habitants.has(id):
+		print("ABSENT %s" % id)
+		return
+	_wellan.global_position = _habitants[id].position + Vector2(0, TUILE)
+	for i in 6:
+		await get_tree().process_frame
+	if _proche != id:
+		print("HORS DE PORTEE %s (proche=%s)" % [id, _proche])
+		return
+
+	var pages := 0
+	while pages < 12:
+		var touche := InputEventAction.new()
+		touche.action = "ui_accept"
+		touche.pressed = true
+		Input.parse_input_event(touche)
+		await get_tree().process_frame
+		await get_tree().process_frame
+		pages += 1
+		# L'image se prend au milieu de l'échange, cadre ouvert. La prendre à la
+		# fin ne montrait que la salle vide : on vérifiait que le dialogue se
+		# ferme, non qu'il s'affiche.
+		if pages == 2 and _ouverte:
+			get_viewport().get_texture().get_image().save_png("res://capture-%s.png" % nom_image)
+		if not _ouverte and pages > 1:
+			break
+	print("PARLE %s en %d pages" % [id, pages])
 
 
 func _garder(nom: String, images: int) -> void:

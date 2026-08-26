@@ -1,0 +1,112 @@
+{
+  "id": "i-01",
+  "titre": "Le retour des chevaliers",
+  "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 1",
+  "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure.",
+  "salle": "salle-du-trone",
+
+  "etapes": [
+    {
+      "id": "adoubement",
+      "objectif": "Se présenter devant le Roi",
+      "attend": { "parler": "emeraude-ier" },
+      "dialogues": {
+        "emeraude-ier": [
+          { "qui": "emeraude-ier", "dit": "Approche, Wellan de Rubis. Tu es le dernier des sept à franchir cette porte." },
+          { "qui": "emeraude-ier", "dit": "Élund a cherché dans les sept royaumes des enfants dont le sang porte la magie. Il en a trouvé sept. Vous voilà." },
+          { "qui": "wellan", "dit": "On m'a dit qu'il fallait un Ordre. On ne m'a pas dit contre quoi." },
+          { "qui": "emeraude-ier", "dit": "Contre l'Ouest. Il y a là-bas quelque chose qui n'a pas renoncé, et qui a le temps pour lui." },
+          { "qui": "emeraude-ier", "dit": "Je ne te demande pas de le combattre aujourd'hui. Je te demande de connaître ceux avec qui tu le combattras. Va leur parler." }
+        ]
+      }
+    },
+    {
+      "id": "les-six",
+      "objectif": "Parler à tes six compagnons",
+      "attend": { "parler_tous": ["santo", "bergeau", "jasson", "dempsey", "falcon", "chloe"] },
+      "dialogues": {
+        "santo": [
+          { "qui": "santo", "dit": "Ils nous apprennent à frapper avant de nous apprendre à recoudre. Je trouve l'ordre discutable." },
+          { "qui": "santo", "dit": "Si tu tombes, Wellan, je serai celui qui te relèvera. Tâche de ne pas en faire une habitude." }
+        ],
+        "bergeau": [
+          { "qui": "bergeau", "dit": "Chez moi, dans le Désert, on juge un homme à l'eau qu'il partage. Ici on le juge à des lumières qui lui sortent des mains." },
+          { "qui": "bergeau", "dit": "Ça me va. J'ai les deux." }
+        ],
+        "jasson": [
+          { "qui": "jasson", "dit": "Regarde. — Il décolle de deux pouces, reste en l'air le temps d'un souffle, et retombe." },
+          { "qui": "jasson", "dit": "Élund dit que ça servira un jour. J'attends toujours le jour." }
+        ],
+        "dempsey": [
+          { "qui": "dempsey", "dit": "Mon père règne sur Béryl. Ma mère y règne mieux que lui. Je ne régnerai sur rien, et j'en suis soulagé." },
+          { "qui": "dempsey", "dit": "Un royaume, ça se transmet. Un Ordre, ça se mérite chaque matin." }
+        ],
+        "falcon": [
+          { "qui": "falcon", "dit": "Sept enfants ramassés dans sept royaumes, et l'on nous jure que c'est le hasard des dons." },
+          { "qui": "falcon", "dit": "Je viens de Turquoise, Wellan. Là-bas on apprend tôt que rien n'est offert. Je vous suivrai, mais je regarderai." }
+        ],
+        "chloe": [
+          { "qui": "chloe", "dit": "Diamant a des salles cent fois plus hautes que celle-ci. Elles étaient vides." },
+          { "qui": "chloe", "dit": "Ici, quand j'entre, six personnes lèvent la tête. C'est la première fois." }
+        ],
+        "elund": [
+          { "qui": "elund", "dit": "Je vous ai choisis, je ne vous ai pas faits. Ce que vous deviendrez ne me regarde plus." }
+        ]
+      }
+    },
+    {
+      "id": "les-pelerins",
+      "objectif": "Écouter Armène",
+      "apparaissent": [
+        { "fiche": "armene", "x": 13, "y": 12, "regarde": "nord" }
+      ],
+      "attend": { "parler": "armene" },
+      "dialogues": {
+        "armene": [
+          { "qui": "armene", "dit": "Chevalier ! À la porte basse — des pèlerins venus de Shola. La foule leur barre le passage." },
+          { "qui": "armene", "dit": "On leur reproche le froid du nord, les mauvaises récoltes, tout ce dont il faut bien accuser quelqu'un." },
+          { "qui": "recit", "dit": "Wellan descend seul. Il ne dégaine pas. Il se place entre la foule et les voyageurs, et il y reste jusqu'à ce que la cour se vide." },
+          { "qui": "wellan", "dit": "Ils avaient froid et ils avaient peur. Ce n'était pas une bataille." },
+          { "qui": "armene", "dit": "Non. Mais on l'a vu, et cela vaudra bataille." }
+        ]
+      }
+    },
+    {
+      "id": "la-reine",
+      "objectif": "Recevoir la Reine de Shola",
+      "disparaissent": ["armene"],
+      "_apparaissent": "Kira se tenait d'abord contre sa mère, en (12,9). Trop près : Wellan s'adressait à l'enfant en croyant aborder la Reine. Elle est d'un pas de côté — ce qui se lit d'ailleurs mieux, la mère en avant, l'enfant à l'écart.",
+      "apparaissent": [
+        { "fiche": "fan", "x": 13, "y": 8, "regarde": "nord" },
+        { "fiche": "kira", "x": 11, "y": 8, "regarde": "est" }
+      ],
+      "attend": { "parler": "fan" },
+      "dialogues": {
+        "fan": [
+          { "qui": "fan", "dit": "Un Chevalier d'Émeraude s'est tenu devant mes gens quand personne d'autre ne l'a fait. Shola n'oublie pas si vite qu'on le dit." },
+          { "qui": "emeraude-ier", "dit": "Vous êtes chez vous, Majesté. Que Shola et Émeraude cessent de se parler par messagers." },
+          { "qui": "fan", "dit": "J'y viens. Mais je ne suis pas venue seulement pour la paix. — Elle avance l'enfant d'une main." },
+          { "qui": "fan", "dit": "Elle s'appelle Kira. Elle n'a pas la peau des vôtres et elle n'aura pas votre vie. Faites-en un Chevalier." },
+          { "qui": "emeraude-ier", "dit": "Vous nous confiez votre fille, et vous ne dites pas pourquoi." },
+          { "qui": "fan", "dit": "Parce que là où je retourne, elle ne survivrait pas. C'est tout ce que je peux vous dire, et c'est déjà trop." },
+          { "qui": "wellan", "dit": "Majesté — quand vous reverrons-nous ?" },
+          { "qui": "recit", "dit": "Elle le regarde une seconde de trop. Puis la suite de Shola quitte la salle, et lorsque les portes se referment, il n'y a plus personne dans le couloir." },
+          { "qui": "recit", "dit": "Wellan restera longtemps sans comprendre ce qui, ce jour-là, lui a été retiré." }
+        ],
+        "kira": [
+          { "qui": "kira", "dit": "…" },
+          { "qui": "recit", "dit": "L'enfant ne parle pas. Elle regarde la salle avec des yeux qui tiennent la lumière plus longtemps qu'ils ne le devraient." }
+        ]
+      }
+    }
+  ],
+
+  "fin": {
+    "objectif": "Chapitre I,1 — joué",
+    "dialogues": {
+      "emeraude-ier": [
+        { "qui": "emeraude-ier", "dit": "L'Ordre existe depuis ce matin. Il vient de recevoir sa première dette et son premier secret." }
+      ]
+    }
+  }
+}

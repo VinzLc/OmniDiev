@@ -87,14 +87,22 @@ Une limite posée d'emblée : **les répliques viennent des fiches, jamais des r
 `monde.json` est versionné pour qu'un `git pull` suffise, or `data/` ne l'est pas — y verser
 de la prose d'Anne Robillard la republierait.
 
-### 2 — Une vraie scène du roman ← prochaine
+### 2 — Une vraie scène du roman ✓
 
 Le chapitre I,1 rejouable : la fondation de l'Ordre, les sept enfants, le Roi Émeraude Ier.
 
 > **Terminé quand** quelqu'un qui connaît la saga reconnaît la scène, et quelqu'un qui ne la
 > connaît pas la comprend.
 
-### 3 — Les systèmes RPG
+Fait. Quatre temps jouables : se présenter au Roi, rallier les six compagnons, apprendre
+l'incident des pèlerins, recevoir la Reine Fan. Douze personnages, quarante-quatre
+répliques, un objectif qui suit le chapitre et décompte ce qui reste.
+
+Les répliques sont **écrites**, d'après le résumé du chapitre et les fiches — jamais
+prélevées dans les romans. C'est la contrainte posée à l'étape 1, et elle tiendra pour les
+1 440 chapitres suivants.
+
+### 3 — Les systèmes RPG ← prochaine
 
 Combat, magie, inventaire, progression. L'étape la plus longue des cinq.
 
