@@ -10,7 +10,7 @@
     13,
     13
   ],
-  "_personnages": "« fiche » est l'identifiant de la fiche du Codex, et rien d'autre n'est requis : le nom, le rôle et les liens en viennent. Un personnage sans planche paraît en silhouette teintée. La Reine Fan et Kira n'y sont pas : la scène les fait entrer.",
+  "_personnages": "« fiche » est l'identifiant de la fiche du Codex, et rien d'autre n'est requis : le nom, le rôle et les liens en viennent. Un personnage sans planche paraît en silhouette teintée. La Reine Fan et Kira n'y sont pas : la scène les fait entrer. Ils se tiennent à trois tuiles les uns des autres, non deux : à deux, quelqu'un qui s'approche est à égale distance de deux voisins, et aborde l'un pour l'autre sans pouvoir rien y faire.",
   "personnages": [
     {
       "fiche": "emeraude-ier",
@@ -27,13 +27,13 @@
     {
       "fiche": "santo",
       "x": 9,
-      "y": 8,
+      "y": 7,
       "regarde": "est"
     },
     {
       "fiche": "chloe",
       "x": 17,
-      "y": 8,
+      "y": 7,
       "regarde": "ouest"
     },
     {
@@ -51,13 +51,13 @@
     {
       "fiche": "dempsey",
       "x": 9,
-      "y": 12,
+      "y": 13,
       "regarde": "est"
     },
     {
       "fiche": "falcon",
       "x": 17,
-      "y": 12,
+      "y": 13,
       "regarde": "ouest"
     }
   ],

@@ -2,25 +2,68 @@
   "id": "foret-de-diamant",
   "lieu": "foret",
   "nom": "Forêt du Royaume de Diamant",
-  "taille": [24, 16],
-  "depart": [12, 12],
-
+  "taille": [
+    24,
+    16
+  ],
+  "depart": [
+    12,
+    12
+  ],
   "_zones": "terrain 0 = le sol de feuilles mortes (#523c34), terrain 1 = la clairière d'herbe (#38b072). Le camp tient dans la clairière ; la forêt la cerne.",
   "fond": 0,
   "zones": [
-    { "terrain": 1, "x": 7, "y": 4, "l": 10, "h": 8 }
+    {
+      "terrain": 1,
+      "x": 7,
+      "y": 4,
+      "l": 10,
+      "h": 8
+    }
   ],
-
   "personnages": [
-    { "fiche": "chloe", "x": 9, "y": 6, "regarde": "est" },
-    { "fiche": "santo", "x": 15, "y": 6, "regarde": "ouest" },
-    { "fiche": "bergeau", "x": 8, "y": 9, "regarde": "est" },
-    { "fiche": "jasson", "x": 16, "y": 9, "regarde": "ouest" },
-    { "fiche": "dempsey", "x": 10, "y": 11, "regarde": "nord" },
-    { "fiche": "falcon", "x": 14, "y": 11, "regarde": "nord" }
+    {
+      "fiche": "chloe",
+      "x": 9,
+      "y": 6,
+      "regarde": "est"
+    },
+    {
+      "fiche": "santo",
+      "x": 15,
+      "y": 6,
+      "regarde": "ouest"
+    },
+    {
+      "fiche": "bergeau",
+      "x": 8,
+      "y": 10,
+      "regarde": "est"
+    },
+    {
+      "fiche": "jasson",
+      "x": 16,
+      "y": 10,
+      "regarde": "ouest"
+    },
+    {
+      "fiche": "dempsey",
+      "x": 10,
+      "y": 12,
+      "regarde": "nord"
+    },
+    {
+      "fiche": "falcon",
+      "x": 14,
+      "y": 12,
+      "regarde": "nord"
+    }
   ],
-
   "objets": [
-    { "type": "brasier", "x": 12, "y": 8 }
+    {
+      "type": "brasier",
+      "x": 12,
+      "y": 8
+    }
   ]
 }

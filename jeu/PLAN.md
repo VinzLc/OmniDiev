@@ -147,7 +147,18 @@ le suivant, et la partie se retrouve où on l'a laissée. **Ajouter un chapitre,
 son fichier de scène et glisser son identifiant dans la liste** — plus les personnages qu'il
 exige, une génération chacun.
 
-Trois chapitres sont jouables à la suite : I,1 · I,2 · I,26. Il en reste 1 438.
+Sept chapitres s'enchaînent : **I,1 · I,2 · I,3 · I,4 · I,6 · I,7 · I,26** — de la fondation
+de l'Ordre au massacre de Shola et à la révélation sur Kira, puis au premier débarquement de
+Zénor.
+
+Le coût d'un chapitre est désormais connu : son écriture, plus les décors et personnages
+qu'il exige — **0,007 USD le jeu de tuiles, 0,011 le personnage**. L'art n'est plus la
+contrainte ; le temps d'écriture l'est.
+
+Tous les chapitres ne sont pas jouables tels quels. Le roman coupe d'un lieu à l'autre ; un
+jeu qui suit Wellan ne le peut pas. Le chapitre I,5 se déroule au château pendant qu'il est
+sur la route : sa scène est repliée sur son sommeil, ce que les pouvoirs télépathiques de
+Kira autorisent. Le champ `avertissement` de chaque scène dit ce qui a été replié.
 
 ---
 
