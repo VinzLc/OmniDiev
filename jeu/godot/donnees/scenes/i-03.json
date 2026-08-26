@@ -4,69 +4,179 @@
   "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 3",
   "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure.",
   "salle": "salle-du-trone",
-
+  "_ouverture": "Ce qu'on lit avant que le chapitre commence, et après qu'il s'achève.",
+  "ouverture": [
+    "Shola n'a pas répondu depuis l'hiver. Aucun messager n'en revient, ce qui ne prouve rien : la route est longue et les cols se ferment.",
+    "Le Roi a fait écrire une lettre. Il lui faut quelqu'un pour la porter."
+  ],
+  "cloture": [
+    "Sept cavaliers quittèrent le Château d'Émeraude ce jour-là, bannière déployée, sous les yeux d'un magicien qui ne les regarda pas partir.",
+    "Aucun d'eux n'avait encore vu la guerre. Cela allait cesser."
+  ],
   "etapes": [
     {
       "id": "la-mission",
       "objectif": "Recevoir la mission du Roi",
       "apparaissent": [
-        { "fiche": "kira", "x": 15, "y": 6, "regarde": "ouest" }
+        {
+          "fiche": "kira",
+          "x": 15,
+          "y": 6,
+          "regarde": "ouest"
+        }
       ],
-      "attend": { "parler": "emeraude-ier" },
+      "attend": {
+        "parler": "emeraude-ier"
+      },
       "dialogues": {
         "emeraude-ier": [
-          { "qui": "emeraude-ier", "dit": "Un message doit partir pour Shola. Je te le confie." },
-          { "qui": "recit", "dit": "Wellan incline la tête pour qu'on ne voie pas son visage. Il y a des joies qu'un chef ne montre pas à son roi." },
-          { "qui": "wellan", "dit": "J'irai seul, Majesté. Un cavalier passe où sept se remarquent." },
-          { "qui": "emeraude-ier", "dit": "Justement. Je veux qu'on vous remarque." },
-          { "qui": "emeraude-ier", "dit": "Tu emmèneras les six. Que les royaumes voient de leurs yeux ce que l'Ordre est devenu — sans quoi ils continueront de croire que je les ai fondés pour meubler ma cour." }
+          {
+            "qui": "emeraude-ier",
+            "dit": "Un message doit partir pour Shola. Je te le confie."
+          },
+          {
+            "qui": "recit",
+            "dit": "Wellan incline la tête pour qu'on ne voie pas son visage. Il y a des joies qu'un chef ne montre pas à son roi."
+          },
+          {
+            "qui": "wellan",
+            "dit": "J'irai seul, Majesté. Un cavalier passe où sept se remarquent."
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Justement. Je veux qu'on vous remarque."
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Tu emmèneras les six. Que les royaumes voient de leurs yeux ce que l'Ordre est devenu — sans quoi ils continueront de croire que je les ai fondés pour meubler ma cour."
+          }
         ]
       }
     },
     {
       "id": "le-presage",
       "objectif": "Entendre le présage d'Élund",
-      "attend": { "parler": "elund" },
+      "attend": {
+        "parler": "elund"
+      },
       "dialogues": {
         "elund": [
-          { "qui": "elund", "dit": "Vous partez au nord. Sachez au moins ce qui vous y précède." },
-          { "qui": "elund", "dit": "Une étoile de feu a traversé le ciel cette nuit. Les anciens l'appelaient le feu dans le ciel, et ils ne l'écrivaient qu'après coup, pour dater les malheurs." },
-          { "qui": "wellan", "dit": "Vous me demandez de rester ?" },
-          { "qui": "elund", "dit": "Je vous demande de partir vite. Ce n'est pas la même chose, et ce n'est pas plus rassurant." }
+          {
+            "qui": "elund",
+            "dit": "Vous partez au nord. Sachez au moins ce qui vous y précède."
+          },
+          {
+            "qui": "elund",
+            "dit": "Une étoile de feu a traversé le ciel cette nuit. Les anciens l'appelaient le feu dans le ciel, et ils ne l'écrivaient qu'après coup, pour dater les malheurs."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Vous me demandez de rester ?"
+          },
+          {
+            "qui": "elund",
+            "dit": "Je vous demande de partir vite. Ce n'est pas la même chose, et ce n'est pas plus rassurant."
+          }
         ]
       }
     },
     {
       "id": "l-enfant-qui-lit",
       "objectif": "Kira vous regarde",
-      "attend": { "parler": "kira" },
+      "attend": {
+        "parler": "kira"
+      },
       "dialogues": {
         "kira": [
-          { "qui": "recit", "dit": "L'enfant mauve vous barre le passage. Elle n'a pas trois ans et elle ne parle pas encore." },
-          { "qui": "recit", "dit": "Elle pose sa petite main griffue sur votre poignet, et la salle disparaît." },
-          { "qui": "recit", "dit": "Une plaine de glace. Une forteresse blanche au bord d'une falaise. Et venant de la mer, à contre-jour, des cavaliers noirs sur des bêtes trop grandes pour des chevaux." },
-          { "qui": "recit", "dit": "Ils avancent sans se presser, comme on rentre chez soi." },
-          { "qui": "wellan", "dit": "Majesté — elle m'a montré quelque chose." },
-          { "qui": "emeraude-ier", "dit": "Je sais. Elle me l'a montré ce matin. Je n'ai su à personne comment le dire." }
+          {
+            "qui": "recit",
+            "dit": "L'enfant mauve vous barre le passage. Elle n'a pas trois ans et elle ne parle pas encore."
+          },
+          {
+            "qui": "recit",
+            "dit": "Elle pose sa petite main griffue sur votre poignet, et la salle disparaît."
+          },
+          {
+            "qui": "recit",
+            "dit": "Une plaine de glace. Une forteresse blanche au bord d'une falaise. Et venant de la mer, à contre-jour, des cavaliers noirs sur des bêtes trop grandes pour des chevaux."
+          },
+          {
+            "qui": "recit",
+            "dit": "Ils avancent sans se presser, comme on rentre chez soi."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Majesté — elle m'a montré quelque chose."
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Je sais. Elle me l'a montré ce matin. Je n'ai su à personne comment le dire."
+          }
         ],
         "elund": [
-          { "qui": "elund", "dit": "Une enfant qui pose la main sur vous et vous met des images dans la tête. Et l'on me reproche ma méfiance." }
+          {
+            "qui": "elund",
+            "dit": "Une enfant qui pose la main sur vous et vous met des images dans la tête. Et l'on me reproche ma méfiance."
+          }
         ]
       }
     }
   ],
-
   "fin": {
     "objectif": "Rassembler les six et partir",
-    "attend": { "parler_tous": ["santo", "bergeau", "jasson", "dempsey", "falcon", "chloe"] },
+    "attend": {
+      "parler_tous": [
+        "santo",
+        "bergeau",
+        "jasson",
+        "dempsey",
+        "falcon",
+        "chloe"
+      ]
+    },
     "dialogues": {
-      "santo": [ { "qui": "santo", "dit": "Shola. J'emporte de quoi recoudre. On ne sait jamais." } ],
-      "bergeau": [ { "qui": "bergeau", "dit": "Le nord. De la glace jusqu'à l'horizon, m'a-t-on dit. Je n'ai jamais rien vu de gelé qui soit plus grand qu'un seau." } ],
-      "jasson": [ { "qui": "jasson", "dit": "Sept cavaliers en colonne, bannière déployée. Le Roi veut un défilé, il aura un défilé." } ],
-      "dempsey": [ { "qui": "dempsey", "dit": "Mon père recevra la nouvelle avant notre retour. Il dira que c'est imprudent. Il aura raison, et nous irons quand même." } ],
-      "falcon": [ { "qui": "falcon", "dit": "Le magicien a peur, le Roi se tait, l'enfant montre des images. Beaucoup de signes pour une simple lettre à porter." } ],
-      "chloe": [ { "qui": "chloe", "dit": "C'est la première fois qu'on nous envoie quelque part ensemble. Je m'en souviendrai, quoi qu'il arrive là-bas." } ],
-      "emeraude-ier": [ { "qui": "emeraude-ier", "dit": "Va, Wellan. Et reviens avec tes six." } ]
+      "santo": [
+        {
+          "qui": "santo",
+          "dit": "Shola. J'emporte de quoi recoudre. On ne sait jamais."
+        }
+      ],
+      "bergeau": [
+        {
+          "qui": "bergeau",
+          "dit": "Le nord. De la glace jusqu'à l'horizon, m'a-t-on dit. Je n'ai jamais rien vu de gelé qui soit plus grand qu'un seau."
+        }
+      ],
+      "jasson": [
+        {
+          "qui": "jasson",
+          "dit": "Sept cavaliers en colonne, bannière déployée. Le Roi veut un défilé, il aura un défilé."
+        }
+      ],
+      "dempsey": [
+        {
+          "qui": "dempsey",
+          "dit": "Mon père recevra la nouvelle avant notre retour. Il dira que c'est imprudent. Il aura raison, et nous irons quand même."
+        }
+      ],
+      "falcon": [
+        {
+          "qui": "falcon",
+          "dit": "Le magicien a peur, le Roi se tait, l'enfant montre des images. Beaucoup de signes pour une simple lettre à porter."
+        }
+      ],
+      "chloe": [
+        {
+          "qui": "chloe",
+          "dit": "C'est la première fois qu'on nous envoie quelque part ensemble. Je m'en souviendrai, quoi qu'il arrive là-bas."
+        }
+      ],
+      "emeraude-ier": [
+        {
+          "qui": "emeraude-ier",
+          "dit": "Va, Wellan. Et reviens avec tes six."
+        }
+      ]
     }
   }
 }

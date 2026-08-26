@@ -4,74 +4,344 @@
   "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 2",
   "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure.",
   "salle": "salle-du-trone",
-
+  "_ouverture": "Ce qu'on lit avant que le chapitre commence, et après qu'il s'achève.",
+  "ouverture": [
+    "Quelques jours ont passé. La cour s'est habituée aux sept enfants qui s'entraînent dans la cour basse.",
+    "Ce matin, une servante traverse la grande salle en portant quelque chose dans ses bras, et tous ceux qu'elle croise reculent d'un pas."
+  ],
+  "cloture": [
+    "L'enfant resta. Le magicien ne cessa jamais de penser qu'on avait eu tort.",
+    "Et la nuit venue, une étoile rouge traversa le ciel du nord — la seconde en deux semaines, ce qui n'était jamais arrivé."
+  ],
   "etapes": [
     {
       "id": "l-arrivee",
       "objectif": "Voir ce qu'Armène a ramené",
       "apparaissent": [
-        { "fiche": "armene", "x": 13, "y": 9, "regarde": "nord" },
-        { "fiche": "kira", "x": 12, "y": 10, "regarde": "nord" }
+        {
+          "fiche": "armene",
+          "x": 13,
+          "y": 9,
+          "regarde": "nord",
+          "depuis": [
+            13,
+            15
+          ]
+        },
+        {
+          "fiche": "kira",
+          "x": 11,
+          "y": 11,
+          "regarde": "nord",
+          "depuis": [
+            11,
+            15
+          ]
+        }
       ],
-      "attend": { "parler": "armene" },
+      "attend": {
+        "parler": "armene"
+      },
       "dialogues": {
         "armene": [
-          { "qui": "armene", "dit": "Les cuisines se sont vidées quand je l'ai portée à table. Toutes. En un souffle." },
-          { "qui": "armene", "dit": "Alors je l'ai nourrie moi-même. Elle a mangé comme mangent les enfants qui ont eu faim." },
-          { "qui": "wellan", "dit": "Qui est-elle ?" },
-          { "qui": "armene", "dit": "La fille de la Reine Fan de Shola et du Prince Shill. Elle s'appelle Kira." },
-          { "qui": "recit", "dit": "Elle a la peau mauve, les oreilles longues et pointues, de petites griffes à la place des ongles. Ses yeux tiennent la lumière comme deux lampes qu'on aurait oublié d'éteindre." }
+          {
+            "qui": "recit",
+            "dit": "La servante traverse la grande salle sans presser le pas. Ce qu'elle porte contre elle a la taille d'un enfant de trois ans et n'a pas la couleur d'un enfant de trois ans."
+          },
+          {
+            "qui": "armene",
+            "dit": "Les cuisines se sont vidées quand je l'ai portée à table. Toutes. En un souffle."
+          },
+          {
+            "qui": "armene",
+            "dit": "Alors je l'ai nourrie moi-même. Elle a mangé comme mangent les enfants qui ont eu faim."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Qui est-elle ?"
+          },
+          {
+            "qui": "armene",
+            "dit": "La fille de la Reine Fan de Shola et du Prince Shill. Elle s'appelle Kira."
+          },
+          {
+            "qui": "recit",
+            "dit": "Elle a la peau mauve, les oreilles longues et pointues, de petites griffes à la place des ongles. Ses yeux tiennent la lumière comme deux lampes qu'on aurait oublié d'éteindre."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Qui vous l'a confiée ?"
+          },
+          {
+            "qui": "armene",
+            "dit": "Deux cavaliers de Shola, à la porte basse, avant l'aube. Ils ne sont pas descendus de cheval. Ils ont dit un nom, ils ont dit « au Roi », et ils sont repartis au nord."
+          },
+          {
+            "qui": "armene",
+            "dit": "Je leur ai demandé s'il fallait attendre une lettre. L'un des deux m'a répondu qu'il n'y en aurait pas."
+          }
         ],
         "kira": [
-          { "qui": "recit", "dit": "L'enfant lève la tête vers vous. Elle ne recule pas." }
+          {
+            "qui": "recit",
+            "dit": "L'enfant lève la tête vers vous. Elle ne recule pas."
+          }
+        ],
+        "emeraude-ier": [
+          {
+            "qui": "emeraude-ier",
+            "dit": "Fais-la monter, Armène. Et cesse de la tenir comme si tu craignais qu'on te la prenne."
+          },
+          {
+            "qui": "armene",
+            "dit": "C'est qu'on me l'a déjà demandé deux fois ce matin, Majesté."
+          }
+        ]
+      },
+      "_apparaissent": "Armène entre par la porte basse et remonte l'allée, l'enfant derrière elle. C'est cette traversée que la cour regarde — la faire commencer déjà arrivée priverait la scène de ce qu'elle raconte. Kira se tient à deux tuiles d'Armène, non à une : à une, qui s'approche est à égale distance des deux et aborde l'enfant en croyant parler à la servante."
+    },
+    {
+      "id": "la-cour-recule",
+      "objectif": "Voir ce qu'en pensent tes frères d'armes",
+      "attend": {
+        "parler_tous": [
+          "santo",
+          "falcon",
+          "chloe"
+        ]
+      },
+      "dialogues": {
+        "santo": [
+          {
+            "qui": "santo",
+            "dit": "J'ai regardé ses mains pendant qu'Armène parlait. Les griffes ne sont pas des ongles poussés : c'est de l'os, ça sort de la chair, elle est née avec."
+          },
+          {
+            "qui": "santo",
+            "dit": "Ce que je n'arrive pas à dire, c'est si ça lui fait mal."
+          }
+        ],
+        "falcon": [
+          {
+            "qui": "falcon",
+            "dit": "Une reine envoie sa fille à six cents lieues, sans lettre, sans escorte qui reste. On n'éloigne pas un enfant comme ça pour lui donner une éducation."
+          },
+          {
+            "qui": "falcon",
+            "dit": "On l'éloigne pour le soustraire à quelqu'un."
+          }
+        ],
+        "chloe": [
+          {
+            "qui": "chloe",
+            "dit": "Toute la cour a reculé d'un pas quand Armène est entrée. D'un pas exactement, tous ensemble, comme à l'exercice."
+          },
+          {
+            "qui": "chloe",
+            "dit": "J'ai reculé aussi. Je m'en veux depuis."
+          }
+        ],
+        "bergeau": [
+          {
+            "qui": "bergeau",
+            "dit": "Chez moi on dit qu'un enfant qu'on repousse revient toujours, et pas de la manière qu'on aurait voulu."
+          }
+        ],
+        "jasson": [
+          {
+            "qui": "jasson",
+            "dit": "Je lui ai fait une grimace pour voir. Elle m'a rendu la même, en mieux. J'ai décidé que je l'aimais bien."
+          }
+        ],
+        "dempsey": [
+          {
+            "qui": "dempsey",
+            "dit": "À Béryl, on l'aurait installée dans une aile, avec des gardes devant la porte, et l'on aurait appelé cela de l'hospitalité pendant quinze ans."
+          }
         ]
       }
     },
     {
       "id": "le-magicien",
       "objectif": "Entendre Élund",
-      "attend": { "parler": "elund" },
+      "attend": {
+        "parler": "elund"
+      },
       "dialogues": {
         "elund": [
-          { "qui": "elund", "dit": "Regardez-la, Chevalier. Les griffes. Les dents. Ce n'est pas une enfant de Shola, c'est ce que le nord maudit nous renvoie." },
-          { "qui": "elund", "dit": "J'ai passé quarante ans à lire le ciel pour reconnaître ce genre de chose quand elle franchit une porte." },
-          { "qui": "wellan", "dit": "Sa mère me l'a mise dans les bras, Élund. Elle savait ce qu'elle nous donnait." },
-          { "qui": "elund", "dit": "C'est bien ce qui m'inquiète." }
+          {
+            "qui": "elund",
+            "dit": "Regardez-la, Chevalier. Les griffes. Les dents. Ce n'est pas une enfant de Shola, c'est ce que le nord maudit nous renvoie."
+          },
+          {
+            "qui": "elund",
+            "dit": "J'ai passé quarante ans à lire le ciel pour reconnaître ce genre de chose quand elle franchit une porte."
+          },
+          {
+            "qui": "elund",
+            "dit": "Le nord est maudit, Chevalier. Pas au sens des contes : au sens où trois royaumes y ont disparu sans qu'on retrouve les corps."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Sa mère me l'a mise dans les bras, Élund. Elle savait ce qu'elle nous donnait."
+          },
+          {
+            "qui": "elund",
+            "dit": "C'est bien ce qui m'inquiète."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Vous demandez qu'on la renvoie à qui, exactement ?"
+          },
+          {
+            "qui": "elund",
+            "dit": "Je ne demande pas qu'on la renvoie. Je demande qu'on sache ce qu'on garde. Ce n'est pas la même prudence."
+          }
         ],
         "kira": [
-          { "qui": "recit", "dit": "L'enfant a suivi la conversation d'un visage à l'autre. Elle a compris — vous en êtes certain, sans savoir pourquoi." }
+          {
+            "qui": "recit",
+            "dit": "L'enfant a suivi la conversation d'un visage à l'autre. Elle a compris — vous en êtes certain, sans savoir pourquoi."
+          }
+        ],
+        "armene": [
+          {
+            "qui": "armene",
+            "dit": "Le magicien parle d'elle comme d'un présage. Moi je l'ai vue s'endormir dans un panier de linge. Nous ne regardons pas la même chose."
+          }
+        ]
+      }
+    },
+    {
+      "id": "l-enfant",
+      "objectif": "S'approcher de l'enfant",
+      "attend": {
+        "parler": "kira"
+      },
+      "dialogues": {
+        "kira": [
+          {
+            "qui": "recit",
+            "dit": "Vous vous accroupissez. Elle ne recule pas — c'est la seule personne de la salle qui n'ait pas reculé de la matinée."
+          },
+          {
+            "qui": "recit",
+            "dit": "Ses yeux tiennent la lumière des braseros plus longtemps qu'ils ne le devraient, et la rendent, un peu, quand elle cligne."
+          },
+          {
+            "qui": "recit",
+            "dit": "Elle tend une main et referme ses doigts griffus sur votre pouce. Elle serre. Elle ne lâche pas."
+          },
+          {
+            "qui": "wellan",
+            "dit": "…"
+          },
+          {
+            "qui": "recit",
+            "dit": "Vous restez ainsi plus longtemps qu'il n'est raisonnable devant une cour entière."
+          }
+        ],
+        "elund": [
+          {
+            "qui": "elund",
+            "dit": "Ne vous y attachez pas, Chevalier. C'est le conseil le plus utile que je vous donnerai cette année."
+          }
         ]
       }
     },
     {
       "id": "la-decision",
       "objectif": "Écouter la décision du Roi",
-      "attend": { "parler": "emeraude-ier" },
+      "attend": {
+        "parler": "emeraude-ier"
+      },
       "dialogues": {
         "emeraude-ier": [
-          { "qui": "emeraude-ier", "dit": "Élund me conseille de la renvoyer. Il a peut-être raison. Il a souvent raison." },
-          { "qui": "recit", "dit": "Le Roi descend de l'estrade et s'accroupit devant l'enfant, ce qu'aucun de vous ne l'a jamais vu faire." },
-          { "qui": "emeraude-ier", "dit": "Renvoyer où ? Elle n'a plus de royaume que celui-ci." },
-          { "qui": "emeraude-ier", "dit": "Elle sera Chevalier d'Émeraude. Qu'Élund lui trouve un maître quand elle sera en âge, et qu'on ne me reparle plus de la reconduire." },
-          { "qui": "elund", "dit": "Majesté —" },
-          { "qui": "emeraude-ier", "dit": "Non." }
+          {
+            "qui": "emeraude-ier",
+            "dit": "Élund me conseille de la renvoyer. Il a peut-être raison. Il a souvent raison."
+          },
+          {
+            "qui": "recit",
+            "dit": "Le Roi descend de l'estrade et s'accroupit devant l'enfant, ce qu'aucun de vous ne l'a jamais vu faire."
+          },
+          {
+            "qui": "recit",
+            "dit": "Il tend un doigt. L'enfant le regarde, puis le prend, comme elle a pris le vôtre."
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Renvoyer où ? Elle n'a plus de royaume que celui-ci."
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Elle sera Chevalier d'Émeraude. Qu'Élund lui trouve un maître quand elle sera en âge, et qu'on ne me reparle plus de la reconduire."
+          },
+          {
+            "qui": "elund",
+            "dit": "Majesté —"
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Non."
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Et qu'on cesse de l'appeler l'enfant mauve. Elle a un nom, il est court, il n'y a pas d'excuse."
+          }
+        ],
+        "armene": [
+          {
+            "qui": "armene",
+            "dit": "Je m'en occuperai, Majesté. Je m'en occupais déjà, à vrai dire, mais c'est mieux quand c'est dit."
+          }
         ]
       }
     }
   ],
-
   "fin": {
     "objectif": "L'étoile rouge",
-    "attend": { "parler": "elund" },
+    "attend": {
+      "parler": "elund"
+    },
     "dialogues": {
       "elund": [
-        { "qui": "recit", "dit": "Une étoile rouge traverse le ciel au-dessus de la cour, lente, et s'éteint au nord." },
-        { "qui": "elund", "dit": "Là. Vous l'avez vue comme moi." },
-        { "qui": "elund", "dit": "Ce n'est pas une étoile, Chevalier. C'est un avertissement, et il va vers Shola." },
-        { "qui": "recit", "dit": "Wellan ne répond pas. Il pense à une femme qu'il a vue une fois, et il a soudain très froid." }
+        {
+          "qui": "recit",
+          "dit": "Une étoile rouge traverse le ciel au-dessus de la cour, lente, et s'éteint au nord."
+        },
+        {
+          "qui": "elund",
+          "dit": "Là. Vous l'avez vue comme moi."
+        },
+        {
+          "qui": "elund",
+          "dit": "Ce n'est pas une étoile, Chevalier. C'est un avertissement, et il va vers Shola."
+        },
+        {
+          "qui": "recit",
+          "dit": "Wellan ne répond pas. Il pense à une femme qu'il a vue une fois, et il a soudain très froid."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Vous en avez vu une autre il y a quinze jours."
+        },
+        {
+          "qui": "elund",
+          "dit": "J'en ai vu une autre il y a quinze jours. Et dans tout ce que j'ai lu, il n'est écrit nulle part qu'elles vont par deux."
+        }
       ],
       "emeraude-ier": [
-        { "qui": "emeraude-ier", "dit": "Le magicien a pâli. Je ne l'avais pas vu pâlir depuis vingt ans." }
+        {
+          "qui": "emeraude-ier",
+          "dit": "Le magicien a pâli. Je ne l'avais pas vu pâlir depuis vingt ans."
+        }
+      ],
+      "santo": [
+        {
+          "qui": "santo",
+          "dit": "Toute la cour a regardé le ciel en même temps. Personne n'a rien dit. C'est ce silence-là que je retiendrai."
+        }
       ]
     }
   }

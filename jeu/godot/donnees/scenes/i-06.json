@@ -4,54 +4,139 @@
   "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 6",
   "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure.",
   "salle": "foret-des-elfes",
-  "ambiance": { "teinte": "#5f6880", "lumieres": true },
-
+  "ambiance": {
+    "teinte": "#5f6880",
+    "lumieres": true
+  },
+  "_ouverture": "Ce qu'on lit avant que le chapitre commence, et après qu'il s'achève.",
+  "ouverture": [
+    "La forêt des Elfes ne se traverse pas : elle se laisse traverser. On y campe une nuit et l'on repart sans avoir vu âme qui vive.",
+    "Cette nuit-là, quelqu'un vient."
+  ],
+  "cloture": [
+    "Jasson partit vers le sud avant l'aube, seul, avec l'ordre de tout dire.",
+    "Les cinq autres montèrent vers un ciel qui, à cette heure, aurait dû être noir."
+  ],
   "etapes": [
     {
       "id": "le-roi-des-elfes",
       "objectif": "Écouter le Roi des Elfes",
       "apparaissent": [
-        { "fiche": "hamil", "x": 13, "y": 4, "regarde": "sud" }
+        {
+          "fiche": "hamil",
+          "x": 13,
+          "y": 4,
+          "regarde": "sud"
+        }
       ],
-      "attend": { "parler": "hamil" },
+      "attend": {
+        "parler": "hamil"
+      },
       "dialogues": {
         "hamil": [
-          { "qui": "hamil", "dit": "Vous campez sous mes arbres sans le savoir, Chevalier. Ce n'est pas un reproche : nous vous avons regardés arriver depuis trois jours." },
-          { "qui": "hamil", "dit": "Cette nuit mon peuple s'est terré. Pas devant vous — devant ce qui est tombé du ciel au nord." },
-          { "qui": "wellan", "dit": "Shola." },
-          { "qui": "hamil", "dit": "Shola. Des créatures qu'on croyait perdues avec l'ancien monde, et qui sont revenues comme si elles n'étaient jamais parties." },
-          { "qui": "hamil", "dit": "Mes chasseurs ont vu de loin. Aucun n'a voulu approcher, et je ne le leur reprocherai pas." }
+          {
+            "qui": "hamil",
+            "dit": "Vous campez sous mes arbres sans le savoir, Chevalier. Ce n'est pas un reproche : nous vous avons regardés arriver depuis trois jours."
+          },
+          {
+            "qui": "hamil",
+            "dit": "Cette nuit mon peuple s'est terré. Pas devant vous — devant ce qui est tombé du ciel au nord."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Shola."
+          },
+          {
+            "qui": "hamil",
+            "dit": "Shola. Des créatures qu'on croyait perdues avec l'ancien monde, et qui sont revenues comme si elles n'étaient jamais parties."
+          },
+          {
+            "qui": "hamil",
+            "dit": "Mes chasseurs ont vu de loin. Aucun n'a voulu approcher, et je ne le leur reprocherai pas."
+          }
         ]
       }
     },
     {
       "id": "diviser-la-troupe",
       "objectif": "Décider",
-      "attend": { "parler": "jasson" },
+      "attend": {
+        "parler": "jasson"
+      },
       "dialogues": {
         "jasson": [
-          { "qui": "jasson", "dit": "Nous sommes six et nous ne savons rien de ce qui nous attend. Le Roi doit être averti." },
-          { "qui": "wellan", "dit": "Tu retournes à Émeraude. Tu dis à Élund que sa prophétie a un nom et qu'elle est arrivée." },
-          { "qui": "jasson", "dit": "Seul ?" },
-          { "qui": "wellan", "dit": "Seul et vite. Cinq suffiront pour ce que nous allons trouver — et je préfère que quelqu'un puisse le raconter." },
-          { "qui": "recit", "dit": "Jasson part vers le sud sans se retourner. Les cinq autres tournent leurs chevaux vers le nord, où le ciel est plus clair qu'il ne devrait l'être à cette heure." }
+          {
+            "qui": "jasson",
+            "dit": "Nous sommes six et nous ne savons rien de ce qui nous attend. Le Roi doit être averti."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Tu retournes à Émeraude. Tu dis à Élund que sa prophétie a un nom et qu'elle est arrivée."
+          },
+          {
+            "qui": "jasson",
+            "dit": "Seul ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Seul et vite. Cinq suffiront pour ce que nous allons trouver — et je préfère que quelqu'un puisse le raconter."
+          },
+          {
+            "qui": "recit",
+            "dit": "Jasson part vers le sud sans se retourner. Les cinq autres tournent leurs chevaux vers le nord, où le ciel est plus clair qu'il ne devrait l'être à cette heure."
+          }
         ],
         "hamil": [
-          { "qui": "hamil", "dit": "Vous irez donc. Je m'y attendais, et je ne comprends toujours pas pourquoi." }
+          {
+            "qui": "hamil",
+            "dit": "Vous irez donc. Je m'y attendais, et je ne comprends toujours pas pourquoi."
+          }
         ]
       }
     }
   ],
-
   "fin": {
     "objectif": "Partir vers le nord",
-    "attend": { "parler_tous": ["santo", "bergeau", "chloe", "dempsey", "falcon"] },
+    "attend": {
+      "parler_tous": [
+        "santo",
+        "bergeau",
+        "chloe",
+        "dempsey",
+        "falcon"
+      ]
+    },
     "dialogues": {
-      "santo": [ { "qui": "santo", "dit": "J'ai doublé ce que j'emporte pour soigner. J'espère avoir eu tort." } ],
-      "bergeau": [ { "qui": "bergeau", "dit": "Je n'ai jamais tué autre chose qu'un homme, Wellan. On verra bien." } ],
-      "chloe": [ { "qui": "chloe", "dit": "Deux heures d'ici, il y avait un château où j'aurais dormi au chaud. Je n'y penserai plus." } ],
-      "dempsey": [ { "qui": "dempsey", "dit": "On nous a envoyés porter une lettre. Nous arriverons trop tard pour qu'elle serve." } ],
-      "falcon": [ { "qui": "falcon", "dit": "Les oiseaux descendaient. Je l'ai dit hier et personne n'a écouté. Ce n'est pas un reproche, c'est une habitude à prendre." } ]
+      "santo": [
+        {
+          "qui": "santo",
+          "dit": "J'ai doublé ce que j'emporte pour soigner. J'espère avoir eu tort."
+        }
+      ],
+      "bergeau": [
+        {
+          "qui": "bergeau",
+          "dit": "Je n'ai jamais tué autre chose qu'un homme, Wellan. On verra bien."
+        }
+      ],
+      "chloe": [
+        {
+          "qui": "chloe",
+          "dit": "Deux heures d'ici, il y avait un château où j'aurais dormi au chaud. Je n'y penserai plus."
+        }
+      ],
+      "dempsey": [
+        {
+          "qui": "dempsey",
+          "dit": "On nous a envoyés porter une lettre. Nous arriverons trop tard pour qu'elle serve."
+        }
+      ],
+      "falcon": [
+        {
+          "qui": "falcon",
+          "dit": "Les oiseaux descendaient. Je l'ai dit hier et personne n'a écouté. Ce n'est pas un reproche, c'est une habitude à prendre."
+        }
+      ]
     }
   }
 }

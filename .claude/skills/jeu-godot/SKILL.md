@@ -122,8 +122,24 @@ pendant un dialogue : une arrivée qui se fige parce qu'on lit une réplique se 
 **Un personnage abordé se tourne vers Wellan**, et garde ensuite cette orientation : se
 détourner sitôt la conversation finie serait pire que ne s'être jamais tourné.
 
+**Une planche neuve doit être importée avant d'être chargée.** `load()` sur une ressource que
+Godot n'a pas encore vue rend null, et un Sprite2D sans texture ne dessine rien — sans erreur.
+Le mobilier était absent de la salle et le décor semblait ne pas fonctionner.
+
 **Au démarrage, la compilation des shaders affame la physique.** Un test qui compte les
 images ne garantit rien : attendre la condition.
+
+**Deux tuiles d'écart ne suffisent pas ; il en faut trois.** À égale distance de deux
+voisins, on aborde l'un pour l'autre, et se rapprocher n'y change rien. Le défaut est revenu
+trois fois — Kira contre sa mère, les six Chevaliers alignés, Kira contre Armène — et il
+bloque une étape sans rien signaler.
+
+**Un chapitre porte son `ouverture` et sa `cloture`** : deux listes de phrases, dites dans le
+bandeau des descriptions avant que l'étape commence et avant l'écran de fin.
+
+**Un objet du décor devient examinable** dès qu'il porte un `nom` et un `texte`. Il entre dans
+`_habitants` sous une clé `objet:x:y`, prend une zone de parole, mais n'a ni bulle ni
+orientation : ce n'est pas quelqu'un.
 
 **Ne pas nommer le dernier entré dans une zone de parole.** Six Chevaliers à deux tuiles les
 uns des autres ont des cercles qui se recoupent : on retient tous ceux à portée et l'on

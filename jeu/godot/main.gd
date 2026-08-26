@@ -101,6 +101,8 @@ var _recit: RichTextLabel
 var _visage: TextureRect     ## le portrait de qui parle
 var _marcheurs: Array = []   ## ceux qui entrent ou sortent, en chemin
 var _bulles := {}            ## les bulles de parole, par identifiant de fiche
+var _objets := {}            ## ce qu'on peut examiner, par clé
+var _cloture_dite := false
 var _flottement := 0.0
 var _pause: Panel
 var _menu: RichTextLabel
@@ -403,7 +405,7 @@ func _peupler() -> void:
 	for habitant in _salle.get("personnages", []):
 		_faire_entrer(habitant, false)
 	for objet in _salle.get("objets", []):
-		_batir_objet(str(objet.get("type", "")), Vector2(float(objet["x"]) * TUILE, float(objet["y"]) * TUILE))
+		_batir_objet(objet)
 
 
 ## Le bord de la salle le plus proche d'une case, une tuile au-delà.
@@ -653,6 +655,15 @@ func _annoncer_le_chapitre() -> void:
 
 
 func _achever_le_chapitre() -> void:
+	# Le mot de la fin d'abord, l'écran de fin ensuite : on referme le chapitre
+	# avant d'annoncer qu'il est refermé.
+	var mot_final: Array = _scene.get("cloture", [])
+	if not _cloture_dite and not mot_final.is_empty():
+		_cloture_dite = true
+		_objectif.text = ""
+		_reciter(mot_final)
+		return
+
 	var suivant := _chapitre_suivant()
 	_noter(suivant if suivant != "" else _chapitre)
 	_objectif.text = ""
@@ -837,23 +848,50 @@ func _halo(rayon: int) -> ImageTexture:
 	return ImageTexture.create_from_image(image)
 
 
-func _batir_objet(genre: String, ou: Vector2) -> void:
-	# Un jalon, pas un décor : il tiendra sa tuile quand l'atelier en produira
-	# une. Cerclé de noir pour se lire comme un objet et non comme un défaut du
-	# sol.
+## Un objet du décor, et ce qu'on en dit quand on s'en approche.
+##
+## Un décor muet n'est qu'un motif. Une torche qu'on peut regarder de près, un
+## trône dont on lit l'histoire, une bannière qu'on reconnaît : c'est ce qui
+## fait qu'une salle cesse d'être un couloir entre deux dialogues.
+func _batir_objet(objet: Dictionary) -> void:
+	var genre := str(objet.get("type", ""))
+	var ou := Vector2(float(objet["x"]) * TUILE, float(objet["y"]) * TUILE)
+	_dessiner_objet(genre, ou, objet)
+
+	var texte: Array = objet.get("texte", [])
+	if texte.is_empty():
+		return
+
+	# Une clé propre à l'objet : `_proche` désigne indifféremment une fiche ou
+	# une chose, et il faut pouvoir les distinguer.
+	var cle := "objet:%d:%d" % [int(objet["x"]), int(objet["y"])]
+	_objets[cle] = { "nom": str(objet.get("nom", "")), "texte": texte }
+
+	var socle := Node2D.new()
+	socle.position = ou
+	add_child(socle)
+	_zone_de_parole(socle, cle)
+	_habitants[cle] = socle
+
+
+## Les sortes de mobilier, dans l'ordre de la planche `objets.png`.
+const MOBILIER := ["brasier", "banniere", "coffre", "trone", "stele", "autel", "tombe", "feu"]
+
+func _dessiner_objet(genre: String, ou: Vector2, objet: Dictionary) -> void:
+	# Une silhouette par sorte, tirée d'une planche dessinée par calcul.
+	#
+	# Le premier jet peignait le même carré coloré pour tout : un trône, une
+	# bannière et un coffre s'y ressemblaient, et un décor où tout est le même
+	# carré ne se regarde pas deux fois.
 	#
 	# En Sprite2D et non en ColorRect : un Control ne participe pas au tri par
-	# profondeur et se dessine dans l'ordre de l'arbre. Le brasier passait ainsi
-	# devant Wellan et lui posait un carré noir sur la tête.
-	var image := Image.create(12, 12, false, Image.FORMAT_RGBA8)
-	image.fill(Color("#0b0a10"))
-	var coeur := Color("#f0d174") if genre == "brasier" else Color("#736c82")
-	for y in range(3, 9):
-		for x in range(3, 9):
-			image.set_pixel(x, y, coeur)
-
+	# profondeur et se dessine dans l'ordre de l'arbre.
 	var vue := Sprite2D.new()
-	vue.texture = ImageTexture.create_from_image(image)
+	var n := MOBILIER.find(genre)
+	var region := AtlasTexture.new()
+	region.atlas = load(DONNEES + "objets.png")
+	region.region = Rect2(maxi(n, 0) * TUILE, 0, TUILE, TUILE)
+	vue.texture = region
 	vue.position = ou
 	add_child(vue)
 
@@ -1158,6 +1196,8 @@ func _jauger(reste: int, sur: int) -> void:
 ## Il garde ensuite cette orientation. Un personnage qui reprendrait sa pose
 ## d'origine sitôt la conversation finie aurait l'air de se détourner.
 func _tourner_vers_moi(id: String) -> void:
+	if id.begins_with("objet:"):
+		return
 	if not _habitants.has(id):
 		return
 	var corps: Node2D = _habitants[id]
@@ -1242,6 +1282,9 @@ func _afficher() -> void:
 			_interlocuteur = ""
 			_avancer_si_possible()
 			_rafraichir_les_bulles()
+		elif _cloture_dite and not _acheve.visible:
+			# La clôture vient de se terminer : l'écran de fin peut paraître.
+			_achever_le_chapitre()
 		return
 	var page: Dictionary = _pages[_page]
 	if str(page.get("genre", "parole")) == "recit":
@@ -1254,6 +1297,25 @@ func _afficher() -> void:
 		_montrer_le_visage(str(page.get("qui", "")))
 		_texte.text = "[b][color=#f0d174]%s[/color][/b]\n%s" % [
 			str(page.get("nom", "")), str(page.get("texte", ""))]
+
+
+## Récite une suite de descriptions.
+##
+## Ni parole ni personnage : c'est la voix qui pose un chapitre et celle qui le
+## referme. Elle emprunte le même mécanisme de pages, avec le genre « recit »,
+## donc le bandeau large et l'italique — ce que le joueur lit, non ce qu'on lui
+## dit.
+func _reciter(lignes: Array) -> void:
+	if lignes.is_empty():
+		return
+	_pages = []
+	for l in lignes:
+		_pages.append({ "genre": "recit", "texte": str(l) })
+	_page = 0
+	_interlocuteur = ""
+	_ouverte = true
+	_invite.visible = false
+	_afficher()
 
 
 ## Montre le portrait de qui parle, et décale le texte pour lui faire place.
@@ -1311,6 +1373,8 @@ func _choisir_dans_la_pause() -> void:
 ## bulle sur les trois cent soixante-cinq personnages du monde, ce qui ne
 ## voudrait plus rien dire.
 func _a_dire(id: String) -> bool:
+	if id.begins_with("objet:"):
+		return false
 	if _parles.has(id):
 		return false
 	return (_etape_courante().get("dialogues", {}) as Dictionary).has(id)
@@ -1359,6 +1423,7 @@ func _unhandled_input(evenement: InputEvent) -> void:
 	if _ouverture.visible:
 		if evenement.is_action_pressed("ui_accept"):
 			_ouverture.visible = false
+			_reciter(_scene.get("ouverture", []))
 		return
 	if _acheve.visible:
 		if evenement.is_action_pressed("ui_accept"):
@@ -1380,6 +1445,14 @@ func _unhandled_input(evenement: InputEvent) -> void:
 	if _ouverte:
 		_page += 1
 		_afficher()
+	elif _proche.begins_with("objet:"):
+		var chose: Dictionary = _objets.get(_proche, {})
+		var lignes: Array = chose.get("texte", [])
+		var nom := str(chose.get("nom", ""))
+		if nom != "":
+			lignes = [nom] + lignes
+		_reciter(lignes)
+		return
 	elif _proche != "":
 		_interlocuteur = _proche
 		_pages = _repliques(_proche)
@@ -1661,6 +1734,45 @@ func _capturer() -> void:
 	await _attendre(6)
 	get_viewport().get_texture().get_image().save_png("res://capture-carton.png")
 	_ouverture.visible = false
+
+	# La narration d'ouverture, que le carton enchaîne pour un joueur.
+	_reciter(_scene.get("ouverture", []))
+	if _ouverte:
+		await _attendre(4)
+		get_viewport().get_texture().get_image().save_png("res://capture-ouverture.png")
+		print("OUVERTURE %d page(s)" % _pages.size())
+		while _ouverte:
+			_touche("ui_accept")
+			await _attendre(2)
+
+	# Une vue d'ensemble de la salle, mobilier compris : on ne vérifie pas un
+	# décor sur une capture centrée à deux tuiles du personnage.
+	var taille := _taille()
+	_wellan.global_position = Vector2(taille) * TUILE / 2.0
+	await _attendre(8)
+	get_viewport().get_texture().get_image().save_png("res://capture-salle.png")
+
+	# Un objet du décor : il faut pouvoir le regarder de près.
+	var chose := ""
+	for cle in _objets:
+		chose = str(cle)
+		break
+	if chose != "":
+		_wellan.global_position = _habitants[chose].position + Vector2(0, TUILE)
+		var patience := 0
+		while _proche != chose and patience < 90:
+			await get_tree().process_frame
+			patience += 1
+		if _proche == chose:
+			_touche("ui_accept")
+			await _attendre(4)
+			get_viewport().get_texture().get_image().save_png("res://capture-objet.png")
+			print("OBJET %s — %s" % [chose, _objets[chose]["nom"]])
+			while _ouverte:
+				_touche("ui_accept")
+				await _attendre(2)
+		else:
+			print("OBJET hors de portée : %s" % chose)
 
 	print("CHAPITRE %s — %s" % [_chapitre, _scene.get("titre", "")])
 	await _garder("00-%s" % _chapitre, 12)

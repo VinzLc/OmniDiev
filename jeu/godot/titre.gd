@@ -222,7 +222,9 @@ func _commencer() -> void:
 		parties[_choix] = { "chapitre": str(suite[0]) if not suite.is_empty() else "i-01" }
 	_parties["courante"] = _choix
 	_ecrire()
-	get_tree().change_scene_to_file("res://main.tscn")
+	# Différé : changer de scène pendant que l'arbre ajoute encore ses enfants
+	# fait râler le moteur, et le fera un jour échouer.
+	get_tree().change_scene_to_file.call_deferred("res://main.tscn")
 
 
 func _ecrire() -> void:

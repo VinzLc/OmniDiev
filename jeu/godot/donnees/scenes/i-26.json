@@ -4,6 +4,19 @@
   "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 26",
   "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure.",
   "salle": "greve-de-zenor",
+  "ambiance": {
+    "teinte": "#5c6a90",
+    "lumieres": true
+  },
+  "_ouverture": "Ce qu'on lit avant que le chapitre commence, et après qu'il s'achève.",
+  "ouverture": [
+    "Des années ont passé. Les côtes d'Enkidiev sont surveillées, les Chevaliers se relaient par petits groupes, et l'ennemi n'a plus reparu.",
+    "Cette nuit, à Zénor, sur les vieilles dalles des Enkievs, quelque chose est descendu du ciel."
+  ],
+  "cloture": [
+    "La grève tint jusqu'au jour.",
+    "Ce n'était pas une victoire : c'était la première nuit d'une guerre que personne, à Émeraude, n'avait encore osé nommer."
+  ],
   "_especes": "Les nombres sont à nous ; l'immunité à la magie ne l'est pas. La fiche des hommes-insectes dit une carapace « les rendant invulnérables à la magie ». C'est le texte qui impose de tirer l'épée, pas un souci d'équilibre.",
   "especes": {
     "hommes-insectes": {
@@ -158,9 +171,5 @@
       "parler": "jasson"
     }
   },
-  "_ambiance": "Le chapitre place le débarquement dans la nuit. Une teinte d'ambiance assombrit toute la scène ; les braseros y percent des halos. Sans cela, une nuit de bataille se joue en plein jour et la moitié du texte ne veut plus rien dire.",
-  "ambiance": {
-    "teinte": "#5c6a90",
-    "lumieres": true
-  }
+  "_ambiance": "Le chapitre place le débarquement dans la nuit. Une teinte d'ambiance assombrit toute la scène ; les braseros y percent des halos. Sans cela, une nuit de bataille se joue en plein jour et la moitié du texte ne veut plus rien dire."
 }

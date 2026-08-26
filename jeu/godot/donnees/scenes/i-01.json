@@ -4,6 +4,16 @@
   "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 1",
   "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure.",
   "salle": "salle-du-trone",
+  "_ouverture": "Ce qu'on lit avant que le chapitre commence, et après qu'il s'achève.",
+  "ouverture": [
+    "Enkidiev, il y a très longtemps. Sept royaumes se partagent un continent que personne n'a jamais eu besoin de défendre.",
+    "Le Roi Émeraude a fait chercher, de Rubis à Diamant, des enfants dont le sang porte la magie. Il en a trouvé sept. On ne lui a pas demandé pourquoi.",
+    "Le dernier des sept vient d'arriver au château. Il a nom Wellan, et il ne sait pas encore qu'on lui obéira."
+  ],
+  "cloture": [
+    "Ainsi fut fondé l'Ordre des Chevaliers d'Émeraude, un matin où personne ne mourut.",
+    "Il reçut le même jour sa première dette envers Shola, et un secret que son chef porterait seul pendant des années."
+  ],
   "etapes": [
     {
       "id": "adoubement",
@@ -30,8 +40,73 @@
             "dit": "Contre l'Ouest. Il y a là-bas quelque chose qui n'a pas renoncé, et qui a le temps pour lui."
           },
           {
+            "qui": "wellan",
+            "dit": "Quelque chose. Vous ne lui donnez pas de nom."
+          },
+          {
             "qui": "emeraude-ier",
-            "dit": "Je ne te demande pas de le combattre aujourd'hui. Je te demande de connaître ceux avec qui tu le combattras. Va leur parler."
+            "dit": "Je n'en connais pas. Mon grand-père non plus n'en connaissait pas, et il a fait relever les murailles de la côte trois étés de suite sans savoir dire à quoi elles serviraient."
+          },
+          {
+            "qui": "recit",
+            "dit": "Le Roi se tait un instant. Derrière lui, le trône est vide : il ne s'y assoit que pour recevoir les royaumes."
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Je ne te demande pas de le combattre aujourd'hui. Je te demande de connaître ceux avec qui tu le combattras."
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Va voir Élund d'abord. Il t'attend depuis ce matin et il déteste attendre."
+          }
+        ]
+      }
+    },
+    {
+      "id": "le-magicien",
+      "objectif": "Voir Élund",
+      "attend": {
+        "parler": "elund"
+      },
+      "dialogues": {
+        "elund": [
+          {
+            "qui": "elund",
+            "dit": "Wellan de Rubis. Sept ans, deux mois. Tu lèves un poids que tu ne devrais pas pouvoir lever et tu ne t'en étonnes pas, ce qui m'inquiète davantage que le poids."
+          },
+          {
+            "qui": "wellan",
+            "dit": "On m'a dit de venir vous voir."
+          },
+          {
+            "qui": "elund",
+            "dit": "On te l'a dit parce que je l'ai demandé. Écoute-moi une fois et nous n'y reviendrons pas."
+          },
+          {
+            "qui": "elund",
+            "dit": "Ce que tu as dans le sang n'est ni un don ni une récompense. C'est un outil, et les outils se retournent contre qui les manie mal."
+          },
+          {
+            "qui": "elund",
+            "dit": "Tu apprendras à guérir avant d'apprendre à brûler. Dans cet ordre, et pas l'inverse."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Et si l'Ouest arrive avant que j'aie fini d'apprendre à guérir ?"
+          },
+          {
+            "qui": "recit",
+            "dit": "Le magicien le regarde un long moment, comme s'il révisait quelque chose qu'il croyait établi."
+          },
+          {
+            "qui": "elund",
+            "dit": "Alors tu apprendras les deux en même temps, et tu le paieras. Va rejoindre les autres."
+          }
+        ],
+        "emeraude-ier": [
+          {
+            "qui": "emeraude-ier",
+            "dit": "Il est plus rude qu'il n'en a l'air. C'est pour cela que je le garde."
           }
         ]
       }
@@ -58,6 +133,10 @@
           {
             "qui": "santo",
             "dit": "Si tu tombes, Wellan, je serai celui qui te relèvera. Tâche de ne pas en faire une habitude."
+          },
+          {
+            "qui": "santo",
+            "dit": "J'ai apporté une harpe. Élund dit que ça ne sert à rien dans une bataille. Il n'a jamais attendu la fin d'une bataille."
           }
         ],
         "bergeau": [
@@ -68,6 +147,10 @@
           {
             "qui": "bergeau",
             "dit": "Ça me va. J'ai les deux."
+          },
+          {
+            "qui": "bergeau",
+            "dit": "Et puis on m'a promis qu'il pleuvrait. Chez moi, il pleut deux fois l'an et on retient les deux jours."
           }
         ],
         "jasson": [
@@ -78,6 +161,10 @@
           {
             "qui": "jasson",
             "dit": "Élund dit que ça servira un jour. J'attends toujours le jour."
+          },
+          {
+            "qui": "jasson",
+            "dit": "Falcon dit que je suis trop bruyant. Je lui ai répondu que lui ne parle jamais assez pour qu'on sache s'il est content. On s'entend très bien."
           }
         ],
         "dempsey": [
@@ -88,6 +175,10 @@
           {
             "qui": "dempsey",
             "dit": "Un royaume, ça se transmet. Un Ordre, ça se mérite chaque matin."
+          },
+          {
+            "qui": "dempsey",
+            "dit": "J'ai regardé la table des cartes, là-bas. Il y a une croix au charbon dans le vide, à l'ouest de la mer. Personne ne veut me dire qui l'a tracée."
           }
         ],
         "falcon": [
@@ -98,6 +189,10 @@
           {
             "qui": "falcon",
             "dit": "Je viens de Turquoise, Wellan. Là-bas on apprend tôt que rien n'est offert. Je vous suivrai, mais je regarderai."
+          },
+          {
+            "qui": "falcon",
+            "dit": "Sept enfants, sept royaumes, sept bannières déjà cousues. On les avait faites avant de nous trouver, Wellan. Réfléchis à ce que ça veut dire."
           }
         ],
         "chloe": [
@@ -108,12 +203,20 @@
           {
             "qui": "chloe",
             "dit": "Ici, quand j'entre, six personnes lèvent la tête. C'est la première fois."
+          },
+          {
+            "qui": "chloe",
+            "dit": "Bergeau m'a demandé si les gens de Diamant dormaient debout comme les chevaux. Je ne sais toujours pas s'il plaisantait."
           }
         ],
         "elund": [
           {
             "qui": "elund",
             "dit": "Je vous ai choisis, je ne vous ai pas faits. Ce que vous deviendrez ne me regarde plus."
+          },
+          {
+            "qui": "elund",
+            "dit": "Cela dit, si l'un de vous met encore le feu à la paille de l'écurie, ce sera de nouveau mon affaire."
           }
         ]
       }
@@ -145,6 +248,14 @@
           {
             "qui": "armene",
             "dit": "On leur reproche le froid du nord, les mauvaises récoltes, tout ce dont il faut bien accuser quelqu'un."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Combien sont-ils ?"
+          },
+          {
+            "qui": "armene",
+            "dit": "Neuf. Dont deux enfants et une vieille qui ne tient plus debout. Ils viennent prier à la source, ils viennent chaque année, et cette année on leur crache dessus."
           },
           {
             "qui": "recit",

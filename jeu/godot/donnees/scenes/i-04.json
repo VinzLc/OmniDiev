@@ -4,63 +4,163 @@
   "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitres 4 et 5",
   "avertissement": "Répliques écrites pour le jeu d'après les résumés des chapitres et les fiches du Codex. Aucune phrase des romans n'y figure. Le chapitre 5 se déroule au château pendant que Wellan est en route ; sa scène — la détresse de Kira — est repliée ici sur le sommeil de Wellan, ce que les pouvoirs télépathiques de l'enfant autorisent et que le chapitre 8 confirme.",
   "salle": "foret-de-diamant",
-  "ambiance": { "teinte": "#6a7088", "lumieres": true },
-
+  "ambiance": {
+    "teinte": "#6a7088",
+    "lumieres": true
+  },
+  "_ouverture": "Ce qu'on lit avant que le chapitre commence, et après qu'il s'achève.",
+  "ouverture": [
+    "Trois jours de route vers le nord. Le Royaume de Diamant défile, ses tours au loin, ses champs vides pour la saison.",
+    "Le froid monte d'un cran chaque soir. On dresse le camp plus tôt qu'on ne le voudrait."
+  ],
+  "cloture": [
+    "Ils levèrent le camp en pleine nuit, sans discuter l'ordre.",
+    "Wellan ne dit à personne ce qui l'avait réveillé, et personne ne le lui demanda."
+  ],
   "etapes": [
     {
       "id": "chloe-ne-rentre-pas",
       "objectif": "Demander à Chloé pourquoi elle n'est pas rentrée",
-      "attend": { "parler": "chloe" },
+      "attend": {
+        "parler": "chloe"
+      },
       "dialogues": {
         "chloe": [
-          { "qui": "chloe", "dit": "Les tours de Diamant sont à deux heures d'ici. On y aurait mangé chaud et dormi sec." },
-          { "qui": "wellan", "dit": "Et ta mère t'aurait revue." },
-          { "qui": "chloe", "dit": "Ma mère m'aurait revue en Chevalier, et mon père aurait voulu en parler jusqu'au matin. Nous aurions perdu un jour." },
-          { "qui": "chloe", "dit": "Shola attend une lettre. Diamant attendra une visite." }
+          {
+            "qui": "chloe",
+            "dit": "Les tours de Diamant sont à deux heures d'ici. On y aurait mangé chaud et dormi sec."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Et ta mère t'aurait revue."
+          },
+          {
+            "qui": "chloe",
+            "dit": "Ma mère m'aurait revue en Chevalier, et mon père aurait voulu en parler jusqu'au matin. Nous aurions perdu un jour."
+          },
+          {
+            "qui": "chloe",
+            "dit": "Shola attend une lettre. Diamant attendra une visite."
+          }
         ]
       }
     },
     {
       "id": "le-camp",
       "objectif": "Faire le tour du camp",
-      "attend": { "parler_tous": ["santo", "bergeau", "jasson", "dempsey", "falcon"] },
+      "attend": {
+        "parler_tous": [
+          "santo",
+          "bergeau",
+          "jasson",
+          "dempsey",
+          "falcon"
+        ]
+      },
       "dialogues": {
-        "santo": [ { "qui": "santo", "dit": "Six chevaux, six selles, et pas une écorchure depuis le départ. Je commence à m'ennuyer, ce qui est bon signe." } ],
-        "bergeau": [ { "qui": "bergeau", "dit": "Il fait plus froid chaque nuit. Chez moi, à cette heure, la pierre rend encore la chaleur du jour." } ],
-        "jasson": [ { "qui": "jasson", "dit": "J'ai essayé de faire léviter la marmite. Elle est retombée. Santo dit que le ragoût s'en est remis." } ],
-        "dempsey": [ { "qui": "dempsey", "dit": "Nous longeons trois royaumes et pas un n'a envoyé de cavalier nous demander ce que nous faisons là. Personne ne surveille rien." } ],
-        "falcon": [ { "qui": "falcon", "dit": "Le nord est trop silencieux. Les oiseaux descendent, ils ne montent pas." } ]
+        "santo": [
+          {
+            "qui": "santo",
+            "dit": "Six chevaux, six selles, et pas une écorchure depuis le départ. Je commence à m'ennuyer, ce qui est bon signe."
+          }
+        ],
+        "bergeau": [
+          {
+            "qui": "bergeau",
+            "dit": "Il fait plus froid chaque nuit. Chez moi, à cette heure, la pierre rend encore la chaleur du jour."
+          }
+        ],
+        "jasson": [
+          {
+            "qui": "jasson",
+            "dit": "J'ai essayé de faire léviter la marmite. Elle est retombée. Santo dit que le ragoût s'en est remis."
+          }
+        ],
+        "dempsey": [
+          {
+            "qui": "dempsey",
+            "dit": "Nous longeons trois royaumes et pas un n'a envoyé de cavalier nous demander ce que nous faisons là. Personne ne surveille rien."
+          }
+        ],
+        "falcon": [
+          {
+            "qui": "falcon",
+            "dit": "Le nord est trop silencieux. Les oiseaux descendent, ils ne montent pas."
+          }
+        ]
       }
     },
     {
       "id": "le-recit-du-feu",
       "objectif": "Le récit autour du feu",
-      "attend": { "parler": "santo" },
+      "attend": {
+        "parler": "santo"
+      },
       "dialogues": {
         "santo": [
-          { "qui": "santo", "dit": "Raconte-nous les premiers, Wellan. Ceux d'avant." },
-          { "qui": "wellan", "dit": "Il y a eu un Ordre avant le nôtre. Le Magicien de Cristal l'a levé pour repousser des démons venus de l'autre côté de la mer." },
-          { "qui": "wellan", "dit": "Ils ont gagné. C'est là que l'histoire tourne mal." },
-          { "qui": "wellan", "dit": "L'orgueil leur est venu comme une fièvre. Ils se sont battus entre eux, et ils se sont tués les uns les autres jusqu'à ce que le Magicien descende leur ôter leurs pouvoirs." },
-          { "qui": "falcon", "dit": "À tous ?" },
-          { "qui": "wellan", "dit": "À tous sauf un. Il s'appelait Onyx." },
-          { "qui": "recit", "dit": "Personne ne demande ce qu'il est devenu. Le feu baisse, et l'on se couche sans que la question soit posée." }
+          {
+            "qui": "santo",
+            "dit": "Raconte-nous les premiers, Wellan. Ceux d'avant."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Il y a eu un Ordre avant le nôtre. Le Magicien de Cristal l'a levé pour repousser des démons venus de l'autre côté de la mer."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Ils ont gagné. C'est là que l'histoire tourne mal."
+          },
+          {
+            "qui": "wellan",
+            "dit": "L'orgueil leur est venu comme une fièvre. Ils se sont battus entre eux, et ils se sont tués les uns les autres jusqu'à ce que le Magicien descende leur ôter leurs pouvoirs."
+          },
+          {
+            "qui": "falcon",
+            "dit": "À tous ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "À tous sauf un. Il s'appelait Onyx."
+          },
+          {
+            "qui": "recit",
+            "dit": "Personne ne demande ce qu'il est devenu. Le feu baisse, et l'on se couche sans que la question soit posée."
+          }
         ]
       }
     }
   ],
-
   "fin": {
     "objectif": "Dormir",
-    "attend": { "parler": "jasson" },
+    "attend": {
+      "parler": "jasson"
+    },
     "dialogues": {
       "jasson": [
-        { "qui": "recit", "dit": "Vous dormez mal. Vers le milieu de la nuit, quelque chose vous prend la poitrine — pas un rêve : une main, très petite, très loin." },
-        { "qui": "recit", "dit": "L'enfant mauve ne mange plus. On l'a couchée sur la table de cristal et le magicien ne trouve rien, parce qu'il cherche dans le mauvais corps." },
-        { "qui": "recit", "dit": "Ce n'est pas Kira qui souffre. C'est sa mère, quelque part au nord, et l'arme qui l'a touchée est froide." },
-        { "qui": "wellan", "dit": "Debout. Tous. On selle." },
-        { "qui": "jasson", "dit": "Il fait encore nuit noire, Wellan." },
-        { "qui": "wellan", "dit": "Je sais." }
+        {
+          "qui": "recit",
+          "dit": "Vous dormez mal. Vers le milieu de la nuit, quelque chose vous prend la poitrine — pas un rêve : une main, très petite, très loin."
+        },
+        {
+          "qui": "recit",
+          "dit": "L'enfant mauve ne mange plus. On l'a couchée sur la table de cristal et le magicien ne trouve rien, parce qu'il cherche dans le mauvais corps."
+        },
+        {
+          "qui": "recit",
+          "dit": "Ce n'est pas Kira qui souffre. C'est sa mère, quelque part au nord, et l'arme qui l'a touchée est froide."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Debout. Tous. On selle."
+        },
+        {
+          "qui": "jasson",
+          "dit": "Il fait encore nuit noire, Wellan."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Je sais."
+        }
       ]
     }
   }

@@ -61,17 +61,86 @@
       "regarde": "ouest"
     }
   ],
-  "_objets": "Les braseros encadrent le trône. Le premier jet en posait un seul au milieu de l'allée, à l'endroit même où Wellan apparaît : il lui touchait la tête au premier écran.",
+  "_objets": "Les braseros encadrent le trône. Les autres pièces se regardent de près : un décor muet n'est qu'un motif, et c'est en lisant ce qu'on croise qu'une salle cesse d'être un couloir entre deux dialogues. Elles sont placées loin des Chevaliers, sinon leurs cercles de parole se recoupent et l'on aborde le mauvais.",
   "objets": [
     {
       "type": "brasier",
       "x": 10,
-      "y": 4
+      "y": 4,
+      "nom": "Un brasero",
+      "texte": [
+        "Le feu du Château brûle sans discontinuer depuis la première pierre. Deux servantes s'en occupent à tour de rôle, et l'on dit que celle qui le laisserait mourir ne serait pas punie — seulement regardée."
+      ]
     },
     {
       "type": "brasier",
       "x": 16,
-      "y": 4
+      "y": 4,
+      "nom": "Un brasero",
+      "texte": [
+        "Le jumeau de l'autre. On les a allumés le même jour, à la même heure, et personne ne se souvient pourquoi cela comptait."
+      ]
+    },
+    {
+      "type": "trone",
+      "x": 13,
+      "y": 2,
+      "nom": "Le trône d'Émeraude",
+      "texte": [
+        "Un siège de bois sombre, sans coussin, sans dorure. Le Roi le fit tailler dans une poutre de l'ancienne salle des gardes.",
+        "« Un royaume assis trop confortablement ne se relève pas », dit-on qu'il expliqua. Personne n'a vérifié qu'il l'avait dit."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 7,
+      "y": 4,
+      "nom": "Une bannière",
+      "texte": [
+        "Vert et noir, partagés en deux dans la hauteur. La croix d'Émeraude en noir sur le vert ; un dragon vert sur le noir.",
+        "Le dragon n'est pas un emblème choisi. C'est ce que les anciens ont vu venir de l'ouest, la dernière fois."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 19,
+      "y": 4,
+      "nom": "Une bannière",
+      "texte": [
+        "Neuve. Le tissu n'a pas encore le pli des autres.",
+        "On en a fait sept, une par enfant, avant même de savoir s'ils resteraient."
+      ]
+    },
+    {
+      "type": "stele",
+      "x": 5,
+      "y": 7,
+      "nom": "Une stèle gravée",
+      "texte": [
+        "Trois lignes taillées dans la pierre, en caractères qu'on n'écrit plus :",
+        "« Protéger ceux qui ne peuvent pas. Ne pas mourir pour rien. Revenir. »",
+        "C'est tout le code de l'Ordre. Il tient sur une pierre parce qu'on voulait qu'il tienne dans une tête."
+      ]
+    },
+    {
+      "type": "coffre",
+      "x": 21,
+      "y": 11,
+      "nom": "Un coffre d'armes",
+      "texte": [
+        "Des épées courtes, taillées pour des bras d'enfants. Élund a insisté pour qu'on les forge à la bonne taille plutôt que de faire traîner des lames d'homme.",
+        "« Une arme trop lourde apprend la peur avant d'apprendre le geste », a-t-il dit. Sur ce point, tout le monde lui a donné raison."
+      ]
+    },
+    {
+      "type": "autel",
+      "x": 5,
+      "y": 11,
+      "nom": "La table des cartes",
+      "texte": [
+        "Le continent d'Enkidiev, dessiné sur cuir. Sept royaumes, une mer à l'ouest, et de l'autre côté de la mer, rien : le cuir s'arrête.",
+        "Quelqu'un a tracé une croix au charbon dans ce vide. Le trait est ancien et personne ne l'efface."
+      ]
     }
   ],
   "_zones": "Rectangles de tapis, en tuiles. Le reste est dallé. La forme n'est pas décorative : une caméra qui tient quinze tuiles doit montrer une frontière presque tout le temps, sinon le raccord ne se voit jamais.",
