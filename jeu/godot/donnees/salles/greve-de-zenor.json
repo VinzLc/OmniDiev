@@ -1,0 +1,22 @@
+{
+  "id": "greve-de-zenor",
+  "lieu": "zenor",
+  "nom": "La grève de Zénor",
+  "taille": [30, 20],
+  "depart": [15, 16],
+
+  "_zones": "Le terrain 0 est le plus sombre du jeu de tuiles — ici l'herbe rase du littoral ; le terrain 1 est la pierre des ruines enkievs. « fond » dit ce qui couvre le reste. La convention est explicite depuis Zénor : deviner laquelle des deux teintes est laquelle marchait tant qu'un tapis vert s'opposait à du dallage gris, et plus du tout dès qu'on a peint de l'herbe contre de la pierre claire.",
+  "fond": 0,
+  "zones": [
+    { "terrain": 1, "x": 4, "y": 3, "l": 6, "h": 5 },
+    { "terrain": 1, "x": 19, "y": 4, "l": 7, "h": 6 },
+    { "terrain": 1, "x": 11, "y": 11, "l": 8, "h": 5 }
+  ],
+
+  "personnages": [
+    { "fiche": "jasson", "x": 9, "y": 14, "regarde": "nord" },
+    { "fiche": "bergeau", "x": 21, "y": 14, "regarde": "nord" }
+  ],
+
+  "objets": []
+}

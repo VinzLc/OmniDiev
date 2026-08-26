@@ -11685,7 +11685,7 @@
   "zenor": {
    "nom": "Zénor",
    "role": "Royaume côtier du sud d'Enkidiev, historiquement ravagé par les hommes-insectes et devenu un enjeu stratégique majeur contre l'invasion.",
-   "tuiles": null
+   "tuiles": "zenor.png"
   },
   "montagne-de-cristal": {
    "nom": "Montagne de Cristal",

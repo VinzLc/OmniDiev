@@ -5,13 +5,30 @@ npm run jeu              # jouer
 npm run jeu -- --editeur # ouvrir l'éditeur Godot
 ```
 
-Flèches pour marcher. **Espace** devant le brasier pour parler, Espace encore pour fermer.
+| | |
+|---|---|
+| Flèches | marcher |
+| Espace | parler, tourner la page, reprendre après une chute |
+| J | l'épée |
+| K | le feu de Theandras |
+
+Les deux jauges, en haut à droite : la vie en rouge, l'énergie en bleu. L'énergie se refait
+seule ; la vie, non.
 
 ## Ce qui s'y trouve
 
 **Le chapitre I,1 des Chevaliers d'Émeraude, jouable.** Wellan se présente au Roi
 fondateur, rallie ses six compagnons, apprend l'incident des pèlerins de Shola, puis reçoit
 la Reine Fan qui lui confie sa fille avant de disparaître.
+
+## Ce que le texte impose au combat
+
+La fiche des hommes-insectes dit une carapace « les rendant invulnérables à la magie ». Le
+sort glisse donc sur eux, et il faut le fer. Les dragons, que le chapitre 26 fait tomber
+dans les fosses et enflammer, brûlent très bien.
+
+Ce n'est pas de l'équilibrage : ce sont deux registres de combat que l'œuvre impose, et que
+le joueur doit reconnaître pour s'en sortir.
 
 ## Comment une scène est écrite
 

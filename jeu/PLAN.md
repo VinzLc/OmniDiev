@@ -102,13 +102,25 @@ Les répliques sont **écrites**, d'après le résumé du chapitre et les fiches
 prélevées dans les romans. C'est la contrainte posée à l'étape 1, et elle tiendra pour les
 1 440 chapitres suivants.
 
-### 3 — Les systèmes RPG ← prochaine
+### 3 — Les systèmes RPG ◐
 
 Combat, magie, inventaire, progression. L'étape la plus longue des cinq.
 
 > **Terminé quand** on peut perdre.
 
-### 4 — La direction artistique
+**Le critère est atteint** : Wellan tombe, et l'on reprend la ligne. Le chapitre I,26 — la
+nuit où la première vague débarque à Zénor — est jouable, avec deux jauges, l'épée, le feu
+de Theandras, et des vagues qui se relèvent.
+
+La mécanique vient du texte, non de l'équilibrage. La fiche des hommes-insectes dit une
+carapace « les rendant invulnérables à la magie » : le sort glisse sur eux et il faut le
+fer. Les dragons, eux, brûlent — le chapitre les fait tomber dans les fosses et les
+enflammer. Deux registres, imposés par l'œuvre.
+
+**Ce qui manque encore à l'étape** : l'inventaire et la progression. Ni l'un ni l'autre
+n'est requis par le critère, mais ni l'un ni l'autre n'existe.
+
+### 4 — La direction artistique ← prochaine
 
 La production d'images tourne en parallèle dès l'étape 0. Cette étape est celle du regard
 d'ensemble : harmoniser les palettes, reprendre ce qui jure, fixer une charte.
@@ -131,12 +143,12 @@ Outillage d'édition de cartes, chapitres en série.
 | Dépôt | **Même dépôt, `jeu/`** | Accès direct au Codex, un seul `git pull`, aucune donnée dupliquée. |
 | Graphismes | **Génération pilotée par le texte** | `npm run art` écrit les commandes depuis les romans ; les images reviennent dans `jeu/art/`. |
 | Orchestration | **Pas de `squad`** | Orchestrateur pour GitHub Copilot. Il résout le débit de code, qui n'est pas notre goulot. |
+| Combat | **Action en temps réel** | Tranché à l'étape 3. Épée au contact, sort à distance, adversaires qui marchent sur vous. |
 
 ## Ce qui reste ouvert
 
 - **Le droit d'auteur.** Jeu de fan tiré d'une œuvre protégée, sur un dépôt public. Le code
   et les résumés générés sont d'une autre nature que les romans — qui ne quittent pas la
   machine — mais la question mérite d'être posée avant que le projet gagne en visibilité.
-- **Le combat.** Tour par tour à la Pokémon, ou action en temps réel ? À trancher à l'étape 3.
 - **La langue.** Français seul, ou structure prête pour l'anglais ? Prévoir les deux dès
   l'étape 1 ne coûte presque rien ; rétro-adapter coûte cher.
