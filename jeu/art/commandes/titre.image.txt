@@ -1,0 +1,11 @@
+Wide pixel art illustration, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005), landscape format, a title screen background for a medieval fantasy epic.
+
+SCENE: the Castle of Emerald seen from below at night, standing on a green hill — high dark walls, square towers, narrow lit windows, a great gate at the foot. Emerald green banners hang from the towers.
+
+Above it, across a deep blue-black sky, a STAR OF FIRE crosses from right to left, trailing a long burning tail of gold and red. It is an omen, not a decoration: it is the brightest thing in the picture and the whole sky is lit by it.
+
+In the foreground, low and small, the silhouette of a lone knight seen from behind, standing on the hill watching the sky. He is a black shape with a two-tone green and black surcoat, nothing more.
+
+STYLE: flat fills, two-tone shading, hard dark outlines, no anti-aliasing, no gradients. Deep blues and blacks for the sky, emerald green for the banners and the hill, gold and red for the fire star. Readable as a whole at a glance.
+
+No text, no letters, no title, no watermark, no frame, no user interface.

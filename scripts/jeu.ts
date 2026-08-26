@@ -44,6 +44,10 @@ function planches(): { de: string; vers: string }[] {
       if (f.endsWith(".png")) out.push({ de: path.join(dir, f), vers: f });
     }
   }
+  // L'illustration de l'écran-titre.
+  const ecran = path.join(ART, "ecrans", "titre.png");
+  if (fs.existsSync(ecran)) out.push({ de: ecran, vers: "ecran-titre.png" });
+
   // Les portraits sont préfixés : un visage et une planche portent le même
   // identifiant, et se seraient écrasés dans le dossier plat des ressources.
   const visages = path.join(ART, "portraits");
@@ -57,6 +61,7 @@ function planches(): { de: string; vers: string }[] {
 
 /** Sans celles-ci, la première scène s'ouvre sur du vide. */
 const INDISPENSABLES = [
+  { fichier: "ecran-titre.png", quoi: "l'illustration du titre" },
   { fichier: "wellan.png", quoi: "Wellan" },
   { fichier: "chateau-d-emeraude.png", quoi: "le sol du Château" },
 ];

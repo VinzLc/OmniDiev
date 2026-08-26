@@ -6,7 +6,7 @@ description: Travailler sur le jeu OmniDiev — le projet Godot de jeu/godot/, s
 # Le jeu
 
 ```bash
-npm run jeu                    # reprendre la partie
+npm run jeu                    # écran-titre, puis choix de la partie
 npm run jeu -- --recommencer   # repartir du premier chapitre
 npm run jeu -- --scene i-02    # un chapitre précis, sans toucher à la partie
 ```
@@ -45,8 +45,22 @@ godot --path jeu/godot ++ --scene i-26 --effets …         # regarde les effets
 Le mode capture joue par `Input.parse_input_event`, donc par le chemin d'un vrai joueur.
 Il imprime ce qu'il mesure et enregistre des images.
 
+**Le banc doit rendre ce qu'il emprunte.** L'épreuve de la pause choisissait « Sauvegarder »,
+ce qui note le chapitre en cours — et écrasait donc l'avance que la fin du chapitre venait
+d'inscrire. La campagne rejouait le premier chapitre à l'infini, et le défaut paraissait venir
+du jeu.
+
 **Regarder les captures, toujours.** Rien ne mesure qu'un roi est décapité, qu'une réplique
 déborde de son cadre, ou qu'un effet s'empile en auréole. Les trois sont arrivés.
+
+**Un écran qui attend une touche bloque le banc de test.** L'écran-titre attendait une
+pression que personne ne fait en capture : le processus restait là sans erreur ni sortie
+jusqu'au délai d'attente. `titre.gd` entre donc directement dans le jeu quand `--capture`,
+`--effets` ou `--scene` sont là.
+
+**Une bulle marque qui a quelque chose à dire.** Elle ne signale que la parole écrite par la
+scène et pas encore entendue — une fiche du Codex se lit comme une description et reste
+disponible indéfiniment, la signaler mettrait une bulle sur 365 personnages.
 
 **Un test ne joue pas la partie du joueur.** Le mode capture notait sa progression dans le
 même fichier que la partie ; à force de vérifier la campagne, la sauvegarde s'est trouvée

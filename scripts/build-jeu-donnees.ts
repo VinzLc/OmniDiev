@@ -266,6 +266,31 @@ async function effets(dossier: string) {
   await sharp(sang, { raw: { width: M * temps.length, height: M, channels: 4 } })
     .png().toFile(path.join(dossier, "sang.png"));
 
+  /* ── La bulle de parole ───────────────────────────────────────────────
+   * Le signe qu'un personnage a quelque chose à dire qu'on n'a pas encore
+   * entendu. Petite, au-dessus de la tête, avec ses trois points : c'est le
+   * signe universel, inutile d'en inventer un autre.
+   */
+  const B = 16;
+  const bulle = toile(B, B);
+  const dedans = (x: number, y: number) => x >= 2 && x <= 13 && y >= 2 && y <= 10;
+  const queue = (x: number, y: number) => y >= 11 && y <= 13 && x >= 5 && x <= 5 + (13 - y);
+  for (let y = 0; y < B; y++) {
+    for (let x = 0; x < B; x++) {
+      const corps = dedans(x, y) || queue(x, y);
+      if (!corps) continue;
+      // Contour : tout pixel du corps qui touche le vide.
+      const bord = ![[1, 0], [-1, 0], [0, 1], [0, -1]].every(([dx, dy]) =>
+        dedans(x + dx, y + dy) || queue(x + dx, y + dy));
+      poser(bulle, B, x, y, bord ? PAL.noir : PAL.blanc, B);
+    }
+  }
+  // Les trois points, qui font lire « il a quelque chose à dire ».
+  for (const x of [5, 8, 11]) poser(bulle, B, x, 6, PAL.acier, B);
+
+  await sharp(bulle, { raw: { width: B, height: B, channels: 4 } })
+    .png().toFile(path.join(dossier, "bulle.png"));
+
   return { taillade: arcs.length, feu: battements.length, eclat: rayons.length, sang: temps.length };
 }
 

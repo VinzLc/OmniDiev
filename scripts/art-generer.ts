@@ -274,8 +274,64 @@ function chercherImage(o: unknown): string | null {
   return null;
 }
 
+/**
+ * Une illustration libre — un écran-titre, une carte, un fond.
+ *
+ * Elle n'entre dans aucune grille et ne se normalise pas : on la garde telle
+ * qu'elle sort, dans `jeu/art/ecrans/`.
+ */
+async function illustration(id: string) {
+  const file = path.join(ROOT, "jeu", "art", "commandes", `${id}.image.txt`);
+  if (!fs.existsSync(file)) {
+    console.error(`Commande absente : ${path.relative(ROOT, file)}`);
+    process.exit(1);
+  }
+  const description = fs.readFileSync(file, "utf8").trim();
+  const l = Number(arg("largeur") ?? 320);
+  const h = Number(arg("hauteur") ?? 180);
+  const before = await showBalance("Solde avant");
+  console.log(`${C.dim}${id} — ${l}×${h}, ${description.length} caractères${C.off}`);
+
+  const r = await post<Record<string, unknown>>("/create-image-pixflux", {
+    description,
+    image_size: { width: l, height: h },
+    color_image: await paletteImage(),
+    negative_description: "repeating horizontal bands, dotted rows, tiled pattern in the sky, "
+      + "text, letters, watermark, frame, user interface",
+    detail: "highly detailed",
+    shading: "medium shading",
+    outline: "single color black outline",
+    ...(arg("graine") ? { seed: Number(arg("graine")) } : {}),
+  });
+
+  const ids = (r.background_job_ids as string[]) ?? [r.background_job_id as string].filter(Boolean);
+  let sortie = r;
+  if (ids.length) {
+    const { jobs, spent } = await awaitJobs(ids, () => {});
+    console.log(`${C.dim}coût ${money(spent)}${C.off}`);
+    sortie = (jobs[0]?.last_response ?? {}) as Record<string, unknown>;
+  }
+
+  const trouve = chercherImage(sortie);
+  if (!trouve) {
+    console.error("Aucune image dans la réponse :");
+    console.error(JSON.stringify(sortie).slice(0, 400));
+    process.exit(1);
+  }
+  const dossier = path.join(ROOT, "jeu", "art", "ecrans");
+  fs.mkdirSync(dossier, { recursive: true });
+  const dest = path.join(dossier, `${id}.png`);
+  fs.writeFileSync(dest, Buffer.from(trouve, "base64"));
+
+  const after = await balance();
+  console.log(`${C.green}✓${C.off} ${path.relative(ROOT, dest)}`);
+  console.log(`${C.dim}solde ${money(before.credits.usd)} → ${money(after.credits.usd)}${C.off}`);
+}
+
 async function main() {
   if (process.argv.includes("--solde")) { await showBalance(); return; }
+  const ecran = arg("image");
+  if (ecran) { await illustration(ecran); return; }
   const visage = arg("portrait");
   if (visage) { await portrait(visage); return; }
   const tuilesId = arg("tuiles");

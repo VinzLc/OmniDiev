@@ -25,8 +25,8 @@ const CADENCE := 7.0
 const RANGEE := { "sud": 0, "nord": 1, "ouest": 2, "est": 3 }
 
 const DONNEES := "res://donnees/"
-const PROGRESSION := "user://progression.json"
-const PROGRESSION_ESSAI := "user://progression-essai.json"
+const PARTIES := "user://parties.json"
+const PARTIES_ESSAI := "user://parties-essai.json"
 
 ## Le combat, en clair. Ces nombres sont à nous ; ce qui vient du texte, c'est
 ## que la carapace des hommes-insectes boit la magie.
@@ -100,8 +100,15 @@ var _bandeau: Panel          ## les descriptions, distinctes des paroles
 var _recit: RichTextLabel
 var _visage: TextureRect     ## le portrait de qui parle
 var _marcheurs: Array = []   ## ceux qui entrent ou sortent, en chemin
+var _bulles := {}            ## les bulles de parole, par identifiant de fiche
+var _flottement := 0.0
+var _pause: Panel
+var _menu: RichTextLabel
+var _choix_pause := 0
+var _en_pause := false
 var _recit_capture := false   ## une seule image de description suffit au contrôle
 var _invite_capture := false
+var _bulles_capture := false
 var _mare: Sprite2D = null    ## la mare de sang, gardée entre deux morts
 
 
@@ -143,7 +150,7 @@ func _ready() -> void:
 ## événements d'entrée dans ce fichier est illisible et se corrompt à la
 ## moindre retouche à la main. Trois lignes de code valent mieux.
 func _declarer_les_touches() -> void:
-	for nom in [["frapper", KEY_J], ["lancer", KEY_K]]:
+	for nom in [["frapper", KEY_J], ["lancer", KEY_K], ["pause", KEY_ESCAPE]]:
 		if InputMap.has_action(nom[0]):
 			continue
 		InputMap.add_action(nom[0])
@@ -169,7 +176,7 @@ func _scene_demandee() -> String:
 		return arguments[i + 1]
 
 	var suite: Array = _campagne.get("chapitres", [])
-	var repris: String = str(_lire(_carnet()).get("chapitre", ""))
+	var repris: String = str(_partie().get("chapitre", ""))
 	if repris != "" and suite.has(repris):
 		return str(repris)
 	return str(suite[0]) if not suite.is_empty() else "i-01"
@@ -179,9 +186,16 @@ func _scene_demandee() -> String:
 func _noter(chapitre: String) -> void:
 	if _libre:
 		return
+	var carnet := _lire(_carnet())
+	if not carnet.has("parties"):
+		carnet = { "courante": 0, "parties": [null, null, null] }
+	var n := int(carnet.get("courante", 0))
+	var parties: Array = carnet["parties"]
+	if n >= 0 and n < parties.size():
+		parties[n] = { "chapitre": chapitre }
 	var f := FileAccess.open(_carnet(), FileAccess.WRITE)
 	if f:
-		f.store_string(JSON.stringify({ "chapitre": chapitre }))
+		f.store_string(JSON.stringify(carnet))
 
 
 ## Le chapitre suivant dans l'ordre de lecture, vide s'il n'y en a plus.
@@ -206,8 +220,18 @@ func _chapitre_suivant() -> String:
 func _carnet() -> String:
 	var arguments := OS.get_cmdline_user_args()
 	if OS.get_cmdline_args().has("--capture") or arguments.has("--capture") or arguments.has("--effets"):
-		return PROGRESSION_ESSAI
-	return PROGRESSION
+		return PARTIES_ESSAI
+	return PARTIES
+
+
+## L'emplacement en cours, et ce qu'il contient.
+func _partie() -> Dictionary:
+	var carnet := _lire(_carnet())
+	var parties: Array = carnet.get("parties", [])
+	var n := int(carnet.get("courante", 0))
+	if n < 0 or n >= parties.size() or parties[n] == null:
+		return {}
+	return parties[n]
 
 
 func _lire(chemin: String) -> Dictionary:
@@ -518,6 +542,7 @@ func _entrer_dans_l_etape() -> void:
 		_faire_entrer(entrant)
 
 	_objectif.text = str(etape.get("objectif", ""))
+	_rafraichir_les_bulles()
 	_lever_la_vague(etape)
 
 
@@ -956,6 +981,38 @@ func _batir_le_dialogue() -> void:
 
 	# L'objectif reste affiché : sans lui, un chapitre en quatre temps se joue à
 	# tâtons, et le joueur croit que le jeu ne réagit pas alors qu'il attend.
+	## Le menu de pause.
+	##
+	## Trois choix seulement : reprendre, noter où l'on en est, revenir au
+	## titre. Le jeu note déjà la fin de chaque chapitre ; « sauvegarder » sert
+	## à ne pas perdre un chapitre entamé quand on s'arrête au milieu.
+	_pause = Panel.new()
+	_pause.anchor_left = 0.5
+	_pause.anchor_right = 0.5
+	_pause.anchor_top = 0.5
+	_pause.anchor_bottom = 0.5
+	_pause.offset_left = -150
+	_pause.offset_right = 150
+	_pause.offset_top = -80
+	_pause.offset_bottom = 80
+	var repos := StyleBoxFlat.new()
+	repos.bg_color = Color("#0b0a10")
+	repos.border_color = Color("#c08f34")
+	repos.set_border_width_all(2)
+	repos.set_content_margin_all(14)
+	_pause.add_theme_stylebox_override("panel", repos)
+	_pause.visible = false
+	couche.add_child(_pause)
+
+	_menu = RichTextLabel.new()
+	_menu.bbcode_enabled = true
+	_menu.anchor_right = 1.0
+	_menu.anchor_bottom = 1.0
+	_menu.scroll_active = false
+	_menu.add_theme_font_size_override("normal_font_size", 15)
+	_menu.add_theme_font_size_override("bold_font_size", 15)
+	_pause.add_child(_menu)
+
 	_objectif = Label.new()
 	_objectif.anchor_right = 1.0
 	_objectif.offset_left = 18
@@ -1184,6 +1241,7 @@ func _afficher() -> void:
 			_parles[_interlocuteur] = true
 			_interlocuteur = ""
 			_avancer_si_possible()
+			_rafraichir_les_bulles()
 		return
 	var page: Dictionary = _pages[_page]
 	if str(page.get("genre", "parole")) == "recit":
@@ -1211,7 +1269,93 @@ func _montrer_le_visage(id: String) -> void:
 	_texte.offset_left = 10 + PORTRAIT + 8
 
 
+const CHOIX_PAUSE := ["Reprendre", "Sauvegarder", "Écran-titre"]
+
+func _dessiner_la_pause(mot := "") -> void:
+	var lignes := PackedStringArray(["[center][color=#a6a8b2]Pause[/color][/center]", ""])
+	for i in CHOIX_PAUSE.size():
+		var vise := i == _choix_pause
+		lignes.append("[center]%s[/center]" % (
+			"[color=#f0d174]▸ %s ◂[/color]" % CHOIX_PAUSE[i] if vise
+			else "[color=#71727e]%s[/color]" % CHOIX_PAUSE[i]))
+	if mot != "":
+		lignes.append("")
+		lignes.append("[center][color=#43c47f]%s[/color][/center]" % mot)
+	_menu.text = "\n".join(lignes)
+
+
+func _basculer_la_pause() -> void:
+	_en_pause = not _en_pause
+	_pause.visible = _en_pause
+	_choix_pause = 0
+	if _en_pause:
+		_wellan.velocity = Vector2.ZERO
+		_dessiner_la_pause()
+
+
+func _choisir_dans_la_pause() -> void:
+	match _choix_pause:
+		0:
+			_basculer_la_pause()
+		1:
+			_noter(_chapitre)
+			_dessiner_la_pause("Partie notée.")
+		2:
+			get_tree().change_scene_to_file("res://titre.tscn")
+
+
+## Qui a quelque chose à dire qu'on n'a pas encore entendu.
+##
+## Seule la parole écrite par la scène compte. Une fiche du Codex se lit comme
+## une description et reste disponible indéfiniment : la signaler mettrait une
+## bulle sur les trois cent soixante-cinq personnages du monde, ce qui ne
+## voudrait plus rien dire.
+func _a_dire(id: String) -> bool:
+	if _parles.has(id):
+		return false
+	return (_etape_courante().get("dialogues", {}) as Dictionary).has(id)
+
+
+func _rafraichir_les_bulles() -> void:
+	for id in _habitants:
+		var doit := _a_dire(str(id))
+		if doit and not _bulles.has(id):
+			var corps: Node2D = _habitants[id]
+			var bulle := Sprite2D.new()
+			bulle.texture = load(DONNEES + "bulle.png")
+			bulle.position = Vector2(0, -38)
+			corps.add_child(bulle)
+			_bulles[id] = bulle
+		elif not doit and _bulles.has(id):
+			if is_instance_valid(_bulles[id]):
+				_bulles[id].queue_free()
+			_bulles.erase(id)
+
+	# Ceux qui ont quitté la salle emportent la leur.
+	for id in _bulles.keys():
+		if not _habitants.has(id):
+			if is_instance_valid(_bulles[id]):
+				_bulles[id].queue_free()
+			_bulles.erase(id)
+
+
 func _unhandled_input(evenement: InputEvent) -> void:
+	# La pause passe avant tout : on doit pouvoir s'arrêter au milieu d'une
+	# réplique comme au milieu d'une mêlée.
+	if evenement.is_action_pressed("pause") and not _ouverture.visible and not _acheve.visible:
+		_basculer_la_pause()
+		return
+	if _en_pause:
+		if evenement.is_action_pressed("ui_down"):
+			_choix_pause = (_choix_pause + 1) % CHOIX_PAUSE.size()
+			_dessiner_la_pause()
+		elif evenement.is_action_pressed("ui_up"):
+			_choix_pause = (_choix_pause + CHOIX_PAUSE.size() - 1) % CHOIX_PAUSE.size()
+			_dessiner_la_pause()
+		elif evenement.is_action_pressed("ui_accept"):
+			_choisir_dans_la_pause()
+		return
+
 	if _ouverture.visible:
 		if evenement.is_action_pressed("ui_accept"):
 			_ouverture.visible = false
@@ -1443,6 +1587,18 @@ func _poser(vue, colonne: int, sens: String) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if _en_pause:
+		_wellan.velocity = Vector2.ZERO
+		return
+
+	# Les bulles montent et descendent doucement : immobiles elles se prennent
+	# pour un élément du décor, et l'œil cesse de les voir.
+	_flottement += delta * 3.0
+	var hauteur := -38.0 + sin(_flottement) * 2.0
+	for id in _bulles:
+		if is_instance_valid(_bulles[id]):
+			_bulles[id].position.y = hauteur
+
 	# Avant tout le reste : ceux qui entrent ou s'en vont avancent même pendant
 	# un dialogue ou le carton d'ouverture. Une arrivée qui se fige parce qu'on
 	# lit une réplique se verrait aussitôt.
@@ -1542,6 +1698,32 @@ func _capturer() -> void:
 		print("PAS ACHEVE après %d tours, étape %d" % [garde, _etape])
 
 	await _eprouver_les_orientations()
+
+	# La pause : on doit pouvoir s'arrêter, et voir où l'on s'arrête.
+	#
+	# On écarte d'abord l'écran de fin de chapitre : tant qu'il est là, la pause
+	# est ignorée — à raison — et l'appui suivant rechargerait la scène, ce qui
+	# laisserait la capture sans viewport.
+	_acheve.visible = false
+	_touche("pause")
+	await _attendre(6)
+	get_viewport().get_texture().get_image().save_png("res://capture-pause.png")
+	print("PAUSE ouverte=%s choix=%s" % [_en_pause, CHOIX_PAUSE[_choix_pause]])
+	_touche("ui_down")
+	await _attendre(3)
+	_touche("ui_accept")
+	await _attendre(6)
+	get_viewport().get_texture().get_image().save_png("res://capture-pause-note.png")
+	print("PAUSE après sauvegarde : %s" % _partie())
+
+	# « Sauvegarder » note le chapitre en cours — ce qui, ici, écrase l'avance
+	# que la fin du chapitre venait d'inscrire. Le banc remet donc la partie où
+	# le chapitre l'avait laissée : vérifier ne doit rien changer.
+	var suivant := _chapitre_suivant()
+	if suivant != "":
+		_noter(suivant)
+		print("PAUSE avance rendue : %s" % suivant)
+
 	get_tree().quit()
 
 
@@ -1688,6 +1870,14 @@ func _parler_a(id: String, nom_image: String) -> void:
 	if _proche != id:
 		print("HORS DE PORTEE %s (proche=%s)" % [id, _proche])
 		return
+
+	# Une image quand plusieurs bulles sont à l'écran : c'est là qu'on voit à
+	# quoi elles servent — la quête des six Chevaliers.
+	if _bulles.size() >= 3 and not _bulles_capture:
+		_bulles_capture = true
+		await _attendre(3)
+		get_viewport().get_texture().get_image().save_png("res://capture-bulles.png")
+		print("BULLES %d à l'écran" % _bulles.size())
 
 	# Une image avant d'ouvrir : c'est le seul moment où l'invite se voit, et
 	# elle est là pour être vue.
