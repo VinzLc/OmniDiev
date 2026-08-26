@@ -184,10 +184,18 @@ async function inspect(file: string): Promise<Finding[]> {
       }
 
       if (!pal.transparent) {
+        /*
+         * Un personnage sans transparence est inutilisable : il traînerait son
+         * fond sur le décor. Un sol, lui, couvre le terrain — il n'a rien à
+         * détourer, et l'exiger serait une fausse alerte. La distinction ne
+         * tient donc pas à l'image mais à ce qu'on en fait.
+         */
         out.push({
-          level: "erreur",
-          message: "aucun pixel transparent — le fond est plein",
-          remede: "détourer le fond, ou redemander avec fond transparent",
+          level: kind === "personnage" ? "erreur" : "avis",
+          message: kind === "personnage"
+            ? "aucun pixel transparent — le fond est plein"
+            : "aucun pixel transparent — normal pour un sol, à corriger pour une tuile ajourée",
+          remede: kind === "personnage" ? "détourer le fond, ou redemander avec fond transparent" : undefined,
         });
       }
 

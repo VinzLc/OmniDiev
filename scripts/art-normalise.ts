@@ -24,8 +24,10 @@ const ROOT = path.resolve(import.meta.dirname, "..");
 const ART = path.join(ROOT, "jeu", "art");
 const SOURCES = path.join(ART, "sources");
 const OUT = path.join(ART, "personnages");
+const LIEUX = path.join(ART, "lieux");
 
 const SPRITE = 32;
+const TUILE = 16;
 const COLS = 4;
 const MAX_COLORS = 16;
 
@@ -560,6 +562,138 @@ async function build(id: string, palette: RGB[]): Promise<boolean> {
   return true;
 }
 
+/**
+ * Assemble un jeu de tuiles de Wang pour Godot.
+ *
+ * Le service rend seize tuiles couvrant toutes les combinaisons de coins entre
+ * deux terrains, plus les métadonnées qui disent lesquelles. C'est ce qui permet
+ * à un tapis de s'arrêter proprement sur la pierre, quelle que soit sa forme.
+ *
+ * La planche les range par signature de coins — NO, NE, SO, SE lus comme un
+ * nombre binaire — pour que le moteur trouve la bonne tuile par calcul plutôt
+ * que par table.
+ */
+async function buildTileset(id: string, palette: RGB[]): Promise<boolean> {
+  const dir = path.join(SOURCES, `${id}-tuiles`);
+  const meta = path.join(dir, "reponse.json");
+  if (!fs.existsSync(meta)) {
+    console.log(`${C.red}✗${C.off} ${id} — reponse.json absent de ${path.relative(ROOT, dir)}/`);
+    return false;
+  }
+
+  const r = JSON.parse(fs.readFileSync(meta, "utf8"));
+  const tiles: { corners: Record<string, string> }[] = r.tileset?.tiles ?? [];
+  const size: number = r.tileset?.tile_size?.width ?? TUILE;
+
+  /*
+   * La signature de coins se déduit de l'image, non des métadonnées.
+   *
+   * Le service les a déjà rendues fausses deux fois : une planche où « lower »
+   * et « upper » désignaient l'inverse de ce que montraient les images, et une
+   * tuile déclarée uniforme qui portait une bordure. Assemblée sur la foi de
+   * ces étiquettes, la salle sortait à l'envers et le liseré doré flottait à
+   * côté de la frontière.
+   *
+   * Or la réponse est dans le fichier : il suffit de regarder ce que chaque
+   * coin montre. On échantillonne un carré à chacun des quatre angles et on
+   * classe par verdeur — le tapis est vert, la dalle est grise.
+   */
+  const read = new Map<number, Frame>();
+  const brut: Frame[] = [];
+  for (let i = 0; i < tiles.length; i++) {
+    const f = path.join(dir, `tileset-tiles-${i}-image.png`);
+    if (fs.existsSync(f)) brut.push(await readTile(f));
+  }
+
+  /**
+   * Le quadrant est-il vert ?
+   *
+   * On compte le vert contre le gris **en ignorant l'or** du liseré. Le compter
+   * comme du non-vert faisait basculer du mauvais côté tout quadrant que la
+   * bordure traversait — et ce sont précisément les tuiles de transition, celles
+   * qui portent l'information. Deux signatures manquaient à cause de cela, et le
+   * jeu paraissait dégénéré alors qu'il était complet.
+   */
+  const estVert = (f: Frame, x0: number, y0: number, n: number) => {
+    let verts = 0, gris = 0;
+    for (let y = y0; y < y0 + n; y++) for (let x = x0; x < x0 + n; x++) {
+      const o = (y * f.width + x) * f.channels;
+      if (f.data[o + 3] < 16) continue;
+      const r = f.data[o], g = f.data[o + 1], b = f.data[o + 2];
+      if (r > 120 && g > 90 && b < 90 && r > b + 50) continue; // le liseré doré
+      if (g > r + 12 && g > b + 8) verts++; else gris++;
+    }
+    return verts > gris;
+  };
+
+  const q = Math.max(2, Math.floor(size / 2));
+  let desaccords = 0;
+  for (const [i, f] of brut.entries()) {
+    const coins = [
+      estVert(f, 0, 0, q),                     // NO
+      estVert(f, size - q, 0, q),              // NE
+      estVert(f, 0, size - q, q),              // SO
+      estVert(f, size - q, size - q, q),       // SE
+    ];
+    // Le vert est le terrain 0 : c'est le fond sur lequel l'autre s'inscrit.
+    const sig = coins.reduce((n, v) => (n << 1) | (v ? 0 : 1), 0);
+    const t = tiles[i]?.corners;
+    if (t) {
+      const annonce = ["NW", "NE", "SW", "SE"].reduce((n, c) => (n << 1) | (t[c] === "upper" ? 1 : 0), 0);
+      if (annonce !== sig && annonce !== (~sig & 15)) desaccords++;
+    }
+    if (!read.has(sig)) read.set(sig, f);
+  }
+
+  const missing = [...Array(16).keys()].filter((n) => !read.has(n));
+  if (missing.length) {
+    console.log(`${C.red}✗${C.off} ${id} — ${missing.length} combinaison(s) de coins introuvable(s) dans les images`);
+    console.log(`  ${C.dim}manquantes : ${missing.map((n) => n.toString(2).padStart(4, "0")).join(" ")}${C.off}`);
+    return false;
+  }
+
+  const frames = [...Array(16).keys()].map((n) => read.get(n)!);
+  const stat = snap(frames, palette);
+  const upperEstVert = false; // le terrain 1 est celui qui n'est pas vert, par construction
+
+  const W = size * 16;
+  const sheet = Buffer.alloc(W * size * 4, 0);
+  frames.forEach((f, n) => {
+    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+      const si = (y * f.width + x) * f.channels, di = (y * W + n * size + x) * 4;
+      sheet[di] = f.data[si]; sheet[di + 1] = f.data[si + 1];
+      sheet[di + 2] = f.data[si + 2]; sheet[di + 3] = f.data[si + 3];
+    }
+  });
+
+  fs.mkdirSync(LIEUX, { recursive: true });
+  await sharp(sheet, { raw: { width: W, height: size, channels: 4 } })
+    .png({ compressionLevel: 9 }).toFile(path.join(LIEUX, `${id}.png`));
+
+  const prompts = r.metadata?.terrain_prompts ?? {};
+  fs.writeFileSync(path.join(LIEUX, `${id}.json`), JSON.stringify({
+    tuile: size,
+    colonnes: 16,
+    ordre: "signature des coins, NO NE SO SE lus en binaire — colonne = NO*8 + NE*4 + SO*2 + SE",
+    terrain0: upperEstVert ? String(prompts.lower ?? "") : String(prompts.upper ?? ""),
+    terrain1: upperEstVert ? String(prompts.upper ?? "") : String(prompts.lower ?? ""),
+    note: "terrain0 et terrain1 sont mesurés sur les images, non lus dans les étiquettes : le service les a déjà rendues permutées.",
+  }, null, 2) + "\n");
+
+  console.log(`${C.green}✓${C.off} ${id} → ${path.relative(ROOT, path.join(LIEUX, `${id}.png`))}  ${W}×${size}`);
+  console.log(`  ${C.dim}16 tuiles de Wang, palette ${stat.before} → ${stat.after} teintes${C.off}`);
+  if (desaccords) {
+    console.log(`  ${C.yellow}${desaccords} tuile(s) dont les coins annoncés ne correspondent pas à l'image — signature relue sur les pixels${C.off}`);
+  }
+  return true;
+}
+
+/** Une tuile se lit telle quelle : pas de recadrage, elle est déjà à sa taille. */
+async function readTile(file: string): Promise<Frame> {
+  const { data, info } = await sharp(file).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  return { data, width: info.width, height: info.height, channels: info.channels };
+}
+
 async function main() {
   if (!fs.existsSync(SOURCES)) {
     console.log(`Rien dans ${path.relative(ROOT, SOURCES)}/. Y déposer les rendus bruts de l'IA graphique.`);
@@ -581,8 +715,10 @@ async function main() {
 
   let ok = 0;
   for (const id of ids) {
+    const tuiles = id.endsWith("-tuiles");
+    const nom = tuiles ? id.slice(0, -"-tuiles".length) : id;
     if (!fs.existsSync(path.join(SOURCES, id))) { console.log(`${C.red}✗${C.off} ${id} — absent de sources/`); continue; }
-    if (await build(id, palette)) ok++;
+    if (tuiles ? await buildTileset(nom, palette) : await build(id, palette)) ok++;
   }
   console.log(`\n${ok}/${ids.length} planche(s) assemblée(s). Contrôle : npm run art:verifier`);
   process.exitCode = ok === ids.length ? 0 : 1;

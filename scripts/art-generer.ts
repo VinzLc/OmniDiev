@@ -20,7 +20,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import sharp from "sharp";
-import { animate, awaitJobs, balance, characterZip, characters, money, post } from "../lib/pixellab.ts";
+import { animate, awaitJobs, balance, characterZip, characters, get, money, post } from "../lib/pixellab.ts";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const SOURCES = path.join(ROOT, "jeu", "art", "sources");
@@ -119,8 +119,76 @@ async function create(id: string) {
   console.log(`\n${C.yellow}Regarder le rendu avant de remplacer l'existant.${C.off}`);
 }
 
+/**
+ * Commande un jeu de tuiles.
+ *
+ * Le service produit un tileset de Wang : non pas des murs et des meubles, mais
+ * le raccord complet entre deux sols — seize tuiles qui s'aboutent dans toutes
+ * les combinaisons de coins. C'est exactement la partie qu'on ne réussit pas à
+ * la main, et celle dont dépend qu'un décor ne montre pas ses coutures.
+ */
+async function tuiles(id: string) {
+  const file = path.join(ROOT, "jeu", "art", "commandes", `${id}.tuiles.json`);
+  if (!fs.existsSync(file)) {
+    console.error(`Commande absente : ${path.relative(ROOT, file)}`);
+    process.exit(1);
+  }
+  const spec = JSON.parse(fs.readFileSync(file, "utf8")) as Record<string, unknown>;
+  for (const k of Object.keys(spec)) if (k.startsWith("_")) delete spec[k];
+
+  const before = await showBalance("Solde avant");
+  console.log(`\n${id} — jeu de tuiles 16×16`);
+
+  const body = {
+    ...spec,
+    tile_size: { width: 16, height: 16 },
+    view: "low top-down",
+    outline: "single color black outline",
+    shading: "basic shading",
+    detail: "medium detail",
+    color_image: await paletteImage(),
+    ...spec, // la commande a le dernier mot sur le style
+  };
+
+  const r = await post<Record<string, unknown>>("/create-tileset", body);
+  const tilesetId = String(r.tileset_id);
+  console.log(`tileset ${tilesetId}. Attente…`);
+
+  const { spent } = await awaitJobs([String(r.background_job_id)], (d, t, usd) =>
+    process.stdout.write(`\r  ${d}/${t}   ${money(usd)}   `));
+  console.log();
+
+  const result = await get<Record<string, unknown>>(`/tilesets/${tilesetId}`);
+  const dir = path.join(SOURCES, `${id}-tuiles`);
+  fs.mkdirSync(dir, { recursive: true });
+
+  /* On ne présume pas de la forme du résultat : on parcourt, on écrit ce qui
+   * ressemble à une image, et on garde le reste tel quel pour l'examiner. */
+  let n = 0;
+  const walk = (o: unknown, chemin: string[]) => {
+    if (Array.isArray(o)) return o.forEach((v, i) => walk(v, [...chemin, String(i)]));
+    if (o && typeof o === "object") {
+      for (const [k, v] of Object.entries(o as Record<string, unknown>)) {
+        if (k === "base64" && typeof v === "string") {
+          fs.writeFileSync(path.join(dir, `${chemin.join("-") || "tuile"}.png`), Buffer.from(v, "base64"));
+          n++;
+        } else walk(v, [...chemin, k]);
+      }
+    }
+  };
+  walk(result, []);
+  fs.writeFileSync(path.join(dir, "reponse.json"),
+    JSON.stringify(result, (k, v) => (k === "base64" ? "<image>" : v), 2));
+
+  const after = await balance();
+  console.log(`\n${C.green}✓${C.off} ${n} image(s) dans ${path.relative(ROOT, dir)}/`);
+  console.log(`${C.dim}coût ${money(spent)} — générations ${before.subscription?.generations} → ${after.subscription?.generations}${C.off}`);
+}
+
 async function main() {
   if (process.argv.includes("--solde")) { await showBalance(); return; }
+  const tuilesId = arg("tuiles");
+  if (tuilesId) { await tuiles(tuilesId); return; }
   const creer = arg("creer");
   if (creer) { await create(creer); return; }
 

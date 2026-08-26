@@ -1,0 +1,7 @@
+{
+  "lower_description": "plain grey stone floor of a medieval castle hall, large rectangular slabs, thin mortar lines between slabs, cool grey, no objects and no cracks",
+  "upper_description": "plain deep emerald green woven carpet, dark forest green, fine even weave, no border and no trim and no pattern — emerald green, NOT teal, NOT turquoise",
+  "transition_description": "a narrow gold trim running along the edge where the green carpet meets the grey stone",
+  "shape_style": "square",
+  "_pourquoi": "Troisième jet raté pour une faute de description : le liseré doré figurait dans upper_description, donc le modèle l'a peint dans le tapis lui-même — 37 pixels dorés sur 256 dans la tuile censée être unie, d'où des rayures d'or en travers de toute la salle. Le liseré appartient à la transition, jamais au terrain. Et le dallage porte un motif anguleux trop marqué qui dessine la grille : on le décrit plus sobrement, sans retomber dans le « NO pattern » qui avait fait dégénérer le jeu."
+}

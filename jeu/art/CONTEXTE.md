@@ -34,10 +34,15 @@ séparément.
 
 ### Pierre et neutres — les châteaux, les murailles, le cristal
 
-`#0B0A10` `#23202E` `#453F52` `#736C82` `#A8A1B4` `#DED9E4` `#F2EEF5`
+`#0B0A10` `#22222C` `#454652` `#71727E` `#A6A8B2` `#DDDDE4` `#F2F2F5`
 
 Le noir domine les romans (2 080 occurrences) : c'est la couleur de base des Chevaliers.
 Le cristal (1 128) et l'argent (1 105) donnent les hautes lumières.
+
+Ces gris gardent une pointe de froid, pas davantage. La première version penchait
+nettement vers le mauve — `#736C82` porte 22 points de bleu de plus que de vert. Sur un
+sprite, la nuance passe ; sur un sol entier, la salle vire au lavande. Un neutre employé en
+grande surface doit être neutre pour de bon.
 
 ### Verts de l'Ordre — surcots, bannières, végétation
 

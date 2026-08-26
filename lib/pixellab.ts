@@ -66,6 +66,10 @@ export async function post<T>(path: string, body: unknown): Promise<T> {
   return r.json();
 }
 
+export async function get<T>(path: string): Promise<T> {
+  return (await call(path)).json();
+}
+
 export async function job(id: string): Promise<Job> {
   return (await call(`/background-jobs/${id}`)).json();
 }

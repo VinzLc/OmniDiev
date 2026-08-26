@@ -103,6 +103,44 @@ sur le centre géométrique, qui décale le personnage.
 **La dernière image d'un cycle revient sur la première.** L'écarter avant d'échantillonner,
 sinon le mouvement bat deux fois au même endroit.
 
+## Les jeux de tuiles
+
+```bash
+npm run art:generer -- --tuiles chateau-d-emeraude   # lit commandes/<id>.tuiles.json
+npm run art:normalise -- chateau-d-emeraude-tuiles   # → lieux/<id>.png + <id>.json
+```
+
+`create-tileset` ne produit **ni murs ni meubles** : c'est un tileset de Wang entre deux
+sols, seize tuiles couvrant toutes les combinaisons de coins. C'est exactement la partie
+qu'on ne réussit pas à la main, et celle dont dépend qu'un décor ne montre pas ses coutures.
+
+La planche livrée range les tuiles par signature de coins — `colonne = NO*8 + NE*4 + SO*2 + SE`
+— pour que le moteur trouve la bonne par calcul.
+
+**Quatre pièges, tous payés d'une génération chacun.**
+
+*Les métadonnées de coins mentent.* Un rendu a désigné par « upper » l'inverse de ce que
+montraient les images ; un autre a déclaré uniforme une tuile qui portait une bordure. La
+signature se **déduit des pixels**, jamais des étiquettes — et en ignorant le liseré de
+transition, qui n'est ni l'un ni l'autre terrain et faisait basculer les quadrants qu'il
+traversait.
+
+*Le liseré appartient à la transition, jamais au terrain.* Écrit dans `upper_description`,
+il s'est retrouvé peint dans le tapis lui-même — 37 pixels dorés sur 256 dans la tuile
+censée être unie, et des rayures d'or en travers de toute la salle.
+
+*Trop contraindre fait dégénérer.* « NO pattern, low detail » a rendu les seize tuiles si
+semblables qu'il n'en restait que six signatures distinctes. Le raccord a besoin de matière
+pour s'apprendre.
+
+*La palette envoyée en `color_image` gouverne la sortie.* Les neutres du monde penchaient
+vers le mauve ; la salle entière est sortie lavande. Sur un sprite la nuance passe, sur un
+sol elle saute aux yeux. Corrigé dans `CONTEXTE.md`.
+
+**Le test qui compte n'est pas de regarder les tuiles alignées** mais d'en assembler une
+salle et d'y chercher les coutures. Toutes les fautes ci-dessus étaient invisibles sur la
+bande des seize.
+
 ## Les formats, invariables
 
 | | Dimensions | Disposition |
