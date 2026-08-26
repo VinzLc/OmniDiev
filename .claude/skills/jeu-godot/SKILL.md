@@ -48,12 +48,23 @@ Il imprime ce qu'il mesure et enregistre des images.
 **Regarder les captures, toujours.** Rien ne mesure qu'un roi est décapité, qu'une réplique
 déborde de son cadre, ou qu'un effet s'empile en auréole. Les trois sont arrivés.
 
+**Un test ne joue pas la partie du joueur.** Le mode capture notait sa progression dans le
+même fichier que la partie ; à force de vérifier la campagne, la sauvegarde s'est trouvée
+poussée jusqu'au dernier chapitre, et le jeu s'ouvrait sur une bataille comme si toute
+l'histoire avait été jouée. Les tests tiennent leur propre carnet
+(`progression-essai.json`) — mais ils l'écrivent, sinon on ne vérifie plus l'enchaînement.
+
 ## Les pièges déjà payés
 
 **Les fonctions anonymes de GDScript capturent par valeur.** Un compteur d'images
 incrémenté dans une lambda ne monte jamais : les effets ne se libéraient pas, ils
 s'empilaient, et l'empilement passait pour une auréole autour du personnage. Mettre l'état
 mutable dans un dictionnaire, qui se capture par référence.
+
+**Ne jamais nommer les planches à copier une par une.** La liste du lanceur est restée figée
+sur deux fichiers pendant que dix existaient : le jeu se lançait sans Kira, sans la Reine,
+sans les ennemis ni la neige de Shola. Rien ne le signalait — un personnage sans planche
+paraît en silhouette, ce qui est un comportement prévu. On copie le dossier, pas une liste.
 
 **Les arguments du jeu passent après `++`.** Avant, Godot les revendique, et un mot sans
 tiret y est pris pour un chemin de scène à charger.

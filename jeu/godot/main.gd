@@ -22,6 +22,7 @@ const RANGEE := { "sud": 0, "nord": 1, "ouest": 2, "est": 3 }
 
 const DONNEES := "res://donnees/"
 const PROGRESSION := "user://progression.json"
+const PROGRESSION_ESSAI := "user://progression-essai.json"
 
 ## Le combat, en clair. Ces nombres sont à nous ; ce qui vient du texte, c'est
 ## que la carapace des hommes-insectes boit la magie.
@@ -53,6 +54,7 @@ var _campagne: Dictionary
 var _chapitre := ""
 var _libre := false          ## scène imposée en ligne de commande : on ne note rien
 var _acheve: Panel
+var _ouverture: Panel
 
 ## Où en est le chapitre, et à qui l'on a déjà parlé dans l'étape en cours.
 var _etape := 0
@@ -108,6 +110,7 @@ func _ready() -> void:
 	_peupler()
 	_tomber_la_nuit()
 	_entrer_dans_l_etape()
+	_annoncer_le_chapitre()
 
 	# Le drapeau peut arriver des deux côtés de `++` selon la façon dont on
 	# lance : on regarde les deux listes plutôt que d'imposer un ordre.
@@ -142,13 +145,14 @@ func _declarer_les_touches() -> void:
 ## au moteur, et un mot sans tiret y est pris pour un chemin de scène à charger.
 func _scene_demandee() -> String:
 	var arguments := OS.get_cmdline_user_args()
+
 	var i := arguments.find("--scene")
 	if i >= 0 and i + 1 < arguments.size():
 		_libre = true
 		return arguments[i + 1]
 
 	var suite: Array = _campagne.get("chapitres", [])
-	var repris: String = str(_lire(PROGRESSION).get("chapitre", ""))
+	var repris: String = str(_lire(_carnet()).get("chapitre", ""))
 	if repris != "" and suite.has(repris):
 		return str(repris)
 	return str(suite[0]) if not suite.is_empty() else "i-01"
@@ -158,7 +162,7 @@ func _scene_demandee() -> String:
 func _noter(chapitre: String) -> void:
 	if _libre:
 		return
-	var f := FileAccess.open(PROGRESSION, FileAccess.WRITE)
+	var f := FileAccess.open(_carnet(), FileAccess.WRITE)
 	if f:
 		f.store_string(JSON.stringify({ "chapitre": chapitre }))
 
@@ -170,6 +174,23 @@ func _chapitre_suivant() -> String:
 	if i >= 0 and i + 1 < suite.size():
 		return str(suite[i + 1])
 	return ""
+
+
+## Où se note la partie.
+##
+## Un test ne joue pas la partie du joueur, mais il doit tout de même éprouver
+## l'enchaînement — sans quoi on ne vérifie plus ce qu'on livre. Il tient donc
+## son propre carnet.
+##
+## Le mode capture écrivait dans le même fichier que la partie : à force de
+## vérifier la campagne, la sauvegarde s'est trouvée poussée jusqu'au dernier
+## chapitre, et le jeu s'ouvrait sur la bataille de Zénor comme si toute
+## l'histoire qui précède avait été jouée.
+func _carnet() -> String:
+	var arguments := OS.get_cmdline_user_args()
+	if OS.get_cmdline_args().has("--capture") or arguments.has("--capture") or arguments.has("--effets"):
+		return PROGRESSION_ESSAI
+	return PROGRESSION
 
 
 func _lire(chemin: String) -> Dictionary:
@@ -512,6 +533,18 @@ func _mener_les_ennemis(delta: float) -> void:
 
 
 ## Le chapitre est joué : on propose la suite, on note où l'on en est.
+## Annonce le chapitre : son rang dans la campagne, son titre, sa source.
+func _annoncer_le_chapitre() -> void:
+	var suite: Array = _campagne.get("chapitres", [])
+	var rang := suite.find(_chapitre) + 1
+	var mot: RichTextLabel = _ouverture.get_child(0)
+
+	var entete := "Chapitre %d sur %d" % [rang, suite.size()] if rang > 0 else "Hors campagne"
+	mot.text = "[center][font_size=11][color=#a6a8b2]%s[/color][/font_size]\n[b][color=#f0d174]%s[/color][/b]\n[font_size=10][color=#71727e]%s[/color][/font_size]\n\n[font_size=11][color=#a6a8b2]Espace[/color][/font_size][/center]" % [
+		entete, str(_scene.get("titre", _chapitre)), str(_scene.get("source", ""))]
+	_ouverture.visible = true
+
+
 func _achever_le_chapitre() -> void:
 	var suivant := _chapitre_suivant()
 	_noter(suivant if suivant != "" else _chapitre)
@@ -770,6 +803,41 @@ func _batir_le_dialogue() -> void:
 	_defaite.visible = false
 	couche.add_child(_defaite)
 
+	## Le carton d'ouverture.
+	##
+	## Un joueur qui reprend sa partie après trois jours ne sait plus où il en
+	## était. Le rang du chapitre et sa source le lui disent en une ligne, et
+	## rendent visible que la campagne se suit dans un ordre.
+	_ouverture = Panel.new()
+	_ouverture.anchor_left = 0.5
+	_ouverture.anchor_right = 0.5
+	_ouverture.anchor_top = 0.5
+	_ouverture.anchor_bottom = 0.5
+	# Assez haut pour la source et l'invite. Au premier réglage le cadre faisait
+	# cent pixels : la référence au tome débordait sur deux lignes et « Espace »
+	# passait sous le bord. Rien ne mesure qu'un cadre est trop court.
+	_ouverture.offset_left = -200
+	_ouverture.offset_right = 200
+	_ouverture.offset_top = -66
+	_ouverture.offset_bottom = 66
+	var cartouche := StyleBoxFlat.new()
+	cartouche.bg_color = Color("#0b0a10")
+	cartouche.border_color = Color("#c08f34")
+	cartouche.set_border_width_all(2)
+	cartouche.set_content_margin_all(12)
+	_ouverture.add_theme_stylebox_override("panel", cartouche)
+	_ouverture.visible = false
+	couche.add_child(_ouverture)
+
+	var titre := RichTextLabel.new()
+	titre.bbcode_enabled = true
+	titre.anchor_right = 1.0
+	titre.anchor_bottom = 1.0
+	titre.scroll_active = false
+	titre.add_theme_font_size_override("normal_font_size", 12)
+	titre.add_theme_font_size_override("bold_font_size", 14)
+	_ouverture.add_child(titre)
+
 	_acheve = Panel.new()
 	_acheve.anchor_left = 0.5
 	_acheve.anchor_right = 0.5
@@ -897,6 +965,10 @@ func _afficher() -> void:
 
 
 func _unhandled_input(evenement: InputEvent) -> void:
+	if _ouverture.visible:
+		if evenement.is_action_pressed("ui_accept"):
+			_ouverture.visible = false
+		return
 	if _acheve.visible:
 		if evenement.is_action_pressed("ui_accept"):
 			# La progression est déjà notée : recharger la scène rouvre le
@@ -1136,6 +1208,12 @@ func _dessiner(colonne: int) -> void:
 ## L'épreuve de la campagne n'est pas qu'un chapitre se joue — c'est qu'il en
 ## appelle un autre, et que la partie se retrouve où on l'avait laissée.
 func _capturer() -> void:
+	# Le carton d'abord : c'est la première chose que voit un joueur, donc la
+	# première qu'il faut regarder.
+	await _attendre(6)
+	get_viewport().get_texture().get_image().save_png("res://capture-carton.png")
+	_ouverture.visible = false
+
 	print("CHAPITRE %s — %s" % [_chapitre, _scene.get("titre", "")])
 	await _garder("00-%s" % _chapitre, 12)
 
@@ -1180,6 +1258,8 @@ func _capturer() -> void:
 ## fin ne montre que le vide qu'elle laisse. C'est la même faute que la boîte de
 ## dialogue photographiée une fois fermée.
 func _capturer_les_effets() -> void:
+	_ouverture.visible = false
+
 	await _attendre(20)
 	if _vague_debout() == 0 and not _ennemis.is_empty():
 		pass
