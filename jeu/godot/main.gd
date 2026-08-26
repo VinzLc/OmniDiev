@@ -111,6 +111,7 @@ var _en_pause := false
 var _recit_capture := false   ## une seule image de description suffit au contrôle
 var _invite_capture := false
 var _bulles_capture := false
+var _wellan_capture := false
 var _mare: Sprite2D = null    ## la mare de sang, gardée entre deux morts
 
 
@@ -2011,6 +2012,11 @@ func _parler_a(id: String, nom_image: String) -> void:
 			get_viewport().get_texture().get_image().save_png("res://capture-%s.png" % nom_image)
 		# Et une image dès qu'une description paraît : c'est l'autre affichage,
 		# et rien ne prouverait autrement qu'il s'ouvre.
+		# Une image quand Wellan parle : son portrait est le plus vu du jeu.
+		if _ouverte and not _wellan_capture and _page < _pages.size() \
+			and str((_pages[_page] as Dictionary).get("qui", "")) == "wellan":
+			_wellan_capture = true
+			get_viewport().get_texture().get_image().save_png("res://capture-wellan-parle.png")
 		if _bandeau.visible and not _recit_capture:
 			_recit_capture = true
 			get_viewport().get_texture().get_image().save_png("res://capture-description.png")

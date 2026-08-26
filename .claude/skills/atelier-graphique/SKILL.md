@@ -73,6 +73,24 @@ dialogue.
 
 **Il coûte 0,126 USD, douze fois un sprite.** Sonder sur un seul avant d'en commander treize.
 
+**Il lit la planche, pas le rendu brut** — sans quoi il ignore les retouches. Le portrait de
+Wellan est sorti auburn parce que je lui donnais `sources/`, alors que sa planche porte le
+blond depuis longtemps.
+
+**Et pour un visage qu'on veut décrire, ce n'est pas le bon endpoint.**
+`portrait-character-pro` n'accepte aucun texte : on ne peut lui demander ni une carrure, ni
+une longueur de cheveux, ni un âge. Il a rendu Wellan tour à tour auburn, puis lion — il
+avait lu une crinière dans des mèches que j'avais éclaircies — puis adolescent imberbe.
+
+```bash
+npm run art:generer -- --visage wellan --taille 128 --amorce 0 --graine 6607
+```
+
+`create-image-pixflux` prend une description, et coûte moins d'un millième de dollar. **Mettre
+l'amorce à zéro** : à 300 sur 1000, le sprite dominait encore et l'on récupérait le sprite
+lui-même. Compter cinq à huit graines pour un visage juste, ce qui reste moins cher qu'un
+seul portrait déduit.
+
 L'endpoint ne prend aucun texte : le seul levier de reprise est la graine. Élund est sorti
 rajeuni de quarante ans à deux essais sur trois — un sprite de 36 pixels ne porte pas assez
 d'information pour qu'un vieillard s'y lise. Et **juger sur la vignette trompe** : ce que

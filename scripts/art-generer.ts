@@ -219,11 +219,35 @@ async function tuiles(id: string) {
  * grille du monde, il occupe un coin de la boîte de dialogue.
  */
 async function portrait(id: string) {
-  const source = path.join(ROOT, "jeu", "art", "sources", id, "Idle", "rotations", "south.png");
+  /*
+   * Quelle image donner au modèle, dans l'ordre.
+   *
+   * Le premier jet lisait `sources/`, c'est-à-dire le rendu brut — donc sans
+   * les retouches. Le portrait de Wellan est ainsi sorti auburn alors que sa
+   * planche porte depuis longtemps le blond foncé que le texte lui donne.
+   *
+   * On préfère donc la planche assemblée. Et lorsqu'un trait ne passe pas même
+   * ainsi, on prépare une entrée dédiée dans `portraits/<id>.source.png` : ce
+   * n'est pas tricher, c'est donner à lire ce qu'on veut voir lu.
+   */
+  const dossier = path.join(ROOT, "jeu", "art", "portraits");
+  const prepare = path.join(dossier, `${id}.source.png`);
+  const planche = path.join(ROOT, "jeu", "art", "personnages", `${id}.png`);
+  const brut = path.join(ROOT, "jeu", "art", "sources", id, "Idle", "rotations", "south.png");
+
+  let source = "";
+  if (fs.existsSync(prepare)) source = prepare;
+  else if (fs.existsSync(planche)) {
+    source = path.join(dossier, `.${id}.cellule.png`);
+    fs.mkdirSync(dossier, { recursive: true });
+    await sharp(planche).extract({ left: 0, top: 0, width: 32, height: 32 }).png().toFile(source);
+  } else source = brut;
+
   if (!fs.existsSync(source)) {
-    console.error(`Sprite absent : ${path.relative(ROOT, source)}`);
+    console.error(`Sprite absent pour ${id}`);
     process.exit(1);
   }
+  console.log(`${C.dim}entrée : ${path.relative(ROOT, source)}${C.off}`);
   const before = await showBalance("Solde avant");
   const taille = Number(arg("taille") ?? 128);
 
@@ -252,7 +276,6 @@ async function portrait(id: string) {
     console.error(JSON.stringify(sortie).slice(0, 500));
     process.exit(1);
   }
-  const dossier = path.join(ROOT, "jeu", "art", "portraits");
   fs.mkdirSync(dossier, { recursive: true });
   const dest = path.join(dossier, `${id}.png`);
   fs.writeFileSync(dest, Buffer.from(trouve, "base64"));
@@ -328,10 +351,75 @@ async function illustration(id: string) {
   console.log(`${C.dim}solde ${money(before.credits.usd)} → ${money(after.credits.usd)}${C.off}`);
 }
 
+/**
+ * Un portrait décrit, non déduit.
+ *
+ * `portrait-character-pro` remonte du sprite vers le visage et n'accepte aucun
+ * texte : on ne peut lui demander ni une carrure, ni une longueur de cheveux,
+ * ni un âge. Il a rendu Wellan tour à tour auburn, puis lion, puis adolescent.
+ *
+ * `create-image-pixflux` prend une description. Le sprite lui sert d'amorce —
+ * assez pour tenir la palette et la tenue, pas assez pour imposer un visage.
+ */
+async function portraitDecrit(id: string) {
+  const file = path.join(ROOT, "jeu", "art", "commandes", `${id}.visage.txt`);
+  if (!fs.existsSync(file)) {
+    console.error(`Commande absente : ${path.relative(ROOT, file)}`);
+    process.exit(1);
+  }
+  const description = fs.readFileSync(file, "utf8").trim();
+  const taille = Number(arg("taille") ?? 128);
+  const amorce = Number(arg("amorce") ?? 0.35);
+  const dossier = path.join(ROOT, "jeu", "art", "portraits");
+  const planche = path.join(ROOT, "jeu", "art", "personnages", `${id}.png`);
+
+  const before = await showBalance("Solde avant");
+  fs.mkdirSync(dossier, { recursive: true });
+  const cellule = path.join(dossier, `.${id}.cellule.png`);
+  await sharp(planche).extract({ left: 0, top: 0, width: 32, height: 32 })
+    .resize(taille, taille, { kernel: "nearest" }).png().toFile(cellule);
+
+  const r = await post<Record<string, unknown>>("/create-image-pixflux", {
+    description,
+    image_size: { width: taille, height: taille },
+    color_image: await paletteImage(),
+    // Une amorce nulle écarte l'image : à 300 sur 1000 le sprite dominait
+    // encore et l'on obtenait le sprite lui-même, à peine retouché.
+    ...(amorce > 0 ? {
+      init_image: { type: "base64", base64: fs.readFileSync(cellule).toString("base64"), format: "png" },
+      init_image_strength: Math.round(amorce * 1000),
+    } : {}),
+    detail: "highly detailed",
+    shading: "medium shading",
+    outline: "single color black outline",
+    ...(arg("graine") ? { seed: Number(arg("graine")) } : {}),
+  });
+
+  const ids = (r.background_job_ids as string[]) ?? [r.background_job_id as string].filter(Boolean);
+  let sortie = r;
+  if (ids.length) {
+    const { jobs, spent } = await awaitJobs(ids, () => {});
+    console.log(`${C.dim}coût ${money(spent)}${C.off}`);
+    sortie = (jobs[0]?.last_response ?? {}) as Record<string, unknown>;
+  }
+  const trouve = chercherImage(sortie);
+  if (!trouve) {
+    console.error(JSON.stringify(sortie).slice(0, 400));
+    process.exit(1);
+  }
+  const dest = path.join(dossier, `${id}.png`);
+  fs.writeFileSync(dest, Buffer.from(trouve, "base64"));
+  const after = await balance();
+  console.log(`${C.green}✓${C.off} ${path.relative(ROOT, dest)}  ${taille}px, amorce ${amorce}`);
+  console.log(`${C.dim}solde ${money(before.credits.usd)} → ${money(after.credits.usd)}${C.off}`);
+}
+
 async function main() {
   if (process.argv.includes("--solde")) { await showBalance(); return; }
   const ecran = arg("image");
   if (ecran) { await illustration(ecran); return; }
+  const face = arg("visage");
+  if (face) { await portraitDecrit(face); return; }
   const visage = arg("portrait");
   if (visage) { await portrait(visage); return; }
   const tuilesId = arg("tuiles");

@@ -1,0 +1,26 @@
+Pixel art bust portrait, Game Boy Advance style, of a single man seen from the chest up, facing the viewer. Dark plain background.
+
+FRAMING: he FILLS THE WHOLE FRAME. His head occupies the upper half of the picture, edge to edge; his shoulders run off both sides and are cut by the border; the bottom of the picture cuts across his chest. No empty margin anywhere — this is a close portrait, not a figure standing in a void.
+
+WHO: Wellan, commander of the Knights of Emerald — a giant among his brothers-in-arms. A man of about thirty, not a youth.
+
+HAIR: LONG DARK BLOND hair, the colour of dry wheat, falling well past his shoulders in heavy strands. Not short, not cropped, not golden, not white. A short dark blond beard along the jaw.
+
+EYES: PIERCING PALE BLUE, the clearest thing in the picture.
+
+BUILD: ENORMOUS. Shoulders so broad they fill the frame edge to edge and are cut off by it. A thick neck, a heavy jaw, a wide chest. He should read as the largest man anyone in the scene has met.
+
+ARMOUR: his chest is covered by a wide EMERALD GREEN SURCOAT bearing a large GOLD CROSS set with green stones, worn over black plate. The green must be unmistakable and must fill most of his chest. No grey chest, no purple, no bare mail.
+
+STYLE: flat fills, two-tone shading, hard dark outline, no anti-aliasing, no gradients. A serious face, weathered, looking straight out.
+
+No text, no letters, no frame, no watermark, no second figure.
+
+--
+Retenu : graine 6607, sans image d'amorce, 128 px.
+
+Le surcot vert n'apparaît pas sur le rendu retenu, et six graines n'ont pas suffi à
+l'obtenir en même temps que la carrure et la chevelure. Le buste est cadré haut : chez
+Anne Robillard les Chevaliers sont « habillés tout en noir » sous le surcot, et une
+armure sombre à épaulières d'acier ne contredit pas le texte. On a préféré le visage juste
+au blason visible.
