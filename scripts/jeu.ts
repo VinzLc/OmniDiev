@@ -44,6 +44,14 @@ function planches(): { de: string; vers: string }[] {
       if (f.endsWith(".png")) out.push({ de: path.join(dir, f), vers: f });
     }
   }
+  // Les portraits sont préfixés : un visage et une planche portent le même
+  // identifiant, et se seraient écrasés dans le dossier plat des ressources.
+  const visages = path.join(ART, "portraits");
+  if (fs.existsSync(visages)) {
+    for (const f of fs.readdirSync(visages)) {
+      if (f.endsWith(".png")) out.push({ de: path.join(visages, f), vers: `portrait-${f}` });
+    }
+  }
   return out;
 }
 

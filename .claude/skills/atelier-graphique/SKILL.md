@@ -59,6 +59,26 @@ Deux paramètres puissants et encore inexploités : `force_colors` avec une `col
 la création de personnage, et `color_palette` sur `create-tileset`. Ils imposent la palette
 **à la génération** — ce qui supprime le problème au lieu de le corriger après coup.
 
+## Les portraits
+
+```bash
+npm run art:generer -- --portrait wellan --taille 128
+npm run art:generer -- --portrait elund --taille 128 --graine 91177
+```
+
+`portrait-character-pro` en `character_to_portrait` remonte **du sprite vers le visage** : le
+portrait ressemble au personnage déjà validé, ce qu'aucune description ne garantirait. Jusqu'à
+160 px — un portrait n'entre pas dans la grille du monde, il occupe un coin de la boîte de
+dialogue.
+
+**Il coûte 0,126 USD, douze fois un sprite.** Sonder sur un seul avant d'en commander treize.
+
+L'endpoint ne prend aucun texte : le seul levier de reprise est la graine. Élund est sorti
+rajeuni de quarante ans à deux essais sur trois — un sprite de 36 pixels ne porte pas assez
+d'information pour qu'un vieillard s'y lise. Et **juger sur la vignette trompe** : ce que
+j'avais pris pour des lunettes de soleil sur Falcon était l'ombre de sa capuche, si bien que
+j'ai dégradé un bon portrait en le regénérant.
+
 ## Ne pas régénérer un personnage déjà validé
 
 Le rendu s'écarte parfois du texte — Wellan avait les cheveux auburn là où les romans disent

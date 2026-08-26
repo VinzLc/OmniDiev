@@ -274,6 +274,8 @@ type Personnage = {
   role: string;
   tomes: number[];
   planche: string | null;
+  /** Le visage montré pendant qu'il parle, s'il en a un. */
+  portrait: string | null;
   teinte: string;
   liens: { nom: string; nature: string }[];
 };
@@ -312,6 +314,7 @@ function main() {
         role: f.gloss,
         tomes: f.books ?? [],
         planche: fs.existsSync(planche) ? `${f.id}.png` : null,
+        portrait: fs.existsSync(path.join(ART, "portraits", `${f.id}.png`)) ? `portrait-${f.id}.png` : null,
         teinte: teinteDe(f.id),
         liens: (f.relations ?? []).slice(0, LIENS_MAX).map((r) => ({ nom: r.name, nature: r.nature })),
       };
@@ -344,12 +347,13 @@ function main() {
   const fichier = path.join(SORTIE, "monde.json");
   fs.writeFileSync(fichier, JSON.stringify(monde, null, 1) + "\n");
 
+  const avecPortrait = Object.values(personnages).filter((p) => p.portrait).length;
   const avecPlanche = Object.values(personnages).filter((p) => p.planche).length;
   const avecTuiles = Object.values(lieux).filter((l) => l.tuiles).length;
   const poids = (fs.statSync(fichier).size / 1024).toFixed(0);
 
   console.log(`${C.green}✓${C.off} ${path.relative(ROOT, fichier)}  ${poids} Ko`);
-  console.log(`  ${C.dim}${Object.keys(personnages).length} personnages, dont ${avecPlanche} avec planche${C.off}`);
+  console.log(`  ${C.dim}${Object.keys(personnages).length} personnages, dont ${avecPlanche} avec planche et ${avecPortrait} avec portrait${C.off}`);
   console.log(`  ${C.dim}${Object.keys(lieux).length} lieux, dont ${avecTuiles} avec tuiles${C.off}`);
   const peuplesArmes = Object.values(peuples).filter((p) => p.planche).length;
   console.log(`  ${C.dim}${Object.keys(peuples).length} peuples, dont ${peuplesArmes} avec planche${C.off}`);

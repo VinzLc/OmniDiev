@@ -13,7 +13,8 @@ extends Node2D
 
 const TUILE := 16
 const SPRITE := 32
-const TAILLADE := 64          ## côté d'une image d'arc, plus large que le sprite
+const TAILLADE := 64
+const PORTRAIT := 84          ## côté du visage dans la boîte de dialogue          ## côté d'une image d'arc, plus large que le sprite
 ## Un pas un peu plus vif. À cinquante-huit, traverser une salle de vingt-six
 ## tuiles demandait sept secondes, et l'on sentait la longueur avant de sentir
 ## le lieu.
@@ -97,6 +98,8 @@ var _texte: RichTextLabel
 var _invite: Label
 var _bandeau: Panel          ## les descriptions, distinctes des paroles
 var _recit: RichTextLabel
+var _visage: TextureRect     ## le portrait de qui parle
+var _marcheurs: Array = []   ## ceux qui entrent ou sortent, en chemin
 var _recit_capture := false   ## une seule image de description suffit au contrôle
 var _invite_capture := false
 var _mare: Sprite2D = null    ## la mare de sang, gardée entre deux morts
@@ -374,12 +377,33 @@ func _batir_wellan() -> void:
 
 func _peupler() -> void:
 	for habitant in _salle.get("personnages", []):
-		_faire_entrer(habitant)
+		_faire_entrer(habitant, false)
 	for objet in _salle.get("objets", []):
 		_batir_objet(str(objet.get("type", "")), Vector2(float(objet["x"]) * TUILE, float(objet["y"]) * TUILE))
 
 
-func _faire_entrer(habitant: Dictionary) -> void:
+## Le bord de la salle le plus proche d'une case, une tuile au-delà.
+##
+## C'est par là qu'on entre et qu'on sort quand la scène ne le dit pas : on
+## vient du dehors le plus proche, ce qui est presque toujours ce qu'on veut.
+func _seuil(place: Vector2i) -> Vector2i:
+	var taille := _taille()
+	var vers := {
+		Vector2i(place.x, -1): place.y,
+		Vector2i(place.x, taille.y): taille.y - 1 - place.y,
+		Vector2i(-1, place.y): place.x,
+		Vector2i(taille.x, place.y): taille.x - 1 - place.x,
+	}
+	var meilleur := Vector2i(place.x, -1)
+	var court := 1 << 30
+	for porte in vers:
+		if vers[porte] < court:
+			court = vers[porte]
+			meilleur = porte
+	return meilleur
+
+
+func _faire_entrer(habitant: Dictionary, en_marchant := true) -> void:
 	var id := str(habitant["fiche"])
 	var fiche: Dictionary = _monde["personnages"].get(id, {})
 	if fiche.is_empty():
@@ -388,8 +412,21 @@ func _faire_entrer(habitant: Dictionary) -> void:
 	if _habitants.has(id):
 		return
 
+	var place := Vector2i(int(habitant["x"]), int(habitant["y"]))
+	var arrivee := Vector2(place) * TUILE
+
+	# Qui arrive pendant la scène entre en marchant, depuis le seuil que la
+	# scène désigne ou, à défaut, depuis le bord le plus proche. Un personnage
+	# qui apparaît d'un coup au milieu de la salle se lit comme un défaut.
+	var depart := arrivee
+	if en_marchant:
+		var seuil := _seuil(place)
+		if habitant.has("depuis"):
+			seuil = Vector2i(int(habitant["depuis"][0]), int(habitant["depuis"][1]))
+		depart = Vector2(seuil) * TUILE
+
 	var corps := StaticBody2D.new()
-	corps.position = Vector2(float(habitant["x"]) * TUILE, float(habitant["y"]) * TUILE)
+	corps.position = depart
 	add_child(corps)
 
 	var vue := _sprite_de(fiche)
@@ -406,17 +443,40 @@ func _faire_entrer(habitant: Dictionary) -> void:
 
 	_zone_de_parole(corps, id)
 	_habitants[id] = corps
+	if en_marchant and depart != arrivee:
+		_marcheurs.append({ "corps": corps, "vue": vue, "cible": arrivee, "phase": 0.0, "sortir": false })
 
 
-func _faire_sortir(id: String) -> void:
+## Il s'en va comme il est venu : à pied, jusqu'au seuil le plus proche.
+func _faire_sortir(id: String, en_marchant := true) -> void:
 	if not _habitants.has(id):
 		return
 	_a_portee.erase(id)
 	if _proche == id:
 		_proche = ""
 		_invite.visible = false
-	_habitants[id].queue_free()
+
+	var corps: Node2D = _habitants[id]
 	_habitants.erase(id)
+
+	if not en_marchant:
+		corps.queue_free()
+		return
+
+	var vue: Sprite2D = null
+	for enfant in corps.get_children():
+		if enfant is Sprite2D:
+			vue = enfant
+			break
+	if vue == null:
+		corps.queue_free()
+		return
+
+	var place := Vector2i(corps.position / float(TUILE))
+	_marcheurs.append({
+		"corps": corps, "vue": vue,
+		"cible": Vector2(_seuil(place)) * TUILE, "phase": 0.0, "sortir": true,
+	})
 
 
 ## ── Le chapitre ───────────────────────────────────────────────────────────
@@ -804,6 +864,23 @@ func _batir_le_dialogue() -> void:
 	_cadre.visible = false
 	couche.add_child(_cadre)
 
+	## Le visage de qui parle, à gauche du cadre.
+	##
+	## Il tient dans la hauteur du cadre et garde ses proportions ; le texte
+	## commence après lui. Un personnage sans portrait n'en laisse pas la place
+	## vide : le cadre se referme sur le texte seul.
+	_visage = TextureRect.new()
+	_visage.anchor_bottom = 1.0
+	_visage.offset_left = 6
+	_visage.offset_top = 6
+	_visage.offset_right = 6 + PORTRAIT
+	_visage.offset_bottom = -6
+	_visage.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_visage.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_visage.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_visage.visible = false
+	_cadre.add_child(_visage)
+
 	_texte = RichTextLabel.new()
 	_texte.bbcode_enabled = true
 	_texte.anchor_right = 1.0
@@ -1063,7 +1140,7 @@ func _repliques(id: String) -> Array:
 				pages.append({ "genre": "recit", "texte": dit })
 			else:
 				var nom := str(_monde["personnages"].get(qui, {}).get("nom", qui))
-				pages.append({ "genre": "parole", "nom": nom, "texte": dit })
+				pages.append({ "genre": "parole", "qui": qui, "nom": nom, "texte": dit })
 		return pages
 	return _fiche_en_repliques(id)
 
@@ -1116,8 +1193,22 @@ func _afficher() -> void:
 	else:
 		_bandeau.visible = false
 		_cadre.visible = true
+		_montrer_le_visage(str(page.get("qui", "")))
 		_texte.text = "[b][color=#f0d174]%s[/color][/b]\n%s" % [
 			str(page.get("nom", "")), str(page.get("texte", ""))]
+
+
+## Montre le portrait de qui parle, et décale le texte pour lui faire place.
+func _montrer_le_visage(id: String) -> void:
+	var fiche: Dictionary = _monde["personnages"].get(id, {})
+	var visage = fiche.get("portrait")
+	if visage == null:
+		_visage.visible = false
+		_texte.offset_left = 10
+		return
+	_visage.texture = load("res://assets/" + str(visage))
+	_visage.visible = true
+	_texte.offset_left = 10 + PORTRAIT + 8
 
 
 func _unhandled_input(evenement: InputEvent) -> void:
@@ -1311,7 +1402,52 @@ func _avancer_les_traits(delta: float) -> void:
 			_traits.remove_at(i)
 
 
+## Fait avancer ceux qui entrent ou qui s'en vont.
+func _avancer_les_marcheurs(delta: float) -> void:
+	for i in range(_marcheurs.size() - 1, -1, -1):
+		var m: Dictionary = _marcheurs[i]
+		var corps = m["corps"]
+		if not is_instance_valid(corps):
+			_marcheurs.remove_at(i)
+			continue
+
+		var reste: Vector2 = m["cible"] - corps.position
+		if reste.length() <= 2.0:
+			corps.position = m["cible"]
+			if m["sortir"]:
+				corps.queue_free()
+			else:
+				_poser(m["vue"], 0, _sens_de(reste))
+			_marcheurs.remove_at(i)
+			continue
+
+		# Un peu moins vif que Wellan : il marche, il ne le course pas.
+		corps.position += reste.normalized() * VITESSE * 0.75 * delta
+		m["phase"] = fmod(m["phase"] + delta * CADENCE, 4.0)
+		_poser(m["vue"], int(m["phase"]), _sens_de(reste))
+
+
+## Le sens dominant d'un déplacement.
+func _sens_de(v: Vector2) -> String:
+	if absf(v.x) > absf(v.y):
+		return "est" if v.x > 0.0 else "ouest"
+	return "sud" if v.y > 0.0 else "nord"
+
+
+## Pose une image de planche sur un sprite.
+func _poser(vue, colonne: int, sens: String) -> void:
+	if vue == null or not (vue.texture is AtlasTexture):
+		return
+	var region: AtlasTexture = vue.texture
+	region.region = Rect2(colonne * SPRITE, RANGEE[sens] * SPRITE, SPRITE, SPRITE)
+
+
 func _physics_process(delta: float) -> void:
+	# Avant tout le reste : ceux qui entrent ou s'en vont avancent même pendant
+	# un dialogue ou le carton d'ouverture. Une arrivée qui se fige parce qu'on
+	# lit une réplique se verrait aussitôt.
+	_avancer_les_marcheurs(delta)
+
 	_energie = minf(_energie + REGAIN * delta, ENERGIE_MAX)
 	_jauge_energie.anchor_right = _energie / ENERGIE_MAX
 	_choisir_l_interlocuteur()
@@ -1524,6 +1660,23 @@ func _parler_a(id: String, nom_image: String) -> void:
 	if not _habitants.has(id):
 		print("ABSENT %s" % id)
 		return
+	# On laisse d'abord arriver ceux qui marchent : les aborder en chemin
+	# reviendrait à courir après quelqu'un qui traverse la salle.
+	var attente := 0
+	var marchait := false
+	while attente < 300 and _marcheurs.any(func(m): return m["corps"] == _habitants.get(id)):
+		if not marchait:
+			marchait = true
+			print("MARCHE %s entre depuis %s" % [id, _habitants[id].position / float(TUILE)])
+		# Une image en pleine traversée : c'est le mouvement qu'il faut voir,
+		# et il a disparu quand la conversation s'ouvre.
+		if attente == 24:
+			get_viewport().get_texture().get_image().save_png("res://capture-marche-%s.png" % id)
+		await get_tree().process_frame
+		attente += 1
+	if marchait:
+		print("ARRIVE %s en %d images, à %s" % [id, attente, _habitants[id].position / float(TUILE)])
+
 	_wellan.global_position = _habitants[id].position + Vector2(0, TUILE)
 	# On attend que la zone réagisse au lieu de compter les images : au
 	# démarrage, la compilation des shaders affame la physique et un nombre fixe

@@ -208,8 +208,76 @@ async function tuiles(id: string) {
   console.log(`${C.dim}coût ${money(spent)} — générations ${before.subscription?.generations} → ${after.subscription?.generations}${C.off}`);
 }
 
+/**
+ * Le portrait d'un personnage, tiré de son sprite.
+ *
+ * `portrait-character-pro` remonte du sprite vers le visage plutôt que de
+ * dessiner un inconnu : le portrait ressemble au personnage qu'on a déjà validé,
+ * ce qu'aucune description ne garantirait.
+ *
+ * On peut y mettre plus de pixels qu'ailleurs — un portrait n'entre pas dans la
+ * grille du monde, il occupe un coin de la boîte de dialogue.
+ */
+async function portrait(id: string) {
+  const source = path.join(ROOT, "jeu", "art", "sources", id, "Idle", "rotations", "south.png");
+  if (!fs.existsSync(source)) {
+    console.error(`Sprite absent : ${path.relative(ROOT, source)}`);
+    process.exit(1);
+  }
+  const before = await showBalance("Solde avant");
+  const taille = Number(arg("taille") ?? 128);
+
+  const r = await post<Record<string, unknown>>("/portrait-character-pro", {
+    direction: "character_to_portrait",
+    image: { type: "base64", base64: fs.readFileSync(source).toString("base64"), format: "png" },
+    view: "low top-down",
+    result_size: taille,
+    // Seul levier de reprise : l'endpoint ne prend pas de texte. Falcon est
+    // sorti chauve à lunettes de soleil, Élund rajeuni de quarante ans — on ne
+    // peut que retenter avec une autre graine.
+    ...(arg("graine") ? { seed: Number(arg("graine")) } : {}),
+  });
+
+  const ids = (r.background_job_ids as string[]) ?? [r.background_job_id as string].filter(Boolean);
+  let sortie = r;
+  if (ids.length) {
+    const { jobs, spent } = await awaitJobs(ids, () => {});
+    console.log(`${C.dim}coût ${money(spent)}${C.off}`);
+    sortie = (jobs[0]?.last_response ?? {}) as Record<string, unknown>;
+  }
+
+  const trouve = chercherImage(sortie);
+  if (!trouve) {
+    console.error("Aucune image dans la réponse :");
+    console.error(JSON.stringify(sortie).slice(0, 500));
+    process.exit(1);
+  }
+  const dossier = path.join(ROOT, "jeu", "art", "portraits");
+  fs.mkdirSync(dossier, { recursive: true });
+  const dest = path.join(dossier, `${id}.png`);
+  fs.writeFileSync(dest, Buffer.from(trouve, "base64"));
+
+  const after = await balance();
+  console.log(`${C.green}✓${C.off} ${path.relative(ROOT, dest)}  ${taille}px`);
+  console.log(`${C.dim}solde ${money(before.credits.usd)} → ${money(after.credits.usd)}${C.off}`);
+}
+
+/** L'image peut se cacher à plusieurs profondeurs selon l'endpoint. */
+function chercherImage(o: unknown): string | null {
+  if (typeof o === "string") return o.length > 500 ? o : null;
+  if (Array.isArray(o)) { for (const x of o) { const t = chercherImage(x); if (t) return t; } return null; }
+  if (o && typeof o === "object") {
+    const d = o as Record<string, unknown>;
+    if (typeof d.base64 === "string") return d.base64;
+    for (const v of Object.values(d)) { const t = chercherImage(v); if (t) return t; }
+  }
+  return null;
+}
+
 async function main() {
   if (process.argv.includes("--solde")) { await showBalance(); return; }
+  const visage = arg("portrait");
+  if (visage) { await portrait(visage); return; }
   const tuilesId = arg("tuiles");
   if (tuilesId) { await tuiles(tuilesId); return; }
   const creer = arg("creer");

@@ -126,7 +126,11 @@
           "fiche": "armene",
           "x": 13,
           "y": 12,
-          "regarde": "nord"
+          "regarde": "nord",
+          "depuis": [
+            13,
+            15
+          ]
         }
       ],
       "attend": {
@@ -155,7 +159,8 @@
             "dit": "Non. Mais on l'a vu, et cela vaudra bataille."
           }
         ]
-      }
+      },
+      "_apparaissent": "Armène entre par la porte basse, au bas de l'allée, et remonte vers Wellan. Elle arrive en courant annoncer les pèlerins : la voir traverser la salle vaut mieux que de la trouver déjà là."
     },
     {
       "id": "la-reine",
@@ -163,19 +168,27 @@
       "disparaissent": [
         "armene"
       ],
-      "_apparaissent": "Kira se tenait d'abord contre sa mère, en (12,9). Trop près : Wellan s'adressait à l'enfant en croyant aborder la Reine. Elle est d'un pas de côté — ce qui se lit d'ailleurs mieux, la mère en avant, l'enfant à l'écart.",
+      "_apparaissent": "La Reine de Shola remonte l'allée avec sa fille, depuis la même porte basse. Kira entre un pas derrière elle et par une case voisine — deux personnages ne peuvent pas franchir le même seuil, et la mère en avant, l'enfant à l'écart, se lit mieux.",
       "apparaissent": [
         {
           "fiche": "fan",
           "x": 13,
           "y": 8,
-          "regarde": "nord"
+          "regarde": "sud",
+          "depuis": [
+            13,
+            15
+          ]
         },
         {
           "fiche": "kira",
           "x": 11,
           "y": 8,
-          "regarde": "est"
+          "regarde": "est",
+          "depuis": [
+            12,
+            15
+          ]
         }
       ],
       "attend": {

@@ -99,6 +99,12 @@ parle ; la description prend un bandeau large et centré, sans bordure ni nom, e
 en argent. Une page porte son genre (`parole` ou `recit`) — les confondre dans un même cadre
 effaçait la différence et noyait les maladresses des personnages dans la narration.
 
+**Qui arrive ou s'en va le fait à pied.** `apparaissent` pose le personnage au seuil — celui
+que la scène indique par `depuis`, ou le bord le plus proche — et il marche jusqu'à sa place ;
+`disparaissent` le fait sortir de même. Un personnage qui surgit au milieu de la salle se lit
+comme un défaut. Les marcheurs avancent avant tout le reste dans `_physics_process`, y compris
+pendant un dialogue : une arrivée qui se fige parce qu'on lit une réplique se verrait aussitôt.
+
 **Un personnage abordé se tourne vers Wellan**, et garde ensuite cette orientation : se
 détourner sitôt la conversation finie serait pire que ne s'être jamais tourné.
 
