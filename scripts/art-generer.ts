@@ -92,12 +92,35 @@ async function create(id: string) {
    * sont donc explicites, et l'appel nu reproduit ce qui a marché.
    */
   const forcer = process.argv.includes("--forcer-couleurs");
+
+  /*
+   * Les proportions expliquent les deux premiers échecs.
+   *
+   * Régénérer Wellan avait donné un jeune homme frêle sans armure là où il
+   * fallait « un géant parmi ses frères d'armes ». J'avais soupçonné le gabarit
+   * — à tort : `template_id` vaut déjà « mannequin », celui-là même qu'avait
+   * employé l'interface web. Ce qui manquait était ce préréglage.
+   */
+  const port = arg("port") ?? "heroic";
+  const taille = Number(arg("taille") ?? 26);
   const body: Record<string, unknown> = {
     description,
-    image_size: { width: 32, height: 32 },
+    /*
+     * La taille demandée n'est pas la taille obtenue.
+     *
+     * Le Roi, commandé en 32, est sorti avec une figure de 39 pixels : le
+     * préréglage « heroic » grandit le personnage au-delà de la consigne. On
+     * commande donc plus petit, et l'on vérifie au recadrage.
+     */
+    image_size: { width: taille, height: taille },
     view: "low top-down",
+    proportions: { type: "preset", name: port },
+    // « mannequin » pour un humanoïde ; « bear », « cat », « dog », « horse » ou
+    // « lion » pour ce qui marche à quatre pattes.
+    ...(arg("gabarit") ? { template_id: arg("gabarit") } : {}),
     ...(forcer ? { color_image: await paletteImage(), force_colors: true, shading: "flat shading" } : {}),
   };
+  console.log(`${C.dim}proportions : ${port}, taille demandée : ${taille}${C.off}`);
 
   const r = await post<Record<string, unknown>>("/create-character-with-4-directions", body);
   const ids = (r.background_job_ids as string[]) ?? [r.background_job_id as string].filter(Boolean);

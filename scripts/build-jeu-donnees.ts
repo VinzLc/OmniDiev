@@ -93,6 +93,16 @@ type Personnage = {
 
 type Lieu = { nom: string; role: string; tuiles: string | null };
 
+/**
+ * Les peuples entrent aussi dans le monde.
+ *
+ * Ce qu'on affronte a un nom et une fiche au même titre que ce à quoi l'on
+ * parle : les hommes-insectes ne sont pas un décor, ce sont des adversaires que
+ * le Codex décrit — carapace, lances d'argent, sang toxique. Les laisser dehors
+ * obligeait la scène à redire ce que la fiche disait déjà.
+ */
+type Peuple = { nom: string; role: string; planche: string | null };
+
 function main() {
   const charge = loadCodex();
   if (!charge) {
@@ -105,6 +115,7 @@ function main() {
 
   const personnages: Record<string, Personnage> = {};
   const lieux: Record<string, Lieu> = {};
+  const peuples: Record<string, Peuple> = {};
 
   for (const f of fiches) {
     if (f.kind === "personnage") {
@@ -116,6 +127,13 @@ function main() {
         planche: fs.existsSync(planche) ? `${f.id}.png` : null,
         teinte: teinteDe(f.id),
         liens: (f.relations ?? []).slice(0, LIENS_MAX).map((r) => ({ nom: r.name, nature: r.nature })),
+      };
+    } else if (f.kind === "peuple") {
+      const planche = path.join(ART, "personnages", `${f.id}.png`);
+      peuples[f.id] = {
+        nom: f.name,
+        role: f.gloss,
+        planche: fs.existsSync(planche) ? `${f.id}.png` : null,
       };
     } else if (f.kind === "lieu") {
       const tuiles = path.join(ART, "lieux", `${f.id}.png`);
@@ -132,6 +150,7 @@ function main() {
     batiLe: new Date().toISOString().slice(0, 10),
     provenance: "Fiches du Codex — résumés produits par l'Oracle. Aucune phrase des romans.",
     personnages,
+    peuples,
     lieux,
   };
 
@@ -145,6 +164,8 @@ function main() {
   console.log(`${C.green}✓${C.off} ${path.relative(ROOT, fichier)}  ${poids} Ko`);
   console.log(`  ${C.dim}${Object.keys(personnages).length} personnages, dont ${avecPlanche} avec planche${C.off}`);
   console.log(`  ${C.dim}${Object.keys(lieux).length} lieux, dont ${avecTuiles} avec tuiles${C.off}`);
+  const peuplesArmes = Object.values(peuples).filter((p) => p.planche).length;
+  console.log(`  ${C.dim}${Object.keys(peuples).length} peuples, dont ${peuplesArmes} avec planche${C.off}`);
 
   /* Les salles sont écrites à la main : ce sont des décisions de mise en scène,
    * pas des données à déduire. Le script se contente de les valider. */

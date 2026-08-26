@@ -109,6 +109,9 @@ async function readPng(file: string): Promise<Frame> {
  * ligne de sol, et on centre horizontalement sur le contenu. Les images d'une
  * même direction retombent ainsi exactement où était le repos.
  */
+/** Ce qui n'est pas entré dans la cellule, relevé au fil du recadrage. */
+let debordements: string[] = [];
+
 function fit(f: Frame): Frame {
   if (f.width === SPRITE && f.height === SPRITE) return f;
 
@@ -123,6 +126,20 @@ function fit(f: Frame): Frame {
     }
   }
   if (bottom < 0) return { data: Buffer.alloc(SPRITE * SPRITE * 4, 0), width: SPRITE, height: SPRITE, channels: 4 };
+
+  /*
+   * Une figure trop grande pour la cellule doit se signaler, non se laisser
+   * rogner.
+   *
+   * Le Roi est sorti à 39 pixels de haut là où la cellule en fait 32 : calé sur
+   * le sol, il a perdu sa couronne et sa tête, et la planche est passée au
+   * contrôleur sans un mot. Rien ne mesure qu'un roi est décapité — il faut le
+   * dire ici.
+   */
+  const hauteur = bottom - top + 1, largeur = right - left + 1;
+  if (hauteur > SPRITE || largeur > SPRITE) {
+    debordements.push(`${largeur}×${hauteur}`);
+  }
 
   /* Le repos occupe la toile jusqu'à un pixel du bas : on reproduit cette
    * assise plutôt que de coller le personnage au bord. */
@@ -497,6 +514,7 @@ function baselineSpread(frames: Frame[]): number {
 async function build(id: string, palette: RGB[]): Promise<boolean> {
   const dir = path.join(SOURCES, id);
   const files = pngs(dir);
+  debordements = [];
   const groups = byDirection(files, dir);
   const states = statesOf(files, dir);
 
@@ -551,6 +569,11 @@ async function build(id: string, palette: RGB[]): Promise<boolean> {
   }
   for (let i = 0; i < ROWS.length; i++) {
     console.log(`  ${C.dim}rangée ${i + 1} ${ROW_LABEL[ROWS[i]].padEnd(14)} ${ROWS[i]}${C.off}`);
+  }
+  if (debordements.length) {
+    const pire = debordements.sort((a, b) => Number(b.split("×")[1]) - Number(a.split("×")[1]))[0];
+    console.log(`  ${C.red}${debordements.length} image(s) plus grandes que la cellule de ${SPRITE} px — jusqu'à ${pire}${C.off}`);
+    console.log(`  ${C.dim}le personnage est rogné : régénérer avec une taille plus petite${C.off}`);
   }
   console.log(`  ${C.dim}cycle ${states.join(" → ")}${states.length < COLS ? ", répété" : ""} sur ${COLS} colonnes${C.off}`);
   if (frameCount < 2) {

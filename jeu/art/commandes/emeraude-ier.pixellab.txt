@@ -1,0 +1,16 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Émeraude Ier, the old founding king of the Knights of Emerald, medieval fantasy. An aged monarch, broad and still upright, bearing authority rather than menace. LONG BLACK HAIR falling past his shoulders, streaked with grey. A full grey-black beard. Deep-set eyes, a calm and benevolent face.
+
+ROBES: dark brown leather garments beneath a long emerald green royal mantle that falls to his ankles. A narrow gold crown, no jewels. A heavy gold chain on his chest bearing the black cross of the Order.
+
+PALETTE — these 16 colors only:
+#0B0A10 #22222C #454652 #71727E #DDDDE4 (black, stone)
+#0F3826 #1C7A4E #43C47F (emerald green)
+#3D2A12 #7A5223 #C08F34 #F0D174 (gold, leather)
+#A9714E #D9A57C #F2D3B0 (skin)
+#2D5FA8 (blue)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No scenery, no ground, no throne, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

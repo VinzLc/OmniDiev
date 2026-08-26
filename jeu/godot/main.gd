@@ -88,6 +88,7 @@ func _ready() -> void:
 	_batir_wellan()
 	_batir_le_dialogue()
 	_peupler()
+	_tomber_la_nuit()
 	_entrer_dans_l_etape()
 
 	# Le drapeau peut arriver des deux côtés de `++` selon la façon dont on
@@ -269,6 +270,17 @@ func _batir_wellan() -> void:
 	camera.position_smoothing_speed = 8.0
 	_wellan.add_child(camera)
 
+	# Wellan porte sa propre lueur : sans elle, une nuit assez noire pour être
+	# une nuit rend le personnage invisible entre deux braseros.
+	if _scene.get("ambiance", {}).get("lumieres", false):
+		var lueur := PointLight2D.new()
+		lueur.texture = _halo(72)
+		lueur.color = Color("#dddde4")
+		# Wellan est vêtu de noir : sous une nuit assez sombre pour en être une,
+		# il disparaît entre deux braseros si sa propre lueur ne le tient pas.
+		lueur.energy = 1.4
+		_wellan.add_child(lueur)
+
 	_wellan.blesse.connect(func(reste: int, sur: int) -> void: _jauger(reste, sur))
 	_wellan.peri.connect(_perdre)
 
@@ -377,15 +389,13 @@ func _faire_debarquer(id: String, espece: Dictionary, ou: Vector2) -> void:
 	qui.position = ou
 	add_child(qui)
 
-	var fiche: Dictionary = _monde["personnages"].get(id, {})
+	# La fiche d'un adversaire est celle de son peuple. Sans planche, il paraît en
+	# silhouette de la teinte que la scène lui donne — comme n'importe quel
+	# personnage que l'atelier n'a pas encore dessiné.
+	var fiche: Dictionary = _monde.get("peuples", {}).get(id, _monde["personnages"].get(id, {}))
 	var vue := _sprite_de(fiche)
-	# Ni les hommes-insectes ni les dragons n'ont de planche : ils paraissent en
-	# silhouette, de la teinte que la scène leur donne.
-	var region := AtlasTexture.new()
-	region.atlas = load(DONNEES + "silhouette.png")
-	region.region = Rect2(0, 0, SPRITE, SPRITE)
-	vue.texture = region
-	vue.modulate = Color(str(espece.get("teinte", "#8b2020")))
+	if fiche.get("planche") == null:
+		vue.modulate = Color(str(espece.get("teinte", "#8b2020")))
 	qui.add_child(vue)
 
 	var forme := CollisionShape2D.new()
@@ -530,6 +540,39 @@ func _choisir_l_interlocuteur() -> void:
 		_invite.visible = _proche != ""
 
 
+## La nuit, quand la scène la demande.
+##
+## Le chapitre 26 place le débarquement dans le noir. Le jouer en plein jour
+## vide la moitié du texte de son sens : les fosses qu'on ne voit pas, les feux
+## qu'on allume, la vague qui arrive sans qu'on la distingue. Une teinte
+## d'ambiance assombrit tout, les braseros y percent des halos.
+func _tomber_la_nuit() -> void:
+	var ambiance: Dictionary = _scene.get("ambiance", {})
+	if ambiance.is_empty():
+		return
+	var voile := CanvasModulate.new()
+	voile.color = Color(str(ambiance.get("teinte", "#ffffff")))
+	add_child(voile)
+
+
+## Un halo, dessiné plutôt que chargé.
+##
+## Une lumière ponctuelle veut une texture ; en fabriquer une évite de traîner
+## un fichier d'image dont personne ne saurait dire à quoi il sert.
+func _halo(rayon: int) -> ImageTexture:
+	var cote := rayon * 2
+	var image := Image.create(cote, cote, false, Image.FORMAT_RGBA8)
+	var centre := Vector2(rayon, rayon)
+	for y in cote:
+		for x in cote:
+			var d := centre.distance_to(Vector2(x, y)) / float(rayon)
+			var force := clampf(1.0 - d, 0.0, 1.0)
+			# Au carré : la lumière d'un feu décroît vite, un dégradé linéaire
+			# donne un disque plat qui ne ressemble à rien.
+			image.set_pixel(x, y, Color(1, 1, 1, force * force))
+	return ImageTexture.create_from_image(image)
+
+
 func _batir_objet(genre: String, ou: Vector2) -> void:
 	# Un jalon, pas un décor : il tiendra sa tuile quand l'atelier en produira
 	# une. Cerclé de noir pour se lire comme un objet et non comme un défaut du
@@ -549,6 +592,14 @@ func _batir_objet(genre: String, ou: Vector2) -> void:
 	vue.texture = ImageTexture.create_from_image(image)
 	vue.position = ou
 	add_child(vue)
+
+	if genre == "brasier" and _scene.get("ambiance", {}).get("lumieres", false):
+		var feu := PointLight2D.new()
+		feu.texture = _halo(96)
+		feu.color = Color("#f0d174")
+		feu.energy = 1.5
+		feu.position = ou
+		add_child(feu)
 
 
 func _batir_le_dialogue() -> void:

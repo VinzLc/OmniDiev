@@ -120,12 +120,21 @@ enflammer. Deux registres, imposés par l'œuvre.
 **Ce qui manque encore à l'étape** : l'inventaire et la progression. Ni l'un ni l'autre
 n'est requis par le critère, mais ni l'un ni l'autre n'existe.
 
-### 4 — La direction artistique ← prochaine
+### 4 — La direction artistique ◐
 
 La production d'images tourne en parallèle dès l'étape 0. Cette étape est celle du regard
 d'ensemble : harmoniser les palettes, reprendre ce qui jure, fixer une charte.
 
 > **Terminé quand** une capture d'écran donne envie d'y jouer.
+
+La nuit de Zénor y répond : le dallage antique prend la lueur de Wellan, les cavaliers
+insectes sortent du noir la lance haute, un dragon fond sur la grève. Quatre planches
+existent — Wellan, Émeraude Ier, l'homme-insecte, le dragon — et l'échelle des figures est
+fixée dans [la charte](art/CHARTE.md).
+
+**Ce qui manque** : 363 personnages sont encore des silhouettes teintées. C'est le
+dispositif, non un oubli — mais l'étape ne sera close que quand les visages du chapitre I,1
+existeront.
 
 ### 5 — La mise à l'échelle
 

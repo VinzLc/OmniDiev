@@ -1924,7 +1924,7 @@
     8,
     9
    ],
-   "planche": null,
+   "planche": "emeraude-ier.png",
    "teinte": "#C08F34",
    "liens": [
     {
@@ -11664,6 +11664,198 @@
      "nature": "adversaire au duel"
     }
    ]
+  }
+ },
+ "peuples": {
+  "aculeos": {
+   "nom": "Aculéos",
+   "role": "Peuple humanoïde ressemblant à des scorpions qui envahit le continent d'Alnilam depuis les plateaux enneigés du Nord.",
+   "planche": null
+  },
+  "chevaliers": {
+   "nom": "Chevaliers d'Émeraude",
+   "role": "Ordre guerrier magique fondé pour défendre Enkidiev contre les invasions de l'Empereur Noir, puis étendu en grande armée structurée pour affronter les Aculéos.",
+   "planche": null
+  },
+  "dingirsigs": {
+   "nom": "Dingirsigs",
+   "role": "Peuple extraterrestre technologiquement avancé qui a envahi Ashur-Sîn et asservi les Lou-Sîn pendant trente ans.",
+   "planche": null
+  },
+  "lou-sin": {
+   "nom": "Lou-Sîn",
+   "role": "Peuple autochtone d'Ashur-Sîn créé par les Néfilims, réduit en esclavage pendant plus de trente ans avant d'être libéré par Onyx et ses compagnons.",
+   "planche": null
+  },
+  "telals": {
+   "nom": "Télals",
+   "role": "Ordre de guerriers-protecteurs lou-sîn formés à Sidouri, vénérant la lune et pratiquant des techniques de combat ancestrales.",
+   "planche": null
+  },
+  "deusalas": {
+   "nom": "Deusalas",
+   "role": "Peuple de dieux ailés originaires de l'île de Gaellans, décimés par les sorciers d'Achéron et transformés en armée de survie.",
+   "planche": null
+  },
+  "hommes-insectes": {
+   "nom": "Hommes-insectes",
+   "role": "Population insectoïde guerrière asservie à l'Empereur Noir Amecareth, formant l'essentiel de ses armées d'invasion contre Enkidiev.",
+   "planche": "hommes-insectes.png"
+  },
+  "manticores": {
+   "nom": "Manticores",
+   "role": "Peuple guerrier d'Arcturus, garnison de combat des Chevaliers d'Antarès spécialisée dans la défense contre les Aculéos.",
+   "planche": null
+  },
+  "salamandres": {
+   "nom": "Salamandres",
+   "role": "Peuple de guerriers aquatiques stationnés à Altaïr, organisés en divisions militaires disciplinées qui allient rituels religieux et combat féroce.",
+   "planche": null
+  },
+  "hommes-lezards": {
+   "nom": "hommes-lézards",
+   "role": "Créatures reptiliennes humanoïdes recrutées par l'Empereur Noir, puis converties en alliés des Chevaliers d'Émeraude.",
+   "planche": null
+  },
+  "chimeres": {
+   "nom": "Chimères",
+   "role": "Division militaire de Chevaliers humains fondée par Audax et placée sous le commandement de Sierra, formant l'une des garnisons d'Antarès.",
+   "planche": null
+  },
+  "elfes": {
+   "nom": "Elfes",
+   "role": "Peuple magique hybride aux pouvoirs surnaturels, anciens guerriers forgeurs dont la puissance s'est érodée au fil des siècles.",
+   "planche": null
+  },
+  "tegenaires": {
+   "nom": "Tégénaires",
+   "role": "Araignées géantes intelligentes exilées qui vivent sur une île suspendue et capturent des humains pour les vendre ou les garder comme animaux de compagnie.",
+   "planche": null
+  },
+  "basilics": {
+   "nom": "Basilics",
+   "role": "Division des Chevaliers d'Antarès spécialisée dans le combat dispersé et le camouflage, opérant principalement contre les Aculéos.",
+   "planche": null
+  },
+  "hidatsas": {
+   "nom": "Hidatsas",
+   "role": "Peuple guerrier du territoire montagneux entre les montagnes et les falaises d'Ellada, vénérateur des félins et pratiquant des rites de passage violents.",
+   "planche": null
+  },
+  "nefilims": {
+   "nom": "Néfilims",
+   "role": "Envahisseurs extraterrestres arrivés il y a trente ans, dotés de technologie avancée et d'un code génétique créé par l'Ama.",
+   "planche": null
+  },
+  "scarabees": {
+   "nom": "Scarabées",
+   "role": "Créatures-larves formant l'armée de choc du seigneur Amecareth, capables de communication et d'organisation tactique.",
+   "planche": null
+  },
+  "itzaman": {
+   "nom": "Itzaman",
+   "role": "Peuple des terres volcaniques d'Amérid organisé en castes rigides, adorateur de Solis et connu pour ses pratiques sacrificielles et son respect scrupuleux des lois divines.",
+   "planche": null
+  },
+  "lezards-volants": {
+   "nom": "Lézards volants",
+   "role": "Prédateurs reptiliens sans intelligence qui infestent Anangoh et menacent régulièrement ses habitants.",
+   "planche": null
+  },
+  "pardusses": {
+   "nom": "Pardusses",
+   "role": "Peuple félin humanoïde des Territoires Inconnus, les Pardusses capturent et vendent des humains aux créatures prédatrices.",
+   "planche": null
+  },
+  "enkievs": {
+   "nom": "Enkievs",
+   "role": "Premiers habitants pacifiques du continent d'Enkidiev, peuple côtier devenu allié de Kira.",
+   "planche": null
+  },
+  "scorpenas": {
+   "nom": "Scorpenas",
+   "role": "Créatures carnivores noires et agressives originaires des forêts d'Enlilkisar, utilisées comme armes vivantes puis relocalisées.",
+   "planche": null
+  },
+  "mixilzins": {
+   "nom": "Mixilzins",
+   "role": "Peuple pacifique des volcans, alliés des Chevaliers, décimé par une inondation provoquée par Onyx.",
+   "planche": null
+  },
+  "ecuyers": {
+   "nom": "Écuyers",
+   "role": "Jeunes guerriers en formation auprès des Chevaliers d'Émeraude, destinés à hériter du titre et des responsabilités de leurs maîtres.",
+   "planche": null
+  },
+  "les-dragons": {
+   "nom": "Les dragons",
+   "role": "Créatures volantes qui constituent une menace permanente sur le continent, attaquant tant les villages que les voyageurs.",
+   "planche": "les-dragons.png"
+  },
+  "alimgars": {
+   "nom": "Alimgars",
+   "role": "Peuple de guerriers néfilims formant une armée de terre désorganisée après la perte de son commandant.",
+   "planche": null
+  },
+  "fees": {
+   "nom": "Fées",
+   "role": "Peuple magique doté de capacités aériennes et d'une expertise textile enchantée.",
+   "planche": null
+  },
+  "hybrides": {
+   "nom": "Hybrides",
+   "role": "Créatures mi-humaines mi-insectes vivant sous terre, protégées par Nomar loin de l'Empereur Noir.",
+   "planche": null
+  },
+  "les-hommes-lezards": {
+   "nom": "Les hommes-lézards",
+   "role": "Peuple reptilien conquis par Amecareth qui accepte de combattre pour l'Empereur Noir en échange de femmes humaines.",
+   "planche": null
+  },
+  "lezards": {
+   "nom": "Lézards",
+   "role": "Créatures reptiliennes organisées en castes qui enlèvent des femmes humaines pour perpétuer leur espèce.",
+   "planche": null
+  },
+  "femmes-lezards": {
+   "nom": "femmes-lézards",
+   "role": "Peuple féminin des lézards dont la maladie mystérieuse provoque un conflit majeur avec les hommes-lézards.",
+   "planche": null
+  },
+  "les-immortels": {
+   "nom": "Les Immortels",
+   "role": "Créatures divines qui ont autrefois promis de protéger Enkidiev mais ont trahi cet engagement.",
+   "planche": null
+  },
+  "dragons-noirs": {
+   "nom": "Dragons noirs",
+   "role": "Créatures de guerre employées comme guerriers et menaces par les forces du mal.",
+   "planche": null
+  },
+  "tepecoalts": {
+   "nom": "Tepecoalts",
+   "role": "Peuple guerrier de la forêt qui adorait le dieu-rapace Azcatchi et pratiquait le sacrifice humain avant sa conquête par Onyx.",
+   "planche": null
+  },
+  "ipocans": {
+   "nom": "Ipocans",
+   "role": "Peuple marin humanoïde à écailles, cavaliers d'hippocampes géants, qui émerge de l'océan pour servir Onyx et accueillir les divinités marines.",
+   "planche": null
+  },
+  "kentauros": {
+   "nom": "Kentauros",
+   "role": "Créatures mi-hommes mi-chevaux créées par les anciens sorciers, devenues habitants de la cité de pierre rose.",
+   "planche": null
+  },
+  "simiusses": {
+   "nom": "Simiusses",
+   "role": "Créatures mi-singes mi-humaines créées par les sorciers, rejetées et vouées à l'extinction, habitant les forêts tropicales.",
+   "planche": null
+  },
+  "shamashs": {
+   "nom": "Shamashs",
+   "role": "Escadrille de pilotes guerriers des Néfilims spécialisés dans les opérations aériennes contre les populations rebelles.",
+   "planche": null
   }
  },
  "lieux": {

@@ -1,0 +1,32 @@
+{
+  "group_id": "076a762a-a9d0-4e60-9d15-69015849617c",
+  "states": [
+    {
+      "character": {
+        "id": "cf8affc3-80ab-42b4-bda7-2fcfdc7377fb",
+        "name": "Idle",
+        "prompt": "Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).\n\nCREATURE: an insect-man warrior of the Black Emperor's legions, medieval dark fantasy. Humanoid stance, two arms and two legs, but entirely insectoid: a hard segmented CARAPACE of dark blood-red chitin covering chest, shoulders and thighs, plated like a beetle's shell. A narrow insect head with black compound eyes and short mandibles \u2014 no human face, no hair. Thin hard limbs with visible joints at elbow and knee.\n\nWEAPON: a long silver spear held upright in one hand, plain shaft, leaf-shaped head.\n\nIt must read at 32 pixels as a threat: dark red silhouette, bright silver spear, no soft edges.\n\nPALETTE \u2014 these 15 colors only:\n#0B0A10 #22222C #454652 #71727E (black, dark)\n#8B2020 #D14545 (blood red chitin)\n#3D2A12 #7A5223 (dark brown joints)\n#A6A8B2 #DDDDE4 #F2F2F5 (silver spear)\n#0F3826 #1C7A4E (deep green highlight)\n#C08F34 (a single gold glint)\n\nSTYLE: flat fills only. Two-tone shading \u2014 one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions.\n\nBACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.",
+        "size": {
+          "width": 36,
+          "height": 36
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-08-26T11:07:09.900493+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-26T11:07:55.799501"
+}

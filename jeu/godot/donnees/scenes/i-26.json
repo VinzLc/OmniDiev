@@ -4,7 +4,6 @@
   "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 26",
   "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure.",
   "salle": "greve-de-zenor",
-
   "_especes": "Les nombres sont à nous ; l'immunité à la magie ne l'est pas. La fiche des hommes-insectes dit une carapace « les rendant invulnérables à la magie ». C'est le texte qui impose de tirer l'épée, pas un souci d'équilibre.",
   "especes": {
     "hommes-insectes": {
@@ -24,68 +23,140 @@
       "immunise_magie": false
     }
   },
-
   "etapes": [
     {
       "id": "la-veille",
       "objectif": "Écouter Jasson",
-      "attend": { "parler": "jasson" },
+      "attend": {
+        "parler": "jasson"
+      },
       "dialogues": {
         "jasson": [
-          { "qui": "jasson", "dit": "Les fosses sont creusées de la grève jusqu'aux ruines. Il ne reste qu'à attendre qu'ils y tombent." },
-          { "qui": "jasson", "dit": "Les dragons brûlent, Wellan. Un trait de feu et ils s'embrasent comme de la paille sèche." },
-          { "qui": "wellan", "dit": "Et leurs cavaliers ?" },
-          { "qui": "jasson", "dit": "Rien. La carapace boit la magie. Sur ceux-là, il n'y a que le fer." },
-          { "qui": "recit", "dit": "J pour l'épée. K pour le feu de Theandras — il se refait tout seul, lentement." }
+          {
+            "qui": "jasson",
+            "dit": "Les fosses sont creusées de la grève jusqu'aux ruines. Il ne reste qu'à attendre qu'ils y tombent."
+          },
+          {
+            "qui": "jasson",
+            "dit": "Les dragons brûlent, Wellan. Un trait de feu et ils s'embrasent comme de la paille sèche."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Et leurs cavaliers ?"
+          },
+          {
+            "qui": "jasson",
+            "dit": "Rien. La carapace boit la magie. Sur ceux-là, il n'y a que le fer."
+          },
+          {
+            "qui": "recit",
+            "dit": "J pour l'épée. K pour le feu de Theandras — il se refait tout seul, lentement."
+          }
         ],
         "bergeau": [
-          { "qui": "bergeau", "dit": "Chez moi on dit qu'une nuit sans lune est une nuit pour les couteaux. Ici, apparemment, c'est une nuit pour les dragons." }
+          {
+            "qui": "bergeau",
+            "dit": "Chez moi on dit qu'une nuit sans lune est une nuit pour les couteaux. Ici, apparemment, c'est une nuit pour les dragons."
+          }
         ]
       }
     },
     {
       "id": "premiere-vague",
       "objectif": "Repousser les cavaliers insectes",
-      "vague": [ { "espece": "hommes-insectes", "nombre": 3 } ],
-      "attend": { "vague_defaite": true },
+      "vague": [
+        {
+          "espece": "hommes-insectes",
+          "nombre": 3
+        }
+      ],
+      "attend": {
+        "vague_defaite": true
+      },
       "dialogues": {
-        "jasson": [ { "qui": "jasson", "dit": "Le fer, Wellan ! Garde ton feu pour ce qui vole !" } ]
+        "jasson": [
+          {
+            "qui": "jasson",
+            "dit": "Le fer, Wellan ! Garde ton feu pour ce qui vole !"
+          }
+        ]
       }
     },
     {
       "id": "les-dragons",
       "objectif": "Abattre les dragons",
-      "vague": [ { "espece": "les-dragons", "nombre": 2 } ],
-      "attend": { "vague_defaite": true },
+      "vague": [
+        {
+          "espece": "les-dragons",
+          "nombre": 2
+        }
+      ],
+      "attend": {
+        "vague_defaite": true
+      },
       "dialogues": {
-        "bergeau": [ { "qui": "bergeau", "dit": "Ils sont deux fois gros comme un cheval et ils courent plus vite. Ne les laisse pas te choisir." } ]
+        "bergeau": [
+          {
+            "qui": "bergeau",
+            "dit": "Ils sont deux fois gros comme un cheval et ils courent plus vite. Ne les laisse pas te choisir."
+          }
+        ]
       }
     },
     {
       "id": "le-treizieme",
       "objectif": "Tenir la ligne",
       "vague": [
-        { "espece": "les-dragons", "nombre": 1 },
-        { "espece": "hommes-insectes", "nombre": 4 }
+        {
+          "espece": "les-dragons",
+          "nombre": 1
+        },
+        {
+          "espece": "hommes-insectes",
+          "nombre": 4
+        }
       ],
-      "attend": { "vague_defaite": true },
+      "attend": {
+        "vague_defaite": true
+      },
       "dialogues": {
-        "jasson": [ { "qui": "jasson", "dit": "Le treizième a passé les fosses ! Je le pousse vers le feu — couvre-moi !" } ]
+        "jasson": [
+          {
+            "qui": "jasson",
+            "dit": "Le treizième a passé les fosses ! Je le pousse vers le feu — couvre-moi !"
+          }
+        ]
       }
     }
   ],
-
   "fin": {
     "objectif": "La grève tient",
     "dialogues": {
       "jasson": [
-        { "qui": "jasson", "dit": "Douze dans les fosses, un dans le feu. Et pas un des nôtres à brûler ce matin." },
-        { "qui": "wellan", "dit": "Cette nuit, non. Mais ils sont venus par la mer, Jasson, et la mer est vaste." },
-        { "qui": "recit", "dit": "À l'aube, Wellan comprendra que cette vague n'était pas l'invasion. Seulement la main que l'on pose sur une porte, pour voir si elle cède." }
+        {
+          "qui": "jasson",
+          "dit": "Douze dans les fosses, un dans le feu. Et pas un des nôtres à brûler ce matin."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Cette nuit, non. Mais ils sont venus par la mer, Jasson, et la mer est vaste."
+        },
+        {
+          "qui": "recit",
+          "dit": "À l'aube, Wellan comprendra que cette vague n'était pas l'invasion. Seulement la main que l'on pose sur une porte, pour voir si elle cède."
+        }
       ],
       "bergeau": [
-        { "qui": "bergeau", "dit": "J'ai vu leur squelette à Zénor avant de les voir vivants. Je préférais le squelette." }
+        {
+          "qui": "bergeau",
+          "dit": "J'ai vu leur squelette à Zénor avant de les voir vivants. Je préférais le squelette."
+        }
       ]
     }
+  },
+  "_ambiance": "Le chapitre place le débarquement dans la nuit. Une teinte d'ambiance assombrit toute la scène ; les braseros y percent des halos. Sans cela, une nuit de bataille se joue en plein jour et la moitié du texte ne veut plus rien dire.",
+  "ambiance": {
+    "teinte": "#5c6a90",
+    "lumieres": true
   }
 }

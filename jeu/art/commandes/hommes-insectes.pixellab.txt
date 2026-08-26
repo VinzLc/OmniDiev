@@ -1,0 +1,19 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CREATURE: an insect-man warrior of the Black Emperor's legions, medieval dark fantasy. Humanoid stance, two arms and two legs, but entirely insectoid: a hard segmented CARAPACE of dark blood-red chitin covering chest, shoulders and thighs, plated like a beetle's shell. A narrow insect head with black compound eyes and short mandibles — no human face, no hair. Thin hard limbs with visible joints at elbow and knee.
+
+WEAPON: a long silver spear held upright in one hand, plain shaft, leaf-shaped head.
+
+It must read at 32 pixels as a threat: dark red silhouette, bright silver spear, no soft edges.
+
+PALETTE — these 15 colors only:
+#0B0A10 #22222C #454652 #71727E (black, dark)
+#8B2020 #D14545 (blood red chitin)
+#3D2A12 #7A5223 (dark brown joints)
+#A6A8B2 #DDDDE4 #F2F2F5 (silver spear)
+#0F3826 #1C7A4E (deep green highlight)
+#C08F34 (a single gold glint)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions.
+
+BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.
