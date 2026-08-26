@@ -14,7 +14,10 @@ extends Node2D
 const TUILE := 16
 const SPRITE := 32
 const TAILLADE := 64          ## côté d'une image d'arc, plus large que le sprite
-const VITESSE := 58.0
+## Un pas un peu plus vif. À cinquante-huit, traverser une salle de vingt-six
+## tuiles demandait sept secondes, et l'on sentait la longueur avant de sentir
+## le lieu.
+const VITESSE := 80.0
 const CADENCE := 7.0
 
 ## Rangée de la planche pour chaque direction regardée.
@@ -96,6 +99,7 @@ var _bandeau: Panel          ## les descriptions, distinctes des paroles
 var _recit: RichTextLabel
 var _recit_capture := false   ## une seule image de description suffit au contrôle
 var _invite_capture := false
+var _mare: Sprite2D = null    ## la mare de sang, gardée entre deux morts
 
 
 func _ready() -> void:
@@ -240,6 +244,10 @@ func _batir_le_sol() -> void:
 
 	var carte := TileMapLayer.new()
 	carte.tile_set = jeu
+	# Le sol occupe son propre plan, sous tout le reste. Cela libère un plan
+	# intermédiaire pour ce qui se pose au sol sans être un personnage — une
+	# mare de sang, demain une empreinte ou une ombre.
+	carte.z_index = -2
 	add_child(carte)
 
 	var taille := _taille()
@@ -571,17 +579,62 @@ func _achever_le_chapitre() -> void:
 	_acheve.visible = true
 
 
+## Wellan tombe.
+##
+## Un panneau qui s'affiche pendant que le personnage reste debout ne dit pas
+## qu'il est mort, il dit que la partie s'arrête. Le sprite bascule donc au sol
+## et une mare s'élargit sous lui — c'est ce qu'on voit qui doit porter la
+## nouvelle, non le texte par-dessus.
 func _perdre() -> void:
 	_vaincu = true
 	_defaite.visible = true
 	_cadre.visible = false
+	_bandeau.visible = false
 	_invite.visible = false
+
+	_vue.rotation_degrees = 90.0
+	_vue.offset = Vector2(0, -8)
+
+	if _mare == null:
+		_mare = Sprite2D.new()
+		var region := AtlasTexture.new()
+		region.atlas = load(DONNEES + "sang.png")
+		region.region = Rect2(0, 0, SPRITE, SPRITE)
+		_mare.texture = region
+		# Entre le sol et les corps.
+		#
+		# Le tri par profondeur ne sait mettre une chose que *derrière* une
+		# autre, jamais dessous : posée assez haut pour passer derrière Wellan,
+		# la mare lui coiffait la tête comme un capuchon rouge. Un plan
+		# intermédiaire règle ce que l'ordre en y ne peut pas exprimer.
+		_mare.z_index = -1
+		add_child(_mare)
+	# Sur la ligne de sol, sous le corps couché qui s'étend à droite des pieds.
+	# Mesuré : à moins sept, la mare occupait y 101 à 132 quand le corps
+	# commençait à 133 — elles ne se touchaient pas.
+	_mare.position = _wellan.global_position + Vector2(9, -1)
+	_mare.visible = true
+	_elargir_la_mare()
+
+
+## La mare s'élargit en trois temps.
+func _elargir_la_mare() -> void:
+	var region: AtlasTexture = _mare.texture
+	for n in 3:
+		if not _vaincu:
+			return
+		region.region = Rect2(n * SPRITE, 0, SPRITE, SPRITE)
+		await get_tree().create_timer(0.16).timeout
 
 
 ## Reprendre l'étape : Wellan retrouve son souffle, la vague est relevée.
 func _reprendre() -> void:
 	_vaincu = false
 	_defaite.visible = false
+	_vue.rotation_degrees = 0.0
+	_vue.offset = Vector2(0, -SPRITE / 2.0 + 2)
+	if _mare != null:
+		_mare.visible = false
 	_wellan.vie = _wellan.vie_max
 	_jauger(_wellan.vie, _wellan.vie_max)
 	_energie = ENERGIE_MAX
@@ -839,15 +892,20 @@ func _batir_le_dialogue() -> void:
 	_jauge_vie = _jauge(couche, 8, Color("#8b2020"), Color("#d14545"))
 	_jauge_energie = _jauge(couche, 22, Color("#23202e"), Color("#5b9bd8"))
 
+	## Le mot de défaite se range en bas.
+	##
+	## Centré, il se posait exactement sur le corps — la caméra suit Wellan, donc
+	## le panneau masquait ce qu'il annonçait. On ne dit pas à quelqu'un qu'il
+	## est tombé en lui cachant l'endroit où il gît.
 	_defaite = Panel.new()
 	_defaite.anchor_left = 0.5
 	_defaite.anchor_right = 0.5
-	_defaite.anchor_top = 0.5
-	_defaite.anchor_bottom = 0.5
+	_defaite.anchor_top = 1.0
+	_defaite.anchor_bottom = 1.0
 	_defaite.offset_left = -130
 	_defaite.offset_right = 130
-	_defaite.offset_top = -34
-	_defaite.offset_bottom = 34
+	_defaite.offset_top = -74
+	_defaite.offset_bottom = -12
 	var deuil := StyleBoxFlat.new()
 	deuil.bg_color = Color("#0b0a10")
 	deuil.border_color = Color("#8b2020")
@@ -1428,6 +1486,21 @@ func _capturer_les_effets() -> void:
 	await _attendre(4)
 	get_viewport().get_texture().get_image().save_png("res://capture-eclat.png")
 	print("ECLAT")
+
+	# La mort, puis le relèvement. C'est ce qu'on voit qui doit dire qu'il est
+	# mort, donc c'est ce qu'il faut regarder.
+	_wellan.vie = 0
+	_perdre()
+	await _attendre(40)
+	get_viewport().get_texture().get_image().save_png("res://capture-mort.png")
+	print("MORT sprite tourné de %.0f°, mare %s" % [
+		_vue.rotation_degrees, "visible" if _mare != null and _mare.visible else "absente"])
+
+	_touche("ui_accept")
+	await _attendre(8)
+	get_viewport().get_texture().get_image().save_png("res://capture-releve.png")
+	print("RELEVE sprite à %.0f°, mare %s, vie %d" % [
+		_vue.rotation_degrees, "visible" if _mare != null and _mare.visible else "effacée", _wellan.vie])
 
 	get_tree().quit()
 

@@ -1,0 +1,32 @@
+{
+  "group_id": "a8e9d47f-37c2-4b78-9128-f3090a68531a",
+  "states": [
+    {
+      "character": {
+        "id": "d181b193-38d2-46df-820b-751c078c94ba",
+        "name": "Idle",
+        "prompt": "Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).\n\nCHARACTER: Arm\u00e8ne, a servant of the Castle of Emerald who becomes its governess, medieval fantasy. A woman of about forty, solid and unhurried, with the steadiness of someone who has calmed a great many frightened children. A broad kind face, round cheeks, laugh lines. She is the only person in the castle who was not afraid of the mauve child.\n\nBrown hair pulled back and covered by a plain linen headscarf, a few strands escaping.\n\nCLOTHES: a simple long dress of undyed brown wool, and over it a pale linen apron tied at the waist, clean and often used. Flat leather shoes. Nothing rich \u2014 she is staff, not court.\n\nPALETTE \u2014 these 14 colors only:\n#0B0A10 #22222C #454652 #71727E (black, dark)\n#3D2A12 #7A5223 #C08F34 (brown wool, leather)\n#DDDDE4 #F2F2F5 #A6A8B2 (linen apron, headscarf)\n#1C7A4E (a single green thread)\n#A9714E #D9A57C #F2D3B0 (skin)\n\nSTYLE: flat fills only. Two-tone shading \u2014 one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.\n\nBACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.",
+        "size": {
+          "width": 36,
+          "height": 36
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-08-26T18:23:38.386672+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-26T18:24:24.354446"
+}

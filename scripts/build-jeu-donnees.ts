@@ -94,6 +94,7 @@ async function effets(dossier: string) {
   const PAL = {
     blanc: [242, 242, 245], argent: [166, 168, 178], acier: [113, 114, 126],
     or: [240, 209, 116], ambre: [192, 143, 52], braise: [139, 32, 32], noir: [11, 10, 16],
+    sangVif: [110, 26, 28], sangSombre: [61, 14, 16],
   } as const;
 
   const toile = (l: number, h: number) => Buffer.alloc(l * h * 4, 0);
@@ -231,7 +232,41 @@ async function effets(dossier: string) {
   await sharp(eclat, { raw: { width: F * rayons.length, height: F, channels: 4 } })
     .png().toFile(path.join(dossier, "eclat.png"));
 
-  return { taillade: arcs.length, feu: battements.length, eclat: rayons.length };
+  /* ── La mare de sang ──────────────────────────────────────────────────
+   * Trois images d'une flaque qui s'élargit sous le corps. Une ellipse pure
+   * ferait une tache de peinture ; on en déforme le rayon par une somme de
+   * sinus, ce qui donne un contour irrégulier sans qu'on ait à le dessiner.
+   */
+  const M = 32, temps = [0.45, 0.75, 1.0];
+  const sang = toile(M * temps.length, M);
+  temps.forEach((t, n) => {
+    for (let y = 0; y < M; y++) {
+      for (let x = 0; x < M; x++) {
+        /*
+         * Un peu plus large que le corps, guère plus.
+         *
+         * Trop petite, elle disparaît sous lui et l'on ne voit rien. Trop
+         * grande, elle monte derrière le corps et se lit comme une tenture
+         * rouge accrochée au mur — ce qui est arrivé au deuxième réglage. Elle
+         * doit déborder du corps de deux ou trois pixels, pas davantage, et
+         * rester basse.
+         */
+        const dx = (x - M / 2 + 0.5) / 3.4;   // très aplatie : une flaque s'étale
+        const dy = y - M / 2 + 0.5;
+        const r = Math.hypot(dx, dy);
+        const a = Math.atan2(dy, dx);
+        const bord = (5.6 + 1.1 * Math.sin(a * 3 + 0.7) + 0.7 * Math.sin(a * 5 - 1.3)) * t;
+        if (r > bord) continue;
+        // Rouge au centre, cerné de plus sombre : l'inverse donnait un trou
+        // noir bordé de rouge, qu'on lisait comme une fosse et non du sang.
+        poser(sang, M * temps.length, n * M + x, y, r > bord - 1.8 ? PAL.sangSombre : PAL.sangVif, M);
+      }
+    }
+  });
+  await sharp(sang, { raw: { width: M * temps.length, height: M, channels: 4 } })
+    .png().toFile(path.join(dossier, "sang.png"));
+
+  return { taillade: arcs.length, feu: battements.length, eclat: rayons.length, sang: temps.length };
 }
 
 type Personnage = {
@@ -344,7 +379,7 @@ function main() {
     .then(() => effets(SORTIE))
     .then((n) => {
       console.log(`  ${C.dim}silhouette d'attente écrite${C.off}`);
-      console.log(`  ${C.dim}effets dessinés : taillade ${n.taillade} images, feu ${n.feu}, éclat ${n.eclat}${C.off}`);
+      console.log(`  ${C.dim}effets dessinés : taillade ${n.taillade}, feu ${n.feu}, éclat ${n.eclat}, sang ${n.sang}${C.off}`);
       if (fautes) process.exitCode = 1;
     });
 }

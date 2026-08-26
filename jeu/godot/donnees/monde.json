@@ -1167,7 +1167,7 @@
     38,
     39
    ],
-   "planche": null,
+   "planche": "armene.png",
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -1765,7 +1765,7 @@
     10,
     25
    ],
-   "planche": null,
+   "planche": "elund.png",
    "teinte": "#8B2020",
    "liens": [
     {
@@ -3069,7 +3069,7 @@
     24,
     38
    ],
-   "planche": null,
+   "planche": "hamil.png",
    "teinte": "#7A5223",
    "liens": [
     {

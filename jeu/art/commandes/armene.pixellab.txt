@@ -1,0 +1,18 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Armène, a servant of the Castle of Emerald who becomes its governess, medieval fantasy. A woman of about forty, solid and unhurried, with the steadiness of someone who has calmed a great many frightened children. A broad kind face, round cheeks, laugh lines. She is the only person in the castle who was not afraid of the mauve child.
+
+Brown hair pulled back and covered by a plain linen headscarf, a few strands escaping.
+
+CLOTHES: a simple long dress of undyed brown wool, and over it a pale linen apron tied at the waist, clean and often used. Flat leather shoes. Nothing rich — she is staff, not court.
+
+PALETTE — these 14 colors only:
+#0B0A10 #22222C #454652 #71727E (black, dark)
+#3D2A12 #7A5223 #C08F34 (brown wool, leather)
+#DDDDE4 #F2F2F5 #A6A8B2 (linen apron, headscarf)
+#1C7A4E (a single green thread)
+#A9714E #D9A57C #F2D3B0 (skin)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

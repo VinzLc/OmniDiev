@@ -66,8 +66,18 @@ sur deux fichiers pendant que dix existaient : le jeu se lançait sans Kira, san
 sans les ennemis ni la neige de Shola. Rien ne le signalait — un personnage sans planche
 paraît en silhouette, ce qui est un comportement prévu. On copie le dossier, pas une liste.
 
+**GDScript n'a pas de commentaires en bloc.** `/* … */` fait échouer le chargement du script
+entier, avec pour seul message « Expected statement, found "/" ».
+
 **Les arguments du jeu passent après `++`.** Avant, Godot les revendique, et un mot sans
 tiret y est pris pour un chemin de scène à charger.
+
+**Le tri par profondeur ne met jamais une chose *dessous*, seulement *derrière*.** La mare
+de sang, posée assez haut pour passer derrière Wellan, lui coiffait la tête comme un
+capuchon rouge. Ce qui se pose au sol demande un plan explicite : le sol est à `z_index -2`,
+ce qui s'y étale à `-1`, tout le reste à zéro. Et un `z_index` négatif sans avoir abaissé le
+sol fait disparaître l'objet **sous** la carte de tuiles, tout en le laissant se déclarer
+visible.
 
 **Un `Control` ne participe pas au tri par profondeur** et se dessine dans l'ordre de
 l'arbre. Les objets du décor sont des `Sprite2D`, sinon un meuble passe devant le joueur.
