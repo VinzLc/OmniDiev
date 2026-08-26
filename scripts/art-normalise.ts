@@ -596,9 +596,9 @@ async function buildTileset(id: string, palette: RGB[]): Promise<boolean> {
    *
    * Or la réponse est dans le fichier : il suffit de regarder ce que chaque
    * coin montre. On échantillonne un carré à chacun des quatre angles et on
-   * classe par verdeur — le tapis est vert, la dalle est grise.
+   * sépare les deux terrains par regroupement, sans rien présumer de leur
+   * couleur.
    */
-  const read = new Map<number, Frame>();
   const brut: Frame[] = [];
   for (let i = 0; i < tiles.length; i++) {
     const f = path.join(dir, `tileset-tiles-${i}-image.png`);
@@ -606,40 +606,88 @@ async function buildTileset(id: string, palette: RGB[]): Promise<boolean> {
   }
 
   /**
-   * Le quadrant est-il vert ?
+   * Teinte moyenne d'un quadrant, l'or du liseré exclu.
    *
-   * On compte le vert contre le gris **en ignorant l'or** du liseré. Le compter
-   * comme du non-vert faisait basculer du mauvais côté tout quadrant que la
-   * bordure traversait — et ce sont précisément les tuiles de transition, celles
-   * qui portent l'information. Deux signatures manquaient à cause de cela, et le
-   * jeu paraissait dégénéré alors qu'il était complet.
+   * La bordure de transition n'appartient à aucun des deux terrains ; la compter
+   * fait basculer du mauvais côté tout quadrant qu'elle traverse — et ce sont
+   * précisément les tuiles qui portent l'information.
    */
-  const estVert = (f: Frame, x0: number, y0: number, n: number) => {
-    let verts = 0, gris = 0;
+  const moyenne = (f: Frame, x0: number, y0: number, n: number): RGB | null => {
+    let r = 0, g = 0, b = 0, vus = 0;
     for (let y = y0; y < y0 + n; y++) for (let x = x0; x < x0 + n; x++) {
       const o = (y * f.width + x) * f.channels;
       if (f.data[o + 3] < 16) continue;
-      const r = f.data[o], g = f.data[o + 1], b = f.data[o + 2];
-      if (r > 120 && g > 90 && b < 90 && r > b + 50) continue; // le liseré doré
-      if (g > r + 12 && g > b + 8) verts++; else gris++;
+      const [pr, pg, pb] = [f.data[o], f.data[o + 1], f.data[o + 2]];
+      if (pr > 120 && pg > 90 && pb < 90 && pr > pb + 50) continue; // liseré doré
+      r += pr; g += pg; b += pb; vus++;
     }
-    return verts > gris;
+    return vus ? [r / vus, g / vus, b / vus] : null;
   };
 
+  /*
+   * Les deux terrains se découvrent, ils ne se décrivent pas.
+   *
+   * Le premier jet cherchait « du vert contre du gris » — vrai pour un tapis
+   * d'émeraude sur du dallage, faux dès la première lande côtière, où l'herbe
+   * et la pierre claire sont toutes deux à leur manière du vert-gris. Aucune
+   * signature n'était alors reconnue et le jeu paraissait vide.
+   *
+   * On échantillonne donc les quatre quadrants des seize tuiles, et l'on sépare
+   * ces soixante-quatre points en deux groupes par leur seule distance
+   * perceptuelle. Le procédé ne sait rien des terrains qu'il sépare, ce qui est
+   * exactement la raison pour laquelle il marche sur tous.
+   */
   const q = Math.max(2, Math.floor(size / 2));
+  const coins: { tuile: number; place: number; lab: RGB }[] = [];
+  for (const [i, f] of brut.entries()) {
+    const places: [number, number][] = [[0, 0], [size - q, 0], [0, size - q], [size - q, size - q]];
+    places.forEach(([x, y], place) => {
+      const m = moyenne(f, x, y, q);
+      if (m) coins.push({ tuile: i, place, lab: oklab(m) });
+    });
+  }
+
+  // Deux germes : les deux échantillons les plus éloignés l'un de l'autre.
+  let a = 0, z = 0, ecart = -1;
+  for (let i = 0; i < coins.length; i++) {
+    for (let j = i + 1; j < coins.length; j++) {
+      const d = Math.hypot(coins[i].lab[0] - coins[j].lab[0], coins[i].lab[1] - coins[j].lab[1], coins[i].lab[2] - coins[j].lab[2]);
+      if (d > ecart) { ecart = d; a = i; z = j; }
+    }
+  }
+  let centres: RGB[] = [coins[a].lab, coins[z].lab];
+  const proche = (p: RGB) =>
+    Math.hypot(centres[0][0] - p[0], centres[0][1] - p[1], centres[0][2] - p[2])
+      <= Math.hypot(centres[1][0] - p[0], centres[1][1] - p[1], centres[1][2] - p[2]) ? 0 : 1;
+
+  for (let tour = 0; tour < 12; tour++) {
+    const somme: RGB[] = [[0, 0, 0], [0, 0, 0]];
+    const compte = [0, 0];
+    for (const c of coins) {
+      const k = proche(c.lab);
+      somme[k][0] += c.lab[0]; somme[k][1] += c.lab[1]; somme[k][2] += c.lab[2];
+      compte[k]++;
+    }
+    centres = centres.map((c, k) => compte[k] ? [somme[k][0] / compte[k], somme[k][1] / compte[k], somme[k][2] / compte[k]] as RGB : c);
+  }
+
+  // Le plus sombre porte le numéro zéro : convention arbitraire, mais stable
+  // d'un jeu de tuiles à l'autre, ce qui est tout ce qu'on lui demande.
+  const inverser = centres[0][0] > centres[1][0];
+
+  const read = new Map<number, Frame>();
   let desaccords = 0;
   for (const [i, f] of brut.entries()) {
-    const coins = [
-      estVert(f, 0, 0, q),                     // NO
-      estVert(f, size - q, 0, q),              // NE
-      estVert(f, 0, size - q, q),              // SO
-      estVert(f, size - q, size - q, q),       // SE
-    ];
-    // Le vert est le terrain 0 : c'est le fond sur lequel l'autre s'inscrit.
-    const sig = coins.reduce((n, v) => (n << 1) | (v ? 0 : 1), 0);
+    let sig = 0;
+    for (let place = 0; place < 4; place++) {
+      const c = coins.find((x) => x.tuile === i && x.place === place);
+      let k = c ? proche(c.lab) : 0;
+      if (inverser) k = 1 - k;
+      sig = (sig << 1) | k;
+    }
     const t = tiles[i]?.corners;
     if (t) {
-      const annonce = ["NW", "NE", "SW", "SE"].reduce((n, c) => (n << 1) | (t[c] === "upper" ? 1 : 0), 0);
+      const annonce = ["NW", "NE", "SW", "SE"].reduce((n, cc) => (n << 1) | (t[cc] === "upper" ? 1 : 0), 0);
       if (annonce !== sig && annonce !== (~sig & 15)) desaccords++;
     }
     if (!read.has(sig)) read.set(sig, f);
@@ -654,7 +702,12 @@ async function buildTileset(id: string, palette: RGB[]): Promise<boolean> {
 
   const frames = [...Array(16).keys()].map((n) => read.get(n)!);
   const stat = snap(frames, palette);
-  const upperEstVert = false; // le terrain 1 est celui qui n'est pas vert, par construction
+
+  /** La teinte moyenne d'un terrain, pour que le manifeste dise lequel est lequel. */
+  const couleurDe = (n: number) => {
+    const m = moyenne(frames[n], 0, 0, size);
+    return m ? `#${m.map((v) => Math.round(v).toString(16).padStart(2, "0")).join("")}` : "—";
+  };
 
   const W = size * 16;
   const sheet = Buffer.alloc(W * size * 4, 0);
@@ -675,9 +728,10 @@ async function buildTileset(id: string, palette: RGB[]): Promise<boolean> {
     tuile: size,
     colonnes: 16,
     ordre: "signature des coins, NO NE SO SE lus en binaire — colonne = NO*8 + NE*4 + SO*2 + SE",
-    terrain0: upperEstVert ? String(prompts.lower ?? "") : String(prompts.upper ?? ""),
-    terrain1: upperEstVert ? String(prompts.upper ?? "") : String(prompts.lower ?? ""),
-    note: "terrain0 et terrain1 sont mesurés sur les images, non lus dans les étiquettes : le service les a déjà rendues permutées.",
+    terrain0: { couleur: couleurDe(0) },
+    terrain1: { couleur: couleurDe(15) },
+    decrits: { lower: String(prompts.lower ?? ""), upper: String(prompts.upper ?? "") },
+    note: "Les deux terrains sont séparés par regroupement des couleurs des images, non lus dans les étiquettes : le service les a déjà rendues permutées. « decrits » rappelle ce qui a été demandé, sans garantir l'ordre.",
   }, null, 2) + "\n");
 
   console.log(`${C.green}✓${C.off} ${id} → ${path.relative(ROOT, path.join(LIEUX, `${id}.png`))}  ${W}×${size}`);

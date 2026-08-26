@@ -1,0 +1,16 @@
+{
+  "tuile": 16,
+  "colonnes": 16,
+  "ordre": "signature des coins, NO NE SO SE lus en binaire — colonne = NO*8 + NE*4 + SO*2 + SE",
+  "terrain0": {
+    "couleur": "#2c3930"
+  },
+  "terrain1": {
+    "couleur": "#586368"
+  },
+  "decrits": {
+    "lower": "coarse northern coastal grass featuring weathered dark green blades over thin soil with basic two-tone lighting",
+    "upper": "flat slabs of cool grey limestone forming an ancient ruined pavement with basic two-tone lighting and soft shadow edges"
+  },
+  "note": "Les deux terrains sont séparés par regroupement des couleurs des images, non lus dans les étiquettes : le service les a déjà rendues permutées. « decrits » rappelle ce qui a été demandé, sans garantir l'ordre."
+}

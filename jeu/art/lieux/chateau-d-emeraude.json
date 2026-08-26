@@ -2,7 +2,15 @@
   "tuile": 16,
   "colonnes": 16,
   "ordre": "signature des coins, NO NE SO SE lus en binaire — colonne = NO*8 + NE*4 + SO*2 + SE",
-  "terrain0": "plain deep emerald green woven carpet with a fine even surface texture and basic two-tone shading, strictly emerald green without any teal or turquoise tones",
-  "terrain1": "plain grey stone floor of a medieval castle hall formed from large rectangular slabs separated by thin mortar lines, featuring gentle cool grey colour variation and simple two-tone light and shadow",
-  "note": "terrain0 et terrain1 sont mesurés sur les images, non lus dans les étiquettes : le service les a déjà rendues permutées."
+  "terrain0": {
+    "couleur": "#0f3826"
+  },
+  "terrain1": {
+    "couleur": "#777f80"
+  },
+  "decrits": {
+    "lower": "plain grey stone floor of a medieval castle hall formed from large rectangular slabs separated by thin mortar lines, featuring gentle cool grey colour variation and simple two-tone light and shadow",
+    "upper": "plain deep emerald green woven carpet with a fine even surface texture and basic two-tone shading, strictly emerald green without any teal or turquoise tones"
+  },
+  "note": "Les deux terrains sont séparés par regroupement des couleurs des images, non lus dans les étiquettes : le service les a déjà rendues permutées. « decrits » rappelle ce qui a été demandé, sans garantir l'ordre."
 }
