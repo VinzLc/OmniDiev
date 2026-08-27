@@ -65,7 +65,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Cherche quand même. Dans les cuisines, sous les tables. Les enfants se cachent bien."
+            "dit": "Cherche quand même. Dans les cuisines, sous les tables. Les enfants se cachent bien.",
+            "humeur": "trouble"
           },
           {
             "qui": "santo",
@@ -131,7 +132,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Ne parlez pas. Santo — SANTO !"
+            "dit": "Ne parlez pas. Santo — SANTO !",
+            "humeur": "colere"
           },
           {
             "qui": "fan",
@@ -143,7 +145,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Pour quoi, alors ?"
+            "dit": "Pour quoi, alors ?",
+            "humeur": "trouble"
           },
           {
             "qui": "fan",
@@ -163,7 +166,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Que voulez-vous que je fasse ?"
+            "dit": "Que voulez-vous que je fasse ?",
+            "humeur": "doux"
           },
           {
             "qui": "fan",
@@ -179,7 +183,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Je le jure sur mon honneur de Chevalier."
+            "dit": "Je le jure sur mon honneur de Chevalier.",
+            "humeur": "resolu"
           },
           {
             "qui": "recit",
@@ -202,7 +207,8 @@
         },
         {
           "qui": "wellan",
-          "dit": "On la met au caveau. On brûle les autres. Puis on descend à la plage."
+          "dit": "On la met au caveau. On brûle les autres. Puis on descend à la plage.",
+          "humeur": "grave"
         },
         {
           "qui": "bergeau",
@@ -210,7 +216,8 @@
         },
         {
           "qui": "wellan",
-          "dit": "Ils sont venus de la mer. Je veux savoir combien ils étaient, et sur quoi."
+          "dit": "Ils sont venus de la mer. Je veux savoir combien ils étaient, et sur quoi.",
+          "humeur": "resolu"
         },
         {
           "qui": "recit",
@@ -224,9 +231,11 @@
         },
         {
           "qui": "wellan",
-          "dit": "Non."
+          "dit": "Non.",
+          "humeur": "grave"
         }
       ]
     }
-  }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée. Sans elle, le visage reste neutre — ce qui vaut mieux qu'une expression qui contredirait le texte."
 }

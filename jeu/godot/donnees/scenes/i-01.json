@@ -33,7 +33,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "On m'a dit qu'il fallait un Ordre. On ne m'a pas dit contre quoi."
+            "dit": "On m'a dit qu'il fallait un Ordre. On ne m'a pas dit contre quoi.",
+            "humeur": "grave"
           },
           {
             "qui": "emeraude-ier",
@@ -41,7 +42,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Quelque chose. Vous ne lui donnez pas de nom."
+            "dit": "Quelque chose. Vous ne lui donnez pas de nom.",
+            "humeur": "grave"
           },
           {
             "qui": "emeraude-ier",
@@ -92,7 +94,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Et si l'Ouest arrive avant que j'aie fini d'apprendre à guérir ?"
+            "dit": "Et si l'Ouest arrive avant que j'aie fini d'apprendre à guérir ?",
+            "humeur": "trouble"
           },
           {
             "qui": "recit",
@@ -263,7 +266,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Ils avaient froid et ils avaient peur. Ce n'était pas une bataille."
+            "dit": "Ils avaient froid et ils avaient peur. Ce n'était pas une bataille.",
+            "humeur": "resolu"
           },
           {
             "qui": "armene",
@@ -333,7 +337,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Majesté — quand vous reverrons-nous ?"
+            "dit": "Majesté — quand vous reverrons-nous ?",
+            "humeur": "doux"
           },
           {
             "qui": "recit",
@@ -371,5 +376,6 @@
     "attend": {
       "parler": "emeraude-ier"
     }
-  }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée. Sans elle, le visage reste neutre — ce qui vaut mieux qu'une expression qui contredirait le texte."
 }

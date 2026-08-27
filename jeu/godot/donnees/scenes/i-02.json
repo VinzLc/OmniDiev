@@ -58,7 +58,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Qui est-elle ?"
+            "dit": "Qui est-elle ?",
+            "humeur": "trouble"
           },
           {
             "qui": "armene",
@@ -183,7 +184,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Sa mère me l'a mise dans les bras, Élund. Elle savait ce qu'elle nous donnait."
+            "dit": "Sa mère me l'a mise dans les bras, Élund. Elle savait ce qu'elle nous donnait.",
+            "humeur": "resolu"
           },
           {
             "qui": "elund",
@@ -191,7 +193,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Vous demandez qu'on la renvoie à qui, exactement ?"
+            "dit": "Vous demandez qu'on la renvoie à qui, exactement ?",
+            "humeur": "colere"
           },
           {
             "qui": "elund",
@@ -324,7 +327,8 @@
         },
         {
           "qui": "wellan",
-          "dit": "Vous en avez vu une autre il y a quinze jours."
+          "dit": "Vous en avez vu une autre il y a quinze jours.",
+          "humeur": "grave"
         },
         {
           "qui": "elund",
@@ -344,5 +348,6 @@
         }
       ]
     }
-  }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée. Sans elle, le visage reste neutre — ce qui vaut mieux qu'une expression qui contredirait le texte."
 }

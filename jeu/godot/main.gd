@@ -1300,7 +1300,8 @@ func _repliques(id: String) -> Array:
 				pages.append({ "genre": "recit", "texte": dit })
 			else:
 				var nom := str(_monde["personnages"].get(qui, {}).get("nom", qui))
-				pages.append({ "genre": "parole", "qui": qui, "nom": nom, "texte": dit })
+				pages.append({ "genre": "parole", "qui": qui, "nom": nom, "texte": dit,
+					"humeur": str(ligne.get("humeur", "")) })
 		return pages
 	return _fiche_en_repliques(id)
 
@@ -1343,7 +1344,7 @@ func _afficher() -> void:
 	else:
 		_bandeau.visible = false
 		_cadre.visible = true
-		_montrer_le_visage(str(page.get("qui", "")))
+		_montrer_le_visage(str(page.get("qui", "")), str(page.get("humeur", "")))
 		_texte.text = "[b][color=#f0d174]%s[/color][/b]\n%s" % [
 			str(page.get("nom", "")), str(page.get("texte", ""))]
 
@@ -1368,9 +1369,18 @@ func _reciter(lignes: Array) -> void:
 
 
 ## Montre le portrait de qui parle, et décale le texte pour lui faire place.
-func _montrer_le_visage(id: String) -> void:
+func _montrer_le_visage(id: String, humeur := "") -> void:
 	var fiche: Dictionary = _monde["personnages"].get(id, {})
 	var visage = fiche.get("portrait")
+
+	# L'humeur ne s'impose que si le visage la connaît : une réplique peut en
+	# demander une qu'on n'a pas encore dessinée, et il vaut mieux un visage
+	# neutre qu'un cadre vide.
+	if humeur != "" and visage != null:
+		var connues: Array = fiche.get("humeurs", [])
+		if connues.has(humeur):
+			visage = "portrait-%s-%s.png" % [id, humeur]
+
 	if visage == null:
 		_visage.visible = false
 		_texte.offset_left = 10

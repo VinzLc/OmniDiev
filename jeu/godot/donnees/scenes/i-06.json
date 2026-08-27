@@ -44,7 +44,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Shola."
+            "dit": "Shola.",
+            "humeur": "trouble"
           },
           {
             "qui": "hamil",
@@ -71,7 +72,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Tu retournes à Émeraude. Tu dis à Élund que sa prophétie a un nom et qu'elle est arrivée."
+            "dit": "Tu retournes à Émeraude. Tu dis à Élund que sa prophétie a un nom et qu'elle est arrivée.",
+            "humeur": "resolu"
           },
           {
             "qui": "jasson",
@@ -79,7 +81,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Seul et vite. Cinq suffiront pour ce que nous allons trouver — et je préfère que quelqu'un puisse le raconter."
+            "dit": "Seul et vite. Cinq suffiront pour ce que nous allons trouver — et je préfère que quelqu'un puisse le raconter.",
+            "humeur": "resolu"
           },
           {
             "qui": "recit",
@@ -138,5 +141,6 @@
         }
       ]
     }
-  }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée. Sans elle, le visage reste neutre — ce qui vaut mieux qu'une expression qui contredirait le texte."
 }

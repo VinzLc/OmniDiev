@@ -32,7 +32,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Et ta mère t'aurait revue."
+            "dit": "Et ta mère t'aurait revue.",
+            "humeur": "doux"
           },
           {
             "qui": "chloe",
@@ -108,11 +109,13 @@
           },
           {
             "qui": "wellan",
-            "dit": "Ils ont gagné. C'est là que l'histoire tourne mal."
+            "dit": "Ils ont gagné. C'est là que l'histoire tourne mal.",
+            "humeur": "grave"
           },
           {
             "qui": "wellan",
-            "dit": "L'orgueil leur est venu comme une fièvre. Ils se sont battus entre eux, et ils se sont tués les uns les autres jusqu'à ce que le Magicien descende leur ôter leurs pouvoirs."
+            "dit": "L'orgueil leur est venu comme une fièvre. Ils se sont battus entre eux, et ils se sont tués les uns les autres jusqu'à ce que le Magicien descende leur ôter leurs pouvoirs.",
+            "humeur": "grave"
           },
           {
             "qui": "falcon",
@@ -120,7 +123,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "À tous sauf un. Il s'appelait Onyx."
+            "dit": "À tous sauf un. Il s'appelait Onyx.",
+            "humeur": "grave"
           },
           {
             "qui": "recit",
@@ -151,7 +155,8 @@
         },
         {
           "qui": "wellan",
-          "dit": "Debout. Tous. On selle."
+          "dit": "Debout. Tous. On selle.",
+          "humeur": "resolu"
         },
         {
           "qui": "jasson",
@@ -159,9 +164,11 @@
         },
         {
           "qui": "wellan",
-          "dit": "Je sais."
+          "dit": "Je sais.",
+          "humeur": "grave"
         }
       ]
     }
-  }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée. Sans elle, le visage reste neutre — ce qui vaut mieux qu'une expression qui contredirait le texte."
 }

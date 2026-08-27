@@ -55,7 +55,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Et leurs cavaliers ?"
+            "dit": "Et leurs cavaliers ?",
+            "humeur": "grave"
           },
           {
             "qui": "jasson",
@@ -152,7 +153,8 @@
         },
         {
           "qui": "wellan",
-          "dit": "Cette nuit, non. Mais ils sont venus par la mer, Jasson, et la mer est vaste."
+          "dit": "Cette nuit, non. Mais ils sont venus par la mer, Jasson, et la mer est vaste.",
+          "humeur": "grave"
         },
         {
           "qui": "recit",
@@ -171,5 +173,6 @@
       "parler": "jasson"
     }
   },
-  "_ambiance": "Le chapitre place le débarquement dans la nuit. Une teinte d'ambiance assombrit toute la scène ; les braseros y percent des halos. Sans cela, une nuit de bataille se joue en plein jour et la moitié du texte ne veut plus rien dire."
+  "_ambiance": "Le chapitre place le débarquement dans la nuit. Une teinte d'ambiance assombrit toute la scène ; les braseros y percent des halos. Sans cela, une nuit de bataille se joue en plein jour et la moitié du texte ne veut plus rien dire.",
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée. Sans elle, le visage reste neutre — ce qui vaut mieux qu'une expression qui contredirait le texte."
 }

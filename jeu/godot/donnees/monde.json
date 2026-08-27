@@ -53,6 +53,13 @@
    ],
    "planche": "wellan.png",
    "portrait": "portrait-wellan.png",
+   "humeurs": [
+    "colere",
+    "doux",
+    "grave",
+    "resolu",
+    "trouble"
+   ],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -121,6 +128,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -187,6 +195,7 @@
    ],
    "planche": "kira.png",
    "portrait": "portrait-kira.png",
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -233,6 +242,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -285,6 +295,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -339,6 +350,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -389,6 +401,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -451,6 +464,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -499,6 +513,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -551,6 +566,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -610,6 +626,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -661,6 +678,7 @@
    ],
    "planche": "santo.png",
    "portrait": "portrait-santo.png",
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -711,6 +729,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -757,6 +776,7 @@
    ],
    "planche": "jasson.png",
    "portrait": "portrait-jasson.png",
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -807,6 +827,7 @@
    ],
    "planche": "fan.png",
    "portrait": "portrait-fan.png",
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -855,6 +876,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -900,6 +922,7 @@
    ],
    "planche": "bergeau.png",
    "portrait": "portrait-bergeau.png",
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -940,6 +963,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -973,6 +997,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -1021,6 +1046,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -1063,6 +1089,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -1103,6 +1130,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -1145,6 +1173,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -1192,6 +1221,7 @@
    ],
    "planche": "armene.png",
    "portrait": "portrait-armene.png",
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -1238,6 +1268,7 @@
    ],
    "planche": "falcon.png",
    "portrait": "portrait-falcon.png",
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -1284,6 +1315,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -1328,6 +1360,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -1371,6 +1404,7 @@
    ],
    "planche": "chloe.png",
    "portrait": "portrait-chloe.png",
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -1416,6 +1450,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -1461,6 +1496,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -1508,6 +1544,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -1547,6 +1584,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -1590,6 +1628,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -1644,6 +1683,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -1686,6 +1726,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -1728,6 +1769,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -1767,6 +1809,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -1804,6 +1847,7 @@
    ],
    "planche": "elund.png",
    "portrait": "portrait-elund.png",
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -1847,6 +1891,7 @@
    ],
    "planche": "dempsey.png",
    "portrait": "portrait-dempsey.png",
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -1891,6 +1936,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -1932,6 +1978,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -1967,6 +2014,7 @@
    ],
    "planche": "emeraude-ier.png",
    "portrait": "portrait-emeraude-ier.png",
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -2004,6 +2052,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -2042,6 +2091,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -2088,6 +2138,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -2131,6 +2182,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -2174,6 +2226,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -2215,6 +2268,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -2264,6 +2318,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -2305,6 +2360,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -2336,6 +2392,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -2382,6 +2439,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -2415,6 +2473,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -2450,6 +2509,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -2494,6 +2554,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -2534,6 +2595,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -2571,6 +2633,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -2602,6 +2665,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -2643,6 +2707,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -2686,6 +2751,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -2726,6 +2792,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -2758,6 +2825,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -2795,6 +2863,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -2834,6 +2903,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -2871,6 +2941,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -2907,6 +2978,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -2946,6 +3018,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -2987,6 +3060,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -3027,6 +3101,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -3068,6 +3143,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -3101,6 +3177,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -3142,6 +3219,7 @@
    ],
    "planche": "hamil.png",
    "portrait": "portrait-hamil.png",
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -3183,6 +3261,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -3222,6 +3301,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -3257,6 +3337,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -3293,6 +3374,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -3335,6 +3417,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -3367,6 +3450,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -3404,6 +3488,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -3442,6 +3527,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -3473,6 +3559,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -3507,6 +3594,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -3538,6 +3626,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -3581,6 +3670,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -3612,6 +3702,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -3650,6 +3741,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -3689,6 +3781,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -3722,6 +3815,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -3766,6 +3860,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -3806,6 +3901,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -3845,6 +3941,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -3883,6 +3980,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -3917,6 +4015,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -3950,6 +4049,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -3985,6 +4085,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -4018,6 +4119,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -4055,6 +4157,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -4093,6 +4196,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -4131,6 +4235,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -4169,6 +4274,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -4209,6 +4315,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -4245,6 +4352,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -4279,6 +4387,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -4315,6 +4424,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -4352,6 +4462,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -4389,6 +4500,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -4428,6 +4540,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -4466,6 +4579,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -4504,6 +4618,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -4542,6 +4657,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -4578,6 +4694,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -4610,6 +4727,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -4647,6 +4765,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -4682,6 +4801,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -4713,6 +4833,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -4745,6 +4866,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -4780,6 +4902,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -4818,6 +4941,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -4853,6 +4977,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -4890,6 +5015,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -4928,6 +5054,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -4966,6 +5093,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -5001,6 +5129,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -5036,6 +5165,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -5072,6 +5202,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -5104,6 +5235,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -5140,6 +5272,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -5176,6 +5309,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -5214,6 +5348,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -5246,6 +5381,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -5282,6 +5418,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -5317,6 +5454,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -5350,6 +5488,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -5384,6 +5523,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -5416,6 +5556,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -5451,6 +5592,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -5487,6 +5629,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -5524,6 +5667,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -5561,6 +5705,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -5599,6 +5744,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -5637,6 +5783,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -5675,6 +5822,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -5711,6 +5859,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -5748,6 +5897,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -5782,6 +5932,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -5818,6 +5969,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -5852,6 +6004,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -5886,6 +6039,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -5924,6 +6078,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -5958,6 +6113,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -5995,6 +6151,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -6029,6 +6186,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -6060,6 +6218,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -6095,6 +6254,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -6130,6 +6290,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -6166,6 +6327,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -6201,6 +6363,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -6236,6 +6399,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -6267,6 +6431,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -6297,6 +6462,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -6329,6 +6495,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -6365,6 +6532,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -6396,6 +6564,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -6426,6 +6595,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -6459,6 +6629,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -6492,6 +6663,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -6526,6 +6698,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -6560,6 +6733,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -6592,6 +6766,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -6627,6 +6802,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -6662,6 +6838,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -6690,6 +6867,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -6719,6 +6897,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -6751,6 +6930,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -6786,6 +6966,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -6820,6 +7001,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -6853,6 +7035,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -6886,6 +7069,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -6918,6 +7102,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -6952,6 +7137,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -6986,6 +7172,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -7017,6 +7204,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -7048,6 +7236,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -7079,6 +7268,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -7108,6 +7298,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -7142,6 +7333,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -7174,6 +7366,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -7206,6 +7399,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -7234,6 +7428,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -7267,6 +7462,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -7298,6 +7494,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -7329,6 +7526,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -7359,6 +7557,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -7388,6 +7587,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -7420,6 +7620,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -7453,6 +7654,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -7484,6 +7686,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -7515,6 +7718,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -7548,6 +7752,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -7582,6 +7787,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -7618,6 +7824,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -7648,6 +7855,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -7678,6 +7886,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -7705,6 +7914,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -7736,6 +7946,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -7764,6 +7975,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -7788,6 +8000,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -7823,6 +8036,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -7856,6 +8070,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -7890,6 +8105,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -7924,6 +8140,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -7958,6 +8175,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -7991,6 +8209,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -8023,6 +8242,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -8050,6 +8270,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -8082,6 +8303,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -8114,6 +8336,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -8147,6 +8370,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -8177,6 +8401,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -8210,6 +8435,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -8243,6 +8469,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -8276,6 +8503,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -8307,6 +8535,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -8339,6 +8568,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -8372,6 +8602,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -8403,6 +8634,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -8435,6 +8667,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -8464,6 +8697,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -8495,6 +8729,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -8526,6 +8761,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -8556,6 +8792,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -8587,6 +8824,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -8614,6 +8852,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -8643,6 +8882,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -8673,6 +8913,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -8698,6 +8939,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -8726,6 +8968,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -8753,6 +8996,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -8785,6 +9029,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -8816,6 +9061,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -8847,6 +9093,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -8877,6 +9124,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -8905,6 +9153,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -8923,6 +9172,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -8953,6 +9203,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -8983,6 +9234,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -9012,6 +9264,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -9041,6 +9294,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -9064,6 +9318,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -9091,6 +9346,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -9120,6 +9376,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -9149,6 +9406,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -9179,6 +9437,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -9209,6 +9468,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -9240,6 +9500,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -9271,6 +9532,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -9298,6 +9560,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -9328,6 +9591,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -9355,6 +9619,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -9385,6 +9650,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -9410,6 +9676,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -9436,6 +9703,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -9462,6 +9730,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -9490,6 +9759,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -9518,6 +9788,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -9543,6 +9814,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -9574,6 +9846,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -9605,6 +9878,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -9635,6 +9909,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -9667,6 +9942,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -9698,6 +9974,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -9727,6 +10004,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -9750,6 +10028,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -9780,6 +10059,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -9807,6 +10087,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -9834,6 +10115,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -9856,6 +10138,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -9878,6 +10161,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -9904,6 +10188,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -9927,6 +10212,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -9949,6 +10235,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -9975,6 +10262,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -10005,6 +10293,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -10031,6 +10320,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -10051,6 +10341,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -10075,6 +10366,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -10097,6 +10389,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -10122,6 +10415,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -10151,6 +10445,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -10179,6 +10474,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -10199,6 +10495,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -10215,6 +10512,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -10235,6 +10533,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -10262,6 +10561,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -10293,6 +10593,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -10322,6 +10623,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -10349,6 +10651,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -10376,6 +10679,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -10407,6 +10711,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -10437,6 +10742,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -10462,6 +10768,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -10482,6 +10789,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -10501,6 +10809,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -10532,6 +10841,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -10550,6 +10860,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -10575,6 +10886,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -10601,6 +10913,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -10626,6 +10939,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -10656,6 +10970,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -10678,6 +10993,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -10699,6 +11015,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -10724,6 +11041,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -10754,6 +11072,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -10775,6 +11094,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -10801,6 +11121,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -10827,6 +11148,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -10853,6 +11175,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -10881,6 +11204,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -10903,6 +11227,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -10928,6 +11253,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -10958,6 +11284,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -10987,6 +11314,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -11016,6 +11344,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -11033,6 +11362,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -11059,6 +11389,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -11081,6 +11412,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -11102,6 +11434,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -11128,6 +11461,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -11153,6 +11487,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -11182,6 +11517,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -11202,6 +11538,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -11228,6 +11565,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -11246,6 +11584,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -11270,6 +11609,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -11290,6 +11630,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -11312,6 +11653,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -11341,6 +11683,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -11366,6 +11709,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -11387,6 +11731,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -11409,6 +11754,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -11438,6 +11784,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -11460,6 +11807,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -11490,6 +11838,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -11511,6 +11860,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -11537,6 +11887,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -11562,6 +11913,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -11587,6 +11939,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -11609,6 +11962,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -11639,6 +11993,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -11664,6 +12019,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
     {
@@ -11681,6 +12037,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -11703,6 +12060,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
     {
@@ -11721,6 +12079,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -11742,6 +12101,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -11762,6 +12122,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
     {
@@ -11788,6 +12149,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -11814,6 +12176,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -11831,6 +12194,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -11856,6 +12220,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -11881,6 +12246,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
     {
@@ -11910,6 +12276,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
     {
@@ -11932,6 +12299,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#736C82",
    "liens": [
     {
@@ -11954,6 +12322,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {
@@ -11984,6 +12353,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
     {
@@ -12014,6 +12384,7 @@
    ],
    "planche": null,
    "portrait": null,
+   "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
     {

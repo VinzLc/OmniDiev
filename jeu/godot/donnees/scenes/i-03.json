@@ -40,7 +40,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "J'irai seul, Majesté. Un cavalier passe où sept se remarquent."
+            "dit": "J'irai seul, Majesté. Un cavalier passe où sept se remarquent.",
+            "humeur": "resolu"
           },
           {
             "qui": "emeraude-ier",
@@ -71,7 +72,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Vous me demandez de rester ?"
+            "dit": "Vous me demandez de rester ?",
+            "humeur": "grave"
           },
           {
             "qui": "elund",
@@ -106,7 +108,8 @@
           },
           {
             "qui": "wellan",
-            "dit": "Majesté — elle m'a montré quelque chose."
+            "dit": "Majesté — elle m'a montré quelque chose.",
+            "humeur": "trouble"
           },
           {
             "qui": "emeraude-ier",
@@ -178,5 +181,6 @@
         }
       ]
     }
-  }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée. Sans elle, le visage reste neutre — ce qui vaut mieux qu'une expression qui contredirait le texte."
 }

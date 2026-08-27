@@ -361,23 +361,144 @@ async function illustration(id: string) {
  * `create-image-pixflux` prend une description. Le sprite lui sert d'amorce —
  * assez pour tenir la palette et la tenue, pas assez pour imposer un visage.
  */
+/**
+ * Les humeurs qu'un visage peut prendre, et ce qu'on en dit au modèle.
+ *
+ * Elles se déclinent depuis le portrait déjà accepté, employé comme amorce
+ * forte : c'est ce qui garantit que ce soit le même homme d'une humeur à
+ * l'autre. Décrites de zéro, cinq humeurs donneraient cinq inconnus.
+ */
+const HUMEURS: Record<string, string> = {
+  grave: "His expression is GRAVE and closed — brows drawn low, mouth set in a hard line, eyes fixed and unblinking. He has just heard something he will not repeat.",
+  colere: "His expression is ANGRY — brows hard down, jaw clenched, teeth just showing, eyes narrowed and burning. He is about to give an order no one will question.",
+  doux: "His expression is GENTLE — brows raised slightly, the hard line of the mouth softened almost to a smile, eyes warm and lowered a little. He is looking at a child.",
+  trouble: "His expression is SHAKEN — brows raised and drawn together, mouth slightly open, eyes wide and unfocused. He has just understood something that changes everything.",
+  resolu: "His expression is RESOLUTE — chin lifted, mouth firm, eyes steady and looking straight ahead past the viewer. He has decided, and it costs him.",
+};
+
+/**
+ * Une humeur, repeinte sur le portrait accepté.
+ *
+ * `create-image-pixflux` avec une image d'amorce ne suffisait pas : à toutes
+ * les forces d'amorce essayées, de 150 à 850, les cinq humeurs rendaient le
+ * même visage impassible. Le modèle s'ancre trop pour qu'une consigne
+ * d'expression pèse.
+ *
+ * `inpaint` ne repeint que ce qu'on lui désigne. On masque des sourcils au
+ * menton et l'on redemande cette zone seule : le reste du portrait — la
+ * chevelure, l'armure, la silhouette — est garanti identique parce qu'il n'est
+ * jamais regénéré.
+ */
+async function humeurDuVisage(id: string, humeur: string) {
+  if (!HUMEURS[humeur]) {
+    console.error(`Humeur inconnue : ${humeur}. Connues : ${Object.keys(HUMEURS).join(", ")}`);
+    process.exit(1);
+  }
+  const dossier = path.join(ROOT, "jeu", "art", "portraits");
+  const socle = path.join(dossier, `${id}.png`);
+  if (!fs.existsSync(socle)) {
+    console.error(`Portrait de base absent : ${path.relative(ROOT, socle)}`);
+    process.exit(1);
+  }
+  const base = await sharp(socle).png().toBuffer();
+  const m = await sharp(base).metadata();
+  const L = m.width ?? 128, H = m.height ?? 128;
+
+  /* Le masque : blanc là où l'on repeint, noir ailleurs. La fenêtre couvre du
+   * haut des sourcils au bas du menton, et laisse la chevelure et l'armure
+   * hors d'atteinte. */
+  // Fenêtre resserrée sur ce qui porte l'expression : sourcils, yeux, bouche.
+  // Plus bas, elle mordait sur la barbe et le modèle la rasait — l'humeur
+  // arrivait, mais sur un autre homme.
+  const haut = Math.round(H * 0.25), bas = Math.round(H * 0.53);
+  const gauche = Math.round(L * 0.35), droite = Math.round(L * 0.65);
+  const masque = Buffer.alloc(L * H * 4, 0);
+  for (let y = 0; y < H; y++) {
+    for (let x = 0; x < L; x++) {
+      const o = (y * L + x) * 4;
+      const dedans = y >= haut && y <= bas && x >= gauche && x <= droite;
+      const v = dedans ? 255 : 0;
+      masque[o] = v; masque[o + 1] = v; masque[o + 2] = v; masque[o + 3] = 255;
+    }
+  }
+  const masquePng = await sharp(masque, { raw: { width: L, height: H, channels: 4 } }).png().toBuffer();
+
+  const socleTexte = fs.readFileSync(path.join(ROOT, "jeu", "art", "commandes", `${id}.visage.txt`), "utf8").trim();
+  const before = await showBalance("Solde avant");
+  console.log(`${C.dim}${id} — humeur « ${humeur} », fenêtre y ${haut}–${bas}, x ${gauche}–${droite}${C.off}`);
+
+  const r = await post<Record<string, unknown>>("/inpaint", {
+    description: socleTexte
+      + "\n\nKEEP the long blond hair, the full blond beard, the armour and the framing exactly as they are."
+      + "\n\nEXPRESSION — change only the brows, the eyes and the mouth: " + HUMEURS[humeur],
+    image_size: { width: L, height: H },
+    inpainting_image: { type: "base64", base64: base.toString("base64"), format: "png" },
+    mask_image: { type: "base64", base64: masquePng.toString("base64"), format: "png" },
+    color_image: await paletteImage(),
+    detail: "highly detailed",
+    shading: "medium shading",
+    outline: "single color black outline",
+    ...(arg("graine") ? { seed: Number(arg("graine")) } : {}),
+  });
+
+  const ids = (r.background_job_ids as string[]) ?? [r.background_job_id as string].filter(Boolean);
+  let sortie = r;
+  if (ids.length) {
+    const { spent, jobs } = await awaitJobs(ids, () => {});
+    sortie = (jobs[0]?.last_response ?? {}) as Record<string, unknown>;
+    if (spent > 0) console.log(`${C.dim}coût ${money(spent)}${C.off}`);
+  }
+  const trouve = chercherImage(sortie);
+  if (!trouve) { console.error(JSON.stringify(sortie).slice(0, 400)); process.exit(1); }
+
+  const dest = path.join(dossier, `${id}-${humeur}.png`);
+  fs.writeFileSync(dest, Buffer.from(trouve, "base64"));
+  const after = await balance();
+  console.log(`${C.green}✓${C.off} ${path.relative(ROOT, dest)}`);
+  console.log(`${C.dim}solde ${money(before.credits.usd)} → ${money(after.credits.usd)}${C.off}`);
+}
+
 async function portraitDecrit(id: string) {
   const file = path.join(ROOT, "jeu", "art", "commandes", `${id}.visage.txt`);
   if (!fs.existsSync(file)) {
     console.error(`Commande absente : ${path.relative(ROOT, file)}`);
     process.exit(1);
   }
-  const description = fs.readFileSync(file, "utf8").trim();
+  let description = fs.readFileSync(file, "utf8").trim();
   const taille = Number(arg("taille") ?? 128);
-  const amorce = Number(arg("amorce") ?? 0.35);
   const dossier = path.join(ROOT, "jeu", "art", "portraits");
   const planche = path.join(ROOT, "jeu", "art", "personnages", `${id}.png`);
+
+  /*
+   * Une humeur se décline du portrait accepté, non d'une description neuve.
+   *
+   * L'amorce est forte à dessein : on veut garder le visage et ne bouger que
+   * les sourcils et la bouche. À amorce nulle, cinq humeurs donneraient cinq
+   * hommes différents, et le chef des Chevaliers changerait de tête à chaque
+   * réplique.
+   */
+  const humeur = arg("humeur") ?? "";
+  const socle = path.join(dossier, `${id}.png`);
+  const declinaison = humeur !== "" && fs.existsSync(socle);
+  const amorce = Number(arg("amorce") ?? (declinaison ? 0.62 : 0.35));
+
+  if (humeur !== "") {
+    if (!HUMEURS[humeur]) {
+      console.error(`Humeur inconnue : ${humeur}. Connues : ${Object.keys(HUMEURS).join(", ")}`);
+      process.exit(1);
+    }
+    description += "\n\nEXPRESSION — this is the one thing to change: " + HUMEURS[humeur];
+  }
 
   const before = await showBalance("Solde avant");
   fs.mkdirSync(dossier, { recursive: true });
   const cellule = path.join(dossier, `.${id}.cellule.png`);
-  await sharp(planche).extract({ left: 0, top: 0, width: 32, height: 32 })
-    .resize(taille, taille, { kernel: "nearest" }).png().toFile(cellule);
+  if (declinaison) {
+    await sharp(socle).resize(taille, taille, { kernel: "nearest" }).png().toFile(cellule);
+  } else {
+    await sharp(planche).extract({ left: 0, top: 0, width: 32, height: 32 })
+      .resize(taille, taille, { kernel: "nearest" }).png().toFile(cellule);
+  }
 
   const r = await post<Record<string, unknown>>("/create-image-pixflux", {
     description,
@@ -407,7 +528,7 @@ async function portraitDecrit(id: string) {
     console.error(JSON.stringify(sortie).slice(0, 400));
     process.exit(1);
   }
-  const dest = path.join(dossier, `${id}.png`);
+  const dest = path.join(dossier, humeur !== "" ? `${id}-${humeur}.png` : `${id}.png`);
   fs.writeFileSync(dest, Buffer.from(trouve, "base64"));
   const after = await balance();
   console.log(`${C.green}✓${C.off} ${path.relative(ROOT, dest)}  ${taille}px, amorce ${amorce}`);
@@ -464,7 +585,11 @@ async function main() {
   const ecran = arg("image");
   if (ecran) { await illustration(ecran); return; }
   const face = arg("visage");
-  if (face) { await portraitDecrit(face); return; }
+  if (face) {
+    const h = arg("humeur");
+    if (h) { await humeurDuVisage(face, h); return; }
+    await portraitDecrit(face); return;
+  }
   const chose = arg("objet");
   if (chose) { await objet(chose); return; }
   const visage = arg("portrait");

@@ -37,6 +37,16 @@ const LIENS_MAX = 4;
  */
 const TEINTES = ["#1C7A4E", "#2D5FA8", "#A76BC4", "#C08F34", "#8B2020", "#736C82", "#43C47F", "#7A5223"];
 
+/** Les humeurs déclinées d'un portrait, relevées sur les fichiers présents. */
+function humeursDe(id: string): string[] {
+  const dossier = path.join(ART, "portraits");
+  if (!fs.existsSync(dossier)) return [];
+  return fs.readdirSync(dossier)
+    .filter((f) => f.startsWith(`${id}-`) && f.endsWith(".png"))
+    .map((f) => f.slice(id.length + 1, -4))
+    .sort();
+}
+
 function teinteDe(id: string): string {
   let n = 0;
   for (const c of id) n = (n * 31 + c.charCodeAt(0)) >>> 0;
@@ -346,6 +356,8 @@ type Personnage = {
   planche: string | null;
   /** Le visage montré pendant qu'il parle, s'il en a un. */
   portrait: string | null;
+  /** Les humeurs déclinées de ce visage, s'il y en a. */
+  humeurs: string[];
   teinte: string;
   liens: { nom: string; nature: string }[];
 };
@@ -385,6 +397,7 @@ function main() {
         tomes: f.books ?? [],
         planche: fs.existsSync(planche) ? `${f.id}.png` : null,
         portrait: fs.existsSync(path.join(ART, "portraits", `${f.id}.png`)) ? `portrait-${f.id}.png` : null,
+        humeurs: humeursDe(f.id),
         teinte: teinteDe(f.id),
         liens: (f.relations ?? []).slice(0, LIENS_MAX).map((r) => ({ nom: r.name, nature: r.nature })),
       };
@@ -423,7 +436,8 @@ function main() {
   const poids = (fs.statSync(fichier).size / 1024).toFixed(0);
 
   console.log(`${C.green}✓${C.off} ${path.relative(ROOT, fichier)}  ${poids} Ko`);
-  console.log(`  ${C.dim}${Object.keys(personnages).length} personnages, dont ${avecPlanche} avec planche et ${avecPortrait} avec portrait${C.off}`);
+  const humeurs = Object.values(personnages).reduce((n, p) => n + p.humeurs.length, 0);
+  console.log(`  ${C.dim}${Object.keys(personnages).length} personnages, dont ${avecPlanche} avec planche et ${avecPortrait} avec portrait (${humeurs} humeurs)${C.off}`);
   console.log(`  ${C.dim}${Object.keys(lieux).length} lieux, dont ${avecTuiles} avec tuiles${C.off}`);
   const peuplesArmes = Object.values(peuples).filter((p) => p.planche).length;
   console.log(`  ${C.dim}${Object.keys(peuples).length} peuples, dont ${peuplesArmes} avec planche${C.off}`);

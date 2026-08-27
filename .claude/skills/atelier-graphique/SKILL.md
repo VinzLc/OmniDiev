@@ -97,6 +97,24 @@ d'information pour qu'un vieillard s'y lise. Et **juger sur la vignette trompe**
 j'avais pris pour des lunettes de soleil sur Falcon était l'ombre de sa capuche, si bien que
 j'ai dégradé un bon portrait en le regénérant.
 
+## Les humeurs d'un portrait
+
+```bash
+npm run art:expressions -- wellan     # décline les cinq humeurs
+```
+
+**Aucun endpoint n'y arrive.** Trois voies essayées, trois échecs. Une description
+d'expression avec image d'amorce : à toutes les forces, de 150 à 850, les cinq humeurs
+rendaient le même visage impassible. Sans amorce : cinq humeurs, cinq hommes différents. Un
+repeint par `inpaint` avec masque : l'humeur arrivait, mais la barbe disparaissait et les
+yeux perdaient leur bleu.
+
+Ce qui marche est ce que le projet fait chaque fois qu'un modèle refuse d'obéir sur un
+détail : **viser le détail soi-même**. Les sourcils et la bouche sont quelques dizaines de
+pixels à des places qu'on mesure — les yeux bleus servent de repère, la bouche est la rangée
+la plus sombre au-dessous. Le reste du portrait n'est jamais touché, donc c'est le même
+homme **par construction**, non par chance. Coût nul, résultat exact.
+
 ## Ne pas régénérer un personnage déjà validé
 
 Le rendu s'écarte parfois du texte — Wellan avait les cheveux auburn là où les romans disent
