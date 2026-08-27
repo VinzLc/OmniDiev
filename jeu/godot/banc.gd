@@ -42,6 +42,16 @@ func _capturer() -> void:
 			_touche("ui_accept")
 			await _attendre(2)
 
+	# Le Codex encore vide, avant d'avoir parlé à qui que ce soit : c'est le seul
+	# moment où l'on peut voir ce qu'il dit à un joueur qui ne connaît personne.
+	# Après le carton, qui se dessine par-dessus tout et le masquerait.
+	jeu._ouvrir_le_codex()
+	await _attendre(4)
+	jeu.get_viewport().get_texture().get_image().save_png("res://capture-codex-vide.png")
+	print("CODEX au départ : %d fiche(s)" % jeu._fiches_codex.size())
+	jeu._fermer_le_codex()
+	jeu._ui.pause(false)
+
 	# Une vue d'ensemble de la salle, mobilier compris : on ne vérifie pas un
 	# décor sur une capture centrée à deux tuiles du personnage.
 	var taille: Vector2i = jeu._taille()
@@ -158,8 +168,22 @@ func _capturer() -> void:
 	await _attendre(6)
 	jeu.get_viewport().get_texture().get_image().save_png("res://capture-pause.png")
 	print("PAUSE ouverte=%s choix=%s" % [jeu._en_pause, jeu.CHOIX_PAUSE[jeu._choix_pause]])
-	_touche("ui_down")
-	await _attendre(3)
+
+	# Le Codex, puisqu'on vient de parler à quelqu'un : il doit avoir retenu.
+	await _descendre_jusqu_a("Codex")
+	_touche("ui_accept")
+	await _attendre(6)
+	jeu.get_viewport().get_texture().get_image().save_png("res://capture-codex.png")
+	print("CODEX ouvert=%s fiches=%d" % [jeu._ui.codex_visible(), jeu._fiches_codex.size()])
+	if jeu._fiches_codex.size() > 1:
+		_touche("ui_down")
+		await _attendre(4)
+		print("CODEX second choix : %s" % jeu._fiches_codex[jeu._choix_codex]["nom"])
+	_touche("pause")
+	await _attendre(4)
+	print("CODEX refermé, pause rendue : %s" % (not jeu._ui.codex_visible() and jeu._en_pause))
+
+	await _descendre_jusqu_a("Sauvegarder")
 	_touche("ui_accept")
 	await _attendre(6)
 	jeu.get_viewport().get_texture().get_image().save_png("res://capture-pause-note.png")
@@ -174,6 +198,21 @@ func _capturer() -> void:
 		print("PAUSE avance rendue : %s" % suivant)
 
 	jeu.get_tree().quit()
+
+
+## Descend jusqu'à une entrée du menu, désignée par son nom.
+##
+## Compter les appuis liait le banc à l'ordre du menu : le jour où « Codex »
+## s'est intercalé en deuxième position, un seul appui ne menait plus à
+## « Sauvegarder » — et le test aurait continué à passer en éprouvant autre
+## chose.
+func _descendre_jusqu_a(entree: String) -> void:
+	for i in jeu.CHOIX_PAUSE.size():
+		if jeu.CHOIX_PAUSE[jeu._choix_pause] == entree:
+			return
+		_touche("ui_down")
+		await _attendre(2)
+	push_error("Entrée de pause introuvable : %s" % entree)
 
 
 ## Les quatre orientations, sur un même personnage.

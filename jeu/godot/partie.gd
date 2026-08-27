@@ -53,13 +53,53 @@ static func courante() -> Dictionary:
 
 
 ## Note où l'on en est dans l'emplacement courant.
+##
+## Complète l'emplacement au lieu de le remplacer. Il ne portait que le
+## chapitre, et y écrire un dictionnaire neuf suffisait ; le Codex y range
+## maintenant les rencontres, qu'une note de chapitre aurait effacées sans un
+## mot. Une écriture ne rend jamais moins que ce qu'elle a trouvé.
 static func noter(chapitre: String) -> void:
 	var c := charger()
 	var n := int(c.get("courante", 0))
 	var parties: Array = c["parties"]
 	if n >= 0 and n < parties.size():
-		parties[n] = { "chapitre": chapitre }
+		var partie := _emplacement(parties, n)
+		partie["chapitre"] = chapitre
+		parties[n] = partie
 	enregistrer(c)
+
+
+## L'emplacement n, créé vide s'il n'existe pas encore.
+static func _emplacement(parties: Array, n: int) -> Dictionary:
+	return parties[n] if parties[n] is Dictionary else {}
+
+
+## Inscrit un personnage au Codex. Vrai si c'est la première fois.
+##
+## Écrit sur-le-champ plutôt qu'à la sauvegarde : une collection ne se perd pas
+## parce qu'on a quitté sans noter. C'est aussi pourquoi elle échappe à la règle
+## qui empêche une scène jouée à la main de compter — inscrire quelqu'un ajoute,
+## et ne déplace jamais la campagne.
+static func rencontrer(id: String) -> bool:
+	var c := charger()
+	var n := int(c.get("courante", 0))
+	var parties: Array = c["parties"]
+	if n < 0 or n >= parties.size():
+		return false
+	var partie := _emplacement(parties, n)
+	var vus: Array = partie.get("rencontres", [])
+	if vus.has(id):
+		return false
+	vus.append(id)
+	partie["rencontres"] = vus
+	parties[n] = partie
+	enregistrer(c)
+	return true
+
+
+## Tous ceux à qui l'on a parlé, dans l'ordre où on les a rencontrés.
+static func rencontres() -> Array:
+	return courante().get("rencontres", [])
 
 
 ## L'ordre de lecture des chapitres.

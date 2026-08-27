@@ -120,6 +120,9 @@ var _cle_courante := ""
 var _flottement := 0.0
 var _choix_pause := 0
 var _en_pause := false
+var _au_codex := false
+var _choix_codex := 0
+var _fiches_codex := []
 var _recit_capture := false   ## une seule image de description suffit au contrôle
 var _invite_capture := false
 var _bulles_capture := false
@@ -1087,7 +1090,7 @@ func _visage_de(id: String, humeur := "") -> String:
 	return "" if visage == null else str(visage)
 
 
-const CHOIX_PAUSE := ["Reprendre", "Sauvegarder", "Écran-titre"]
+const CHOIX_PAUSE := ["Reprendre", "Codex", "Sauvegarder", "Écran-titre"]
 
 func _dessiner_la_pause(mot := "") -> void:
 	_ui.pause(_en_pause, _choix_pause, CHOIX_PAUSE, mot)
@@ -1102,15 +1105,75 @@ func _basculer_la_pause() -> void:
 		_dessiner_la_pause()
 
 
+## Ce que fait l'entrée choisie.
+##
+## Reconnue par son nom et non par son rang : intercaler « Codex » en deuxième
+## position aurait fait de « Sauvegarder » un retour à l'écran-titre, et rien
+## dans le code ne l'aurait signalé.
 func _choisir_dans_la_pause() -> void:
-	match _choix_pause:
-		0:
+	match CHOIX_PAUSE[_choix_pause]:
+		"Reprendre":
 			_basculer_la_pause()
-		1:
+		"Codex":
+			_ouvrir_le_codex()
+		"Sauvegarder":
 			_noter(_chapitre)
 			_dessiner_la_pause("Partie notée.")
-		2:
+		"Écran-titre":
 			get_tree().change_scene_to_file("res://titre.tscn")
+
+
+## Le Codex se consulte depuis la pause, et y revient.
+##
+## Il est reconstruit à chaque ouverture plutôt que tenu à jour : la partie est
+## la seule à savoir qui l'on a rencontré, et une copie en mémoire finirait par
+## en dire moins qu'elle.
+func _ouvrir_le_codex() -> void:
+	_fiches_codex = _fiches_du_codex()
+	_choix_codex = 0
+	_au_codex = true
+	_ui.pause(false)
+	_ui.codex(true, _fiches_codex, _choix_codex, _monde["personnages"].size())
+
+
+func _fermer_le_codex() -> void:
+	_au_codex = false
+	_ui.codex(false)
+	_dessiner_la_pause()
+
+
+## Les rencontres, rangées par leur numéro de Codex.
+##
+## Rangées, non pas dans l'ordre où on les a croisées : un recueil se feuillette
+## par son classement, et c'est ce numéro qui permet de voir ce qui manque.
+func _fiches_du_codex() -> Array:
+	var fiches := []
+	for id in Partie.rencontres():
+		var fiche: Dictionary = _monde["personnages"].get(str(id), {})
+		if fiche.is_empty():
+			continue
+		var visage = fiche.get("portrait")
+		fiches.append({
+			"rang": int(fiche.get("rang", 0)),
+			"nom": str(fiche.get("nom", id)),
+			"role": str(fiche.get("role", "")),
+			"portrait": "" if visage == null else str(visage),
+			"teinte": str(fiche.get("teinte", "#f0d174")),
+			"tomes": fiche.get("tomes", []),
+			"liens": fiche.get("liens", []),
+		})
+	fiches.sort_custom(func(a, b): return a["rang"] < b["rang"])
+	return fiches
+
+
+## Inscrit au Codex celui à qui l'on adresse la parole.
+##
+## Dès l'abord, et non à la fin de l'échange comme `_parles` : on a bel et bien
+## rencontré quelqu'un même si l'on s'éloigne au milieu de sa phrase. Le
+## chapitre, lui, n'avance toujours qu'au bout de la conversation.
+func _rencontrer(id: String) -> void:
+	if _monde["personnages"].has(id):
+		Partie.rencontrer(id)
 
 
 ## Qui a quelque chose à dire qu'on n'a pas encore entendu.
@@ -1153,7 +1216,20 @@ func _rafraichir_les_bulles() -> void:
 
 
 func _unhandled_input(evenement: InputEvent) -> void:
-	# La pause passe avant tout : on doit pouvoir s'arrêter au milieu d'une
+	# Le Codex passe même avant la pause : Échap doit refermer le recueil et
+	# rendre le menu, non quitter les deux d'un coup.
+	if _au_codex:
+		if evenement.is_action_pressed("pause") or evenement.is_action_pressed("ui_cancel"):
+			_fermer_le_codex()
+		elif evenement.is_action_pressed("ui_down") and not _fiches_codex.is_empty():
+			_choix_codex = (_choix_codex + 1) % _fiches_codex.size()
+			_ui.codex(true, _fiches_codex, _choix_codex, _monde["personnages"].size())
+		elif evenement.is_action_pressed("ui_up") and not _fiches_codex.is_empty():
+			_choix_codex = (_choix_codex + _fiches_codex.size() - 1) % _fiches_codex.size()
+			_ui.codex(true, _fiches_codex, _choix_codex, _monde["personnages"].size())
+		return
+
+	# La pause passe avant le reste : on doit pouvoir s'arrêter au milieu d'une
 	# réplique comme au milieu d'une mêlée.
 	if evenement.is_action_pressed("pause") and not _ui.carton_visible() and not _ui.acheve_visible():
 		_basculer_la_pause()
@@ -1204,6 +1280,7 @@ func _unhandled_input(evenement: InputEvent) -> void:
 		return
 	elif _proche != "":
 		_interlocuteur = _proche
+		_rencontrer(_proche)
 		_pages = _repliques(_proche)
 		_page = 0
 		_ouverte = true

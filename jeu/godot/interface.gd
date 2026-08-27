@@ -11,6 +11,9 @@ extends CanvasLayer
 ## montrer ; où et comment cela s'affiche ne le regarde pas.
 
 const PORTRAIT := 84          ## côté du visage dans la boîte de dialogue
+const VISAGE_CODEX := 96      ## le même visage, à la taille d'une fiche
+const COLONNE_CODEX := 170    ## largeur de la colonne des noms
+const LIGNES_CODEX := 13      ## fiches visibles d'un coup dans la colonne
 
 var _cadre: Panel
 var _texte: RichTextLabel
@@ -24,8 +27,16 @@ var _acheve: Panel
 var _defaite: Panel
 var _pause: Panel
 var _menu: RichTextLabel
+var _codex: Panel
+var _codex_entete: RichTextLabel
+var _codex_liste: RichTextLabel
+var _codex_visage: TextureRect
+var _codex_nom: RichTextLabel
+var _codex_role: RichTextLabel
 var _jauge_vie: ColorRect
 var _jauge_energie: ColorRect
+## Ce qui se dessine par-dessus la scène et doit céder la place au Codex.
+var _hud: Array[Control] = []
 
 
 func _ready() -> void:
@@ -189,6 +200,8 @@ func _batir() -> void:
 	_menu.add_theme_font_size_override("bold_font_size", 15)
 	_pause.add_child(_menu)
 
+	_batir_le_codex()
+
 	_objectif = Label.new()
 	_objectif.anchor_right = 1.0
 	_objectif.offset_left = 18
@@ -203,6 +216,8 @@ func _batir() -> void:
 
 	_jauge_vie = _jauge(8, Color("#8b2020"), Color("#d14545"))
 	_jauge_energie = _jauge(22, Color("#23202e"), Color("#5b9bd8"))
+	# Les creux, non les parts pleines : c'est eux que le Codex doit escamoter.
+	_hud = [_jauge_vie.get_parent(), _jauge_energie.get_parent(), _objectif]
 
 	## Le mot de défaite se range en bas.
 	##
@@ -305,10 +320,84 @@ func _batir() -> void:
 	_defaite.add_child(mot)
 
 
-## Une jauge : un fond sombre, une part pleine par-dessus.
+## Le Codex : la liste de ceux à qui l'on a parlé, et la fiche du choisi.
+##
+## Il occupe tout l'écran, contrairement au menu de pause : une colonne de noms
+## et un visage ne tiennent pas dans un panneau de trois cents pixels, et la
+## consultation n'est pas une hésitation d'une seconde entre trois verbes.
+func _batir_le_codex() -> void:
+	_codex = Panel.new()
+	_codex.anchor_right = 1.0
+	_codex.anchor_bottom = 1.0
+	var reliure := StyleBoxFlat.new()
+	reliure.bg_color = Color("#0b0a10")
+	reliure.border_color = Color("#c08f34")
+	reliure.set_border_width_all(2)
+	reliure.set_content_margin_all(20)
+	_codex.add_theme_stylebox_override("panel", reliure)
+	_codex.visible = false
+	add_child(_codex)
+
+	_codex_entete = _bloc(14)
+	_codex_entete.anchor_right = 1.0
+	_codex_entete.offset_bottom = 22
+	_codex.add_child(_codex_entete)
+
+	_codex_liste = _bloc(13)
+	_codex_liste.anchor_bottom = 1.0
+	_codex_liste.offset_top = 30
+	_codex_liste.offset_right = COLONNE_CODEX
+	_codex.add_child(_codex_liste)
+
+	# Un simple trait plutôt qu'un second panneau : deux bordures dorées côte à
+	# côte se lisaient comme deux fenêtres empilées.
+	var filet := ColorRect.new()
+	filet.color = Color("#2a2733")
+	filet.anchor_bottom = 1.0
+	filet.offset_left = COLONNE_CODEX + 8
+	filet.offset_right = COLONNE_CODEX + 9
+	filet.offset_top = 30
+	_codex.add_child(filet)
+
+	var marge := COLONNE_CODEX + 22
+
+	_codex_visage = TextureRect.new()
+	_codex_visage.offset_left = marge
+	_codex_visage.offset_top = 32
+	_codex_visage.offset_right = marge + VISAGE_CODEX
+	_codex_visage.offset_bottom = 32 + VISAGE_CODEX
+	_codex_visage.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_codex_visage.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_codex_visage.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_codex.add_child(_codex_visage)
+
+	_codex_nom = _bloc(15)
+	_codex_nom.anchor_right = 1.0
+	_codex_nom.offset_left = marge + VISAGE_CODEX + 12
+	_codex_nom.offset_top = 34
+	_codex_nom.offset_bottom = 34 + VISAGE_CODEX
+	_codex.add_child(_codex_nom)
+
+	# Le rôle et les liens dans un seul pavé : leur longueur varie d'une fiche à
+	# l'autre, et deux blocs posés à des hauteurs fixes finissent par se
+	# chevaucher sur la fiche la plus bavarde.
+	_codex_role = _bloc(13)
+	_codex_role.anchor_right = 1.0
+	_codex_role.anchor_bottom = 1.0
+	_codex_role.offset_left = marge
+	_codex_role.offset_top = 32 + VISAGE_CODEX + 14
+	_codex.add_child(_codex_role)
 
 
-## Une jauge : un fond sombre, une part pleine par-dessus.
+## Un pavé de texte enrichi, sans ascenseur : la mise en page vient du BBCode.
+func _bloc(taille: int) -> RichTextLabel:
+	var t := RichTextLabel.new()
+	t.bbcode_enabled = true
+	t.scroll_active = false
+	t.add_theme_font_size_override("normal_font_size", taille)
+	t.add_theme_font_size_override("bold_font_size", taille + 1)
+	t.add_theme_font_size_override("italics_font_size", taille)
+	return t
 
 
 ## Une jauge d'état, dans le coin haut-droit.
@@ -443,3 +532,81 @@ func pause(ouverte: bool, choix := 0, options: Array = [], mot := "") -> void:
 		lignes.append("")
 		lignes.append("[center][color=#43c47f]%s[/color][/center]" % mot)
 	_menu.text = "\n".join(lignes)
+
+
+## Le Codex : la liste des rencontres, et la fiche de celle qu'on regarde.
+##
+## Le jeu passe les fiches, le rang choisi et le nombre de personnages que le
+## monde compte ; la fenêtre qui défile se calcule ici, parce que le nombre de
+## lignes lisibles est une affaire de mise en page.
+func codex(ouvert: bool, fiches: Array = [], choix := 0, total := 0) -> void:
+	_codex.visible = ouvert
+	# Jauges et objectif appartiennent à la salle : le recueil couvre l'écran,
+	# et deux barres de vie flottant sur ses pages passeraient pour un défaut.
+	for element in _hud:
+		element.visible = not ouvert
+	if not ouvert:
+		return
+
+	_codex_entete.text = "[b][color=#f0d174]Codex[/color][/b]   [color=#71727e]%s[/color]" % (
+		"aucune rencontre sur %d" % total if fiches.is_empty()
+		else "%d rencontre%s sur %d" % [
+			fiches.size(), "s" if fiches.size() > 1 else "", total])
+
+	if fiches.is_empty():
+		_codex_liste.text = ""
+		_codex_visage.texture = null
+		_codex_nom.text = ""
+		_codex_role.text = "[color=#71727e][i]Adressez la parole à ceux que vous croisez : chacun s'inscrit ici.[/i][/color]"
+		return
+
+	choix = clampi(choix, 0, fiches.size() - 1)
+	# La fenêtre suit le choix sans le coller au bord : on garde du contexte
+	# au-dessus et au-dessous tant qu'il y en a.
+	var haut := clampi(choix - LIGNES_CODEX / 2, 0, maxi(0, fiches.size() - LIGNES_CODEX))
+	var lignes := PackedStringArray()
+	if haut > 0:
+		lignes.append("[color=#43414d]   ↑ %d[/color]" % haut)
+	for i in range(haut, mini(haut + LIGNES_CODEX, fiches.size())):
+		var rang := "[color=#43414d]%03d[/color]" % int(fiches[i].get("rang", 0))
+		var nom := str(fiches[i].get("nom", ""))
+		lignes.append("[color=#f0d174]▸ %s %s[/color]" % [rang, nom] if i == choix
+			else "  %s [color=#71727e]%s[/color]" % [rang, nom])
+	var reste := fiches.size() - (haut + LIGNES_CODEX)
+	if reste > 0:
+		lignes.append("[color=#43414d]   ↓ %d[/color]" % reste)
+	_codex_liste.text = "\n".join(lignes)
+
+	var fiche: Dictionary = fiches[choix]
+	var visage := str(fiche.get("portrait", ""))
+	_codex_visage.texture = load("res://assets/" + visage) if visage != "" else null
+
+	# Le rang dans le monde, pas dans la collection : le joueur voit ce qui lui
+	# manque, comme dans un Pokédex.
+	_codex_nom.text = "[color=#71727e]N° %03d[/color]\n[b][color=%s]%s[/color][/b]\n%s" % [
+		int(fiche.get("rang", 0)), str(fiche.get("teinte", "#f0d174")),
+		str(fiche.get("nom", "")), _tomes(fiche.get("tomes", []))]
+
+	var pages := PackedStringArray(["[color=#dddde4]%s[/color]" % str(fiche.get("role", ""))])
+	var liens: Array = fiche.get("liens", [])
+	if not liens.is_empty():
+		pages.append("")
+		pages.append("[color=#c08f34]Liens[/color]")
+		for lien in liens:
+			pages.append("[color=#a6a8b2]%s[/color] [color=#71727e]— %s[/color]" % [
+				str(lien.get("nom", "")), str(lien.get("nature", ""))])
+	_codex_role.text = "\n".join(pages)
+
+
+## « Tomes 1 à 44 » — les bornes suffisent, la liste ne tiendrait pas.
+func _tomes(tomes: Array) -> String:
+	if tomes.is_empty():
+		return ""
+	var a := int(tomes[0])
+	var b := int(tomes[tomes.size() - 1])
+	return "[color=#71727e]Tome %d[/color]" % a if a == b \
+		else "[color=#71727e]Tomes %d à %d[/color]" % [a, b]
+
+
+func codex_visible() -> bool:
+	return _codex.visible

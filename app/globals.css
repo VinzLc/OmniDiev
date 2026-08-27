@@ -757,6 +757,35 @@ a { color: var(--emerald); }
 .dex-card.active.k-concept    { border-color: var(--k-concept); }
 .dex-card.active.k-evenement  { border-color: var(--k-evenement); }
 
+/*
+ * Le visage, quand le jeu en a dessiné un.
+ *
+ * 64 px pour 128 dessinés : un rapport entier, la seule façon qu'un pixel reste
+ * carré — et sur un écran à densité double, la carte retrouve le 1:1 exact.
+ *
+ * Positionné en absolu plutôt que placé dans la grille : la carte compte
+ * aujourd'hui quatre lignes de texte, et un `grid-row` qui les enjambe se
+ * romprait sans bruit le jour où l'on en ajoute une cinquième.
+ */
+.dex-card.a-visage { padding-right: 90px; }
+.dex-card.a-visage .dex-kind { right: 90px; }
+
+.dex-visage {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
+  border-radius: var(--radius);
+  /* Certains visages sont détourés : sans fond, ils flotteraient. */
+  background: var(--surface-2);
+  box-shadow: inset 0 0 0 1px var(--line-soft);
+}
+.dex-card:hover .dex-visage,
+.dex-card.active .dex-visage { box-shadow: inset 0 0 0 1px var(--emerald); }
+
 .dex-num {
   font-family: var(--mono);
   font-size: 10.5px;
@@ -847,6 +876,25 @@ a { color: var(--emerald); }
   line-height: 1.15;
 }
 .dex-num.big { font-size: 13px; padding-top: 6px; }
+
+/* Sur la fiche, le visage passe à sa taille dessinée et prend la tête. */
+.dex-detail-head.a-visage {
+  display: grid;
+  grid-template-columns: 128px minmax(0, 1fr);
+  column-gap: 16px;
+  align-items: start;
+}
+.dex-detail-head.a-visage .dex-visage { grid-row: 1 / span 2; }
+.dex-detail-head.a-visage .dex-num.big { grid-column: 2; padding-top: 0; }
+.dex-detail-head.a-visage > div { grid-column: 2; }
+.dex-detail-head.a-visage h2 { margin-top: 4px; }
+
+.dex-visage.grand {
+  position: static;
+  transform: none;
+  width: 128px;
+  height: 128px;
+}
 
 .dex-detail h3 {
   font-family: var(--serif);

@@ -6,12 +6,16 @@
  * garanti qu'elles finissent par diverger — le site publié montrant autre chose
  * que l'application.
  */
+import fs from "node:fs";
+import path from "node:path";
 import { loadCodex, type CodexEntry } from "./codex.ts";
 import { BOOKS, SAGAS, ROMAN, bookAt, bookLabel, sagaOf } from "./books.ts";
 import { fold } from "./text.ts";
 
 export type IndexEntry = {
   n: number;
+  /** Le visage dessiné pour le jeu, s'il existe. */
+  portrait: string | null;
   id: string;
   name: string;
   kind: string;
@@ -32,8 +36,42 @@ export type CodexIndex = {
   entries: IndexEntry[];
 };
 
+/**
+ * Les fiches qui ont un visage.
+ *
+ * Les portraits sont dessinés pour le jeu, mais rien ne justifie que le Codex
+ * s'en prive : une fiche illustrée se retient, une fiche de texte se parcourt.
+ * On relève les fichiers présents une fois, plutôt que d'interroger le disque
+ * pour chacune des cinq cent onze fiches.
+ */
+let visages: Set<string> | null = null;
+function aUnPortrait(id: string): boolean {
+  if (!visages) {
+    const dir = path.join(process.cwd(), "jeu", "art", "portraits");
+    // Un identifiant de fiche peut contenir un tiret — « emeraude-ier ». On ne
+    // peut donc pas s'en servir pour reconnaître les humeurs : on relève tout,
+    // et c'est la correspondance avec un identifiant connu qui tranche.
+    visages = new Set(
+      fs.existsSync(dir)
+        ? fs.readdirSync(dir)
+            .filter((f) => f.endsWith(".png") && !f.startsWith("."))
+            .map((f) => f.slice(0, -4))
+        : [],
+    );
+  }
+  return visages.has(id);
+}
+
+
 /** Ordre de parution des entités : les figures des premiers tomes ouvrent. */
-function ordered(entries: CodexEntry[]): CodexEntry[] {
+/**
+ * L'ordre des fiches, et donc leur numéro.
+ *
+ * Exporté parce que le jeu numérote les siennes de la même façon : « N° 062 »
+ * doit désigner Wellan sur le site comme dans le Codex du jeu. Deux tris
+ * séparés auraient fini par diverger, et personne ne l'aurait vu.
+ */
+export function ordered(entries: CodexEntry[]): CodexEntry[] {
   return [...entries].sort((a, b) => {
     const fa = a.books[0] ?? 999;
     const fb = b.books[0] ?? 999;
@@ -63,6 +101,7 @@ export function codexIndex(): CodexIndex {
     })),
     entries: ordered(l.codex.entries).map((e, i) => ({
       n: i + 1,
+      portrait: aUnPortrait(e.id) ? `portraits/${e.id}.png` : null,
       id: e.id,
       name: e.name,
       kind: e.kind,
@@ -92,6 +131,7 @@ export function codexDetail(id: string) {
 
   return {
     ...entry,
+    portrait: aUnPortrait(entry.id) ? `portraits/${entry.id}.png` : null,
     volumes: entry.books.map((o) => {
       const b = bookAt(o);
       return {

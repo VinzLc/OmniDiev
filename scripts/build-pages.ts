@@ -28,6 +28,30 @@ function main() {
 
   fs.writeFileSync(path.join(OUT, "index.json"), JSON.stringify(index));
 
+  /*
+   * Les visages suivent leurs fiches.
+   *
+   * Ils sont dessinés pour le jeu et vivent dans `jeu/art/portraits/`. Le site
+   * en publie une copie plutôt que d'y pointer : `public/` est ce que le build
+   * statique emporte, et un chemin vers un dossier de production ne survivrait
+   * pas à la publication.
+   */
+  const source = path.join(ROOT, "jeu", "art", "portraits");
+  let visages = 0;
+  if (fs.existsSync(source)) {
+    const dest = path.join(OUT, "portraits");
+    fs.mkdirSync(dest, { recursive: true });
+    // Ne publier que les visages qui correspondent à une fiche. Le tiret ne
+    // distingue pas une humeur : « emeraude-ier » en porte un, et il avait
+    // suffi à le laisser sans portrait.
+    const fiches = new Set(codexIds());
+    for (const f of fs.readdirSync(source)) {
+      if (!f.endsWith(".png") || !fiches.has(f.slice(0, -4))) continue;
+      fs.copyFileSync(path.join(source, f), path.join(dest, f));
+      visages++;
+    }
+  }
+
   let bytes = 0;
   for (const id of codexIds()) {
     const detail = codexDetail(id);
@@ -56,6 +80,7 @@ function main() {
   const size = (n: number) => (n / 1e6).toFixed(2) + " Mo";
   console.log(`${index.entries.length} fiches → ${path.relative(ROOT, OUT)}/`);
   console.log(`  index.json  ${size(fs.statSync(path.join(OUT, "index.json")).size)}`);
+  console.log(`  portraits   ${visages}`);
   console.log(`  fiches      ${size(bytes)}`);
   console.log(`  total       ${size(fs.statSync(path.join(OUT, "index.json")).size + bytes)}`);
   if (gen.ready) {

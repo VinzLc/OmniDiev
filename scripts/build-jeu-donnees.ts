@@ -17,6 +17,7 @@ import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
 import { loadCodex } from "../lib/codex.ts";
+import { ordered } from "../lib/codex-view.ts";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const SORTIE = path.join(ROOT, "jeu", "godot", "donnees");
@@ -350,6 +351,8 @@ async function effets(dossier: string) {
 }
 
 type Personnage = {
+  /** Son numéro au Codex — le même que sur le site. */
+  rang: number;
   nom: string;
   role: string;
   tomes: number[];
@@ -388,10 +391,12 @@ function main() {
   const lieux: Record<string, Lieu> = {};
   const peuples: Record<string, Peuple> = {};
 
-  for (const f of fiches) {
+  // Numérotées dans l'ordre du site : un personnage porte un seul numéro.
+  for (const [i, f] of ordered(fiches).entries()) {
     if (f.kind === "personnage") {
       const planche = path.join(ART, "personnages", `${f.id}.png`);
       personnages[f.id] = {
+        rang: i + 1,
         nom: f.name,
         role: f.gloss,
         tomes: f.books ?? [],

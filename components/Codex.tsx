@@ -14,6 +14,8 @@ type Entry = {
   relations: number;
   first: number;
   firstSaga: string;
+  /** Le visage dessiné pour le jeu, relatif à `/codex/`. */
+  portrait: string | null;
 };
 
 type SagaRef = { id: number; name: string; short: string; from: number; to: number };
@@ -31,6 +33,7 @@ type Detail = {
   kind: string;
   aliases: string[];
   gloss: string;
+  portrait: string | null;
   description: string;
   arc: string;
   firstSeen: string;
@@ -219,9 +222,15 @@ export function Codex({
             <button
               key={e.id}
               data-id={e.id}
-              className={`dex-card k-${fold(e.kind)}${selected === e.id ? " active" : ""}`}
+              className={`dex-card k-${fold(e.kind)}${e.portrait ? " a-visage" : ""}${
+                selected === e.id ? " active" : ""
+              }`}
               onClick={() => open(e.id)}
             >
+              {/* Le visage d'abord : c'est lui que l'œil cherche en balayant la grille. */}
+              {e.portrait && (
+                <img className="dex-visage" src={`${BASE}/codex/${e.portrait}`} alt="" />
+              )}
               <span className="dex-num">{String(e.n).padStart(3, "0")}</span>
               <span className="dex-kind">{e.kind}</span>
               <span className="dex-name">{e.name}</span>
@@ -255,7 +264,14 @@ export function Codex({
 
             {detail && (
               <>
-                <div className="dex-detail-head">
+                <div className={`dex-detail-head${detail.portrait ? " a-visage" : ""}`}>
+                  {detail.portrait && (
+                    <img
+                      className="dex-visage grand"
+                      src={`${BASE}/codex/${detail.portrait}`}
+                      alt={`Portrait de ${detail.name}`}
+                    />
+                  )}
                   <span className="dex-num big">
                     {String(shown.find((e) => e.id === detail.id)?.n ?? 0).padStart(3, "0")}
                   </span>
