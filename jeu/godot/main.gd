@@ -27,8 +27,12 @@ const CADENCE := 7.0
 const RANGEE := { "sud": 0, "nord": 1, "ouest": 2, "est": 3 }
 
 const DONNEES := "res://donnees/"
-const PARTIES := "user://parties.json"
-const PARTIES_ESSAI := "user://parties-essai.json"
+const Partie := preload("res://partie.gd")
+## Le banc d'essai ne se charge que si on l'appelle : le jeu livré ne le voit
+## jamais s'exécuter, et il ne pèse rien dans le fichier qu'il vérifie.
+const Banc := preload("res://banc.gd")
+const Interface := preload("res://interface.gd")
+const Donnees := preload("res://donnees.gd")
 
 ## Le combat, en clair. Ces nombres sont à nous ; ce qui vient du texte, c'est
 ## que la carapace des hommes-insectes boit la magie.
@@ -66,17 +70,13 @@ const PORTEE_SORT := 260.0
 var _monde: Dictionary
 var _salle: Dictionary
 var _scene: Dictionary
-var _campagne: Dictionary
 var _chapitre := ""
 var _libre := false          ## scène imposée en ligne de commande : on ne note rien
-var _acheve: Panel
-var _ouverture: Panel
 
 ## Où en est le chapitre, et à qui l'on a déjà parlé dans l'étape en cours.
 var _etape := 0
 var _parles := {}
 var _habitants := {}
-var _objectif: Label
 
 var _energie := ENERGIE_MAX
 ## La vie se regagne par fractions de point : on garde la part décimale ici,
@@ -86,9 +86,6 @@ var _prochain_coup := 0.0
 var _ennemis: Array = []
 var _traits: Array = []       ## les sorts en vol
 var _vaincu := false
-var _jauge_vie: ColorRect
-var _jauge_energie: ColorRect
-var _defaite: Panel
 
 var _wellan: Combattant
 var _vue: Sprite2D
@@ -108,12 +105,10 @@ var _pages: Array = []
 var _page := 0
 var _ouverte := false
 
-var _cadre: Panel
-var _texte: RichTextLabel
-var _invite: Label
-var _bandeau: Panel          ## les descriptions, distinctes des paroles
-var _recit: RichTextLabel
-var _visage: TextureRect     ## le portrait de qui parle
+## L'interface. Le jeu lui dit ce qu'il veut montrer ; où et comment cela
+## s'affiche ne le regarde pas.
+var _ui: CanvasLayer
+
 var _marcheurs: Array = []   ## ceux qui entrent ou sortent, en chemin
 var _bulles := {}            ## les bulles de parole, par identifiant de fiche
 var _objets := {}            ## ce qu'on peut examiner, par clé
@@ -123,15 +118,14 @@ var _cloture_dite := false
 var _entendus := {}
 var _cle_courante := ""
 var _flottement := 0.0
-var _pause: Panel
-var _menu: RichTextLabel
 var _choix_pause := 0
 var _en_pause := false
 var _recit_capture := false   ## une seule image de description suffit au contrôle
 var _invite_capture := false
 var _bulles_capture := false
 var _wellan_capture := false
-var _mare: Sprite2D = null    ## la mare de sang, gardée entre deux morts
+var _mare: Sprite2D = null
+var _banc                     ## le harnais de vérification, quand il est demandé    ## la mare de sang, gardée entre deux morts
 
 
 func _ready() -> void:
@@ -139,7 +133,6 @@ func _ready() -> void:
 	y_sort_enabled = true
 
 	_monde = _lire(DONNEES + "monde.json")
-	_campagne = _lire(DONNEES + "campagne.json")
 	_chapitre = _scene_demandee()
 	_noter(_chapitre)
 	_scene = _lire(DONNEES + "scenes/%s.json" % _chapitre)
@@ -152,7 +145,8 @@ func _ready() -> void:
 	_batir_le_sol()
 	_batir_les_murs()
 	_batir_wellan()
-	_batir_le_dialogue()
+	_ui = Interface.new()
+	add_child(_ui)
 	_peupler()
 	_tomber_la_nuit()
 	_entrer_dans_l_etape()
@@ -161,9 +155,11 @@ func _ready() -> void:
 	# Le drapeau peut arriver des deux côtés de `++` selon la façon dont on
 	# lance : on regarde les deux listes plutôt que d'imposer un ordre.
 	if OS.get_cmdline_args().has("--capture") or OS.get_cmdline_user_args().has("--capture"):
-		_capturer()
+		_banc = Banc.new(self)
+		_banc._capturer()
 	elif OS.get_cmdline_user_args().has("--effets"):
-		_capturer_les_effets()
+		_banc = Banc.new(self)
+		_banc._capturer_les_effets()
 
 
 ## Les touches d'action.
@@ -210,8 +206,8 @@ func _scene_demandee() -> String:
 		_libre = true
 		return arguments[i + 1]
 
-	var suite: Array = _campagne.get("chapitres", [])
-	var repris: String = str(_partie().get("chapitre", ""))
+	var suite := Partie.campagne()
+	var repris: String = str(Partie.courante().get("chapitre", ""))
 	if repris != "" and suite.has(repris):
 		return str(repris)
 	return str(suite[0]) if not suite.is_empty() else "i-01"
@@ -221,59 +217,16 @@ func _scene_demandee() -> String:
 func _noter(chapitre: String) -> void:
 	if _libre:
 		return
-	var carnet := _lire(_carnet())
-	if not carnet.has("parties"):
-		carnet = { "courante": 0, "parties": [null, null, null] }
-	var n := int(carnet.get("courante", 0))
-	var parties: Array = carnet["parties"]
-	if n >= 0 and n < parties.size():
-		parties[n] = { "chapitre": chapitre }
-	var f := FileAccess.open(_carnet(), FileAccess.WRITE)
-	if f:
-		f.store_string(JSON.stringify(carnet))
+	Partie.noter(chapitre)
 
 
 ## Le chapitre suivant dans l'ordre de lecture, vide s'il n'y en a plus.
 func _chapitre_suivant() -> String:
-	var suite: Array = _campagne.get("chapitres", [])
-	var i := suite.find(_chapitre)
-	if i >= 0 and i + 1 < suite.size():
-		return str(suite[i + 1])
-	return ""
-
-
-## Où se note la partie.
-##
-## Un test ne joue pas la partie du joueur, mais il doit tout de même éprouver
-## l'enchaînement — sans quoi on ne vérifie plus ce qu'on livre. Il tient donc
-## son propre carnet.
-##
-## Le mode capture écrivait dans le même fichier que la partie : à force de
-## vérifier la campagne, la sauvegarde s'est trouvée poussée jusqu'au dernier
-## chapitre, et le jeu s'ouvrait sur la bataille de Zénor comme si toute
-## l'histoire qui précède avait été jouée.
-func _carnet() -> String:
-	var arguments := OS.get_cmdline_user_args()
-	if OS.get_cmdline_args().has("--capture") or arguments.has("--capture") or arguments.has("--effets"):
-		return PARTIES_ESSAI
-	return PARTIES
-
-
-## L'emplacement en cours, et ce qu'il contient.
-func _partie() -> Dictionary:
-	var carnet := _lire(_carnet())
-	var parties: Array = carnet.get("parties", [])
-	var n := int(carnet.get("courante", 0))
-	if n < 0 or n >= parties.size() or parties[n] == null:
-		return {}
-	return parties[n]
+	return Partie.suivant(_chapitre)
 
 
 func _lire(chemin: String) -> Dictionary:
-	if not FileAccess.file_exists(chemin):
-		return {}
-	var contenu = JSON.parse_string(FileAccess.get_file_as_string(chemin))
-	return contenu if contenu is Dictionary else {}
+	return Donnees.lire(chemin)
 
 
 func _taille() -> Vector2i:
@@ -517,7 +470,7 @@ func _faire_sortir(id: String, en_marchant := true) -> void:
 	_a_portee.erase(id)
 	if _proche == id:
 		_proche = ""
-		_invite.visible = false
+		_ui.invite(false)
 
 	var corps: Node2D = _habitants[id]
 	_habitants.erase(id)
@@ -580,7 +533,7 @@ func _entrer_dans_l_etape() -> void:
 	for entrant in etape.get("apparaissent", []):
 		_faire_entrer(entrant)
 
-	_objectif.text = str(etape.get("objectif", ""))
+	_ui.objectif(str(etape.get("objectif", "")))
 	_rafraichir_les_bulles()
 	_lever_la_vague(etape)
 
@@ -677,18 +630,12 @@ func _mener_les_ennemis(delta: float) -> void:
 ## Le chapitre est joué : on propose la suite, on note où l'on en est.
 ## Annonce le chapitre : son rang dans la campagne, son titre, sa source.
 func _annoncer_le_chapitre() -> void:
-	var suite: Array = _campagne.get("chapitres", [])
-	var rang := suite.find(_chapitre) + 1
-	var mot: RichTextLabel = _ouverture.get_child(0)
-
-	# Tailles relevées d'un tiers avec le viewport : à 640×360, une police réglée
-	# pour 270 pixels de haut se lit deux fois plus petite qu'avant.
-	var entete := "Chapitre %d sur %d" % [rang, suite.size()] if rang > 0 else "Hors campagne"
 	# La référence au tome et au chapitre a été retirée : elle parle du livre au
 	# joueur, là où tout le reste lui parle du monde.
-	mot.text = "[center][font_size=14][color=#a6a8b2]%s[/color][/font_size]\n\n[b][color=#f0d174]%s[/color][/b]\n\n[font_size=14][color=#a6a8b2]Espace[/color][/font_size][/center]" % [
-		entete, str(_scene.get("titre", _chapitre))]
-	_ouverture.visible = true
+	var suite := Partie.campagne()
+	var rang := Partie.rang(_chapitre)
+	var entete := "Chapitre %d sur %d" % [rang, suite.size()] if rang > 0 else "Hors campagne"
+	_ui.carton(entete, str(_scene.get("titre", _chapitre)))
 
 
 func _achever_le_chapitre() -> void:
@@ -697,21 +644,19 @@ func _achever_le_chapitre() -> void:
 	var mot_final: Array = _scene.get("cloture", [])
 	if not _cloture_dite and not mot_final.is_empty():
 		_cloture_dite = true
-		_objectif.text = ""
+		_ui.objectif("")
 		_reciter(mot_final)
 		return
 
 	var suivant := _chapitre_suivant()
 	_noter(suivant if suivant != "" else _chapitre)
-	_objectif.text = ""
+	_ui.objectif("")
 
-	var mot: Label = _acheve.get_child(0)
 	if suivant == "":
-		mot.text = "%s — achevé.\nC'est tout ce qui est écrit à ce jour." % str(_scene.get("titre", ""))
+		_ui.acheve("%s — achevé.\nC'est tout ce qui est écrit à ce jour." % str(_scene.get("titre", "")))
 	else:
-		var titre_suivant := str(_lire(DONNEES + "scenes/%s.json" % suivant).get("titre", suivant))
-		mot.text = "%s — achevé.\nEntrée pour « %s », ou restez encore." % [str(_scene.get("titre", "")), titre_suivant]
-	_acheve.visible = true
+		_ui.acheve("%s — achevé.\nEntrée pour « %s », ou restez encore."
+			% [str(_scene.get("titre", "")), Partie.titre(suivant)])
 
 
 ## Wellan tombe.
@@ -722,10 +667,9 @@ func _achever_le_chapitre() -> void:
 ## nouvelle, non le texte par-dessus.
 func _perdre() -> void:
 	_vaincu = true
-	_defaite.visible = true
-	_cadre.visible = false
-	_bandeau.visible = false
-	_invite.visible = false
+	_ui.defaite(true)
+	_ui.fermer_dialogue()
+	_ui.invite(false)
 
 	_vue.rotation_degrees = 90.0
 	_vue.offset = Vector2(0, -8)
@@ -765,7 +709,7 @@ func _elargir_la_mare() -> void:
 ## Reprendre l'étape : Wellan retrouve son souffle, la vague est relevée.
 func _reprendre() -> void:
 	_vaincu = false
-	_defaite.visible = false
+	_ui.defaite(false)
 	_vue.rotation_degrees = 0.0
 	_vue.offset = Vector2(0, -SPRITE / 2.0 + 2)
 	if _mare != null:
@@ -807,7 +751,7 @@ func _avancer_si_possible() -> void:
 		else:
 			# Un objectif qui décompte vaut mieux qu'un objectif qui répète :
 			# le joueur voit ce qui lui reste sans tenir le compte lui-même.
-			_objectif.text = "%s (%d)" % [_etape_courante().get("objectif", ""), reste]
+			_ui.objectif("%s (%d)" % [_etape_courante().get("objectif", ""), reste])
 
 
 ## De quoi savoir qu'on peut parler, et à qui.
@@ -853,7 +797,7 @@ func _toutes_les_etapes() -> Array:
 ## le chapitre — et il y en a beaucoup à manquer, puisque plusieurs n'ont jamais
 ## été exigées par un objectif.
 func _repliques_de(id: String) -> Dictionary:
-	if not _acheve.visible:
+	if not _ui.acheve_visible():
 		var ici: Dictionary = _etape_courante().get("dialogues", {})
 		if not ici.has(id):
 			return {}
@@ -892,7 +836,7 @@ func _choisir_l_interlocuteur() -> void:
 			meilleur = str(id)
 	_proche = meilleur
 	if not _ouverte:
-		_invite.visible = _proche != ""
+		_ui.invite(_proche != "")
 
 
 ## La nuit, quand la scène la demande.
@@ -987,282 +931,6 @@ func _dessiner_objet(genre: String, ou: Vector2, objet: Dictionary) -> void:
 		add_child(feu)
 
 
-func _batir_le_dialogue() -> void:
-	var couche := CanvasLayer.new()
-	add_child(couche)
-
-	_cadre = Panel.new()
-	_cadre.anchor_right = 1.0
-	_cadre.anchor_top = 1.0
-	_cadre.anchor_bottom = 1.0
-	_cadre.offset_left = 16
-	_cadre.offset_right = -16
-	_cadre.offset_top = -120
-	_cadre.offset_bottom = -16
-
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color("#0b0a10")
-	style.border_color = Color("#c08f34")
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(2)
-	style.set_content_margin_all(10)
-	_cadre.add_theme_stylebox_override("panel", style)
-	_cadre.visible = false
-	couche.add_child(_cadre)
-
-	## Le visage de qui parle, à gauche du cadre.
-	##
-	## Il tient dans la hauteur du cadre et garde ses proportions ; le texte
-	## commence après lui. Un personnage sans portrait n'en laisse pas la place
-	## vide : le cadre se referme sur le texte seul.
-	_visage = TextureRect.new()
-	_visage.anchor_bottom = 1.0
-	_visage.offset_left = 6
-	_visage.offset_top = 6
-	_visage.offset_right = 6 + PORTRAIT
-	_visage.offset_bottom = -6
-	_visage.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_visage.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	_visage.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	_visage.visible = false
-	_cadre.add_child(_visage)
-
-	_texte = RichTextLabel.new()
-	_texte.bbcode_enabled = true
-	_texte.anchor_right = 1.0
-	_texte.anchor_bottom = 1.0
-	_texte.offset_left = 10
-	_texte.offset_top = 8
-	_texte.offset_right = -10
-	_texte.offset_bottom = -8
-	# Douze pixels dans une fenêtre qui en fait 270 de haut. À quinze, la
-	# réplique débordait et Godot ajoutait une barre de défilement — une boîte de
-	# dialogue qu'il faut faire défiler n'en est pas une.
-	_texte.add_theme_font_size_override("normal_font_size", 15)
-	_texte.add_theme_font_size_override("bold_font_size", 15)
-	_texte.scroll_active = false
-	_cadre.add_child(_texte)
-
-	## L'invite se range dans le coin.
-	##
-	## Au milieu de l'écran elle se posait sur la scène, juste au-dessus du
-	## cadre, et attirait l'œil là où il n'y avait rien à voir. Un rappel de
-	## touche n'a pas à disputer le centre au décor.
-	_invite = Label.new()
-	_invite.text = "Espace"
-	_invite.anchor_left = 1.0
-	_invite.anchor_right = 1.0
-	_invite.anchor_top = 1.0
-	_invite.anchor_bottom = 1.0
-	_invite.offset_left = -112
-	_invite.offset_right = -16
-	_invite.offset_top = -34
-	_invite.offset_bottom = -10
-	_invite.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_invite.add_theme_color_override("font_color", Color("#f0d174"))
-	_invite.add_theme_font_size_override("font_size", 14)
-	_invite.visible = false
-	couche.add_child(_invite)
-
-	## Le bandeau des descriptions.
-	##
-	## Ce qu'on lit n'est pas ce qu'on entend. La parole garde le cadre du bas,
-	## bordé d'or, avec le nom de qui parle ; la description prend un bandeau
-	## large, sans bordure ni nom, en italique et en argent — la couleur du
-	## narrateur, non celle d'une voix. Les deux ne peuvent plus se confondre,
-	## et les maladresses des personnages redeviennent audibles comme telles.
-	_bandeau = Panel.new()
-	_bandeau.anchor_right = 1.0
-	_bandeau.anchor_top = 0.5
-	_bandeau.anchor_bottom = 0.5
-	_bandeau.offset_left = 0
-	_bandeau.offset_right = 0
-	_bandeau.offset_top = -46
-	_bandeau.offset_bottom = 46
-	var voile := StyleBoxFlat.new()
-	voile.bg_color = Color(0.043, 0.039, 0.063, 0.88)
-	voile.border_color = Color("#71727e")
-	voile.border_width_top = 1
-	voile.border_width_bottom = 1
-	voile.set_content_margin_all(10)
-	_bandeau.add_theme_stylebox_override("panel", voile)
-	_bandeau.visible = false
-	couche.add_child(_bandeau)
-
-	## Le texte se centre verticalement dans son bandeau.
-	##
-	## Une RichTextLabel n'a pas d'alignement vertical : étirée sur toute la
-	## hauteur, elle colle son texte en haut et laisse un vide dessous, d'autant
-	## plus visible qu'une description tient souvent sur une seule ligne. Un
-	## CenterContainer, avec une étiquette qui se dimensionne à son contenu,
-	## règle ce que l'ancrage ne sait pas exprimer.
-	var centreur := CenterContainer.new()
-	centreur.anchor_right = 1.0
-	centreur.anchor_bottom = 1.0
-	centreur.offset_left = 24
-	centreur.offset_right = -24
-	_bandeau.add_child(centreur)
-
-	_recit = RichTextLabel.new()
-	_recit.bbcode_enabled = true
-	_recit.fit_content = true
-	_recit.custom_minimum_size = Vector2(560, 0)
-	_recit.scroll_active = false
-	_recit.add_theme_font_size_override("normal_font_size", 15)
-	_recit.add_theme_font_size_override("italics_font_size", 15)
-	centreur.add_child(_recit)
-
-	# L'objectif reste affiché : sans lui, un chapitre en quatre temps se joue à
-	# tâtons, et le joueur croit que le jeu ne réagit pas alors qu'il attend.
-	## Le menu de pause.
-	##
-	## Trois choix seulement : reprendre, noter où l'on en est, revenir au
-	## titre. Le jeu note déjà la fin de chaque chapitre ; « sauvegarder » sert
-	## à ne pas perdre un chapitre entamé quand on s'arrête au milieu.
-	_pause = Panel.new()
-	_pause.anchor_left = 0.5
-	_pause.anchor_right = 0.5
-	_pause.anchor_top = 0.5
-	_pause.anchor_bottom = 0.5
-	_pause.offset_left = -150
-	_pause.offset_right = 150
-	_pause.offset_top = -80
-	_pause.offset_bottom = 80
-	var repos := StyleBoxFlat.new()
-	repos.bg_color = Color("#0b0a10")
-	repos.border_color = Color("#c08f34")
-	repos.set_border_width_all(2)
-	repos.set_content_margin_all(14)
-	_pause.add_theme_stylebox_override("panel", repos)
-	_pause.visible = false
-	couche.add_child(_pause)
-
-	_menu = RichTextLabel.new()
-	_menu.bbcode_enabled = true
-	_menu.anchor_right = 1.0
-	_menu.anchor_bottom = 1.0
-	_menu.scroll_active = false
-	_menu.add_theme_font_size_override("normal_font_size", 15)
-	_menu.add_theme_font_size_override("bold_font_size", 15)
-	_pause.add_child(_menu)
-
-	_objectif = Label.new()
-	_objectif.anchor_right = 1.0
-	_objectif.offset_left = 18
-	_objectif.offset_top = 10
-	_objectif.offset_right = -14
-	_objectif.add_theme_color_override("font_color", Color("#f0d174"))
-	_objectif.add_theme_color_override("font_shadow_color", Color("#0b0a10"))
-	_objectif.add_theme_constant_override("shadow_offset_x", 1)
-	_objectif.add_theme_constant_override("shadow_offset_y", 1)
-	_objectif.add_theme_font_size_override("font_size", 15)
-	couche.add_child(_objectif)
-
-	_jauge_vie = _jauge(couche, 8, Color("#8b2020"), Color("#d14545"))
-	_jauge_energie = _jauge(couche, 22, Color("#23202e"), Color("#5b9bd8"))
-
-	## Le mot de défaite se range en bas.
-	##
-	## Centré, il se posait exactement sur le corps — la caméra suit Wellan, donc
-	## le panneau masquait ce qu'il annonçait. On ne dit pas à quelqu'un qu'il
-	## est tombé en lui cachant l'endroit où il gît.
-	_defaite = Panel.new()
-	_defaite.anchor_left = 0.5
-	_defaite.anchor_right = 0.5
-	_defaite.anchor_top = 1.0
-	_defaite.anchor_bottom = 1.0
-	_defaite.offset_left = -170
-	_defaite.offset_right = 170
-	_defaite.offset_top = -96
-	_defaite.offset_bottom = -16
-	var deuil := StyleBoxFlat.new()
-	deuil.bg_color = Color("#0b0a10")
-	deuil.border_color = Color("#8b2020")
-	deuil.set_border_width_all(2)
-	deuil.set_content_margin_all(10)
-	_defaite.add_theme_stylebox_override("panel", deuil)
-	_defaite.visible = false
-	couche.add_child(_defaite)
-
-	## Le carton d'ouverture.
-	##
-	## Un joueur qui reprend sa partie après trois jours ne sait plus où il en
-	## était. Le rang du chapitre et sa source le lui disent en une ligne, et
-	## rendent visible que la campagne se suit dans un ordre.
-	_ouverture = Panel.new()
-	_ouverture.anchor_left = 0.5
-	_ouverture.anchor_right = 0.5
-	_ouverture.anchor_top = 0.5
-	_ouverture.anchor_bottom = 0.5
-	# Assez haut pour la source et l'invite. Au premier réglage le cadre faisait
-	# cent pixels : la référence au tome débordait sur deux lignes et « Espace »
-	# passait sous le bord. Rien ne mesure qu'un cadre est trop court.
-	_ouverture.offset_left = -260
-	_ouverture.offset_right = 260
-	_ouverture.offset_top = -86
-	_ouverture.offset_bottom = 86
-	var cartouche := StyleBoxFlat.new()
-	cartouche.bg_color = Color("#0b0a10")
-	cartouche.border_color = Color("#c08f34")
-	cartouche.set_border_width_all(2)
-	cartouche.set_content_margin_all(12)
-	_ouverture.add_theme_stylebox_override("panel", cartouche)
-	_ouverture.visible = false
-	couche.add_child(_ouverture)
-
-	var titre := RichTextLabel.new()
-	titre.bbcode_enabled = true
-	titre.anchor_right = 1.0
-	titre.anchor_bottom = 1.0
-	titre.scroll_active = false
-	titre.add_theme_font_size_override("normal_font_size", 15)
-	titre.add_theme_font_size_override("bold_font_size", 18)
-	_ouverture.add_child(titre)
-
-	## Le chapitre achevé s'annonce sans arrêter la partie.
-	##
-	## Un panneau au centre, qui prenait la main jusqu'à ce qu'on appuie,
-	## coupait la salle au moment précis où l'on avait envie d'y traîner : les
-	## répliques qu'aucun objectif n'exige se perdaient. Le mot passe donc en
-	## bandeau haut, et c'est Entrée — non la touche de dialogue — qui appelle
-	## le chapitre suivant. On peut rester aussi longtemps qu'on veut.
-	_acheve = Panel.new()
-	_acheve.anchor_left = 0.5
-	_acheve.anchor_right = 0.5
-	_acheve.offset_left = -200
-	_acheve.offset_right = 200
-	_acheve.offset_top = 10
-	_acheve.offset_bottom = 62
-	var laurier := StyleBoxFlat.new()
-	laurier.bg_color = Color("#0b0a10")
-	laurier.border_color = Color("#c08f34")
-	laurier.set_border_width_all(2)
-	laurier.set_content_margin_all(12)
-	_acheve.add_theme_stylebox_override("panel", laurier)
-	_acheve.visible = false
-	couche.add_child(_acheve)
-
-	var fin_mot := Label.new()
-	fin_mot.anchor_right = 1.0
-	fin_mot.anchor_bottom = 1.0
-	fin_mot.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	fin_mot.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	fin_mot.add_theme_color_override("font_color", Color("#f0d174"))
-	fin_mot.add_theme_font_size_override("font_size", 12)
-	_acheve.add_child(fin_mot)
-
-	var mot := Label.new()
-	mot.text = "Wellan tombe.\n\nEspace pour reprendre la ligne."
-	mot.anchor_right = 1.0
-	mot.anchor_bottom = 1.0
-	mot.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	mot.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	mot.add_theme_color_override("font_color", Color("#dddde4"))
-	mot.add_theme_font_size_override("font_size", 12)
-	_defaite.add_child(mot)
-
-
-## Une jauge : un fond sombre, une part pleine par-dessus.
 func _jauge(couche: CanvasLayer, haut: int, fond: Color, plein: Color) -> ColorRect:
 	var creux := ColorRect.new()
 	creux.color = fond.darkened(0.5)
@@ -1283,7 +951,7 @@ func _jauge(couche: CanvasLayer, haut: int, fond: Color, plein: Color) -> ColorR
 
 
 func _jauger(reste: int, sur: int) -> void:
-	_jauge_vie.anchor_right = clampf(float(reste) / float(sur), 0.0, 1.0)
+	_ui.jauges(reste, sur, _energie, ENERGIE_MAX)
 
 
 ## Le personnage se tourne vers celui qui l'aborde.
@@ -1360,9 +1028,8 @@ func _fiche_en_repliques(_id: String) -> Array:
 func _afficher() -> void:
 	if _page >= _pages.size():
 		_ouverte = false
-		_cadre.visible = false
-		_bandeau.visible = false
-		_invite.visible = _proche != ""
+		_ui.fermer_dialogue()
+		_ui.invite(_proche != "")
 		# On ne compte l'échange que s'il a été mené jusqu'au bout : entamer une
 		# conversation et s'en aller ne fait pas avancer le chapitre.
 		if _interlocuteur != "":
@@ -1373,21 +1040,16 @@ func _afficher() -> void:
 			_interlocuteur = ""
 			_avancer_si_possible()
 			_rafraichir_les_bulles()
-		elif _cloture_dite and not _acheve.visible:
+		elif _cloture_dite and not _ui.acheve_visible():
 			# La clôture vient de se terminer : l'écran de fin peut paraître.
 			_achever_le_chapitre()
 		return
 	var page: Dictionary = _pages[_page]
 	if str(page.get("genre", "parole")) == "recit":
-		_cadre.visible = false
-		_bandeau.visible = true
-		_recit.text = "[center][i][color=#dddde4]%s[/color][/i][/center]" % str(page.get("texte", ""))
+		_ui.recit(str(page.get("texte", "")))
 	else:
-		_bandeau.visible = false
-		_cadre.visible = true
-		_montrer_le_visage(str(page.get("qui", "")), str(page.get("humeur", "")))
-		_texte.text = "[b][color=#f0d174]%s[/color][/b]\n%s" % [
-			str(page.get("nom", "")), str(page.get("texte", ""))]
+		_ui.parole(str(page.get("nom", "")), str(page.get("texte", "")),
+			_visage_de(str(page.get("qui", "")), str(page.get("humeur", ""))))
 
 
 ## Récite une suite de descriptions.
@@ -1405,12 +1067,12 @@ func _reciter(lignes: Array) -> void:
 	_page = 0
 	_interlocuteur = ""
 	_ouverte = true
-	_invite.visible = false
+	_ui.invite(false)
 	_afficher()
 
 
 ## Montre le portrait de qui parle, et décale le texte pour lui faire place.
-func _montrer_le_visage(id: String, humeur := "") -> void:
+func _visage_de(id: String, humeur := "") -> String:
 	var fiche: Dictionary = _monde["personnages"].get(id, {})
 	var visage = fiche.get("portrait")
 
@@ -1422,34 +1084,19 @@ func _montrer_le_visage(id: String, humeur := "") -> void:
 		if connues.has(humeur):
 			visage = "portrait-%s-%s.png" % [id, humeur]
 
-	if visage == null:
-		_visage.visible = false
-		_texte.offset_left = 10
-		return
-	_visage.texture = load("res://assets/" + str(visage))
-	_visage.visible = true
-	_texte.offset_left = 10 + PORTRAIT + 8
+	return "" if visage == null else str(visage)
 
 
 const CHOIX_PAUSE := ["Reprendre", "Sauvegarder", "Écran-titre"]
 
 func _dessiner_la_pause(mot := "") -> void:
-	var lignes := PackedStringArray(["[center][color=#a6a8b2]Pause[/color][/center]", ""])
-	for i in CHOIX_PAUSE.size():
-		var vise := i == _choix_pause
-		lignes.append("[center]%s[/center]" % (
-			"[color=#f0d174]▸ %s ◂[/color]" % CHOIX_PAUSE[i] if vise
-			else "[color=#71727e]%s[/color]" % CHOIX_PAUSE[i]))
-	if mot != "":
-		lignes.append("")
-		lignes.append("[center][color=#43c47f]%s[/color][/center]" % mot)
-	_menu.text = "\n".join(lignes)
+	_ui.pause(_en_pause, _choix_pause, CHOIX_PAUSE, mot)
 
 
 func _basculer_la_pause() -> void:
 	_en_pause = not _en_pause
-	_pause.visible = _en_pause
 	_choix_pause = 0
+	_ui.pause(_en_pause)
 	if _en_pause:
 		_wellan.velocity = Vector2.ZERO
 		_dessiner_la_pause()
@@ -1508,7 +1155,7 @@ func _rafraichir_les_bulles() -> void:
 func _unhandled_input(evenement: InputEvent) -> void:
 	# La pause passe avant tout : on doit pouvoir s'arrêter au milieu d'une
 	# réplique comme au milieu d'une mêlée.
-	if evenement.is_action_pressed("pause") and not _ouverture.visible and not _acheve.visible:
+	if evenement.is_action_pressed("pause") and not _ui.carton_visible() and not _ui.acheve_visible():
 		_basculer_la_pause()
 		return
 	if _en_pause:
@@ -1522,15 +1169,15 @@ func _unhandled_input(evenement: InputEvent) -> void:
 			_choisir_dans_la_pause()
 		return
 
-	if _ouverture.visible:
+	if _ui.carton_visible():
 		if evenement.is_action_pressed("ui_accept"):
-			_ouverture.visible = false
+			_ui.fermer_carton()
 			_reciter(_scene.get("ouverture", []))
 		return
 	# Entrée appelle le chapitre suivant, à tout moment une fois le mot affiché.
 	# La progression est déjà notée : recharger la scène l'ouvre sans qu'on ait
 	# à transporter d'état.
-	if _acheve.visible and evenement.is_action_pressed("suivant"):
+	if _ui.acheve_visible() and evenement.is_action_pressed("suivant"):
 		get_tree().reload_current_scene()
 		return
 	if evenement.is_action_pressed("frapper") and not _ouverte and not _vaincu:
@@ -1560,7 +1207,7 @@ func _unhandled_input(evenement: InputEvent) -> void:
 		_pages = _repliques(_proche)
 		_page = 0
 		_ouverte = true
-		_invite.visible = false
+		_ui.invite(false)
 		_tourner_vers_moi(_proche)
 		_afficher()
 
@@ -1780,7 +1427,7 @@ func _physics_process(delta: float) -> void:
 	_avancer_les_marcheurs(delta)
 
 	_energie = minf(_energie + REGAIN * delta, ENERGIE_MAX)
-	_jauge_energie.anchor_right = _energie / ENERGIE_MAX
+	_ui.jauges(_wellan.vie, _wellan.vie_max, _energie, ENERGIE_MAX)
 
 	if _wellan.vie > 0 and _wellan.vie < _wellan.vie_max:
 		_vie_dodue = minf(_vie_dodue + REGAIN_VIE * delta, float(_wellan.vie_max))
@@ -1798,7 +1445,7 @@ func _physics_process(delta: float) -> void:
 	# Les adversaires attendent la fin de l'échange : être mordu pendant qu'on
 	# lit une réplique qu'on ne peut pas interrompre serait une punition sans
 	# recours.
-	if not _ouverte and not _acheve.visible:
+	if not _ouverte and not _ui.acheve_visible():
 		_mener_les_ennemis(delta)
 		_avancer_si_possible()
 
@@ -1831,357 +1478,3 @@ func _dessiner(colonne: int) -> void:
 	var region: AtlasTexture = _vue.texture
 	region.region = Rect2(colonne * SPRITE, RANGEE[_direction] * SPRITE, SPRITE, SPRITE)
 
-
-## Joue le chapitre courant jusqu'à sa clôture, puis passe au suivant.
-##
-## L'épreuve de la campagne n'est pas qu'un chapitre se joue — c'est qu'il en
-## appelle un autre, et que la partie se retrouve où on l'avait laissée.
-func _capturer() -> void:
-	# Le carton d'abord : c'est la première chose que voit un joueur, donc la
-	# première qu'il faut regarder.
-	await _attendre(6)
-	get_viewport().get_texture().get_image().save_png("res://capture-carton.png")
-	_ouverture.visible = false
-
-	# La narration d'ouverture, que le carton enchaîne pour un joueur.
-	_reciter(_scene.get("ouverture", []))
-	if _ouverte:
-		await _attendre(4)
-		get_viewport().get_texture().get_image().save_png("res://capture-ouverture.png")
-		print("OUVERTURE %d page(s)" % _pages.size())
-		while _ouverte:
-			_touche("ui_accept")
-			await _attendre(2)
-
-	# Une vue d'ensemble de la salle, mobilier compris : on ne vérifie pas un
-	# décor sur une capture centrée à deux tuiles du personnage.
-	var taille := _taille()
-	_wellan.global_position = Vector2(taille) * TUILE / 2.0
-	await _attendre(8)
-	get_viewport().get_texture().get_image().save_png("res://capture-salle.png")
-
-	# Un objet du décor : il faut pouvoir le regarder de près.
-	var chose := ""
-	for cle in _objets:
-		chose = str(cle)
-		break
-	if chose != "":
-		_wellan.global_position = _habitants[chose].position + Vector2(0, TUILE)
-		var patience := 0
-		while _proche != chose and patience < 90:
-			await get_tree().process_frame
-			patience += 1
-		if _proche == chose:
-			_touche("ui_accept")
-			await _attendre(4)
-			get_viewport().get_texture().get_image().save_png("res://capture-objet.png")
-			print("OBJET %s — %s" % [chose, _objets[chose]["nom"]])
-			while _ouverte:
-				_touche("ui_accept")
-				await _attendre(2)
-		else:
-			print("OBJET hors de portée : %s" % chose)
-
-	print("CHAPITRE %s — %s" % [_chapitre, _scene.get("titre", "")])
-	await _garder("00-%s" % _chapitre, 12)
-
-	var garde := 0
-	while not _acheve.visible and garde < 40:
-		garde += 1
-		var etape := _etape_courante()
-		var attend: Dictionary = etape.get("attend", {})
-
-		if attend.has("parler"):
-			await _parler_a(str(attend["parler"]), "%02d-%s" % [garde, attend["parler"]])
-		elif attend.has("parler_tous"):
-			for id in attend["parler_tous"]:
-				await _parler_a(str(id), "%02d-%s" % [garde, id])
-		elif attend.has("vague_defaite"):
-			# On abat la vague par le modèle : la mêlée a été éprouvée ailleurs,
-			# ici c'est l'enchaînement des chapitres qu'on vérifie.
-			for e in _ennemis:
-				if not is_instance_valid(e["noeud"]):
-					continue
-				var qui: Combattant = e["noeud"]
-				while is_instance_valid(qui) and qui.vivant():
-					qui.encaisser(99, "fer")
-					await _attendre(30)
-			await _attendre(20)
-		else:
-			break
-		print("  → %s" % (_objectif.text if _objectif.text != "" else "(clôture)"))
-
-	if _acheve.visible:
-		var mot: Label = _acheve.get_child(0)
-		print("ACHEVE : %s" % mot.text.replace("\n", " "))
-	else:
-		print("PAS ACHEVE après %d tours, étape %d" % [garde, _etape])
-
-	# Après la clôture, ce qui reste à entendre.
-	_rafraichir_les_bulles()
-	await _attendre(4)
-	var reste := PackedStringArray()
-	for id in _habitants:
-		if not str(id).begins_with("objet:") and _a_dire(str(id)):
-			reste.append(str(id))
-	print("APRES CLOTURE : %d personne(s) ont encore quelque chose à dire — %s" % [reste.size(), reste])
-	get_viewport().get_texture().get_image().save_png("res://capture-apres.png")
-
-	# Les réglages qu'on vient de changer, relevés plutôt que supposés.
-	var lettres := PackedStringArray()
-	for a in ["ui_up", "ui_left", "ui_down", "ui_right"]:
-		for e in InputMap.action_get_events(a):
-			if e is InputEventKey and e.physical_keycode in [KEY_W, KEY_A, KEY_S, KEY_D]:
-				lettres.append(OS.get_keycode_string(e.physical_keycode))
-	print("TOUCHES lettres=%s" % [lettres])
-	print("VIE %d points, regain %.2f/s" % [_wellan.vie_max, REGAIN_VIE])
-	print("SORT %d dégâts, %d px/s, portée %d" % [DEGATS_SORT, int(VITESSE_SORT), int(PORTEE_SORT)])
-
-	# La vie doit remonter d'elle-même — hors pause, sans quoi la boucle de
-	# physique sort avant d'y arriver et l'on conclut que le regain ne marche
-	# pas. L'épreuve de la pause précède celle-ci.
-	_en_pause = false
-	_pause.visible = false
-	_wellan.vie = 4
-	_vie_dodue = 4.0
-	# Un point demande près de deux secondes : attendre moins ne prouve rien.
-	await _attendre(400)
-	print("REGAIN 4 → %d points (%.1f en interne) sur %d" % [
-		_wellan.vie, _vie_dodue, _wellan.vie_max])
-
-	# Et un personnage sans réplique écrite doit être muet.
-	var muet := ""
-	for id in _habitants:
-		if not str(id).begins_with("objet:") and not _abordable(str(id)):
-			muet = str(id)
-			break
-	print("MUET %s : abordable=%s" % [muet if muet != "" else "aucun", _abordable(muet)])
-
-	await _eprouver_les_orientations()
-
-	# La pause : on doit pouvoir s'arrêter, et voir où l'on s'arrête.
-	#
-	# On écarte d'abord l'écran de fin de chapitre : tant qu'il est là, la pause
-	# est ignorée — à raison — et l'appui suivant rechargerait la scène, ce qui
-	# laisserait la capture sans viewport.
-	_acheve.visible = false
-	_touche("pause")
-	await _attendre(6)
-	get_viewport().get_texture().get_image().save_png("res://capture-pause.png")
-	print("PAUSE ouverte=%s choix=%s" % [_en_pause, CHOIX_PAUSE[_choix_pause]])
-	_touche("ui_down")
-	await _attendre(3)
-	_touche("ui_accept")
-	await _attendre(6)
-	get_viewport().get_texture().get_image().save_png("res://capture-pause-note.png")
-	print("PAUSE après sauvegarde : %s" % _partie())
-
-	# « Sauvegarder » note le chapitre en cours — ce qui, ici, écrase l'avance
-	# que la fin du chapitre venait d'inscrire. Le banc remet donc la partie où
-	# le chapitre l'avait laissée : vérifier ne doit rien changer.
-	var suivant := _chapitre_suivant()
-	if suivant != "":
-		_noter(suivant)
-		print("PAUSE avance rendue : %s" % suivant)
-
-	get_tree().quit()
-
-
-## Les quatre orientations, sur un même personnage.
-##
-## Le parcours de campagne aborde toujours par le sud : il prouve que le
-## personnage se tourne, jamais qu'il se tourne du bon côté. On éprouve donc la
-## géométrie séparément, en déplaçant Wellan autour de lui.
-func _eprouver_les_orientations() -> void:
-	var cible := ""
-	for id in _habitants:
-		cible = str(id)
-		break
-	if cible == "":
-		print("ORIENTATION : plus personne dans la salle")
-		return
-
-	var corps: Node2D = _habitants[cible]
-	for essai in [
-		{ "ou": Vector2(0, TUILE), "attendu": "sud" },
-		{ "ou": Vector2(0, -TUILE), "attendu": "nord" },
-		{ "ou": Vector2(TUILE, 0), "attendu": "est" },
-		{ "ou": Vector2(-TUILE, 0), "attendu": "ouest" },
-	]:
-		_wellan.global_position = corps.global_position + essai["ou"]
-		_tourner_vers_moi(cible)
-		var rang := -1
-		for enfant in corps.get_children():
-			if enfant is Sprite2D and enfant.texture is AtlasTexture:
-				rang = int((enfant.texture as AtlasTexture).region.position.y / SPRITE)
-		var obtenu := "?"
-		for sens in RANGEE:
-			if RANGEE[sens] == rang:
-				obtenu = sens
-		print("ORIENTATION %s %s attendu, %s obtenu" % [
-			"OK" if obtenu == essai["attendu"] else "FAUX", essai["attendu"], obtenu])
-
-
-## Regarde les effets, image par image.
-##
-## On les prend pendant qu'ils jouent, non après : une animation captée à sa
-## fin ne montre que le vide qu'elle laisse. C'est la même faute que la boîte de
-## dialogue photographiée une fois fermée.
-func _capturer_les_effets() -> void:
-	_ouverture.visible = false
-
-	await _attendre(20)
-	if _vague_debout() == 0 and not _ennemis.is_empty():
-		pass
-
-	# La taillade, dans les quatre directions.
-	for sens in ["sud", "est", "nord", "ouest"]:
-		# Une prise par direction, bien séparée : trop rapprochées, l'arc
-		# précédent traîne encore et l'on croit voir un anneau.
-		await _attendre(40)
-		_direction = sens
-		_prochain_coup = 0.0
-		_frapper()
-		await _attendre(5)
-		var lames := 0
-		for enfant in get_children():
-			if enfant is Sprite2D and enfant.texture is AtlasTexture:
-				var at: AtlasTexture = enfant.texture
-				if str(at.atlas.resource_path).ends_with("taillade.png"):
-					lames += 1
-		print("  %s : %d lame(s) à l'écran" % [sens, lames])
-		get_viewport().get_texture().get_image().save_png("res://capture-taillade-%s.png" % sens)
-	print("TAILLADE dans quatre sens")
-
-	# La boule de feu en vol, puis son éclat.
-	_direction = "est"
-	_energie = ENERGIE_MAX
-	_lancer()
-	for n in 3:
-		await _attendre(9)
-		get_viewport().get_texture().get_image().save_png("res://capture-feu-%d.png" % n)
-	print("FEU %d trait(s) en vol" % _traits.size())
-
-	_etincelle(_wellan.global_position + Vector2(28, -10), Color("#ffffff"), 0.3)
-	await _attendre(4)
-	get_viewport().get_texture().get_image().save_png("res://capture-eclat.png")
-	print("ECLAT")
-
-	# La mort, puis le relèvement. C'est ce qu'on voit qui doit dire qu'il est
-	# mort, donc c'est ce qu'il faut regarder.
-	_wellan.vie = 0
-	_perdre()
-	await _attendre(40)
-	get_viewport().get_texture().get_image().save_png("res://capture-mort.png")
-	print("MORT sprite tourné de %.0f°, mare %s" % [
-		_vue.rotation_degrees, "visible" if _mare != null and _mare.visible else "absente"])
-
-	_touche("ui_accept")
-	await _attendre(8)
-	get_viewport().get_texture().get_image().save_png("res://capture-releve.png")
-	print("RELEVE sprite à %.0f°, mare %s, vie %d" % [
-		_vue.rotation_degrees, "visible" if _mare != null and _mare.visible else "effacée", _wellan.vie])
-
-	get_tree().quit()
-
-
-func _touche(action: String) -> void:
-	var t := InputEventAction.new()
-	t.action = action
-	t.pressed = true
-	Input.parse_input_event(t)
-
-
-func _attendre(images: int) -> void:
-	for i in images:
-		await get_tree().process_frame
-
-
-## Aborde un personnage et l'écoute jusqu'au bout.
-func _parler_a(id: String, nom_image: String) -> void:
-	if not _habitants.has(id):
-		print("ABSENT %s" % id)
-		return
-	# On laisse d'abord arriver ceux qui marchent : les aborder en chemin
-	# reviendrait à courir après quelqu'un qui traverse la salle.
-	var attente := 0
-	var marchait := false
-	while attente < 300 and _marcheurs.any(func(m): return m["corps"] == _habitants.get(id)):
-		if not marchait:
-			marchait = true
-			print("MARCHE %s entre depuis %s" % [id, _habitants[id].position / float(TUILE)])
-		# Une image en pleine traversée : c'est le mouvement qu'il faut voir,
-		# et il a disparu quand la conversation s'ouvre.
-		if attente == 24:
-			get_viewport().get_texture().get_image().save_png("res://capture-marche-%s.png" % id)
-		await get_tree().process_frame
-		attente += 1
-	if marchait:
-		print("ARRIVE %s en %d images, à %s" % [id, attente, _habitants[id].position / float(TUILE)])
-
-	_wellan.global_position = _habitants[id].position + Vector2(0, TUILE)
-	# On attend que la zone réagisse au lieu de compter les images : au
-	# démarrage, la compilation des shaders affame la physique et un nombre fixe
-	# d'images ne garantit rien.
-	var patience := 0
-	while _proche != id and patience < 120:
-		await get_tree().process_frame
-		patience += 1
-	if _proche != id:
-		print("HORS DE PORTEE %s (proche=%s)" % [id, _proche])
-		return
-
-	# Une image quand plusieurs bulles sont à l'écran : c'est là qu'on voit à
-	# quoi elles servent — la quête des six Chevaliers.
-	if _bulles.size() >= 3 and not _bulles_capture:
-		_bulles_capture = true
-		await _attendre(3)
-		get_viewport().get_texture().get_image().save_png("res://capture-bulles.png")
-		print("BULLES %d à l'écran" % _bulles.size())
-
-	# Une image avant d'ouvrir : c'est le seul moment où l'invite se voit, et
-	# elle est là pour être vue.
-	if not _invite_capture:
-		_invite_capture = true
-		# Deux images d'attente : l'invite s'allume dans la passe de physique, et
-		# le tampon dessiné a un tour de retard. Capturer aussitôt rendait un
-		# écran où elle n'était pas encore peinte, et l'on aurait conclu qu'elle
-		# ne s'affichait pas.
-		await _attendre(3)
-		get_viewport().get_texture().get_image().save_png("res://capture-invite.png")
-
-	var pages := 0
-	while pages < 12:
-		_touche("ui_accept")
-		await _attendre(2)
-		pages += 1
-		if pages == 2 and _ouverte:
-			get_viewport().get_texture().get_image().save_png("res://capture-%s.png" % nom_image)
-		# Et une image dès qu'une description paraît : c'est l'autre affichage,
-		# et rien ne prouverait autrement qu'il s'ouvre.
-		# Une image quand Wellan parle : son portrait est le plus vu du jeu.
-		if _ouverte and not _wellan_capture and _page < _pages.size() \
-			and str((_pages[_page] as Dictionary).get("qui", "")) == "wellan":
-			_wellan_capture = true
-			get_viewport().get_texture().get_image().save_png("res://capture-wellan-parle.png")
-		if _bandeau.visible and not _recit_capture:
-			_recit_capture = true
-			get_viewport().get_texture().get_image().save_png("res://capture-description.png")
-		if not _ouverte and pages > 1:
-			break
-
-	# Le personnage s'est-il tourné ? La rangée de sa planche le dit.
-	var tourne := "?"
-	if _habitants.has(id):
-		for enfant in _habitants[id].get_children():
-			if enfant is Sprite2D and enfant.texture is AtlasTexture:
-				var rang := int((enfant.texture as AtlasTexture).region.position.y / SPRITE)
-				for sens in RANGEE:
-					if RANGEE[sens] == rang:
-						tourne = sens
-	print("PARLE %s en %d pages, regarde vers %s" % [id, pages, tourne])
-
-
-func _garder(nom: String, images: int) -> void:
-	await _attendre(images)
-	get_viewport().get_texture().get_image().save_png("res://capture-%s.png" % nom)

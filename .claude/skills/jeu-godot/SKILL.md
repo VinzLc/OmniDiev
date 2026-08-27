@@ -15,8 +15,26 @@ npm run jeu -- --recommencer   # repartir du premier chapitre
 npm run jeu -- --scene i-02    # un chapitre précis, sans toucher à la partie
 ```
 
-Tout est bâti en GDScript dans [`main.gd`](../../../jeu/godot/main.gd) ; le `.tscn` n'accroche
-que le script. Un fichier d'éditeur écrit à la main dépend d'identifiants de ressources
+## Où vit quoi
+
+| | |
+|---|---|
+| `main.gd` | le jeu : la salle, le chapitre, le combat, les entrées |
+| `interface.gd` | tout ce que le joueur lit par-dessus la scène |
+| `partie.gd` | la sauvegarde, les emplacements, l'ordre des chapitres |
+| `donnees.gd` | lire un JSON sans planter |
+| `banc.gd` | le harnais de vérification |
+| `titre.gd` | l'écran-titre et le choix de la partie |
+
+**Le jeu ne touche plus un widget.** Il dit `_ui.parole(nom, texte, portrait)`,
+`_ui.objectif(...)`, `_ui.acheve(...)` — où et comment cela s'affiche ne le regarde pas.
+C'est ce qui permettra d'ajouter un inventaire ou une carte sans revenir dans `main.gd`.
+
+**La sauvegarde n'existe qu'une fois.** L'écran-titre et le jeu en avaient chacun leur copie,
+règle du carnet d'essai comprise : une divergence entre les deux aurait écrit dans la partie
+du joueur pendant un test.
+
+Tout est bâti en GDScript ; le `.tscn` n'accroche que le script. Un fichier d'éditeur écrit à la main dépend d'identifiants de ressources
 générés, le code se relit.
 
 ## Ajouter un chapitre

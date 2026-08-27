@@ -7,9 +7,9 @@ extends Node2D
 ## est une autre scène ; celle-ci ne fait que décider laquelle des trois parties
 ## on va jouer, et l'écrire là où elle la trouvera.
 
-const PARTIES := "user://parties.json"
-const PARTIES_ESSAI := "user://parties-essai.json"
-const EMPLACEMENTS := 3
+const Partie := preload("res://partie.gd")
+const Donnees := preload("res://donnees.gd")
+const EMPLACEMENTS := Partie.EMPLACEMENTS
 
 var _campagne: Dictionary
 var _parties: Dictionary
@@ -22,10 +22,8 @@ var _invite: Label
 
 
 func _ready() -> void:
-	_campagne = _lire("res://donnees/campagne.json")
-	_parties = _lire(_carnet())
-	if not _parties.has("parties"):
-		_parties = { "courante": 0, "parties": [null, null, null] }
+	_campagne = { "chapitres": Partie.campagne() }
+	_parties = Partie.charger()
 
 	# Le banc de test entre directement dans le jeu.
 	#
@@ -43,26 +41,6 @@ func _ready() -> void:
 
 	if a.has("--capture-titre"):
 		_capturer()
-
-
-## Le carnet des parties.
-##
-## Un test ne joue pas la partie du joueur : il tient le sien. La leçon a déjà
-## été payée une fois, quand mes vérifications ont poussé une sauvegarde
-## jusqu'au dernier chapitre.
-func _carnet() -> String:
-	var a := OS.get_cmdline_user_args()
-	if a.has("--capture") or a.has("--capture-titre") or a.has("--effets") \
-		or OS.get_cmdline_args().has("--capture"):
-		return PARTIES_ESSAI
-	return PARTIES
-
-
-func _lire(chemin: String) -> Dictionary:
-	if not FileAccess.file_exists(chemin):
-		return {}
-	var c = JSON.parse_string(FileAccess.get_file_as_string(chemin))
-	return c if c is Dictionary else {}
 
 
 func _batir() -> void:
@@ -159,13 +137,11 @@ func _batir() -> void:
 
 ## Le titre d'un chapitre, pour dire où en est une partie.
 func _titre_du_chapitre(id: String) -> String:
-	var d := _lire("res://donnees/scenes/%s.json" % id)
-	return str(d.get("titre", id))
+	return Partie.titre(id)
 
 
 func _rang(id: String) -> int:
-	var suite: Array = _campagne.get("chapitres", [])
-	return suite.find(id) + 1
+	return Partie.rang(id)
 
 
 func _rafraichir() -> void:
@@ -228,9 +204,7 @@ func _commencer() -> void:
 
 
 func _ecrire() -> void:
-	var f := FileAccess.open(_carnet(), FileAccess.WRITE)
-	if f:
-		f.store_string(JSON.stringify(_parties))
+	Partie.enregistrer(_parties)
 
 
 func _capturer() -> void:
