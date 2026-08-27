@@ -173,6 +173,23 @@ sur le centre géométrique, qui décale le personnage.
 **La dernière image d'un cycle revient sur la première.** L'écarter avant d'échantillonner,
 sinon le mouvement bat deux fois au même endroit.
 
+## Le mobilier
+
+```bash
+npm run art:generer -- --objet trone --taille 32
+```
+
+Lit `commandes/objet-<nom>.txt`, rend sur fond transparent dans `jeu/art/objets/`, et
+`build-jeu-donnees` assemble la planche que le moteur découpe. **Trente-deux pixels et non
+seize** : un trône ou une bannière montent plus haut qu'une tuile, et se posent calés par le
+bas comme un personnage.
+
+Les silhouettes dessinées au compas ont servi jusqu'à ce qu'on ait mieux — elles distinguaient
+les sortes, elles ne les représentaient pas. Deux sortes ont demandé une reprise : une bannière
+suspendue à rien s'est fait effacer par le détourage, et une table trop décrite est sortie en
+bouillie grise. Les décrire **posées sur un support simple** et **remplissant le cadre** a
+suffi.
+
 ## Les jeux de tuiles
 
 ```bash

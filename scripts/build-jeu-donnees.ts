@@ -292,50 +292,35 @@ async function effets(dossier: string) {
     .png().toFile(path.join(dossier, "bulle.png"));
 
   /* ── Le mobilier ──────────────────────────────────────────────────────
-   * Huit silhouettes de 16 pixels, une par sorte. Elles ne remplacent pas des
-   * tuiles dessinées, mais un trône, une bannière et un coffre cessent au
-   * moins de se ressembler — un décor où tout est le même carré ne se regarde
-   * pas deux fois.
+   * Assemblé depuis `jeu/art/objets/`, une image par sorte, dans l'ordre que
+   * le moteur attend. Les silhouettes calculées qui tenaient ici ont servi
+   * jusqu'à ce qu'on ait mieux : un trône dessiné au compas reste un trône
+   * dessiné au compas.
+   *
+   * Trente-deux pixels, comme les personnages : un trône et une bannière sont
+   * plus hauts qu'une tuile, et se posent calés par le bas.
    */
-  const O = 16;
+  const O = 32;
   const SORTES = ["brasier", "banniere", "coffre", "trone", "stele", "autel", "tombe", "feu"];
-  const meubles = toile(O * SORTES.length, O);
-  const bloc = (n: number, x0: number, y0: number, x1: number, y1: number, c: readonly number[]) => {
-    for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) poser(meubles, O * SORTES.length, n * O + x, y, c, O);
-  };
-  const cadre = (n: number, x0: number, y0: number, x1: number, y1: number, plein: readonly number[]) => {
-    bloc(n, x0, y0, x1, y1, PAL.noir);
-    bloc(n, x0 + 1, y0 + 1, x1 - 1, y1 - 1, plein);
-  };
-
-  // brasier : vasque sur pied, flamme au-dessus
-  cadre(0, 4, 9, 11, 13, PAL.acier); bloc(0, 7, 13, 8, 15, PAL.noir);
-  cadre(0, 5, 4, 10, 9, PAL.braise); bloc(0, 7, 5, 8, 7, PAL.or);
-  // bannière : longue étoffe suspendue à une hampe
-  bloc(1, 3, 1, 12, 2, PAL.acier); cadre(1, 5, 2, 10, 15, PAL.blanc);
-  bloc(1, 7, 6, 8, 11, PAL.noir);
-  // coffre : caisse à couvercle et ferrure
-  cadre(2, 2, 7, 13, 14, PAL.ambre); bloc(2, 2, 9, 13, 10, PAL.noir);
-  bloc(2, 7, 8, 8, 13, PAL.or);
-  // trône : dossier haut, assise, accoudoirs
-  cadre(3, 4, 1, 11, 11, PAL.ambre); bloc(3, 3, 8, 12, 9, PAL.noir);
-  cadre(3, 3, 9, 12, 13, PAL.or); bloc(3, 6, 3, 9, 6, PAL.or);
-  // stèle : dalle dressée, trois lignes gravées
-  cadre(4, 4, 2, 11, 15, PAL.argent);
-  for (const y of [5, 8, 11]) bloc(4, 6, y, 9, y, PAL.noir);
-  // autel / table : plateau large sur deux pieds
-  cadre(5, 1, 6, 14, 9, PAL.blanc); bloc(5, 3, 9, 4, 14, PAL.noir); bloc(5, 11, 9, 12, 14, PAL.noir);
-  // tombe : pierre arrondie
-  cadre(6, 4, 4, 11, 15, PAL.acier); bloc(6, 5, 3, 10, 4, PAL.noir); bloc(6, 6, 7, 9, 8, PAL.noir);
-  // feu : bûcher
-  bloc(7, 3, 12, 12, 13, PAL.ambre); bloc(7, 2, 13, 13, 14, PAL.noir);
-  cadre(7, 5, 5, 10, 12, PAL.braise); bloc(7, 7, 7, 8, 10, PAL.or);
-
-  await sharp(meubles, { raw: { width: O * SORTES.length, height: O, channels: 4 } })
-    .png().toFile(path.join(dossier, "objets.png"));
+  const source = path.join(ROOT, "jeu", "art", "objets");
+  const pieces: sharp.OverlayOptions[] = [];
+  let trouvees = 0;
+  for (const [i, sorte] of SORTES.entries()) {
+    const f = path.join(source, `${sorte}.png`);
+    if (!fs.existsSync(f)) continue;
+    trouvees++;
+    pieces.push({
+      input: await sharp(f).resize(O, O, { kernel: "nearest", fit: "contain",
+        background: { r: 0, g: 0, b: 0, alpha: 0 } }).toBuffer(),
+      left: i * O, top: 0,
+    });
+  }
+  await sharp({ create: { width: O * SORTES.length, height: O, channels: 4,
+    background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+    .composite(pieces).png().toFile(path.join(dossier, "objets.png"));
 
   return { taillade: arcs.length, feu: battements.length, eclat: rayons.length,
-    sang: temps.length, objets: SORTES.length };
+    sang: temps.length, objets: trouvees };
 }
 
 type Personnage = {

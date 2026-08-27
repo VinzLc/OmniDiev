@@ -891,8 +891,11 @@ func _dessiner_objet(genre: String, ou: Vector2, objet: Dictionary) -> void:
 	var n := MOBILIER.find(genre)
 	var region := AtlasTexture.new()
 	region.atlas = load(DONNEES + "objets.png")
-	region.region = Rect2(maxi(n, 0) * TUILE, 0, TUILE, TUILE)
+	region.region = Rect2(maxi(n, 0) * SPRITE, 0, SPRITE, SPRITE)
 	vue.texture = region
+	# Calé par le bas, comme un personnage : un trône ou une bannière montent
+	# plus haut qu'une tuile, et c'est leur pied qui touche le sol.
+	vue.offset = Vector2(0, -SPRITE / 2.0 + 2)
 	vue.position = ou
 	add_child(vue)
 
@@ -1007,16 +1010,28 @@ func _batir_le_dialogue() -> void:
 	_bandeau.visible = false
 	couche.add_child(_bandeau)
 
+	## Le texte se centre verticalement dans son bandeau.
+	##
+	## Une RichTextLabel n'a pas d'alignement vertical : étirée sur toute la
+	## hauteur, elle colle son texte en haut et laisse un vide dessous, d'autant
+	## plus visible qu'une description tient souvent sur une seule ligne. Un
+	## CenterContainer, avec une étiquette qui se dimensionne à son contenu,
+	## règle ce que l'ancrage ne sait pas exprimer.
+	var centreur := CenterContainer.new()
+	centreur.anchor_right = 1.0
+	centreur.anchor_bottom = 1.0
+	centreur.offset_left = 24
+	centreur.offset_right = -24
+	_bandeau.add_child(centreur)
+
 	_recit = RichTextLabel.new()
 	_recit.bbcode_enabled = true
-	_recit.anchor_right = 1.0
-	_recit.anchor_bottom = 1.0
-	_recit.offset_left = 24
-	_recit.offset_right = -24
+	_recit.fit_content = true
+	_recit.custom_minimum_size = Vector2(560, 0)
 	_recit.scroll_active = false
 	_recit.add_theme_font_size_override("normal_font_size", 15)
 	_recit.add_theme_font_size_override("italics_font_size", 15)
-	_bandeau.add_child(_recit)
+	centreur.add_child(_recit)
 
 	# L'objectif reste affiché : sans lui, un chapitre en quatre temps se joue à
 	# tâtons, et le joueur croit que le jeu ne réagit pas alors qu'il attend.

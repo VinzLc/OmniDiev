@@ -414,12 +414,59 @@ async function portraitDecrit(id: string) {
   console.log(`${C.dim}solde ${money(before.credits.usd)} → ${money(after.credits.usd)}${C.off}`);
 }
 
+/**
+ * Une pièce de mobilier, sur fond transparent.
+ *
+ * Trente-deux pixels et non seize : un trône ou une bannière sont plus hauts
+ * qu'une tuile, et les rogner à la taille du sol les rendrait méconnaissables.
+ * Ils se posent donc comme les personnages, calés par le bas.
+ */
+async function objet(nom: string) {
+  const file = path.join(ROOT, "jeu", "art", "commandes", `objet-${nom}.txt`);
+  if (!fs.existsSync(file)) {
+    console.error(`Commande absente : ${path.relative(ROOT, file)}`);
+    process.exit(1);
+  }
+  const description = fs.readFileSync(file, "utf8").trim();
+  const taille = Number(arg("taille") ?? 32);
+
+  const r = await post<Record<string, unknown>>("/create-image-pixflux", {
+    description,
+    image_size: { width: taille, height: taille },
+    color_image: await paletteImage(),
+    negative_description: "background, floor, ground, shadow on the floor, scenery, frame, text, second object",
+    no_background: true,
+    detail: "highly detailed",
+    shading: "medium shading",
+    outline: "single color black outline",
+    view: "low top-down",
+    ...(arg("graine") ? { seed: Number(arg("graine")) } : {}),
+  });
+
+  const ids = (r.background_job_ids as string[]) ?? [r.background_job_id as string].filter(Boolean);
+  let sortie = r;
+  if (ids.length) {
+    const { spent, jobs } = await awaitJobs(ids, () => {});
+    sortie = (jobs[0]?.last_response ?? {}) as Record<string, unknown>;
+    if (spent > 0) console.log(`${C.dim}coût ${money(spent)}${C.off}`);
+  }
+  const trouve = chercherImage(sortie);
+  if (!trouve) { console.error(JSON.stringify(sortie).slice(0, 300)); process.exit(1); }
+
+  const dossier = path.join(ROOT, "jeu", "art", "objets");
+  fs.mkdirSync(dossier, { recursive: true });
+  fs.writeFileSync(path.join(dossier, `${nom}.png`), Buffer.from(trouve, "base64"));
+  console.log(`${C.green}✓${C.off} jeu/art/objets/${nom}.png`);
+}
+
 async function main() {
   if (process.argv.includes("--solde")) { await showBalance(); return; }
   const ecran = arg("image");
   if (ecran) { await illustration(ecran); return; }
   const face = arg("visage");
   if (face) { await portraitDecrit(face); return; }
+  const chose = arg("objet");
+  if (chose) { await objet(chose); return; }
   const visage = arg("portrait");
   if (visage) { await portrait(visage); return; }
   const tuilesId = arg("tuiles");
