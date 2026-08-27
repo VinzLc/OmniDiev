@@ -181,19 +181,34 @@ async function effets(dossier: string) {
     .png().toFile(path.join(dossier, "taillade.png"));
 
   /* ── La boule de feu ──────────────────────────────────────────────────
-   * Quatre images d'une braise qui bat. Le noyau reste, la couronne respire :
-   * c'est ce battement qui distingue un feu d'un disque orange.
+   * Vingt-quatre pixels au lieu de seize, et trois couronnes au lieu de deux.
+   *
+   * La première était une pastille orange de six pixels de rayon : elle
+   * traversait l'écran sans qu'on la voie partir, et le feu de Theandras
+   * ressemblait à une étincelle. Un sort qui coûte un quart de l'énergie doit
+   * se voir arriver.
+   *
+   * Le noyau reste blanc, la couronne bat, et une écharpe de braises la suit —
+   * c'est ce qui donne la vitesse à l'œil, non la vitesse elle-même.
    */
-  const F = 16, battements = [0, 0.6, 1, 0.6];
+  const F = 24, battements = [0, 0.5, 1, 0.5];
   const feu = toile(F * battements.length, F);
   battements.forEach((b, n) => {
     for (let y = 0; y < F; y++) {
       for (let x = 0; x < F; x++) {
-        const r = Math.hypot(x - F / 2 + 0.5, y - F / 2 + 0.5);
-        const enfle = 5.2 + b * 1.3;
-        if (r > enfle) continue;
-        const c = r < 1.8 ? PAL.blanc : r < 3.0 ? PAL.or : r < enfle - 1.2 ? PAL.ambre : PAL.braise;
-        poser(feu, F * battements.length, n * F + x, y, c);
+        const dx = x - F / 2 + 0.5, dy = y - F / 2 + 0.5;
+        const r = Math.hypot(dx, dy);
+        const enfle = 8.4 + b * 1.6;
+
+        // L'écharpe : une traîne vers l'arrière, plus étroite que la boule.
+        const traine = dx < 0 && Math.abs(dy) < 2.6 - b * 0.6 && r < enfle + 3.5;
+        if (r > enfle && !traine) continue;
+
+        const c = r < 2.6 ? PAL.blanc
+          : r < 4.6 ? PAL.or
+          : r < enfle - 1.8 ? PAL.ambre
+          : PAL.braise;
+        poser(feu, F * battements.length, n * F + x, y, traine && r > enfle ? PAL.braise : c, F);
       }
     }
   });
@@ -211,25 +226,26 @@ async function effets(dossier: string) {
    * Une explosion se lit à ce qui s'en échappe, donc on trace huit branches
    * qui s'allongent et s'éloignent.
    */
-  const rayons = [{ r0: 0, r1: 4 }, { r0: 2, r1: 6.5 }, { r0: 4.5, r1: 7.5 }];
-  const eclat = toile(F * rayons.length, F);
+  const rayons = [{ r0: 0, r1: 6 }, { r0: 3, r1: 10 }, { r0: 6.5, r1: 12 }];
+  const E = 32;
+  const eclat = toile(E * rayons.length, E);
   rayons.forEach((etape, n) => {
     const teinte = n === 0 ? PAL.blanc : n === 1 ? PAL.or : PAL.ambre;
-    for (let branche = 0; branche < 8; branche++) {
-      const a = (branche * Math.PI) / 4;
-      for (let r = etape.r0; r <= etape.r1; r += 0.4) {
-        const x = Math.round(F / 2 - 0.5 + Math.cos(a) * r);
-        const y = Math.round(F / 2 - 0.5 + Math.sin(a) * r);
-        poser(eclat, F * rayons.length, n * F + x, y, teinte);
+    for (let branche = 0; branche < 10; branche++) {
+      const a = (branche * Math.PI) / 5;
+      for (let r = etape.r0; r <= etape.r1; r += 0.35) {
+        const x = Math.round(E / 2 - 0.5 + Math.cos(a) * r);
+        const y = Math.round(E / 2 - 0.5 + Math.sin(a) * r);
+        poser(eclat, E * rayons.length, n * E + x, y, teinte, E);
         // Les branches s'épaississent près du centre, comme une flamme.
-        if (r < etape.r0 + 1.5) {
-          poser(eclat, F * rayons.length, n * F + x + 1, y, teinte);
-          poser(eclat, F * rayons.length, n * F + x, y + 1, teinte);
+        if (r < etape.r0 + 2.5) {
+          poser(eclat, E * rayons.length, n * E + x + 1, y, teinte, E);
+          poser(eclat, E * rayons.length, n * E + x, y + 1, teinte, E);
         }
       }
     }
   });
-  await sharp(eclat, { raw: { width: F * rayons.length, height: F, channels: 4 } })
+  await sharp(eclat, { raw: { width: E * rayons.length, height: E, channels: 4 } })
     .png().toFile(path.join(dossier, "eclat.png"));
 
   /* ── La mare de sang ──────────────────────────────────────────────────

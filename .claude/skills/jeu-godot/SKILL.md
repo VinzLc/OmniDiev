@@ -5,6 +5,10 @@ description: Travailler sur le jeu OmniDiev — le projet Godot de jeu/godot/, s
 
 # Le jeu
 
+Flèches ou **WASD** pour marcher — `physical_keycode` vise la position de la touche, donc les
+mêmes déclarations servent QWERTY et AZERTY. **J** l'épée, **K** le feu, **Espace** pour
+parler, **Échap** la pause, **Entrée** le chapitre suivant.
+
 ```bash
 npm run jeu                    # écran-titre, puis choix de la partie
 npm run jeu -- --recommencer   # repartir du premier chapitre
@@ -57,6 +61,15 @@ déborde de son cadre, ou qu'un effet s'empile en auréole. Les trois sont arriv
 pression que personne ne fait en capture : le processus restait là sans erreur ni sortie
 jusqu'au délai d'attente. `titre.gd` entre donc directement dans le jeu quand `--capture`,
 `--effets` ou `--scene` sont là.
+
+**Un personnage sans réplique écrite est muet, et ne s'aborde pas.** Le pis-aller récitait
+sa fiche du Codex — son rôle puis la liste de ses liens. C'est de la documentation, pas du
+jeu, et elle a déjà un endroit où vivre.
+
+**La fin d'un chapitre n'arrête pas la partie.** Un panneau central qui prenait la main
+coupait la salle au moment où l'on avait envie d'y traîner, et les répliques qu'aucun
+objectif n'exige se perdaient. C'est un bandeau haut, et **Entrée** — non la touche de
+dialogue — qui appelle la suite.
 
 **Une bulle marque qui a quelque chose à dire.** Elle ne signale que la parole écrite par la
 scène et pas encore entendue — une fiche du Codex se lit comme une description et reste

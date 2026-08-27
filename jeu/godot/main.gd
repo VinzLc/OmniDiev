@@ -14,6 +14,8 @@ extends Node2D
 const TUILE := 16
 const SPRITE := 32
 const TAILLADE := 64
+const FEU_COTE := 24          ## côté d'une image de braise
+const ECLAT_COTE := 32        ## côté d'une image de gerbe
 const PORTRAIT := 84          ## côté du visage dans la boîte de dialogue          ## côté d'une image d'arc, plus large que le sprite
 ## Un pas un peu plus vif. À cinquante-huit, traverser une salle de vingt-six
 ## tuiles demandait sept secondes, et l'on sentait la longueur avant de sentir
@@ -30,7 +32,14 @@ const PARTIES_ESSAI := "user://parties-essai.json"
 
 ## Le combat, en clair. Ces nombres sont à nous ; ce qui vient du texte, c'est
 ## que la carapace des hommes-insectes boit la magie.
-const VIE_WELLAN := 8
+## Vingt-quatre points au lieu de huit : à huit, deux coups de lance suffisaient
+## et l'on rejouait la vague avant d'avoir compris ce qui l'avait tuée.
+const VIE_WELLAN := 24
+
+## La vie revient, mais bien plus lentement que l'énergie : assez pour qu'une
+## escarmouche gagnée se paie moins cher, pas assez pour tout réparer en
+## restant immobile.
+const REGAIN_VIE := 0.55       ## points par seconde
 const ENERGIE_MAX := 100.0
 const COUT_DU_SORT := 25.0
 const REGAIN := 14.0          ## énergie par seconde
@@ -47,9 +56,12 @@ const REPOS_EPEE := 0.38      ## secondes entre deux coups
 const PORTEE_EPEE := 37.0
 const LARGEUR_COUP := 11.0
 const DEGATS_EPEE := 1
-const DEGATS_SORT := 3
-const VITESSE_SORT := 170.0
-const PORTEE_SORT := 220.0
+## Le feu de Theandras porte deux fois plus loin dans la chair qu'une lame, et
+## va vite : c'est un sort qui coûte le quart de l'énergie, il doit valoir son
+## prix. Il ne prend toujours pas sur les carapaces.
+const DEGATS_SORT := 7
+const VITESSE_SORT := 245.0
+const PORTEE_SORT := 260.0
 
 var _monde: Dictionary
 var _salle: Dictionary
@@ -67,6 +79,9 @@ var _habitants := {}
 var _objectif: Label
 
 var _energie := ENERGIE_MAX
+## La vie se regagne par fractions de point : on garde la part décimale ici,
+## sinon un regain plus lent qu'un point par seconde n'arriverait jamais.
+var _vie_dodue := float(VIE_WELLAN)
 var _prochain_coup := 0.0
 var _ennemis: Array = []
 var _traits: Array = []       ## les sorts en vol
@@ -153,7 +168,20 @@ func _ready() -> void:
 ## événements d'entrée dans ce fichier est illisible et se corrompt à la
 ## moindre retouche à la main. Trois lignes de code valent mieux.
 func _declarer_les_touches() -> void:
-	for nom in [["frapper", KEY_J], ["lancer", KEY_K], ["pause", KEY_ESCAPE]]:
+	# `physical_keycode` désigne la position de la touche : W/A/S/D y tombent
+	# sur Z/Q/S/D en AZERTY. Une seule déclaration sert les deux dispositions.
+	for paire in [["ui_up", KEY_W], ["ui_left", KEY_A], ["ui_down", KEY_S], ["ui_right", KEY_D]]:
+		var deja := false
+		for e in InputMap.action_get_events(paire[0]):
+			if e is InputEventKey and e.physical_keycode == paire[1]:
+				deja = true
+		if not deja:
+			var k := InputEventKey.new()
+			k.physical_keycode = paire[1]
+			InputMap.action_add_event(paire[0], k)
+
+	for nom in [["frapper", KEY_J], ["lancer", KEY_K], ["pause", KEY_ESCAPE],
+			["suivant", KEY_ENTER]]:
 		if InputMap.has_action(nom[0]):
 			continue
 		InputMap.add_action(nom[0])
@@ -398,7 +426,11 @@ func _batir_wellan() -> void:
 		lueur.energy = 1.4
 		_wellan.add_child(lueur)
 
-	_wellan.blesse.connect(func(reste: int, sur: int) -> void: _jauger(reste, sur))
+	_wellan.blesse.connect(func(reste: int, sur: int) -> void:
+		# Recaler le compteur décimal sur la vie réelle : sans cela le regain
+		# rendrait le point à peine perdu, et l'on ne pourrait plus mourir.
+		_vie_dodue = float(reste)
+		_jauger(reste, sur))
 	_wellan.peri.connect(_perdre)
 
 
@@ -671,10 +703,10 @@ func _achever_le_chapitre() -> void:
 
 	var mot: Label = _acheve.get_child(0)
 	if suivant == "":
-		mot.text = "%s\n\nachevé.\n\nC'est tout ce qui est écrit à ce jour." % str(_scene.get("titre", ""))
+		mot.text = "%s — achevé.\nC'est tout ce qui est écrit à ce jour." % str(_scene.get("titre", ""))
 	else:
 		var titre_suivant := str(_lire(DONNEES + "scenes/%s.json" % suivant).get("titre", suivant))
-		mot.text = "%s\n\nachevé.\n\nEspace — %s" % [str(_scene.get("titre", "")), titre_suivant]
+		mot.text = "%s — achevé.\nEntrée pour « %s », ou restez encore." % [str(_scene.get("titre", "")), titre_suivant]
 	_acheve.visible = true
 
 
@@ -735,6 +767,7 @@ func _reprendre() -> void:
 	if _mare != null:
 		_mare.visible = false
 	_wellan.vie = _wellan.vie_max
+	_vie_dodue = float(_wellan.vie_max)
 	_jauger(_wellan.vie, _wellan.vie_max)
 	_energie = ENERGIE_MAX
 	var depart: Array = _salle.get("depart", [1, 1])
@@ -800,10 +833,19 @@ func _zone_de_parole(parent: Node2D, id: String) -> void:
 			_a_portee.erase(id))
 
 
+## A-t-on quelque chose à échanger avec lui ?
+func _abordable(id: String) -> bool:
+	if id.begins_with("objet:"):
+		return _objets.has(id)
+	return (_etape_courante().get("dialogues", {}) as Dictionary).has(id)
+
+
 func _choisir_l_interlocuteur() -> void:
 	var meilleur := ""
 	var plus_court := INF
 	for id in _a_portee:
+		if not _abordable(str(id)):
+			continue
 		var qui: Node2D = _a_portee[id]
 		if not is_instance_valid(qui):
 			continue
@@ -1140,15 +1182,20 @@ func _batir_le_dialogue() -> void:
 	titre.add_theme_font_size_override("bold_font_size", 18)
 	_ouverture.add_child(titre)
 
+	## Le chapitre achevé s'annonce sans arrêter la partie.
+	##
+	## Un panneau au centre, qui prenait la main jusqu'à ce qu'on appuie,
+	## coupait la salle au moment précis où l'on avait envie d'y traîner : les
+	## répliques qu'aucun objectif n'exige se perdaient. Le mot passe donc en
+	## bandeau haut, et c'est Entrée — non la touche de dialogue — qui appelle
+	## le chapitre suivant. On peut rester aussi longtemps qu'on veut.
 	_acheve = Panel.new()
 	_acheve.anchor_left = 0.5
 	_acheve.anchor_right = 0.5
-	_acheve.anchor_top = 0.5
-	_acheve.anchor_bottom = 0.5
-	_acheve.offset_left = -170
-	_acheve.offset_right = 170
-	_acheve.offset_top = -54
-	_acheve.offset_bottom = 54
+	_acheve.offset_left = -200
+	_acheve.offset_right = 200
+	_acheve.offset_top = 10
+	_acheve.offset_bottom = 62
 	var laurier := StyleBoxFlat.new()
 	laurier.bg_color = Color("#0b0a10")
 	laurier.border_color = Color("#c08f34")
@@ -1258,31 +1305,17 @@ func _repliques(id: String) -> Array:
 	return _fiche_en_repliques(id)
 
 
-## Le pis-aller : ce que la fiche du Codex permet de dire.
-## Le pis-aller : ce que la fiche du Codex permet de dire.
+## Un personnage n'a rien à dire hors de ce que la scène lui écrit.
 ##
-## Ce n'est pas une parole — le personnage ne récite pas son rôle. C'est ce que
-## Wellan sait de lui, donc une description.
+## Le pis-aller récitait sa fiche du Codex — son rôle, puis la liste de ses
+## liens : « Wellan — Frère d'armes et confident ; Wanda — Épouse, mère de ses
+## enfants ». C'est de la documentation, pas du jeu, et elle a déjà un endroit
+## où vivre.
 ##
-## Le décompte des volumes a été retiré : dire « paraît dans 43 des 44 volumes »
-## parle du livre au joueur, non du monde au personnage, et rompt tout ce que la
-## scène venait d'établir.
-func _fiche_en_repliques(id: String) -> Array:
-	var fiche: Dictionary = _monde["personnages"].get(id, {})
-	var nom := str(fiche.get("nom", id))
-	var pages := [{ "genre": "recit", "texte": "%s. %s" % [nom, fiche.get("role", "")] }]
-
-	var liens: Array = fiche.get("liens", [])
-	if not liens.is_empty():
-		var dits := PackedStringArray()
-		for lien in liens.slice(0, 2):
-			# Le Codex empile les nuances d'un lien en les séparant par des
-			# points-virgules. Tout dire ferait de la réplique une fiche ; on
-			# garde la première nuance, qui est la plus générale.
-			var nature := str(lien["nature"]).split(";")[0].strip_edges()
-			dits.append("%s — %s" % [lien["nom"], nature])
-		pages.append({ "genre": "recit", "texte": "\n".join(dits) })
-	return pages
+## Un personnage sans réplique écrite est donc muet, et l'on ne peut pas
+## l'aborder : ni bulle, ni invite, ni cadre vide.
+func _fiche_en_repliques(_id: String) -> Array:
+	return []
 
 
 func _afficher() -> void:
@@ -1441,11 +1474,11 @@ func _unhandled_input(evenement: InputEvent) -> void:
 			_ouverture.visible = false
 			_reciter(_scene.get("ouverture", []))
 		return
-	if _acheve.visible:
-		if evenement.is_action_pressed("ui_accept"):
-			# La progression est déjà notée : recharger la scène rouvre le
-			# chapitre suivant sans qu'on ait à transporter d'état.
-			get_tree().reload_current_scene()
+	# Entrée appelle le chapitre suivant, à tout moment une fois le mot affiché.
+	# La progression est déjà notée : recharger la scène l'ouvre sans qu'on ait
+	# à transporter d'état.
+	if _acheve.visible and evenement.is_action_pressed("suivant"):
+		get_tree().reload_current_scene()
 		return
 	if evenement.is_action_pressed("frapper") and not _ouverte and not _vaincu:
 		_frapper()
@@ -1524,7 +1557,7 @@ func _lancer() -> void:
 	var vue := Sprite2D.new()
 	var region := AtlasTexture.new()
 	region.atlas = load(DONNEES + "feu.png")
-	region.region = Rect2(0, 0, 16, 16)
+	region.region = Rect2(0, 0, FEU_COTE, FEU_COTE)
 	vue.texture = region
 	porteur.add_child(vue)
 
@@ -1535,7 +1568,7 @@ func _lancer() -> void:
 	var braise := { "image": 0 }
 	battement.timeout.connect(func() -> void:
 		braise["image"] = (int(braise["image"]) + 1) % 4
-		region.region = Rect2(int(braise["image"]) * 16, 0, 16, 16))
+		region.region = Rect2(int(braise["image"]) * FEU_COTE, 0, FEU_COTE, FEU_COTE))
 	battement.start()
 
 	_traits.append({ "noeud": porteur, "sens": _vers(_direction), "reste": PORTEE_SORT })
@@ -1597,7 +1630,7 @@ func _jouer_effet(planche: String, images: int, cote: int, ou: Vector2,
 func _etincelle(ou: Vector2, teinte: Color, duree: float) -> void:
 	# La gerbe d'impact : trois images qui s'ouvrent. La teinte demandée règle
 	# l'ardeur, pour distinguer un coup porté d'un adversaire qui tombe.
-	var vue := _jouer_effet("eclat.png", 3, 16, ou, 0.0, duree / 3.0)
+	var vue := _jouer_effet("eclat.png", 3, ECLAT_COTE, ou, 0.0, duree / 3.0)
 	vue.modulate = teinte
 
 
@@ -1695,6 +1728,12 @@ func _physics_process(delta: float) -> void:
 
 	_energie = minf(_energie + REGAIN * delta, ENERGIE_MAX)
 	_jauge_energie.anchor_right = _energie / ENERGIE_MAX
+
+	if _wellan.vie > 0 and _wellan.vie < _wellan.vie_max:
+		_vie_dodue = minf(_vie_dodue + REGAIN_VIE * delta, float(_wellan.vie_max))
+		if int(_vie_dodue) > _wellan.vie:
+			_wellan.vie = int(_vie_dodue)
+			_jauger(_wellan.vie, _wellan.vie_max)
 	_choisir_l_interlocuteur()
 
 	if _vaincu:
@@ -1824,6 +1863,36 @@ func _capturer() -> void:
 		print("ACHEVE : %s" % mot.text.replace("\n", " "))
 	else:
 		print("PAS ACHEVE après %d tours, étape %d" % [garde, _etape])
+
+	# Les réglages qu'on vient de changer, relevés plutôt que supposés.
+	var lettres := PackedStringArray()
+	for a in ["ui_up", "ui_left", "ui_down", "ui_right"]:
+		for e in InputMap.action_get_events(a):
+			if e is InputEventKey and e.physical_keycode in [KEY_W, KEY_A, KEY_S, KEY_D]:
+				lettres.append(OS.get_keycode_string(e.physical_keycode))
+	print("TOUCHES lettres=%s" % [lettres])
+	print("VIE %d points, regain %.2f/s" % [_wellan.vie_max, REGAIN_VIE])
+	print("SORT %d dégâts, %d px/s, portée %d" % [DEGATS_SORT, int(VITESSE_SORT), int(PORTEE_SORT)])
+
+	# La vie doit remonter d'elle-même — hors pause, sans quoi la boucle de
+	# physique sort avant d'y arriver et l'on conclut que le regain ne marche
+	# pas. L'épreuve de la pause précède celle-ci.
+	_en_pause = false
+	_pause.visible = false
+	_wellan.vie = 4
+	_vie_dodue = 4.0
+	# Un point demande près de deux secondes : attendre moins ne prouve rien.
+	await _attendre(400)
+	print("REGAIN 4 → %d points (%.1f en interne) sur %d" % [
+		_wellan.vie, _vie_dodue, _wellan.vie_max])
+
+	# Et un personnage sans réplique écrite doit être muet.
+	var muet := ""
+	for id in _habitants:
+		if not str(id).begins_with("objet:") and not _abordable(str(id)):
+			muet = str(id)
+			break
+	print("MUET %s : abordable=%s" % [muet if muet != "" else "aucun", _abordable(muet)])
 
 	await _eprouver_les_orientations()
 
