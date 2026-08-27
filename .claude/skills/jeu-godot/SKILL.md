@@ -67,6 +67,18 @@ godot --path jeu/godot ++ --scene i-26 --effets …         # regarde les effets
 Le mode capture joue par `Input.parse_input_event`, donc par le chemin d'un vrai joueur.
 Il imprime ce qu'il mesure et enregistre des images.
 
+**Une entrée de menu se reconnaît à son nom, jamais à son rang.** Intercaler « Codex » en
+deuxième position aurait fait de « Sauvegarder » un retour à l'écran-titre : le `match` portait
+sur `_choix_pause`. Le banc comptait ses appuis de la même façon — un `ui_down` puis
+`ui_accept` — et aurait continué à passer en éprouvant autre chose. `match CHOIX_PAUSE[...]`
+d'un côté, `_descendre_jusqu_a("Sauvegarder")` de l'autre.
+
+**Une écriture ne rend jamais moins que ce qu'elle a trouvé.** `Partie.noter()` remplaçait
+l'emplacement par `{ "chapitre": … }`. Tant qu'il n'y avait que le chapitre, personne ne
+pouvait le voir ; le jour où le Codex y a rangé ses rencontres, une simple sauvegarde les
+aurait effacées sans un mot. Compléter, jamais remplacer — la règle générale du projet,
+appliquée au carnet.
+
 **Le banc doit rendre ce qu'il emprunte.** L'épreuve de la pause choisissait « Sauvegarder »,
 ce qui note le chapitre en cours — et écrasait donc l'avance que la fin du chapitre venait
 d'inscrire. La campagne rejouait le premier chapitre à l'infini, et le défaut paraissait venir
@@ -105,11 +117,22 @@ dialogue — qui appelle la suite.
 scène et pas encore entendue — une fiche du Codex se lit comme une description et reste
 disponible indéfiniment, la signaler mettrait une bulle sur 365 personnages.
 
+**Le Codex se remplit en parlant.** Le menu de pause l'ouvre ; un personnage s'y inscrit dès
+qu'on lui adresse la parole — à l'abord, non à la fin de l'échange comme `_parles` : on a bel
+et bien rencontré quelqu'un même en s'éloignant au milieu de sa phrase. Il porte le **numéro
+du site** (voir **oracle-site**), et l'en-tête dit « 11 rencontres sur 365 » : un recueil sert
+autant à montrer ce qui manque qu'à ranger ce qu'on a.
+
+**Un écran qui couvre tout doit escamoter le reste.** Le premier Codex laissait les jauges de
+vie et le rappel d'objectif flotter sur ses pages : ils sont ajoutés au `CanvasLayer` après
+lui et se dessinent donc par-dessus. `interface.gd` retient ce qui appartient à la salle
+(`_hud`) et l'éteint le temps de la consultation.
+
 **Un test ne joue pas la partie du joueur.** Le mode capture notait sa progression dans le
 même fichier que la partie ; à force de vérifier la campagne, la sauvegarde s'est trouvée
 poussée jusqu'au dernier chapitre, et le jeu s'ouvrait sur une bataille comme si toute
 l'histoire avait été jouée. Les tests tiennent leur propre carnet
-(`progression-essai.json`) — mais ils l'écrivent, sinon on ne vérifie plus l'enchaînement.
+(`parties-essai.json`) — mais ils l'écrivent, sinon on ne vérifie plus l'enchaînement.
 
 ## Les pièges déjà payés
 
@@ -130,6 +153,19 @@ zoom reste entier et c'est la toile qui gagne du champ — 640×360 pour vingt t
 Et **toute l'interface est réglée en pixels de viewport** : l'agrandir sans relever les
 polices et les cadres la rapetisse d'autant. Vingt-huit valeurs ont dû suivre le passage de
 270 à 360.
+
+**GDScript réserve des mots qu'on n'attend pas.** `var trait := ColorRect.new()` fait échouer
+le chargement du script entier sur « Expected variable name after "var" » — `trait` est
+réservé pour un usage à venir. Le message ne nomme jamais le mot fautif.
+
+D'où le réflexe qui coûte trois secondes au lieu d'un lancement complet :
+
+```bash
+godot --headless --path jeu/godot --check-only --script interface.gd
+```
+
+Il rend le fichier **et la ligne**. Sans lui, l'erreur remonte en cascade — `main.gd` se
+plaint de ne pas pouvoir précharger `interface.gd`, et l'on cherche dans le mauvais fichier.
 
 **GDScript n'a pas de commentaires en bloc.** `/* … */` fait échouer le chargement du script
 entier, avec pour seul message « Expected statement, found "/" ».

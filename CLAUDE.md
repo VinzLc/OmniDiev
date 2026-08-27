@@ -33,6 +33,10 @@ fois pour cette raison.
 `jeu/art/CONTEXTE.md` porte la palette du monde. Elle est **lue** par `art-normalise`, pas
 recopiée : deux exemplaires divergeraient sans que personne le voie.
 
+`ordered()` dans `lib/codex-view.ts` fixe l'ordre des fiches, donc leur numéro. Il est exporté
+et lu par `build-jeu-donnees.ts` : « N° 062 » désigne Wellan sur le site comme dans le Codex
+du jeu.
+
 ## Les commandes
 
 | | |
@@ -41,13 +45,18 @@ recopiée : deux exemplaires divergeraient sans que personne le voie.
 | `npm run codex` | fiches, généalogies, pages |
 | `npm run doctor` | état de l'index |
 | `npm run dev` | l'Oracle en local |
+| `npm run site` | export statique dans `out/`, contrôle compris |
 | `npm run deploy` | publication GitHub Pages (Codex et Généalogie seuls) |
+| `npm run jeu` | le jeu, écran-titre compris |
+| `npm run jeu:donnees` | Codex → `monde.json`, salles, effets |
 | `npm run art` | rédige les commandes d'images |
 | `npm run art:generer` | les joue via l'API PixelLab |
 | `npm run art:normalise` | rendu brut → planche pour Godot |
+| `npm run art:expressions` | décline les humeurs d'un portrait |
 | `npm run art:verifier` | contrôle mécanique des images |
 
-Pour tout ce qui touche aux images, voir la compétence **atelier-graphique**.
+Trois compétences prennent le relais : **atelier-graphique** pour les images,
+**jeu-godot** pour le jeu, **oracle-site** pour l'Oracle et ce qui se publie.
 
 ## Le motif qui revient
 
