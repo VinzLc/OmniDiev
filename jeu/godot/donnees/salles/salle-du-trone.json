@@ -3,88 +3,70 @@
   "lieu": "chateau-d-emeraude",
   "nom": "Salle du trône",
   "taille": [
-    26,
-    15
+    28,
+    17
   ],
   "depart": [
-    13,
-    13
+    14,
+    15
   ],
-  "_personnages": "« fiche » est l'identifiant de la fiche du Codex, et rien d'autre n'est requis : le nom, le rôle et les liens en viennent. Un personnage sans planche paraît en silhouette teintée. La Reine Fan et Kira n'y sont pas : la scène les fait entrer. Ils se tiennent à trois tuiles les uns des autres, non deux : à deux, quelqu'un qui s'approche est à égale distance de deux voisins, et aborde l'un pour l'autre sans pouvoir rien y faire.",
+  "_personnages": "Deux colonnes à onze tuiles l'une de l'autre, trois tuiles entre chaque rang. Trois est le minimum : à deux, qui s'approche est à égale distance de deux voisins et aborde l'un pour l'autre.",
   "personnages": [
     {
       "fiche": "emeraude-ier",
-      "x": 13,
-      "y": 4,
+      "x": 14,
+      "y": 6,
       "regarde": "sud"
     },
     {
       "fiche": "elund",
-      "x": 18,
-      "y": 5,
+      "x": 19,
+      "y": 7,
       "regarde": "ouest"
     },
     {
       "fiche": "santo",
-      "x": 9,
-      "y": 7,
+      "x": 8,
+      "y": 10,
       "regarde": "est"
     },
     {
       "fiche": "chloe",
-      "x": 17,
-      "y": 7,
+      "x": 20,
+      "y": 10,
       "regarde": "ouest"
     },
     {
       "fiche": "bergeau",
-      "x": 9,
-      "y": 10,
+      "x": 8,
+      "y": 13,
       "regarde": "est"
     },
     {
       "fiche": "jasson",
-      "x": 17,
-      "y": 10,
+      "x": 20,
+      "y": 13,
       "regarde": "ouest"
     },
     {
       "fiche": "dempsey",
-      "x": 9,
-      "y": 13,
+      "x": 8,
+      "y": 16,
       "regarde": "est"
     },
     {
       "fiche": "falcon",
-      "x": 17,
-      "y": 13,
+      "x": 20,
+      "y": 16,
       "regarde": "ouest"
     }
   ],
-  "_objets": "Les braseros encadrent le trône. Les autres pièces se regardent de près : un décor muet n'est qu'un motif, et c'est en lisant ce qu'on croise qu'une salle cesse d'être un couloir entre deux dialogues. Elles sont placées loin des Chevaliers, sinon leurs cercles de parole se recoupent et l'on aborde le mauvais.",
+  "_objets": "Tout se pose sur des lignes franches et symétriques : braseros et bannières partagent la rangée 5, le trône est sur l'axe, les meubles tiennent les angles. Ce sont les pieds qui s'alignent, non les sommets — une bannière monte plus haut qu'un brasero.",
   "objets": [
     {
-      "type": "brasier",
-      "x": 10,
-      "y": 4,
-      "nom": "Un brasero",
-      "texte": [
-        "Le feu du Château brûle sans discontinuer depuis la première pierre. Deux servantes s'en occupent à tour de rôle, et l'on dit que celle qui le laisserait mourir ne serait pas punie — seulement regardée."
-      ]
-    },
-    {
-      "type": "brasier",
-      "x": 16,
-      "y": 4,
-      "nom": "Un brasero",
-      "texte": [
-        "Le jumeau de l'autre. On les a allumés le même jour, à la même heure, et personne ne se souvient pourquoi cela comptait."
-      ]
-    },
-    {
       "type": "trone",
-      "x": 13,
-      "y": 2,
+      "x": 14,
+      "y": 4,
       "nom": "Le trône d'Émeraude",
       "texte": [
         "Un siège de bois sombre, sans coussin, sans dorure. Le Roi le fit tailler dans une poutre de l'ancienne salle des gardes.",
@@ -92,9 +74,27 @@
       ]
     },
     {
+      "type": "brasier",
+      "x": 10,
+      "y": 5,
+      "nom": "Un brasero",
+      "texte": [
+        "Le feu du Château brûle sans discontinuer depuis la première pierre. Deux servantes s'en occupent à tour de rôle, et l'on dit que celle qui le laisserait mourir ne serait pas punie — seulement regardée."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 18,
+      "y": 5,
+      "nom": "Un brasero",
+      "texte": [
+        "Le jumeau de l'autre. On les a allumés le même jour, à la même heure, et personne ne se souvient pourquoi cela comptait."
+      ]
+    },
+    {
       "type": "banniere",
-      "x": 7,
-      "y": 4,
+      "x": 6,
+      "y": 5,
       "nom": "Une bannière",
       "texte": [
         "Vert et noir, partagés en deux dans la hauteur. La croix d'Émeraude en noir sur le vert ; un dragon vert sur le noir.",
@@ -103,8 +103,8 @@
     },
     {
       "type": "banniere",
-      "x": 19,
-      "y": 4,
+      "x": 22,
+      "y": 5,
       "nom": "Une bannière",
       "texte": [
         "Neuve. Le tissu n'a pas encore le pli des autres.",
@@ -113,8 +113,8 @@
     },
     {
       "type": "stele",
-      "x": 5,
-      "y": 7,
+      "x": 3,
+      "y": 12,
       "nom": "Une stèle gravée",
       "texte": [
         "Trois lignes taillées dans la pierre, en caractères qu'on n'écrit plus :",
@@ -123,9 +123,19 @@
       ]
     },
     {
+      "type": "autel",
+      "x": 3,
+      "y": 15,
+      "nom": "La table des cartes",
+      "texte": [
+        "Le continent d'Enkidiev, dessiné sur cuir. Sept royaumes, une mer à l'ouest, et de l'autre côté de la mer, rien : le cuir s'arrête.",
+        "Quelqu'un a tracé une croix au charbon dans ce vide. Le trait est ancien et personne ne l'efface."
+      ]
+    },
+    {
       "type": "coffre",
-      "x": 21,
-      "y": 11,
+      "x": 25,
+      "y": 15,
       "nom": "Un coffre d'armes",
       "texte": [
         "Des épées courtes, taillées pour des bras d'enfants. Élund a insisté pour qu'on les forge à la bonne taille plutôt que de faire traîner des lames d'homme.",
@@ -133,17 +143,17 @@
       ]
     },
     {
-      "type": "autel",
-      "x": 5,
-      "y": 11,
-      "nom": "La table des cartes",
+      "type": "tombe",
+      "x": 25,
+      "y": 12,
+      "nom": "Une pierre levée",
       "texte": [
-        "Le continent d'Enkidiev, dessiné sur cuir. Sept royaumes, une mer à l'ouest, et de l'autre côté de la mer, rien : le cuir s'arrête.",
-        "Quelqu'un a tracé une croix au charbon dans ce vide. Le trait est ancien et personne ne l'efface."
+        "Sans nom, sans date. Elle était là quand on a bâti le château, et l'on a bâti autour plutôt que de la déplacer.",
+        "Élund prétend qu'elle est enkieve. Le Roi prétend qu'on n'en sait rien. Les deux ont probablement raison."
       ]
     }
   ],
-  "_zones": "Rectangles de tapis, en tuiles. Le reste est dallé. La forme n'est pas décorative : une caméra qui tient quinze tuiles doit montrer une frontière presque tout le temps, sinon le raccord ne se voit jamais.",
+  "_zones": "Une estrade large au bout d'une allée. Vingt-huit tuiles sur dix-sept : à vingt-six sur quinze tout se tassait au milieu, à trente-deux sur vingt la caméra n'en montrait plus que six dixièmes et la salle paraissait nue plutôt que vaste.",
   "fond": 1,
   "zones": [
     {
@@ -159,6 +169,20 @@
       "y": 3,
       "l": 11,
       "h": 6
+    }
+  ],
+  "tapis": [
+    {
+      "x": 11,
+      "y": 3,
+      "l": 6,
+      "h": 13
+    },
+    {
+      "x": 5,
+      "y": 3,
+      "l": 17,
+      "h": 7
     }
   ]
 }

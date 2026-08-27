@@ -66,6 +66,18 @@ jusqu'au délai d'attente. `titre.gd` entre donc directement dans le jeu quand `
 sa fiche du Codex — son rôle puis la liste de ses liens. C'est de la documentation, pas du
 jeu, et elle a déjà un endroit où vivre.
 
+**Une fois le chapitre achevé, tout ce qui a été écrit redevient disponible.** Pendant le
+chapitre, un personnage ne dit que ce que l'étape en cours lui donne ; après, on parcourt
+toutes les étapes en commençant par ce qu'on n'a pas entendu. `_entendus` survit à l'étape là
+où `_parles` est remis à zéro. C'est ainsi qu'on rattrape une réplique manquée sans rejouer
+le chapitre — et il y en a beaucoup à manquer, puisque plusieurs ne sont exigées par aucun
+objectif.
+
+**Une salle se compose pour la caméra, non pour le plan.** Vingt-six sur quinze tassait tout
+au milieu ; trente-deux sur vingt n'en montrait plus que six dixièmes et paraissait nue.
+Vingt-huit sur dix-sept tient dans le cadre. Et ce sont les **pieds** du mobilier qui
+s'alignent, jamais les sommets — une bannière monte plus haut qu'un brasero.
+
 **La fin d'un chapitre n'arrête pas la partie.** Un panneau central qui prenait la main
 coupait la salle au moment où l'on avait envie d'y traîner, et les répliques qu'aucun
 objectif n'exige se perdaient. C'est un bandeau haut, et **Entrée** — non la touche de

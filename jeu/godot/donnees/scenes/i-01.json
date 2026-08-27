@@ -230,12 +230,12 @@
       "apparaissent": [
         {
           "fiche": "armene",
-          "x": 13,
+          "x": 14,
           "y": 12,
           "regarde": "nord",
           "depuis": [
-            13,
-            15
+            14,
+            16
           ]
         }
       ],
@@ -287,22 +287,22 @@
       "apparaissent": [
         {
           "fiche": "fan",
-          "x": 13,
-          "y": 8,
+          "x": 14,
+          "y": 9,
           "regarde": "sud",
           "depuis": [
-            13,
-            15
+            14,
+            16
           ]
         },
         {
           "fiche": "kira",
           "x": 11,
-          "y": 8,
+          "y": 9,
           "regarde": "est",
           "depuis": [
             12,
-            15
+            16
           ]
         }
       ],

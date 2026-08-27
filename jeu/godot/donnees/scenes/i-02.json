@@ -20,22 +20,22 @@
       "apparaissent": [
         {
           "fiche": "armene",
-          "x": 13,
-          "y": 9,
+          "x": 14,
+          "y": 10,
           "regarde": "nord",
           "depuis": [
-            13,
-            15
+            14,
+            16
           ]
         },
         {
           "fiche": "kira",
           "x": 11,
-          "y": 11,
+          "y": 12,
           "regarde": "nord",
           "depuis": [
-            11,
-            15
+            12,
+            16
           ]
         }
       ],

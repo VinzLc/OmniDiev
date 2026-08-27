@@ -118,6 +118,10 @@ var _marcheurs: Array = []   ## ceux qui entrent ou sortent, en chemin
 var _bulles := {}            ## les bulles de parole, par identifiant de fiche
 var _objets := {}            ## ce qu'on peut examiner, par clé
 var _cloture_dite := false
+## Ce qu'on a entendu, étape par étape, pour tout le chapitre. `_parles` ne vaut
+## que pour l'étape en cours ; ceci survit et sert à rattraper.
+var _entendus := {}
+var _cle_courante := ""
 var _flottement := 0.0
 var _pause: Panel
 var _menu: RichTextLabel
@@ -833,11 +837,44 @@ func _zone_de_parole(parent: Node2D, id: String) -> void:
 			_a_portee.erase(id))
 
 
+## Toutes les étapes du chapitre, la clôture comprise.
+func _toutes_les_etapes() -> Array:
+	var liste: Array = (_scene.get("etapes", []) as Array).duplicate()
+	if _scene.has("fin"):
+		liste.append(_scene["fin"])
+	return liste
+
+
+## Ce qu'un personnage a à dire, et sous quelle clé le retenir.
+##
+## Pendant le chapitre : l'étape en cours, et elle seule. Une fois le chapitre
+## achevé : tout ce qui a été écrit pour lui, en commençant par ce qu'on n'a pas
+## encore entendu. C'est ainsi qu'on rattrape une réplique manquée sans rejouer
+## le chapitre — et il y en a beaucoup à manquer, puisque plusieurs n'ont jamais
+## été exigées par un objectif.
+func _repliques_de(id: String) -> Dictionary:
+	if not _acheve.visible:
+		var ici: Dictionary = _etape_courante().get("dialogues", {})
+		if not ici.has(id):
+			return {}
+		return { "cle": "%d:%s" % [_etape, id], "lignes": ici[id] }
+
+	var trouvees := []
+	for i in _toutes_les_etapes().size():
+		var d: Dictionary = (_toutes_les_etapes()[i] as Dictionary).get("dialogues", {})
+		if d.has(id):
+			trouvees.append({ "cle": "%d:%s" % [i, id], "lignes": d[id] })
+	for t in trouvees:
+		if not _entendus.has(t["cle"]):
+			return t
+	return trouvees[-1] if not trouvees.is_empty() else {}
+
+
 ## A-t-on quelque chose à échanger avec lui ?
 func _abordable(id: String) -> bool:
 	if id.begins_with("objet:"):
 		return _objets.has(id)
-	return (_etape_courante().get("dialogues", {}) as Dictionary).has(id)
+	return not _repliques_de(id).is_empty()
 
 
 func _choisir_l_interlocuteur() -> void:
@@ -1290,10 +1327,11 @@ func _tourner_vers_moi(id: String) -> void:
 ## personnage ne soit jamais muet, même ajouté à la dernière minute et sans une
 ## ligne écrite pour lui.
 func _repliques(id: String) -> Array:
-	var ecrites: Dictionary = _etape_courante().get("dialogues", {})
-	if ecrites.has(id):
+	var source := _repliques_de(id)
+	if not source.is_empty():
+		_cle_courante = str(source["cle"])
 		var pages := []
-		for ligne in ecrites[id]:
+		for ligne in source["lignes"]:
 			var qui := str(ligne.get("qui", ""))
 			var dit := str(ligne.get("dit", ""))
 			if qui == "recit":
@@ -1329,6 +1367,9 @@ func _afficher() -> void:
 		# conversation et s'en aller ne fait pas avancer le chapitre.
 		if _interlocuteur != "":
 			_parles[_interlocuteur] = true
+			if _cle_courante != "":
+				_entendus[_cle_courante] = true
+				_cle_courante = ""
 			_interlocuteur = ""
 			_avancer_si_possible()
 			_rafraichir_les_bulles()
@@ -1434,9 +1475,11 @@ func _choisir_dans_la_pause() -> void:
 func _a_dire(id: String) -> bool:
 	if id.begins_with("objet:"):
 		return false
-	if _parles.has(id):
+	var source := _repliques_de(id)
+	if source.is_empty():
 		return false
-	return (_etape_courante().get("dialogues", {}) as Dictionary).has(id)
+	# La bulle marque ce qu'on n'a pas entendu, ici comme après la clôture.
+	return not _entendus.has(str(source["cle"]))
 
 
 func _rafraichir_les_bulles() -> void:
@@ -1873,6 +1916,16 @@ func _capturer() -> void:
 		print("ACHEVE : %s" % mot.text.replace("\n", " "))
 	else:
 		print("PAS ACHEVE après %d tours, étape %d" % [garde, _etape])
+
+	# Après la clôture, ce qui reste à entendre.
+	_rafraichir_les_bulles()
+	await _attendre(4)
+	var reste := PackedStringArray()
+	for id in _habitants:
+		if not str(id).begins_with("objet:") and _a_dire(str(id)):
+			reste.append(str(id))
+	print("APRES CLOTURE : %d personne(s) ont encore quelque chose à dire — %s" % [reste.size(), reste])
+	get_viewport().get_texture().get_image().save_png("res://capture-apres.png")
 
 	# Les réglages qu'on vient de changer, relevés plutôt que supposés.
 	var lettres := PackedStringArray()
