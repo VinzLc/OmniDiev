@@ -33,6 +33,13 @@ fois pour cette raison.
 `jeu/art/CONTEXTE.md` porte la palette du monde. Elle est **lue** par `art-normalise`, pas
 recopiée : deux exemplaires divergeraient sans que personne le voie.
 
+La **carte du continent** se dessine par calcul depuis `lib/carte.ts` : l'illustration
+publiée est sous droits et le dépôt est public. Le dessin et la place des royaumes
+sortent de la même grille — deux sources auraient dérivé.
+
+Une **porte** ne porte pas de nom : elle dit vers quelle salle elle mène, et l'invite lit le
+`nom` de celle-ci chez elle. Deux exemplaires d'un même nom divergent sans qu'on le voie.
+
 `ordered()` dans `lib/codex-view.ts` fixe l'ordre des fiches, donc leur numéro. Il est exporté
 et lu par `build-jeu-donnees.ts` : « N° 062 » désigne Wellan sur le site comme dans le Codex
 du jeu.
@@ -48,7 +55,8 @@ du jeu.
 | `npm run site` | export statique dans `out/`, contrôle compris |
 | `npm run deploy` | publication GitHub Pages (Codex et Généalogie seuls) |
 | `npm run jeu` | le jeu, écran-titre compris |
-| `npm run jeu:donnees` | Codex → `monde.json`, salles, effets |
+| `npm run jeu:donnees` | Codex → `monde.json`, salles, effets, bruitages |
+| `npm run jeu:chapitres` | un chapitre, ou tous, sans fenêtre — six secondes pièce |
 | `npm run art` | rédige les commandes d'images |
 | `npm run art:generer` | les joue via l'API PixelLab |
 | `npm run art:normalise` | rendu brut → planche pour Godot |

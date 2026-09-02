@@ -1,0 +1,16 @@
+{
+  "tuile": 16,
+  "colonnes": 16,
+  "ordre": "signature des coins, NO NE SO SE lus en binaire — colonne = NO*8 + NE*4 + SO*2 + SE",
+  "terrain0": {
+    "couleur": "#3c2811"
+  },
+  "terrain1": {
+    "couleur": "#8fe0ac"
+  },
+  "decrits": {
+    "lower": "damp dark brown packed soil featuring shallow cart ruts and moderate surface texture under basic two-tone illumination",
+    "upper": "flat pale jade green stone with a fine uniform surface texture and simple two-tone highlights, entirely free of grey or blue tones"
+  },
+  "note": "Les deux terrains sont séparés par regroupement des couleurs des images, non lus dans les étiquettes : le service les a déjà rendues permutées. « decrits » rappelle ce qui a été demandé, sans garantir l'ordre."
+}

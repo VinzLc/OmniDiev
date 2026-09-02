@@ -64,13 +64,205 @@
       "x": 14,
       "y": 6,
       "regarde": "sud"
+    },
+    {
+      "fiche": "tilly",
+      "x": 7,
+      "y": 7,
+      "regarde": "est",
+      "des": "i-14",
+      "donne": {
+        "id": "bottes-de-seve",
+        "nom": "Les bottes de sève",
+        "categorie": "equipement",
+        "emplacement": "bottes",
+        "bonus": {
+          "vitesse": 4
+        },
+        "texte": [
+          "Elles ont poussé. Le lacet est vivant : il se resserre tout seul quand vous marchez trop lentement.",
+          "Ne pas les planter. On vous l'a dit deux fois, et deux personnes avant vous ne l'ont pas écouté."
+        ]
+      },
+      "dit": [
+        {
+          "qui": "tilly",
+          "dit": "Bonjour. Je suis Tilly, Roi des Fées. L'arbre derrière vous est en train de vous décrire à un autre arbre. Ne vous retournez pas, ça les met mal à l'aise."
+        },
+        {
+          "qui": "tilly",
+          "dit": "Ma fille adoptive est partie faire Chevalier chez vous. Elle a coupé ses ailes elle-même. Sur la table. Avec un couteau à pain. Nous étions en train de manger."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Ariane sert bien l'Ordre."
+        },
+        {
+          "qui": "tilly",
+          "dit": "Oui. J'ai dû changer la table."
+        },
+        {
+          "qui": "tilly",
+          "dit": "Ces bottes ont poussé. On ne les a pas cousues, on les a arrosées. Elles vous porteront vite et elles ne sentiront jamais mauvais, ce qui n'arrive à aucune botte."
+        },
+        {
+          "qui": "tilly",
+          "dit": "Ne les plantez pas. Deux personnes l'ont fait. Ce qui est sorti n'était plus des bottes, et ne souhaitait plus l'être."
+        }
+      ]
     }
   ],
   "objets": [
     {
       "type": "brasier",
       "x": 13,
-      "y": 9
+      "y": 9,
+      "nom": "Un feu bas",
+      "texte": [
+        "À peine un feu : trois braises sous un couvercle de terre, qui ne fument pas.",
+        "Les Elfes ne le disent pas, mais ils ont demandé qu'il soit petit. On a obéi sans comprendre, et l'on a bien fait."
+      ]
+    },
+    {
+      "type": "souche",
+      "x": 19,
+      "y": 10,
+      "nom": "La seule souche",
+      "texte": [
+        "Un seul arbre coupé dans toute cette forêt, et il l'a été il y a très longtemps.",
+        "Personne ne s'assoit dessus. Hamil a détourné les yeux en passant devant, et l'on n'a pas posé de question."
+      ]
+    },
+    {
+      "type": "buisson",
+      "x": 7,
+      "y": 13,
+      "nom": "Un buisson à baies",
+      "texte": [
+        "Des baies noires, serrées, à portée de main.",
+        "Elles sont bonnes. On le sait parce que Bergeau en a mangé une poignée avant que quiconque ait le temps de dire non."
+      ]
+    },
+    {
+      "type": "arbre",
+      "x": 2,
+      "y": 2
+    },
+    {
+      "type": "arbre",
+      "x": 2,
+      "y": 6
+    },
+    {
+      "type": "arbre",
+      "x": 2,
+      "y": 10
+    },
+    {
+      "type": "arbre",
+      "x": 2,
+      "y": 14
+    },
+    {
+      "type": "arbre",
+      "x": 6,
+      "y": 2
+    },
+    {
+      "type": "arbre",
+      "x": 10,
+      "y": 2
+    },
+    {
+      "type": "arbre",
+      "x": 14,
+      "y": 2
+    },
+    {
+      "type": "arbre",
+      "x": 18,
+      "y": 2
+    },
+    {
+      "type": "arbre",
+      "x": 22,
+      "y": 2
+    },
+    {
+      "type": "arbre",
+      "x": 22,
+      "y": 6
+    },
+    {
+      "type": "arbre",
+      "x": 22,
+      "y": 10
+    },
+    {
+      "type": "arbre",
+      "x": 22,
+      "y": 14
+    },
+    {
+      "type": "arbre",
+      "x": 6,
+      "y": 15
+    },
+    {
+      "type": "arbre",
+      "x": 10,
+      "y": 15
+    },
+    {
+      "type": "arbre",
+      "x": 14,
+      "y": 15
+    },
+    {
+      "type": "arbre",
+      "x": 18,
+      "y": 15
+    },
+    {
+      "type": "arbre",
+      "x": 4,
+      "y": 12
+    },
+    {
+      "type": "arbre",
+      "x": 20,
+      "y": 13
+    },
+    {
+      "type": "arbre",
+      "x": 4,
+      "y": 4
+    },
+    {
+      "type": "arbre",
+      "x": 20,
+      "y": 4
+    },
+    {
+      "type": "buisson",
+      "x": 7,
+      "y": 3
+    },
+    {
+      "type": "buisson",
+      "x": 17,
+      "y": 3
+    },
+    {
+      "type": "buisson",
+      "x": 7,
+      "y": 10
+    },
+    {
+      "type": "buisson",
+      "x": 17,
+      "y": 13
     }
-  ]
+  ],
+  "_objets": "Plus fermée que le camp de Diamant : chez les Elfes on ne coupe pas les arbres, et le décor doit le dire avant qu'un personnage l'explique. Aucune souche coupée, sauf une, et c'est justement celle qui porte un texte."
 }

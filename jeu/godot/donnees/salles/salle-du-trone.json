@@ -59,6 +59,52 @@
       "x": 20,
       "y": 16,
       "regarde": "ouest"
+    },
+    {
+      "fiche": "cull",
+      "x": 17,
+      "y": 11,
+      "regarde": "ouest",
+      "des": "i-13",
+      "donne": {
+        "id": "heaume-d-argent",
+        "nom": "Le heaume d'Argent",
+        "categorie": "equipement",
+        "emplacement": "casque",
+        "bonus": {
+          "defense": 6
+        },
+        "texte": [
+          "Un heaume d'Argent, fait pour une tête d'Argent. La vôtre est plus grande, mais il entre si l'on force un peu.",
+          "À l'intérieur, gravé au clou : « NE PAS PRÊTER ». Trop tard."
+        ]
+      },
+      "dit": [
+        {
+          "qui": "cull",
+          "dit": "Je suis Cull, Roi d'Argent. Argent est un royaume. Il est au nord, il y fait froid, et on y mange du poisson tous les jours de l'année."
+        },
+        {
+          "qui": "cull",
+          "dit": "Je viens voir ma nièce. On m'a écrit qu'elle était mauve. J'étais au courant. Merci quand même d'avoir écrit."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Kira se porte bien, Majesté."
+        },
+        {
+          "qui": "cull",
+          "dit": "Vous êtes le grand. On m'avait dit : « vous reconnaîtrez le chef, c'est le grand. » Voilà. Je vous ai reconnu."
+        },
+        {
+          "qui": "cull",
+          "dit": "Prenez ce heaume. Il était à mon frère. Mon frère est mort, mais pas avec le heaume sur la tête — il est tombé de cheval sans le mettre, ce qui appuie exactement ce que je dis."
+        },
+        {
+          "qui": "cull",
+          "dit": "Ne me remerciez pas. Je le transporte depuis onze jours et il pèse le poids d'un enfant."
+        }
+      ]
     }
   ],
   "_objets": "Tout se pose sur des lignes franches et symétriques : braseros et bannières partagent la rangée 5, le trône est sur l'axe, les meubles tiennent les angles. Ce sont les pieds qui s'alignent, non les sommets — une bannière monte plus haut qu'un brasero.",
@@ -140,6 +186,22 @@
       "texte": [
         "Des épées courtes, taillées pour des bras d'enfants. Élund a insisté pour qu'on les forge à la bonne taille plutôt que de faire traîner des lames d'homme.",
         "« Une arme trop lourde apprend la peur avant d'apprendre le geste », a-t-il dit. Sur ce point, tout le monde lui a donné raison."
+      ],
+      "contient": [
+        {
+          "id": "bouclier-de-bois",
+          "nom": "Un bouclier de bois",
+          "categorie": "equipement",
+          "emplacement": "bouclier",
+          "bonus": {
+            "defense": 3,
+            "vitesse": -1
+          },
+          "texte": [
+            "Rond, cerclé de fer, avec un ombon bombé au centre. Il pèse plus qu'il n'en a l'air.",
+            "On avance moins vite derrière. C'est le premier marché que l'Ordre te propose, et ce ne sera pas le dernier."
+          ]
+        }
       ]
     },
     {
@@ -150,6 +212,18 @@
       "texte": [
         "Sans nom, sans date. Elle était là quand on a bâti le château, et l'on a bâti autour plutôt que de la déplacer.",
         "Élund prétend qu'elle est enkieve. Le Roi prétend qu'on n'en sait rien. Les deux ont probablement raison."
+      ]
+    }
+  ],
+  "_passages": "La porte basse, au bas de l'allée. C'est par là qu'Armène monte annoncer les pèlerins et par là que la Reine de Shola entre — la même porte, dans les deux sens. On dépose deux tuiles sous le seuil : à une, le haut du sprite dépasse la borne haute de la caméra et l'invite du retour s'allume dès l'arrivée.",
+  "passages": [
+    {
+      "x": 14,
+      "y": 16,
+      "vers": "galerie-des-sept",
+      "arrivee": [
+        14,
+        2
       ]
     }
   ],

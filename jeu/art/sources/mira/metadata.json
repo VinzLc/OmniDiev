@@ -1,0 +1,63 @@
+{
+  "group_id": "a36a4be0-619a-4f23-9798-ebd64c637f06",
+  "states": [
+    {
+      "character": {
+        "id": "c8546042-aa42-49e3-b15e-1ece76508c85",
+        "name": "Idle",
+        "prompt": "Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).\n\nCHARACTER: Mira, Queen of Rubis and mother of Wellan, a woman of fifty-five. Upright, narrow-shouldered, her chin slightly raised. A closed face that gives nothing away \u2014 cool and correct rather than unkind.\n\nCLOTHES: a long CRIMSON gown, high-necked and severe, with a dark red overmantle. Grey hair drawn back tight under a thin gold circlet. No loose strands, nothing ornamental, nothing that moves.\n\nPALETTE \u2014 these colors only:\n#0B0A10 #22222C #454652 #71727E (black, dark)\n#8B2020 #D14545 (crimson gown)\n#C08F34 #F0D174 (thin gold circlet)\n#A6A8B2 #DDDDE4 #F2F2F5 (grey hair)\n#A9714E #D9A57C #F2D3B0 (skin)\n\nSTYLE: flat fills only. Two-tone shading \u2014 one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.\n\nBACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.",
+        "size": {
+          "width": 28,
+          "height": 28
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-08-27T21:25:41.956672+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {
+          "walking": {
+            "west": [
+              "Idle/animations/walking/west/frame_000.png",
+              "Idle/animations/walking/west/frame_001.png",
+              "Idle/animations/walking/west/frame_002.png",
+              "Idle/animations/walking/west/frame_003.png",
+              "Idle/animations/walking/west/frame_004.png"
+            ],
+            "east": [
+              "Idle/animations/walking/east/frame_000.png",
+              "Idle/animations/walking/east/frame_001.png",
+              "Idle/animations/walking/east/frame_002.png",
+              "Idle/animations/walking/east/frame_003.png",
+              "Idle/animations/walking/east/frame_004.png"
+            ],
+            "south": [
+              "Idle/animations/walking/south/frame_000.png",
+              "Idle/animations/walking/south/frame_001.png",
+              "Idle/animations/walking/south/frame_002.png",
+              "Idle/animations/walking/south/frame_003.png",
+              "Idle/animations/walking/south/frame_004.png"
+            ],
+            "north": [
+              "Idle/animations/walking/north/frame_000.png",
+              "Idle/animations/walking/north/frame_001.png",
+              "Idle/animations/walking/north/frame_002.png",
+              "Idle/animations/walking/north/frame_003.png",
+              "Idle/animations/walking/north/frame_004.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-27T21:28:16.105686"
+}

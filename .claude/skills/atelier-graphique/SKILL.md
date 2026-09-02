@@ -16,6 +16,17 @@ personnages/<id>.png                       ce que Godot lit
       ↓             npm run art:verifier   contrôle mécanique
 ```
 
+## Une image peut être vide, et rien ne le dit
+
+Trois visages sur onze sont sortis en **carré gris uni** : bon format, bon poids, fichier
+présent. `build-jeu-donnees` déclarait donc le portrait disponible, et le jeu l'affichait.
+Le contrôleur mesurait la palette, la définition, les bords — il ne demandait pas s'il y
+avait quelque chose dessus.
+
+`npm run art:verifier` refuse désormais une image d'une seule couleur, et **contrôle aussi
+`portraits/`**, qui lui échappait. Le remède est la graine : la même commande relancée avec
+une autre a rendu les trois du premier coup.
+
 ## La règle qui prime sur toutes les autres
 
 **Le contrôleur ne voit pas ce qui compte.** Il mesure la géométrie, la taille de palette,
@@ -51,9 +62,23 @@ marché n'est pas gratuit, et le mode `pro` reste vingt à quarante fois plus ch
 coûte **une génération par direction**. Mais le mode `pro` en consomme **vingt à quarante
 par direction** — s'y aventurer par accident vide un budget en un appel.
 
-Animer part du `character_id` déjà validé (`GET /characters`), jamais d'une nouvelle
-description : c'est ce qui garantit que le personnage animé soit le même que celui qu'on a
-accepté.
+Animer part du `character_id` déjà validé, jamais d'une nouvelle description : c'est ce qui
+garantit que le personnage animé soit le même que celui qu'on a accepté.
+
+**Mais l'identifiant se lit dans le carnet local, non chez le service.** Les treize premiers
+ont été créés dans l'interface web, où l'humain leur a donné leur nom ; ceux que `--creer`
+fabrique par l'API n'en reçoivent pas — le service les enregistre tous sous le nom de leur
+état, c'est-à-dire **« Idle »**. Chercher par le nom ne pouvait donc jamais les retrouver, et
+l'erreur listait cinquante descriptions entières en guise de « noms connus ». La création écrit
+l'identifiant dans `jeu/art/sources/<id>/metadata.json` : c'est la source sûre, elle est
+locale, elle est datée du moment où l'on a accepté le rendu.
+
+**La taille se mesure, elle ne se devine pas.** Commandé à 26, un personnage sort à 33 pixels
+au repos et jusqu'à **39 en pleine marche** — la jambe tendue est plus haute que la pose de
+référence, et c'est l'animation qui décide du recadrage. Les planches validées tiennent entre
+**29 et 31 pixels** pour un adulte, 21 pour Kira. On commande donc autour de **20 pour un
+adulte, 18 pour un enfant**, et l'on vérifie la boîte réelle après normalisation plutôt que de
+faire confiance au chiffre demandé.
 
 Deux paramètres puissants et encore inexploités : `force_colors` avec une `color_image` sur
 la création de personnage, et `color_palette` sur `create-tileset`. Ils imposent la palette
@@ -115,6 +140,42 @@ pixels à des places qu'on mesure — les yeux bleus servent de repère, la bouc
 la plus sombre au-dessous. Le reste du portrait n'est jamais touché, donc c'est le même
 homme **par construction**, non par chance. Coût nul, résultat exact.
 
+## Trois pièges de commande, tous payés
+
+**Seize pixels est le plancher du service.** Un enfant commandé à 15 revient en 422 dont le
+corps parle de `image_size.width`. Le garde-fou est maintenant local : la commande refuse
+avant l'appel, et rappelle les tailles usuelles.
+
+**Une tunique de la couleur de la peau se lit comme une nudité.** Zach, huit ans, commandé en
+« tunique sable » avec une carnation sable, est sorti nu deux fois de suite — le modèle
+obéissait, mais sable et carnation sont la même famille et à trente-deux pixels rien ne les
+sépare. La faute est dans la palette de la consigne, pas dans le rendu. Un vêtement doit
+**contraster avec la peau**, et la consigne doit dire quelles parties du corps restent nues.
+
+**Une couleur interdite se remplace par une autre couleur forte.** Cull, dont la consigne
+n'énumérait que des gris, est sorti en robe rouge. Ce n'est pas de la désobéissance mais un
+choix : le modèle veut une couleur saturée quelque part. Autant la choisir soi-même.
+
+## La retouche de vêtement
+
+`sources/<id>.retouche.json` accepte désormais un `vetement` en plus des `cheveux` : une
+fenêtre de teinte, une teinte d'arrivée, un plafond de saturation. La luminance est conservée,
+donc les plis survivent.
+
+```json
+{ "vetement": { "de": [332, 12], "teinte": 225, "saturationMax": 0.10, "pourquoi": "…" } }
+```
+
+C'est ce qui a ramené la robe de Cull du rouge — la couleur du sang, du feu et de l'Empereur
+dans cette palette — vers le gris qu'un Roi d'**Argent** doit porter, sans remettre en jeu la
+couronne et la fourrure obtenues au deuxième essai seulement.
+
+**La carnation ne se reteint jamais, et la garde est dans le code.** Le premier essai visait
+les rouges en `[340, 20]` : les ombres de la peau vivent à 20-30 degrés, et le roi est ressorti
+le visage et les mains gris. C'est précisément ce que le contrôleur ne voit pas. Une fenêtre
+mal bornée ne doit pas pouvoir produire un visage gris, donc le refus est dans `retoucher()` et
+non dans le fichier qu'on écrit.
+
 ## Ne pas régénérer un personnage déjà validé
 
 Le rendu s'écarte parfois du texte — Wellan avait les cheveux auburn là où les romans disent
@@ -130,7 +191,12 @@ La première tentative a en plus changé trois variables d'un coup — formulati
 une chose à la fois**, surtout quand chaque essai coûte.
 
 **Préférer la retouche.** `jeu/art/sources/<id>.retouche.json` déclare un décalage de teinte
-que `art:normalise` applique à toutes les images d'un coup. Viser demande la couleur *et* la
+que `art:normalise` applique à toutes les images d'un coup.
+
+**Mais la retouche ne vise que la chevelure** : bande des treize premières rangées, teintes
+chaudes et sombres. Un vêtement sorti de travers — le surcot d'Écuyère de Bridgess est venu
+turquoise là où l'Ordre est émeraude — n'a pas de remède bon marché. À trente-deux pixels
+l'écart se lit comme un vert sombre, et l'étendre aux vêtements coûterait plus que le défaut. Viser demande la couleur *et* la
 position : les mèches partagent leurs bruns avec les cuirs du corps, et la tête porte aussi
 la peau et les yeux. Conserver la luminance — c'est elle qui porte le modelé.
 
@@ -208,6 +274,42 @@ suspendue à rien s'est fait effacer par le détourage, et une table trop décri
 bouillie grise. Les décrire **posées sur un support simple** et **remplissant le cadre** a
 suffi.
 
+**La banque compte vingt-six sortes**, mesurées à **0,006 USD pièce** — dix-sept d'un coup pour
+0,110 USD, sans un seul rejet. La formule qui les rend toutes du même style tient en trois
+temps, et il suffit de la suivre :
+
+> *A single X, seen from a low top-down three-quarter angle, alone on nothing.* — puis une ou
+> deux phrases de description, **courtes** — puis *Pixel art, Game Boy Advance style, flat
+> fills, two-tone shading, hard black outline, no anti-aliasing. The object alone, centred,
+> filling most of the frame, nothing around it.*
+
+**Deux banques, deux usages.** `jeu/art/objets/` porte le mobilier qu'une salle pose,
+`jeu/art/inventaire/` les icônes de ce qu'on ramasse — `npm run art:generer -- --item <nom>`,
+commande dans `commandes/item-<nom>.txt`. Les mêler ferait apparaître une épée courte parmi les
+meubles qu'on peut placer, et un brasero parmi ce qu'on range dans son sac.
+
+**Une icône d'objet fin se couche en diagonale.** Debout, une épée de 32 pixels sort maigre et
+lavande : la palette du monde n'a ni acier ni cuir, et un objet vertical n'occupe qu'une
+colonne. « Lying at a diagonal across the frame, corner to corner, chunky and heavy, not
+slender » — trois essais pour le trouver, puis huit réussites d'affilée. Neuf icônes pour
+**0,092 USD**, reprises comprises.
+
+**Aucune liste de sortes ne s'écrit plus.** `build-jeu-donnees` lit le dossier, range par ordre
+alphabétique, assemble la planche et inscrit l'ordre dans `monde.json` ; le moteur l'y lit.
+Ajouter un meuble, c'est déposer un PNG. Deux listes écrites à la main ne s'accordent pas
+longtemps — c'est la faute qui avait lancé le jeu sans Kira ni la Reine.
+
+**Une planche qui change de taille doit être réimportée.** `objets.png` est passée de huit
+sprites à vingt-six ; Godot a continué de servir la texture de 256 pixels avec les nouveaux
+indices, et les bannières de la salle du trône sont sorties en coffres. Aucune erreur, aucun
+avertissement — l'image était simplement fausse. `npm run jeu` importe avant de lancer ; un
+`godot --path` lancé à la main ne le fait pas, et c'est là qu'on se fait prendre.
+
+**Ne pas régénérer sur la foi d'une vignette.** Sur la planche contact, le tabouret paraissait
+n'avoir aucun pied et l'enclume paraissait bleue. Agrandis, les trois pieds étaient là et le
+bleu était le marteau. Deux regénérations évitées, après en avoir déjà perdu une sur un
+portrait jugé de la même façon.
+
 ## Les jeux de tuiles
 
 ```bash
@@ -221,6 +323,21 @@ qu'on ne réussit pas à la main, et celle dont dépend qu'un décor ne montre p
 
 La planche livrée range les tuiles par signature de coins — `colonne = NO*8 + NE*4 + SO*2 + SE`
 — pour que le moteur trouve la bonne par calcul.
+
+**Deux terrains de même valeur ne se distinguent pas.** Un grès rouge sombre contre un tapis
+cramoisi a rendu **neuf combinaisons de coins sur seize introuvables** : le détecteur lit les
+pixels, et deux terrains de même clarté n'ont pas de frontière lisible. Le contraste de
+clarté n'est pas un choix esthétique, c'est ce qui rend le raccord calculable. Grès **pâle**
+contre tapis cramoisi est passé du premier coup.
+
+**Un motif dessiné dans le terrain brouille aussi la signature.** « De grandes dalles polies
+posées en grille régulière aux joints fins » : huit combinaisons manquantes. Le terrain se
+décrit uni — « a flat expanse of pale jade green stone, smooth and even » — et la structure se
+laisse au liseré de transition.
+
+**Le nom du fichier est l'identifiant du lieu au Codex.** `build-jeu-donnees` cherche
+`jeu/art/lieux/<id du lieu>.png` : une planche nommée `opale.png` laisse `royaume-d-opale`
+avec `tuiles: null`, sans que rien ne le dise.
 
 **Quatre pièges, tous payés d'une génération chacun.**
 

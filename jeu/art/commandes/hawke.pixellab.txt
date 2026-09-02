@@ -1,0 +1,15 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Hawke, a young Elf magician of about twenty-two, apprentice to the master Élund. SMALL AND SLIGHT — notably shorter and narrower than the humans around him — with SNOW-WHITE SKIN, pointed ears, and long dark hair worn loose. An alert, watchful face.
+
+CLOTHES: a long robe of forest green over a brown underdress, belted with a plain cord. Elvish and unadorned: no metal, no gold, no jewels.
+
+PALETTE — these colors only:
+#0B0A10 #22222C #454652 (black, dark hair)
+#0F3826 #1C7A4E #43C47F (green robe)
+#3D2A12 #7A5223 (brown, cord)
+#F2F2F5 #DDDDE4 #F2D3B0 (snow-white skin)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

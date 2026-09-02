@@ -1,0 +1,212 @@
+{
+  "id": "i-14",
+  "titre": "Un spectre dans la nuit",
+  "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 14",
+  "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure. Ce que le chapitre raconte entre Wellan et la Reine Fan est laissé hors champ : le jeu s'arrête à la porte, comme le ferait un témoin correct.",
+  "salle": "chambre-de-kira",
+  "ambiance": {
+    "teinte": "#5c6480",
+    "lumieres": true
+  },
+  "ouverture": [
+    "Wellan a passé la soirée dans la tour d'Élund, à lire des choses qu'on ne prête pas.",
+    "Il en est ressorti avec une conviction, et il descend l'escalier de la chambre de l'enfant en la portant comme on porte quelque chose de lourd."
+  ],
+  "cloture": [
+    "Elle repartit avant l'aube, et il ne sut jamais si elle était venue pour lui ou pour sa fille.",
+    "Ce qui est certain, c'est qu'il ne redescendit plus jamais cet escalier avec la même intention, et qu'il ne le dit à personne pendant quinze ans."
+  ],
+  "etapes": [
+    {
+      "id": "les-derniers-conseils",
+      "objectif": "Ce que la chambre contient",
+      "attend": {
+        "parler": "kira"
+      },
+      "apparaissent": [
+        {
+          "fiche": "kira",
+          "x": 6,
+          "y": 5,
+          "regarde": "nord"
+        },
+        {
+          "fiche": "fan",
+          "x": 9,
+          "y": 3,
+          "regarde": "sud"
+        }
+      ],
+      "_apparaissent": "La Reine est déjà là quand Wellan pousse la porte. Elle n'est pas entrée.",
+      "dialogues": {
+        "kira": [
+          {
+            "qui": "recit",
+            "dit": "L'enfant est assise sur le tapis, en pleine nuit, et elle parle. Elle parle à quelqu'un qui se tient près du brasero et qui ne projette pas d'ombre."
+          },
+          {
+            "qui": "kira",
+            "dit": "Elle dit qu'elle ne peut plus revenir souvent."
+          },
+          {
+            "qui": "wellan",
+            "dit": "À qui parles-tu ?",
+            "humeur": "trouble"
+          },
+          {
+            "qui": "kira",
+            "dit": "À maman. Elle dit qu'il faut que je mange, que je sois polie, et que je ne morde plus Armène."
+          },
+          {
+            "qui": "kira",
+            "dit": "Elle dit aussi que tu vas t'occuper de moi. Je lui ai répondu que tu ne me regardais jamais."
+          },
+          {
+            "qui": "recit",
+            "dit": "Wellan a une main dans le dos depuis qu'il a poussé la porte. Il l'y laisse, et il ne bouge plus du tout."
+          }
+        ]
+      }
+    },
+    {
+      "id": "ce-qu-on-etait-venu-faire",
+      "objectif": "Ce que tu es venu faire",
+      "attend": {
+        "parler": "kira"
+      },
+      "dialogues": {
+        "kira": [
+          {
+            "qui": "recit",
+            "dit": "Il a lu, ce soir, ce que la tour d'Élund garde sur l'Empereur Noir. Il sait maintenant de qui cette enfant est la fille, et il sait ce que cela signifie pour le continent."
+          },
+          {
+            "qui": "recit",
+            "dit": "Il a trois pas à faire. Il est le seul dans ce château à savoir, donc le seul à pouvoir. Il compte les trois pas."
+          },
+          {
+            "qui": "kira",
+            "dit": "Maman dit que tu l'as trouvée jolie."
+          },
+          {
+            "qui": "recit",
+            "dit": "Wellan s'arrête au premier pas."
+          },
+          {
+            "qui": "kira",
+            "dit": "Elle dit que tu avais sept ans et que tu as regardé tes pieds. Elle rit en le disant. Elle rit encore."
+          },
+          {
+            "qui": "wellan",
+            "dit": "…",
+            "humeur": "trouble"
+          },
+          {
+            "qui": "recit",
+            "dit": "La main sort de son dos, vide. Elle était vide depuis un moment déjà, et il ne s'en était pas aperçu."
+          },
+          {
+            "qui": "kira",
+            "dit": "Tu pleures ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Non.",
+            "humeur": "doux"
+          },
+          {
+            "qui": "kira",
+            "dit": "Maman dit que si."
+          }
+        ]
+      }
+    },
+    {
+      "id": "l-immortelle",
+      "objectif": "Écouter la Reine",
+      "attend": {
+        "parler": "fan"
+      },
+      "dialogues": {
+        "fan": [
+          {
+            "qui": "fan",
+            "dit": "Elle s'est endormie. Elle s'endort toujours au milieu d'une phrase, comme son père."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Vous êtes morte. Je vous ai portée moi-même jusqu'au caveau.",
+            "humeur": "trouble"
+          },
+          {
+            "qui": "fan",
+            "dit": "Oui. Les deux sont vrais, et il faudra vous y faire, parce que je n'ai pas le temps de vous l'expliquer proprement."
+          },
+          {
+            "qui": "fan",
+            "dit": "Je ne suis pas de Shola, Wellan. J'y suis passée. Il y a des choses qui vont et viennent entre les mondes comme vous passez d'une pièce à l'autre, et il se trouve que j'en suis une."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Alors vous saviez ce qui allait arriver à votre peuple.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "fan",
+            "dit": "Je savais qu'il venait pour elle. Je ne savais pas qu'il brûlerait tout le reste pour la trouver. Reprochez-moi ce second point, il est mérité."
+          },
+          {
+            "qui": "recit",
+            "dit": "Elle regarde l'enfant endormie sur le tapis, et pour la première fois depuis qu'elle est apparue, elle ressemble à quelqu'un."
+          },
+          {
+            "qui": "fan",
+            "dit": "Elle a plus de pouvoir que votre Ordre entier. Elle ne le sait pas, Élund ne le voit pas, et l'homme qui l'a engendrée le sait très bien."
+          },
+          {
+            "qui": "fan",
+            "dit": "Un jour elle sera la seule chose entre lui et ce continent. Vous étiez venu pour l'en empêcher."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Oui.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "fan",
+            "dit": "Je sais. C'est pour cela que je suis venue ce soir plutôt qu'un autre."
+          }
+        ],
+        "kira": [
+          {
+            "qui": "recit",
+            "dit": "L'enfant dort. Sa main gauche est ouverte, pour la première fois depuis des semaines."
+          }
+        ]
+      }
+    }
+  ],
+  "fin": {
+    "objectif": "Chapitre I,14 — joué",
+    "attend": {
+      "parler": "fan"
+    },
+    "dialogues": {
+      "fan": [
+        {
+          "qui": "fan",
+          "dit": "Élevez-la. Pas pour moi — je n'ai rien à vous offrir en échange et vous n'accepteriez pas."
+        },
+        {
+          "qui": "fan",
+          "dit": "Élevez-la parce que vous êtes le seul ici qui saura ce qu'elle est et qui ne le lui fera pas payer."
+        },
+        {
+          "qui": "recit",
+          "dit": "Le chandelier s'éteint sans qu'un souffle passe. Ce qui est dit ensuite ne regarde personne, et la porte reste fermée jusqu'au matin."
+        }
+      ]
+    }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée."
+}

@@ -1,0 +1,16 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Swan, a small girl of four, princess of Opale. VERY SMALL — half the height of an adult. BROWN CURLY hair falling in loose ringlets to her shoulders, round cheeks, a wide fearless stare. Caught mid-run.
+
+CLOTHES: a simple short tunic of DARK GREEN velvet over pale hose, and small soft shoes. Nothing rich, nothing royal — she is four and she has been outside all day.
+
+PALETTE — these colors only:
+#0B0A10 #22222C #454652 (black, dark)
+#0F3826 #1C7A4E (dark green tunic)
+#3D2A12 #7A5223 #C08F34 (brown curls)
+#DDDDE4 #F2F2F5 (pale hose)
+#A9714E #D9A57C #F2D3B0 (skin)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

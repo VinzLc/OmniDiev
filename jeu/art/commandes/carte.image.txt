@@ -1,0 +1,11 @@
+An old CARTOGRAPHER'S MAP of an imaginary continent, drawn in ink on a sheet of aged cream parchment. Pixel art, Game Boy Advance style. This is a document lying on a table, not a landscape.
+
+THE WHOLE CONTINENT FITS INSIDE THE PICTURE. Its complete outline is visible, an irregular island-like shape occupying the middle of the sheet. It does NOT touch the edges of the picture on any side.
+
+AROUND IT: a calm pale blue-green SEA to the left and below the coast, and BLANK EMPTY PARCHMENT filling the corners and the right side. Large areas of the sheet are simply empty parchment with nothing drawn on them.
+
+ON THE LAND, drawn small and flat as a mapmaker draws them: a white snow field at the north tip, a row of tiny grey triangular mountain peaks down the east edge, a patch of small dark green tree symbols in the south, a patch of pale ochre dots for desert at the very south, and plain tan-green ground everywhere else. Two thin blue river lines run west into the sea.
+
+STYLE: flat fills, a hard dark brown ink outline on the coast, no anti-aliasing, no gradients. Everything is small, flat and symbolic — the drawing of a map, not a picture of terrain seen from an aeroplane.
+
+ABSOLUTELY NO TEXT: no letters, no names, no legend, no compass rose, no scale bar, no decorative border.

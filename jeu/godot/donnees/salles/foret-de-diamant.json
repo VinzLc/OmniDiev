@@ -63,7 +63,133 @@
     {
       "type": "brasier",
       "x": 12,
-      "y": 8
+      "y": 8,
+      "nom": "Le feu du camp",
+      "texte": [
+        "Bas et large, entouré de pierres ramassées sur place. Six d'entre vous ont dormi autour cette nuit.",
+        "Bergeau l'a monté. Il dit qu'un feu de forêt se fait petit et large, un feu de désert haut et serré, et qu'on reconnaît d'où vient un homme à la forme de son feu."
+      ]
+    },
+    {
+      "type": "souche",
+      "x": 12,
+      "y": 4,
+      "nom": "Une souche",
+      "texte": [
+        "Coupée haute, à hauteur de siège. Le bois est encore clair au centre.",
+        "Ce n'est pas nous qui l'avons coupée. Les bûcherons de Diamant travaillent jusqu'ici et rentrent le soir."
+      ]
+    },
+    {
+      "type": "arbre",
+      "x": 4,
+      "y": 8,
+      "nom": "Un arbre marqué",
+      "texte": [
+        "Trois entailles à hauteur d'épaule, espacées d'une main.",
+        "C'est un chemin. Il faut savoir qu'on les lit pour les voir, et l'on n'a pas appris ça au Château."
+      ]
+    },
+    {
+      "type": "buisson",
+      "x": 19,
+      "y": 13,
+      "nom": "Un fourré",
+      "texte": [
+        "Dense, épineux, plus haut qu'un enfant assis.",
+        "Jasson prétend s'y être caché toute une soirée pour écouter ce que les autres disaient de lui. Il ne rapporte jamais ce qu'il a entendu."
+      ]
+    },
+    {
+      "type": "arbre",
+      "x": 2,
+      "y": 2
+    },
+    {
+      "type": "arbre",
+      "x": 2,
+      "y": 6
+    },
+    {
+      "type": "arbre",
+      "x": 2,
+      "y": 10
+    },
+    {
+      "type": "arbre",
+      "x": 2,
+      "y": 14
+    },
+    {
+      "type": "arbre",
+      "x": 6,
+      "y": 2
+    },
+    {
+      "type": "arbre",
+      "x": 11,
+      "y": 2
+    },
+    {
+      "type": "arbre",
+      "x": 16,
+      "y": 2
+    },
+    {
+      "type": "arbre",
+      "x": 21,
+      "y": 2
+    },
+    {
+      "type": "arbre",
+      "x": 21,
+      "y": 6
+    },
+    {
+      "type": "arbre",
+      "x": 21,
+      "y": 10
+    },
+    {
+      "type": "arbre",
+      "x": 21,
+      "y": 14
+    },
+    {
+      "type": "arbre",
+      "x": 6,
+      "y": 15
+    },
+    {
+      "type": "arbre",
+      "x": 11,
+      "y": 15
+    },
+    {
+      "type": "arbre",
+      "x": 16,
+      "y": 15
+    },
+    {
+      "type": "buisson",
+      "x": 5,
+      "y": 5
+    },
+    {
+      "type": "buisson",
+      "x": 18,
+      "y": 5
+    },
+    {
+      "type": "buisson",
+      "x": 5,
+      "y": 11
+    },
+    {
+      "type": "souche",
+      "x": 18,
+      "y": 9
     }
-  ]
+  ],
+  "_objets": "Les arbres ferment la clairière sans la boucher : ils tiennent le pourtour, hors des cases de terrain 1. Trois seulement portent un texte — un décor où chaque tronc se raconte fait un musée, pas une forêt."
 }

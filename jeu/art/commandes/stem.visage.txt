@@ -1,0 +1,15 @@
+Pixel art bust portrait, Game Boy Advance style, of a single young man seen from the chest up, facing the viewer. Dark plain background.
+
+FRAMING: they FILL THE WHOLE FRAME. The head occupies the upper half of the picture, edge to edge; the shoulders run off both sides and are cut by the border; the bottom of the picture cuts across the chest. No empty margin anywhere — this is a close portrait, not a figure standing in a void.
+
+WHO: Stem, Crown Prince of Rubis, twenty-five, younger brother of Wellan. Clearly the same family — the same wide jaw and brown hair — but narrower in the face and quicker in expression. A restless half-smile.
+
+HAIR: BROWN, short, untidy. A little stubble.
+
+EYES: pale blue.
+
+CLOTHES: a CRIMSON tunic with a leather collar across the chest. No crown: he is the heir, not the king.
+
+STYLE: flat fills, two-tone shading, hard dark outline, no anti-aliasing, no gradients.
+
+No text, no letters, no frame, no watermark, no second figure.

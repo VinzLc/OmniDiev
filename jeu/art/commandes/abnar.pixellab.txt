@@ -1,0 +1,15 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Abnar, the Crystal Magician, who passes for a young apprentice. A SLENDER UPRIGHT SILHOUETTE and LONG MOONLIGHT-PALE HAIR falling past the shoulders. He looks about twenty-two and is more than five hundred years old; the face is smooth and gives away nothing at all.
+
+CLOTHES: a long plain robe of white and pale silver, unbelted, reaching the ground. No staff, no jewels, no insignia. Everything about him is white, silver and cold. No gold, no green, no brown.
+
+PALETTE — these colors only:
+#0B0A10 #22222C #454652 #71727E (black outline, dark)
+#F2F2F5 #DDDDE4 #A6A8B2 (white robe, silver)
+#E3F3FE #A8D6E0 #5E9AA8 (cold highlights)
+#D9A57C #F2D3B0 (skin)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

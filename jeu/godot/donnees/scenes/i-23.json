@@ -1,0 +1,318 @@
+{
+  "id": "i-23",
+  "titre": "Retour au royaume de Rubis",
+  "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 23",
+  "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure. La grotte de cristal est racontée plutôt que traversée, et la nuit se joue dans la même salle : le chapitre couvre une arrivée, une soirée et un matin, et changer de pièce trois fois n'y ajouterait rien. Le Royaume de Rubis ne figurait pas dans les lieux relevés par l'Oracle ; il est déclaré à la main dans data/corrections.json.",
+  "salle": "chateau-de-rubis",
+  "ouverture": [
+    "Une journée et demie de route depuis Émeraude, par la vallée. Wellan a fait ce trajet une fois dans l'autre sens, à sept ans, sur un cheval qu'on tenait par la bride.",
+    "Il n'était jamais revenu. On ne le lui avait pas demandé, et il ne l'avait pas proposé."
+  ],
+  "cloture": [
+    "Ils repartirent à l'aube, sans que la Reine descende. Le Roi Burge accompagna son fils jusqu'à la porte et lui serra le bras au lieu de l'embrasser, ce qui était énorme.",
+    "Stem monta sur les remparts pour les regarder s'éloigner, et n'en parla à personne."
+  ],
+  "etapes": [
+    {
+      "id": "la-famille",
+      "objectif": "Saluer ton père",
+      "attend": {
+        "parler": "burge"
+      },
+      "apparaissent": [
+        {
+          "fiche": "burge",
+          "x": 13,
+          "y": 6,
+          "regarde": "sud",
+          "pose": true
+        },
+        {
+          "fiche": "mira",
+          "x": 17,
+          "y": 7,
+          "regarde": "ouest",
+          "pose": true
+        },
+        {
+          "fiche": "stem",
+          "x": 9,
+          "y": 7,
+          "regarde": "est",
+          "pose": true
+        },
+        {
+          "fiche": "bridgess",
+          "x": 13,
+          "y": 11,
+          "regarde": "nord",
+          "pose": true
+        }
+      ],
+      "dialogues": {
+        "burge": [
+          {
+            "qui": "burge",
+            "dit": "Par la vallée ? En une journée et demie ? Tu as crevé un cheval."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Deux."
+          },
+          {
+            "qui": "burge",
+            "dit": "Deux. Bien. Entre, assieds-toi, mange quelque chose — non, d'abord laisse-moi te regarder."
+          },
+          {
+            "qui": "recit",
+            "dit": "Le Roi de Rubis fait deux fois le tour de son fils, en silence, comme on inspecte une bête qu'on a vendue jeune et qu'on revoit adulte."
+          },
+          {
+            "qui": "burge",
+            "dit": "Ils te nourrissent correctement, à Émeraude."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Ils me nourrissent correctement.",
+            "humeur": "doux"
+          },
+          {
+            "qui": "burge",
+            "dit": "Alors c'est déjà ça. Ta mère est là, ne fais pas semblant de ne pas l'avoir vue."
+          }
+        ],
+        "mira": [
+          {
+            "qui": "mira",
+            "dit": "Chevalier."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Mère."
+          },
+          {
+            "qui": "mira",
+            "dit": "Vous êtes ici pour lever des hommes, m'a-t-on dit. Combien de jours restez-vous ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Un.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "mira",
+            "dit": "Un. Bien. Je ferai préparer la chambre haute — non, le lit est trop court. On le descendra."
+          },
+          {
+            "qui": "recit",
+            "dit": "Elle ne l'a pas touché. Elle n'a pas eu un mot dur non plus, et ce serait plus simple si elle en avait eu un."
+          }
+        ],
+        "stem": [
+          {
+            "qui": "stem",
+            "dit": "Le grand frère revient. On va encore parler de toi pendant six mois."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Stem."
+          },
+          {
+            "qui": "stem",
+            "dit": "Non, c'est très bien. Tu sauves le continent, moi je compte les tonneaux de la cave. Chacun son métier."
+          }
+        ]
+      }
+    },
+    {
+      "id": "le-frere",
+      "objectif": "Parler à Stem",
+      "attend": {
+        "parler": "stem"
+      },
+      "dialogues": {
+        "stem": [
+          {
+            "qui": "wellan",
+            "dit": "Tu te souviens de la grotte ?",
+            "humeur": "doux"
+          },
+          {
+            "qui": "stem",
+            "dit": "…"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Sous la falaise ouest. On y descendait par la faille et il fallait ramper les douze derniers pas."
+          },
+          {
+            "qui": "stem",
+            "dit": "Tu passais devant. Tu passais toujours devant parce que tu étais l'aîné, et une fois tu es resté coincé et j'ai dû te tirer par les pieds."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Tu as raconté cela à tout le château."
+          },
+          {
+            "qui": "stem",
+            "dit": "Pendant deux ans. C'était la meilleure chose qui me soit arrivée."
+          },
+          {
+            "qui": "recit",
+            "dit": "Ils rient tous les deux, ce qui n'était pas arrivé depuis quinze ans et ce qui prend au frère cadet un temps visible à admettre."
+          },
+          {
+            "qui": "stem",
+            "dit": "Le cristal pousse encore. Il fait deux fois ma taille au fond, maintenant."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Emmène mon Écuyer la voir. Elle n'a jamais rien vu qui pousse dans le noir.",
+            "humeur": "doux"
+          },
+          {
+            "qui": "stem",
+            "dit": "Elle a douze ans et elle vient d'Émeraude. Elle va trouver ça vulgaire."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Elle va trouver ça magnifique et elle dira que c'est correct. Tu comprendras."
+          }
+        ],
+        "bridgess": [
+          {
+            "qui": "bridgess",
+            "dit": "Votre frère m'a fait ramper dans une faille."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Et ?"
+          },
+          {
+            "qui": "bridgess",
+            "dit": "C'était correct.",
+            "humeur": "doux"
+          }
+        ]
+      }
+    },
+    {
+      "id": "la-nuit",
+      "objectif": "La visite de la nuit",
+      "apparaissent": [
+        {
+          "fiche": "fan",
+          "x": 16,
+          "y": 11,
+          "regarde": "ouest",
+          "pose": true
+        }
+      ],
+      "disparaissent": [
+        "mira",
+        "stem",
+        "burge"
+      ],
+      "attend": {
+        "parler": "fan"
+      },
+      "dialogues": {
+        "fan": [
+          {
+            "qui": "recit",
+            "dit": "Le château dort. Le chandelier s'éteint sans qu'un souffle passe, ce qui est devenu, en un an, une chose que Wellan reconnaît."
+          },
+          {
+            "qui": "fan",
+            "dit": "Vous dormez dans un lit de quatre pieds."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Vous êtes venue pour cela ?",
+            "humeur": "doux"
+          },
+          {
+            "qui": "fan",
+            "dit": "Non. Mais je le note."
+          },
+          {
+            "qui": "fan",
+            "dit": "Il arme de nouveau. Pas des dragons cette fois — des bateaux, et beaucoup plus qu'à Shola."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Où ?",
+            "humeur": "grave"
+          },
+          {
+            "qui": "fan",
+            "dit": "Là où la terre est basse. Vous le savez déjà, votre magicien de Béryl vous l'a récité."
+          },
+          {
+            "qui": "fan",
+            "dit": "Il ne cherche toujours qu'une chose, Wellan. Il brûlera tout ce qu'il faut pour la trouver, et il a le temps."
+          },
+          {
+            "qui": "recit",
+            "dit": "Elle regarde la salle rouge où il a grandi, la bannière verte pendue seule, le lit trop court."
+          },
+          {
+            "qui": "fan",
+            "dit": "Vous ne reviendrez pas ici avant longtemps. Regardez-la comme il faut."
+          }
+        ]
+      }
+    }
+  ],
+  "fin": {
+    "objectif": "Chapitre I,23 — joué",
+    "attend": {
+      "parler": "bridgess"
+    },
+    "dialogues": {
+      "bridgess": [
+        {
+          "qui": "bridgess",
+          "dit": "Vous avez parlé toute la nuit. Je vous ai entendu."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Oui.",
+          "humeur": "grave"
+        },
+        {
+          "qui": "bridgess",
+          "dit": "À la morte."
+        },
+        {
+          "qui": "wellan",
+          "dit": "À la femme que j'aime. Elle est morte, les deux sont vrais, et j'ai renoncé à ce que ce soit clair.",
+          "humeur": "grave"
+        },
+        {
+          "qui": "recit",
+          "dit": "Elle réfléchit longtemps, à la façon d'une enfant de douze ans qui range quelque chose d'énorme dans une case trop petite."
+        },
+        {
+          "qui": "bridgess",
+          "dit": "Est-ce que ça fait mal ?"
+        },
+        {
+          "qui": "wellan",
+          "dit": "Tous les jours.",
+          "humeur": "grave"
+        },
+        {
+          "qui": "bridgess",
+          "dit": "Alors on part quand ?"
+        },
+        {
+          "qui": "wellan",
+          "dit": "Maintenant.",
+          "humeur": "resolu"
+        }
+      ]
+    }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée."
+}

@@ -1,0 +1,312 @@
+{
+  "id": "salle-d-armes",
+  "lieu": "chateau-d-emeraude",
+  "nom": "La salle d'armes",
+  "taille": [
+    22,
+    13
+  ],
+  "depart": [
+    1,
+    6
+  ],
+  "passages": [
+    {
+      "x": 0,
+      "y": 6,
+      "vers": "galerie-des-sept",
+      "arrivee": [
+        28,
+        5
+      ]
+    }
+  ],
+  "personnages": [
+    {
+      "fiche": "wanda",
+      "x": 8,
+      "y": 6,
+      "regarde": "sud",
+      "des": "i-15",
+      "dit": [
+        {
+          "qui": "wanda",
+          "dit": "Wanda. Je suis ici tous les matins avant les autres et je repars après eux."
+        },
+        {
+          "qui": "recit",
+          "dit": "Elle porte les cheveux plus courts qu'aucun garçon du Château. On lui a demandé pourquoi une fois, et elle a répondu qu'on ne le demandait pas aux garçons."
+        },
+        {
+          "qui": "wanda",
+          "dit": "Le maître d'armes dit que je frappe trop fort pour ma taille. Je crois que c'est le seul compliment qu'il sache faire."
+        },
+        {
+          "qui": "wanda",
+          "dit": "Falcon vient s'exercer le soir, quand la salle est vide. Nous ne nous parlons pas. Nous nous saluons, et c'est tout, et cela dure depuis un an."
+        }
+      ]
+    },
+    {
+      "fiche": "ariane",
+      "x": 12,
+      "y": 6,
+      "regarde": "ouest",
+      "des": "i-15",
+      "donne": {
+        "id": "lame-des-fees",
+        "nom": "La lame sans nom",
+        "categorie": "equipement",
+        "emplacement": "arme",
+        "bonus": {
+          "force": 10,
+          "vitesse": 1
+        },
+        "texte": [
+          "Elle ne pèse rien. On la lève trop haut la première fois et l'on se sent bête.",
+          "Le fil ne brille pas. Il ne s'ébrèche pas non plus, ce qui est une façon plus utile d'être une épée."
+        ]
+      },
+      "dit": [
+        {
+          "qui": "ariane",
+          "dit": "Ariane. J'étais une Fée. J'avais des ailes. Je ne les ai plus. La question d'après est toujours la même, alors je réponds tout de suite : non, ça ne repousse pas."
+        },
+        {
+          "qui": "ariane",
+          "dit": "Chloé m'a appris l'épée. Avant, quand quelqu'un me déplaisait, je me posais sur lui. Maintenant je le frappe. Tout le monde y gagne."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Tu ne les regrettes pas ?"
+        },
+        {
+          "qui": "ariane",
+          "dit": "Elles prenaient toute la place dans un lit. Et il fallait les laver. Vous n'imaginez pas ce qui se coince dedans."
+        },
+        {
+          "qui": "ariane",
+          "dit": "Prenez cette lame. Elle vient de chez moi. Elle coupe des choses que l'acier ne coupe pas, et elle ne pèse rien, ce qui vous fera un changement."
+        },
+        {
+          "qui": "ariane",
+          "dit": "Elle n'a pas de nom. Chez les Fées on ne nomme pas les objets. On nomme les enfants et les arbres, et on se trompe une fois sur deux."
+        }
+      ]
+    }
+  ],
+  "_objets": "Les coffres d'armes en rang contre le mur du nord, la forge et l'établi au levant, l'aire d'exercice au milieu. Rien contre le mur du couchant : c'est celui de la porte, et on ne meuble pas une entrée.",
+  "objets": [
+    {
+      "type": "ratelier",
+      "x": 4,
+      "y": 2,
+      "nom": "Le râtelier des lames d'exercice",
+      "texte": [
+        "Du bois dur, lesté de plomb au pommeau pour peser le poids d'une vraie. Elles cassent, elles ne coupent pas.",
+        "Chacune porte une encoche par saison. La plus vieille en a onze, ce qui veut dire qu'aucun enfant ne l'a cassée en onze ans."
+      ],
+      "contient": [
+        {
+          "id": "epee-de-bois",
+          "nom": "Une lame d'exercice",
+          "categorie": "equipement",
+          "emplacement": "arme",
+          "bonus": {
+            "force": 2
+          },
+          "texte": [
+            "Du bois dur lesté de plomb au pommeau, pour peser le poids d'une vraie.",
+            "Elle casse, elle ne coupe pas. On s'en sert jusqu'à ce qu'on cesse de se blesser soi-même."
+          ]
+        }
+      ]
+    },
+    {
+      "type": "coffre",
+      "x": 8,
+      "y": 2,
+      "nom": "Le coffre des épées courtes",
+      "texte": [
+        "Sept lames, forgées à la taille de sept bras. Élund a refusé qu'on donne des armes d'homme à des enfants.",
+        "Le forgeron a protesté qu'il faudrait tout refaire dans deux ans. On lui a répondu que dans deux ans on referait tout."
+      ],
+      "contient": [
+        {
+          "id": "epee-courte",
+          "nom": "Une épée courte",
+          "categorie": "equipement",
+          "emplacement": "arme",
+          "bonus": {
+            "force": 5
+          },
+          "texte": [
+            "Forgée à la taille de ton bras, non à celle d'un homme. Élund a insisté.",
+            "Il faudra la refaire dans deux ans. On te l'a dit en te la donnant, comme une promesse plutôt que comme un regret."
+          ]
+        }
+      ]
+    },
+    {
+      "type": "coffre",
+      "x": 12,
+      "y": 2,
+      "nom": "Le coffre des cuirs",
+      "texte": [
+        "Plastrons, brassards, jambières, en cuir bouilli. Rien de métal : le métal chauffe, pèse, et donne à un enfant l'idée qu'il est protégé.",
+        "« Un enfant qui se croit protégé va là où il ne devrait pas », dit le maître d'armes. Il l'a dit sept fois ce mois-ci."
+      ],
+      "contient": [
+        {
+          "id": "plastron-de-cuir",
+          "nom": "Un plastron de cuir",
+          "categorie": "equipement",
+          "emplacement": "armure",
+          "bonus": {
+            "defense": 4
+          },
+          "texte": [
+            "Rien de métal. Le métal chauffe, pèse, et donne à un enfant l'idée qu'il est protégé.",
+            "Celui-ci porte déjà trois entailles. Il a servi avant toi et il servira après."
+          ]
+        },
+        {
+          "id": "casque-de-cuir",
+          "nom": "Un casque de cuir",
+          "categorie": "equipement",
+          "emplacement": "casque",
+          "bonus": {
+            "defense": 2
+          },
+          "texte": [
+            "Un dôme de cuir durci, un nasal de fer, deux lanières.",
+            "Le maître d'armes exige qu'on le porte à l'exercice. Il ne dit pas pourquoi, et personne n'a envie de le lui demander."
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ratelier",
+      "x": 16,
+      "y": 2,
+      "nom": "Le râtelier des arcs",
+      "texte": [
+        "Trois arcs courts et un tonneau de flèches à pointe mouchetée. On tire sur des bottes de paille, jamais sur des cibles peintes.",
+        "Une cible peinte a un centre. Une botte de paille n'en a pas, et c'est l'idée."
+      ],
+      "contient": [
+        {
+          "id": "fleche-mouchetee",
+          "nom": "Une flèche mouchetée",
+          "categorie": "objet",
+          "texte": [
+            "La pointe est enveloppée d'étoupe et de cire. Elle marque sans percer.",
+            "On tire sur des bottes de paille, jamais sur des cibles peintes : une cible a un centre, une botte n'en a pas."
+          ]
+        }
+      ]
+    },
+    {
+      "type": "coffre",
+      "x": 20,
+      "y": 2,
+      "nom": "Un coffre vide",
+      "texte": [
+        "Ouvert, propre, et vide. Il attend quelque chose.",
+        "Le maître d'armes ne dit pas quoi. Il dit seulement qu'un coffre vide dans une salle d'armes est le seul meuble qui parle de l'avenir."
+      ]
+    },
+    {
+      "type": "stele",
+      "x": 3,
+      "y": 10,
+      "nom": "La pierre des gestes",
+      "texte": [
+        "Six figures gravées, chacune un mouvement, dans l'ordre où on les apprend. La sixième est à demi effacée.",
+        "On l'a effacée exprès. Le maître d'armes soutient qu'un geste qu'on n'a pas trouvé seul ne tient pas sous le coup."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 1,
+      "y": 2,
+      "nom": "Une bannière d'exercice",
+      "texte": [
+        "Plus petite que celles de la galerie, montée sur une hampe qu'on peut porter en courant.",
+        "On la donne à l'un des enfants et les six autres doivent la reprendre. Bergeau l'a gardée quatre fois de suite, et l'on a changé la règle."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 20,
+      "y": 11,
+      "nom": "Une bannière noire",
+      "texte": [
+        "Sans croix, sans dragon : du noir seul. On la hisse les jours où l'on ne s'exerce pas.",
+        "Il y a eu quatre de ces jours en dix ans. Personne ici ne les nomme, mais tout le monde sait lesquels."
+      ]
+    },
+    {
+      "type": "feu",
+      "x": 20,
+      "y": 5,
+      "nom": "La forge",
+      "texte": [
+        "Petite : de quoi redresser une lame, non d'en battre une. Les vraies forges sont en bas, près des écuries.",
+        "Celle-ci sert surtout à réchauffer les mains du maître d'armes, qui ne l'admettra pas."
+      ]
+    },
+    {
+      "type": "enclume",
+      "x": 20,
+      "y": 8,
+      "nom": "L'enclume",
+      "texte": [
+        "Petite, montée sur un billot, une corne ébréchée et le marteau posé en travers.",
+        "Elle ne sert pas à forger : elle sert à redresser. Un Chevalier qui ne sait pas remettre en état sa propre lame n'a pas de lame — c'est la première leçon, et elle ne se donne pas avec une épée."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 7,
+      "y": 11,
+      "nom": "Un brasero",
+      "texte": [
+        "L'hiver, la salle d'armes est la pièce la plus froide du Château : elle est haute, et personne n'y dort.",
+        "On allume les deux braseros une heure avant l'exercice. Les enfants arrivent souvent plus tôt, pour la même raison."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 16,
+      "y": 11,
+      "nom": "Un brasero",
+      "texte": [
+        "Celui du levant, contre lequel on fait sécher les cuirs.",
+        "Un plastron oublié trop près a durci en forme de rien du tout. On l'a gardé et on le montre : c'est plus efficace qu'une consigne."
+      ]
+    },
+    {
+      "type": "tombe",
+      "x": 12,
+      "y": 9,
+      "nom": "Une pierre au milieu du sol",
+      "texte": [
+        "Elle affleure à peine, polie par les pieds. On tourne autour depuis si longtemps que le sol s'est creusé alentour.",
+        "Le maître d'armes s'en sert de repère : l'exercice commence quand les sept l'ont derrière eux."
+      ]
+    }
+  ],
+  "_zones": "L'aire d'exercice, en tapis, au milieu de la pierre. Un tapis amortit ce qui tombe, et ce qui tombe ici tombe souvent.",
+  "fond": 1,
+  "zones": [
+    {
+      "terrain": 0,
+      "x": 6,
+      "y": 4,
+      "l": 10,
+      "h": 5
+    }
+  ],
+  "_taille": "Vingt-deux sur treize. À vingt-quatre sur quinze la caméra n'en montrait plus que l'aire d'exercice, et la salle paraissait vide alors qu'elle porte treize meubles."
+}

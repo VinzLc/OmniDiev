@@ -1,0 +1,219 @@
+{
+  "id": "i-21",
+  "titre": "Le magicien de cristal",
+  "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 21",
+  "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure. Les trois semaines d'enseignement que le chapitre couvre sont ramassées en une scène : un jeu qui les jouerait ne montrerait que l'attente.",
+  "salle": "salle-du-trone",
+  "ouverture": [
+    "Soixante enfants sont arrivés en huit jours. On les a logés dans les greniers, dans l'ancienne salle des gardes, et pour douze d'entre eux dans les écuries, ce dont personne n'est fier.",
+    "Élund n'a pas été consulté. Il l'a appris en voyant les charrettes franchir la porte basse."
+  ],
+  "cloture": [
+    "Abnar enseigna trois semaines, et au bout de trois semaines l'enfant de Shola parlait, écrivait son nom, et avait cessé de mordre.",
+    "Ce qu'il était réellement venu faire au Château, personne ne le demanda, parce que personne n'imagina qu'il pût y avoir autre chose."
+  ],
+  "etapes": [
+    {
+      "id": "la-colere-d-elund",
+      "objectif": "Affronter Élund",
+      "attend": {
+        "parler": "elund"
+      },
+      "dialogues": {
+        "elund": [
+          {
+            "qui": "elund",
+            "dit": "Soixante. Tu as fait chercher soixante enfants dans sept royaumes sans me le dire."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Vous auriez dit non.",
+            "humeur": "resolu"
+          },
+          {
+            "qui": "elund",
+            "dit": "J'aurais dit non, oui. Et j'aurais eu tort, ce qui est encore plus désagréable."
+          },
+          {
+            "qui": "elund",
+            "dit": "Sais-tu combien j'en ai formé en trente ans ? Sept. Sept, Wellan, et je les ai choisis un par un pendant onze années."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Nous n'avons plus onze années.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "recit",
+            "dit": "Le magicien regarde par la fenêtre haute la cour où soixante enfants font la queue pour de la soupe. Il les compte. Il en compte soixante-deux."
+          },
+          {
+            "qui": "elund",
+            "dit": "Je ne peux pas enseigner à soixante enfants. Je ne peux même pas retenir soixante noms."
+          }
+        ]
+      }
+    },
+    {
+      "id": "l-apprenti",
+      "objectif": "Recevoir l'inconnu",
+      "apparaissent": [
+        {
+          "fiche": "abnar",
+          "x": 14,
+          "y": 10,
+          "regarde": "nord",
+          "depuis": [
+            14,
+            16
+          ]
+        }
+      ],
+      "attend": {
+        "parler": "abnar"
+      },
+      "dialogues": {
+        "abnar": [
+          {
+            "qui": "abnar",
+            "dit": "On m'a dit qu'il manquait un maître. Je m'appelle Abnar. Je suis l'apprenti du Magicien de Cristal."
+          },
+          {
+            "qui": "elund",
+            "dit": "Le Magicien de Cristal n'a pas d'apprenti. Le Magicien de Cristal n'existe pas : c'est une histoire qu'on raconte aux enfants de Cristal pour qu'ils dorment."
+          },
+          {
+            "qui": "abnar",
+            "dit": "C'est exact. Voulez-vous tout de même de l'aide ?"
+          },
+          {
+            "qui": "recit",
+            "dit": "Il n'a pas de bagage. Il n'a pas de cheval. Personne à la porte basse ne se souvient de l'avoir laissé entrer, et l'on n'a pas encore trouvé cela curieux."
+          },
+          {
+            "qui": "wellan",
+            "dit": "D'où venez-vous ?"
+          },
+          {
+            "qui": "abnar",
+            "dit": "De plus loin que Rubis et de moins loin que la mer. Chevalier, vous cherchez à savoir si je suis dangereux, et c'est une question à laquelle personne ne répond jamais honnêtement."
+          },
+          {
+            "qui": "abnar",
+            "dit": "Donnez-moi les enfants dont votre maître ne veut pas. S'il se plaint dans un mois, chassez-moi."
+          },
+          {
+            "qui": "elund",
+            "dit": "Prenez-les tous. Et prenez l'enfant mauve, tant que vous y êtes — elle mord."
+          }
+        ],
+        "elund": [
+          {
+            "qui": "elund",
+            "dit": "Il ne m'a pas dit son âge. J'ai demandé deux fois."
+          }
+        ]
+      }
+    },
+    {
+      "id": "l-enfant-qui-apprend",
+      "objectif": "Voir ce que Kira est devenue",
+      "apparaissent": [
+        {
+          "fiche": "kira",
+          "x": 11,
+          "y": 13,
+          "regarde": "est",
+          "depuis": [
+            14,
+            16
+          ]
+        }
+      ],
+      "attend": {
+        "parler": "kira"
+      },
+      "dialogues": {
+        "kira": [
+          {
+            "qui": "kira",
+            "dit": "Bonjour, Wellan. Je sais dire bonjour maintenant."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Je vois cela.",
+            "humeur": "doux"
+          },
+          {
+            "qui": "kira",
+            "dit": "Je sais écrire mon nom aussi. Il y a quatre lettres et la première est une montagne."
+          },
+          {
+            "qui": "recit",
+            "dit": "Elle a trois ans et demi. Il y a un mois elle ne mangeait pas, ne parlait pas, et grimpait sur les armoires quand on approchait d'elle avec de l'eau."
+          },
+          {
+            "qui": "kira",
+            "dit": "Maître Abnar dit qu'un Chevalier protège ceux qui ne peuvent pas. Comme sur la pierre, là-bas."
+          },
+          {
+            "qui": "kira",
+            "dit": "Je veux être Chevalier."
+          },
+          {
+            "qui": "wellan",
+            "dit": "C'est long. C'est très long et ce n'est pas amusant.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "kira",
+            "dit": "Je sais. Il l'a dit aussi. Je veux quand même."
+          },
+          {
+            "qui": "recit",
+            "dit": "Wellan cherche une raison de dire non et n'en trouve aucune qu'il puisse prononcer devant elle."
+          }
+        ],
+        "abnar": [
+          {
+            "qui": "abnar",
+            "dit": "Elle apprend plus vite que les cinquante-neuf autres réunis. Je préférerais que cela ne se sache pas."
+          },
+          {
+            "qui": "abnar",
+            "dit": "Ce qu'il faut préserver chez cette enfant n'est pas son pouvoir, Chevalier. C'est ce qu'elle en fera. Les deux ne se protègent pas de la même façon."
+          }
+        ]
+      }
+    }
+  ],
+  "fin": {
+    "objectif": "Chapitre I,21 — joué",
+    "attend": {
+      "parler": "elund"
+    },
+    "dialogues": {
+      "elund": [
+        {
+          "qui": "elund",
+          "dit": "Un mois. Il n'a pas failli une fois, il ne dort pas, et je ne l'ai jamais vu manger."
+        },
+        {
+          "qui": "elund",
+          "dit": "Je devrais m'en inquiéter. Je suis surtout soulagé, ce qui en dit long sur l'état où tu m'as mis."
+        }
+      ],
+      "abnar": [
+        {
+          "qui": "abnar",
+          "dit": "Vous reviendrez me voir un jour avec une question que vous n'osez pas poser aujourd'hui."
+        },
+        {
+          "qui": "abnar",
+          "dit": "Je vous répondrai. Pas forcément la vérité — mais je vous répondrai."
+        }
+      ]
+    }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée."
+}

@@ -1,0 +1,318 @@
+{
+  "id": "i-20",
+  "titre": "Retrouvailles inattendues",
+  "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 20",
+  "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure. Le duel contre Kardey est raconté plutôt que joué : le combat du jeu tue ce qu'il touche, et Kardey deviendra Chevalier d'Émeraude. La Reine Ardère n'a pas de fiche au Codex ; elle est nommée sans paraître.",
+  "salle": "frontiere-d-opale",
+  "ouverture": [
+    "Le Royaume d'Opale finit sur une plaine claire où plus rien ne pousse, et cette plaine finit sur une borne.",
+    "Au-delà de la borne, le Royaume des Ombres. Les Chevaliers y ont mené leurs Écuyers parce qu'il fallait bien creuser quelque part, et qu'on creuse là où l'ennemi passera."
+  ],
+  "cloture": [
+    "Opale fournit deux cents hommes et ses propres pelles, ce qui n'était pas arrivé depuis la génération du grand-père du Roi.",
+    "Et Wellan repartit avec une idée qu'il n'était pas venu chercher : qu'il y avait une enfant de plus à mener au Château."
+  ],
+  "etapes": [
+    {
+      "id": "l-interception",
+      "objectif": "Répondre aux soldats d'Opale",
+      "attend": {
+        "parler": "kardey"
+      },
+      "apparaissent": [
+        {
+          "fiche": "kardey",
+          "x": 13,
+          "y": 7,
+          "regarde": "sud",
+          "pose": true
+        },
+        {
+          "fiche": "santo",
+          "x": 9,
+          "y": 10,
+          "regarde": "est",
+          "pose": true
+        },
+        {
+          "fiche": "bridgess",
+          "x": 17,
+          "y": 10,
+          "regarde": "ouest",
+          "pose": true
+        },
+        {
+          "fiche": "kerns",
+          "x": 20,
+          "y": 9,
+          "regarde": "ouest",
+          "pose": true
+        }
+      ],
+      "dialogues": {
+        "kardey": [
+          {
+            "qui": "kardey",
+            "dit": "On ne traverse pas la frontière d'Opale en armes sans que je le sache. Vous êtes quatre, dont deux enfants."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Deux Écuyers. Nous venons parler à votre roi."
+          },
+          {
+            "qui": "kardey",
+            "dit": "Tout le monde vient parler à mon roi. Moi je décide qui arrive jusqu'à lui."
+          },
+          {
+            "qui": "kardey",
+            "dit": "Vous portez un surcot vert et noir. Émeraude n'envoie rien ici depuis quarante ans, et voilà qu'Émeraude envoie quelqu'un de très grand."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Le nord a brûlé. Shola n'existe plus.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "kardey",
+            "dit": "On me l'a dit. On me dit beaucoup de choses et j'en crois une sur dix."
+          },
+          {
+            "qui": "recit",
+            "dit": "Il n'est pas insolent. Il fait exactement son métier, ce qui est plus difficile à contourner que de l'insolence."
+          },
+          {
+            "qui": "kardey",
+            "dit": "Montrez-moi ce que vaut un Chevalier d'Émeraude et je vous mène au Roi moi-même. Sinon vous rentrez."
+          }
+        ],
+        "santo": [
+          {
+            "qui": "santo",
+            "dit": "Il a raison de nous arrêter, tu sais. À sa place tu ferais pire."
+          }
+        ]
+      }
+    },
+    {
+      "id": "le-duel",
+      "objectif": "Le duel",
+      "attend": {
+        "parler": "kardey"
+      },
+      "dialogues": {
+        "kardey": [
+          {
+            "qui": "recit",
+            "dit": "Le duel dure onze secondes. Kardey est bon — il est même très bon, et c'est ce qui rend la chose intéressante à regarder pour les trente hommes qui la regardent."
+          },
+          {
+            "qui": "recit",
+            "dit": "Il perd son épée à la neuvième seconde. Aux deux dernières, il découvre que la main qui la lui a prise ne l'a pas touchée."
+          },
+          {
+            "qui": "kardey",
+            "dit": "…"
+          },
+          {
+            "qui": "kardey",
+            "dit": "Ce n'était pas de l'escrime."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Non.",
+            "humeur": "resolu"
+          },
+          {
+            "qui": "kardey",
+            "dit": "Est-ce que tous les Chevaliers font cela ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Tous les sept. Et soixante enfants l'apprennent en ce moment au Château."
+          },
+          {
+            "qui": "recit",
+            "dit": "Kardey ramasse son épée, la remet au fourreau, et met un temps déraisonnable à répondre."
+          },
+          {
+            "qui": "kardey",
+            "dit": "Alors ce que vous êtes venu demander à mon roi, il faut qu'il vous le donne."
+          }
+        ],
+        "bridgess": [
+          {
+            "qui": "bridgess",
+            "dit": "Vous ne l'avez pas touché."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Non.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "bridgess",
+            "dit": "Est-ce que vous m'apprendrez ça ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Un jour. Quand tu sauras pourquoi il ne faut pas s'en servir, ce qui prend plus longtemps que d'apprendre à s'en servir."
+          }
+        ]
+      }
+    },
+    {
+      "id": "le-roi-nathan",
+      "objectif": "Obtenir des hommes",
+      "apparaissent": [
+        {
+          "fiche": "nathan",
+          "x": 13,
+          "y": 10,
+          "regarde": "nord",
+          "depuis": [
+            13,
+            16
+          ]
+        }
+      ],
+      "attend": {
+        "parler": "nathan"
+      },
+      "dialogues": {
+        "nathan": [
+          {
+            "qui": "nathan",
+            "dit": "Kardey m'a raconté. Kardey n'exagère jamais, ce qui rend son récit très désagréable à entendre."
+          },
+          {
+            "qui": "nathan",
+            "dit": "Vous voulez des fosses le long de ma frontière. Combien d'hommes ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Deux cents pendant six semaines.",
+            "humeur": "resolu"
+          },
+          {
+            "qui": "nathan",
+            "dit": "Vous les avez. Ne me remerciez pas : j'ai vu la fumée de Shola d'ici, un soir, et je me suis dit que c'était un orage."
+          },
+          {
+            "qui": "recit",
+            "dit": "Il ne dit pas ce qu'il a pensé le lendemain, quand il a su. Il n'a pas besoin de le dire."
+          },
+          {
+            "qui": "nathan",
+            "dit": "Une condition, Chevalier. Vous creusez à la frontière des Ombres, pas dedans. Mes hommes n'y entrent pas et vous non plus."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Qu'y a-t-il dedans ?"
+          },
+          {
+            "qui": "nathan",
+            "dit": "Rien. C'est bien ce qui m'inquiète : il n'y a rien depuis huit cents ans, et quelque chose entretient ce rien."
+          }
+        ]
+      }
+    },
+    {
+      "id": "l-enfant-d-opale",
+      "objectif": "Ce que tu n'étais pas venu chercher",
+      "attend": {
+        "parler": "nathan"
+      },
+      "dialogues": {
+        "nathan": [
+          {
+            "qui": "recit",
+            "dit": "Une fillette traverse le camp en courant, poursuivie par deux servantes, et fait tomber sans y toucher les deux piquets qui lui barrent le passage. Elle a peut-être quatre ans."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Majesté. Qui est-ce ?"
+          },
+          {
+            "qui": "nathan",
+            "dit": "Swan. Ma fille. La Reine Ardère prétend que c'est le vent."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Ce n'était pas le vent.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "nathan",
+            "dit": "Je sais. Je le sais depuis deux ans et je n'en ai parlé à personne, parce qu'à qui parle-t-on de cela ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "À Émeraude. Élund a soixante enfants et il en prendra un soixante et unième.",
+            "humeur": "resolu"
+          },
+          {
+            "qui": "nathan",
+            "dit": "Vous me demandez ma fille en plus de mes deux cents hommes."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Je vous demande de ne pas attendre qu'elle fasse tomber quelque chose de plus lourd que deux piquets."
+          },
+          {
+            "qui": "recit",
+            "dit": "Le Roi d'Opale regarde sa fille disparaître entre les tentes. Il ne répond pas ce soir-là, et il écrira au Château six mois plus tard."
+          }
+        ],
+        "kardey": [
+          {
+            "qui": "kardey",
+            "dit": "Si un jour vous prenez des hommes faits, et pas seulement des enfants — dites-le-moi."
+          }
+        ]
+      }
+    }
+  ],
+  "fin": {
+    "objectif": "Chapitre I,20 — joué",
+    "attend": {
+      "parler": "bridgess"
+    },
+    "dialogues": {
+      "bridgess": [
+        {
+          "qui": "bridgess",
+          "dit": "On dit que le Royaume des Ombres avale les gens."
+        },
+        {
+          "qui": "wellan",
+          "dit": "On dit beaucoup de choses.",
+          "humeur": "doux"
+        },
+        {
+          "qui": "bridgess",
+          "dit": "Vous n'avez pas dit que c'était faux."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Non."
+        },
+        {
+          "qui": "bridgess",
+          "dit": "…Je préférais quand vous mentiez pour me rassurer."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Moi aussi. Je vais devoir arrêter, tu grandis trop vite.",
+          "humeur": "doux"
+        }
+      ],
+      "santo": [
+        {
+          "qui": "santo",
+          "dit": "Deux cents hommes et peut-être une enfant. Tu es venu chercher des pelles et tu repars avec un royaume."
+        }
+      ]
+    }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée."
+}

@@ -1,0 +1,16 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Cull, an OLD KING of sixty. A LONG WHITE BEARD covering the chest — the first thing anyone notices. WHITE HAIR. A wide SILVER CROWN, a plain thick band, sitting clearly on top of the head. Heavy and broad, short neck, wide stance.
+
+CLOTHES: a thick WHITE FUR collar across both shoulders, wide and shaggy. Under it a LIGHT GREY robe reaching the ankles. A wide belt. NOTHING BLUE. NOTHING NAVY. NO armour, NO leather jerkin, NO young soldier.
+
+PALETTE — these colors only:
+#F2F2F5 #DDDDE4 #A6A8B2 (white beard, white fur, white hair)
+#71727E #454652 (light grey robe, shadow)
+#0B0A10 #22222C (outline)
+#C08F34 #F0D174 (belt buckle)
+#A9714E #D9A57C #F2D3B0 (skin)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

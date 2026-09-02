@@ -1,0 +1,203 @@
+{
+  "id": "bibliotheque-d-elund",
+  "lieu": "chateau-d-emeraude",
+  "nom": "La bibliothèque d'Élund",
+  "taille": [
+    22,
+    14
+  ],
+  "depart": [
+    20,
+    7
+  ],
+  "_passages": "Deux portes : la galerie au levant, et l'escalier qui descend vers la chambre où l'on logera l'enfant de Shola. Cet escalier reste fermé jusqu'au chapitre I,3 — Kira n'arrive qu'à la fin du I,1, et une chambre meublée pour quelqu'un qui n'est pas encore là se lirait comme une erreur de continuité.",
+  "passages": [
+    {
+      "x": 21,
+      "y": 7,
+      "vers": "galerie-des-sept",
+      "arrivee": [
+        1,
+        5
+      ]
+    },
+    {
+      "x": 11,
+      "y": 13,
+      "vers": "chambre-de-kira",
+      "arrivee": [
+        8,
+        2
+      ],
+      "des": "i-03",
+      "verrou": "Il n'y a personne à loger sous la tour. La porte est fermée, et Élund garde la clé sur lui comme il garde tout le reste."
+    }
+  ],
+  "personnages": [],
+  "_objets": "Les tables le long du mur du couchant, les coffres à rouleaux contre celui du nord, l'âtre à l'angle. Rien sur la première rangée : un meuble posé là se dessine dans la bande de mur et la caméra le coupe — ce qui reste vrai de toute salle plus haute que le cadre. Les bannières font exception : elles pendent, c'est leur place.",
+  "objets": [
+    {
+      "type": "autel",
+      "x": 3,
+      "y": 4,
+      "nom": "La table des recensements",
+      "texte": [
+        "Des listes. Des colonnes de noms d'enfants, royaume par royaume, avec un âge et un signe en marge.",
+        "La plupart des signes sont des croix. Sept lignes seulement portent autre chose, et ces sept-là ont été repassées à l'encre neuve."
+      ]
+    },
+    {
+      "type": "table",
+      "x": 3,
+      "y": 7,
+      "nom": "La table des astres",
+      "texte": [
+        "Un disque de cuivre percé de trous, monté sur pivot, et des tables de chiffres pour le lire.",
+        "Élund s'en sert deux fois l'an. Il prétend que c'est pour les semailles. Les tables de chiffres qu'il consulte ne concernent pas les semailles."
+      ]
+    },
+    {
+      "type": "tabouret",
+      "x": 3,
+      "y": 11,
+      "nom": "Une table d'écriture",
+      "texte": [
+        "Un tabouret à trois pieds, trop bas pour un homme adulte, poussé contre le mur.",
+        "Il est neuf. On l'a fait faire quand on a compris que la salle allait devoir servir à des enfants."
+      ]
+    },
+    {
+      "type": "etagere",
+      "x": 7,
+      "y": 2,
+      "nom": "Un rayonnage de chroniques",
+      "texte": [
+        "Les chroniques des royaumes, chacune dans son étui de cuir. Émeraude, Diamant, Rubis, Turquoise, Béryl, Argent, le Désert.",
+        "Sept étuis, sept royaumes. On finit par voir ce chiffre partout, et l'on ne sait plus s'il est là ou si on l'y met."
+      ],
+      "contient": [
+        {
+          "id": "chronique-de-rubis",
+          "nom": "La chronique de Rubis",
+          "categorie": "objet",
+          "texte": [
+            "Ton royaume, dans son étui de cuir, entre celle d'Argent et celle de Turquoise.",
+            "Tu l'as prise sans demander. Élund t'a vu faire et n'a rien dit, ce qui n'est pas la même chose qu'une permission."
+          ]
+        }
+      ]
+    },
+    {
+      "type": "coffre",
+      "x": 11,
+      "y": 2,
+      "nom": "Un coffre fermé",
+      "texte": [
+        "Le seul meuble de la pièce qui porte une serrure. Elle n'est pas magique : c'est du fer, et une clé qu'Élund garde sur lui.",
+        "Un enfant a demandé ce qu'il y avait dedans. Élund a répondu « des erreurs », et n'a rien ajouté."
+      ]
+    },
+    {
+      "type": "etagere",
+      "x": 15,
+      "y": 2,
+      "nom": "Un rayonnage de cartes",
+      "texte": [
+        "Des relevés de côte, roulés serrés. Tous s'arrêtent à la même ligne : là où la mer commence.",
+        "Il y a beaucoup de cartes de l'endroit d'où l'on regarde, et aucune de l'endroit qu'on regarde."
+      ],
+      "contient": [
+        {
+          "id": "releve-de-cote",
+          "nom": "Un relevé de côte",
+          "categorie": "objet",
+          "texte": [
+            "Roulé serré, daté de quarante ans. Il s'arrête à la ligne où la mer commence.",
+            "Il y a beaucoup de cartes de l'endroit d'où l'on regarde, et aucune de l'endroit qu'on regarde."
+          ]
+        }
+      ]
+    },
+    {
+      "type": "stele",
+      "x": 9,
+      "y": 6,
+      "nom": "Une tablette dressée",
+      "texte": [
+        "De la pierre, non du parchemin : ce qu'on grave est ce qu'on ne veut pas voir se corriger.",
+        "Trois mots seulement, dans une langue qu'Élund lit et qu'il n'enseigne pas. Il dit que la traduction ferait plus de mal que l'oubli."
+      ]
+    },
+    {
+      "type": "pupitre",
+      "x": 13,
+      "y": 8,
+      "nom": "Le pupitre d'Élund",
+      "texte": [
+        "Haut, incliné, usé au bord droit par un coude. C'est ici qu'il travaille debout, parce qu'assis il s'endort.",
+        "Un registre y est ouvert. La page du jour ne porte qu'une ligne : « Le septième est arrivé. Plus grand que prévu. »"
+      ]
+    },
+    {
+      "type": "feu",
+      "x": 18,
+      "y": 2,
+      "nom": "L'âtre",
+      "texte": [
+        "Le seul feu du Château qu'on laisse s'éteindre. Élund dit qu'une pièce pleine de parchemin et un feu qu'on oublie ne font pas bon ménage.",
+        "Il le rallume lui-même, d'un geste, quand il a froid. Ce qui rend l'argument moins convaincant."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 7,
+      "y": 12,
+      "nom": "Un brasero",
+      "texte": [
+        "Bas et large, à bonne hauteur de lecture. On le pousse contre la table où l'on travaille.",
+        "Le sol porte les traces de ses pieds, en arc de cercle, comme une aiguille qui aurait fait le tour de la journée."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 17,
+      "y": 12,
+      "nom": "Un brasero",
+      "texte": [
+        "Celui-ci ne bouge pas : il éclaire l'angle le plus sombre de la pièce, et l'angle le plus sombre ne se déplace pas.",
+        "C'est là qu'on met un enfant qui a mal répondu. Il n'y fait pas froid et il n'y fait pas noir. Il y fait seul."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 1,
+      "y": 1,
+      "nom": "Une bannière fanée",
+      "texte": [
+        "Le vert a viré au gris et le dragon n'est plus qu'un contour. Elle a pris le soleil pendant vingt ans par la fenêtre du levant.",
+        "On lui a proposé de la remplacer. Il a répondu qu'une chose qui montre son âge est plus utile qu'une chose qui le cache."
+      ]
+    },
+    {
+      "type": "tombe",
+      "x": 17,
+      "y": 7,
+      "nom": "Une borne de pierre",
+      "texte": [
+        "Un cylindre gravé de traits, un par main de hauteur. On y a mesuré des enfants.",
+        "Les traits les plus anciens n'ont plus de nom en face. Les sept derniers sont datés du printemps."
+      ]
+    }
+  ],
+  "_zones": "Un tapis au centre, la pierre nue tout autour : Élund fait lire assis sur le tapis et debout sur la pierre, et prétend que la différence compte.",
+  "fond": 1,
+  "zones": [
+    {
+      "terrain": 0,
+      "x": 4,
+      "y": 3,
+      "l": 12,
+      "h": 8
+    }
+  ]
+}

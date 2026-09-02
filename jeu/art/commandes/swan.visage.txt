@@ -1,0 +1,15 @@
+Pixel art bust portrait, Game Boy Advance style, of a single small child seen from the chest up, facing the viewer. Dark plain background.
+
+FRAMING: they FILL THE WHOLE FRAME. The head occupies the upper half of the picture, edge to edge; the shoulders run off both sides and are cut by the border; the bottom of the picture cuts across the chest. No empty margin anywhere — this is a close portrait, not a figure standing in a void.
+
+WHO: Swan, four years old, princess of Opale. A ROUND CHILD'S FACE — full cheeks, a small nose, a wide fearless stare. Unmistakably a very young child, not a small adult.
+
+HAIR: BROWN and CURLY, loose ringlets falling to the shoulders.
+
+EYES: large, dark, direct.
+
+CLOTHES: a simple DARK GREEN velvet tunic across the chest, plain, no jewels, no crown.
+
+STYLE: flat fills, two-tone shading, hard dark outline, no anti-aliasing, no gradients.
+
+No text, no letters, no frame, no watermark, no second figure.

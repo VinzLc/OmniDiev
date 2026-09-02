@@ -1,0 +1,15 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Kardey, captain of the soldiers of Opale, a man of thirty-five. Broad-shouldered and squarely built, close-cropped dark hair, a blunt direct face. He stands like someone whose job is to stop people.
+
+CLOTHES: a BLACK COSTUME under SILVER ARMOUR of Opale — breastplate, pauldrons and vambraces of polished silver over black cloth. A short sword at the belt. No emblem on the chest.
+
+PALETTE — these colors only:
+#0B0A10 #22222C #454652 #71727E (black costume)
+#F2F2F5 #DDDDE4 #A6A8B2 (silver armour)
+#3D2A12 #7A5223 (leather belt)
+#A9714E #D9A57C #F2D3B0 (skin)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

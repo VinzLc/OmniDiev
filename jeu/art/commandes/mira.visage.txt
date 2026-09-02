@@ -1,0 +1,15 @@
+Pixel art bust portrait, Game Boy Advance style, of a single older woman seen from the chest up, facing the viewer. Dark plain background.
+
+FRAMING: they FILL THE WHOLE FRAME. The head occupies the upper half of the picture, edge to edge; the shoulders run off both sides and are cut by the border; the bottom of the picture cuts across the chest. No empty margin anywhere — this is a close portrait, not a figure standing in a void.
+
+WHO: Mira, Queen of Rubis and mother of Wellan, fifty-five. Narrow-shouldered, chin slightly raised, a CLOSED face that gives nothing away. Cool and correct rather than unkind. Thin lips, no smile.
+
+HAIR: GREY hair drawn back tight, not a strand loose.
+
+EYES: pale blue, level, distant.
+
+CLOTHES: a HIGH-NECKED DEEP CRIMSON gown, severe and unornamented, with a thin GOLD CIRCLET on the brow.
+
+STYLE: flat fills, two-tone shading, hard dark outline, no anti-aliasing, no gradients.
+
+No text, no letters, no frame, no watermark, no second figure.

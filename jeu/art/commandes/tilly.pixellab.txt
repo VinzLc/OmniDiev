@@ -1,0 +1,16 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Tilly, King of the Fairies, a slender ageless man. Long pale green-white hair falling past the shoulders, a calm faintly smiling face, very upright and still.
+
+CLOTHES: a long moss-green robe with wide sleeves, bark-brown at the hem as though the cloth were growing out of wood. A crown of small green leaves. Bare feet.
+
+PALETTE — these colors only:
+#0F3826 #1C7A4E #43C47F #8FE0AC (green robe, leaf crown)
+#3D2A12 #7A5223 (bark-brown hem)
+#A6A8B2 #DDDDE4 #F2F2F5 (pale hair)
+#0B0A10 #22222C (outline, shadow)
+#D9A57C #F2D3B0 (pale skin)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No wings. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

@@ -1,0 +1,16 @@
+{
+  "tuile": 16,
+  "colonnes": 16,
+  "ordre": "signature des coins, NO NE SO SE lus en binaire — colonne = NO*8 + NE*4 + SO*2 + SE",
+  "terrain0": {
+    "couleur": "#1c7a4e"
+  },
+  "terrain1": {
+    "couleur": "#f4e4cb"
+  },
+  "decrits": {
+    "lower": "pale chalky bone-white earth cracked into flat arid plates with moderate surface texture and simple two-tone light and shadow",
+    "upper": "dark tough steppe grass in deep olive green, close-cropped and dense with moderate surface grain and simple two-tone light and shadow"
+  },
+  "note": "Les deux terrains sont séparés par regroupement des couleurs des images, non lus dans les étiquettes : le service les a déjà rendues permutées. « decrits » rappelle ce qui a été demandé, sans garantir l'ordre."
+}

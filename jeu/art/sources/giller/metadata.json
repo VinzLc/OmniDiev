@@ -1,0 +1,32 @@
+{
+  "group_id": "60c26cfa-dd58-4801-b5b7-e4ccdaa134f7",
+  "states": [
+    {
+      "character": {
+        "id": "96d3da55-321b-4c4b-891d-83018731193a",
+        "name": "Idle",
+        "prompt": "Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).\n\nCHARACTER: Giller, Monarch of Pearl, a stout man of fifty-five with a permanently sour expression. A wide jaw, a thick dark moustache going grey, heavy lidded eyes, arms folded high on the chest. Short and broad.\n\nCLOTHES: a deep blue coastal robe with a wide pale collar, a gold-buckled belt over a full stomach, and a narrow gold circlet. Good boots, well kept.\n\nPALETTE \u2014 these colors only:\n#2D5FA8 #5B9BD8 (blue robe)\n#A6A8B2 #DDDDE4 #F2F2F5 (pale collar, greying moustache)\n#C08F34 #F0D174 (gold buckle, circlet)\n#0B0A10 #22222C #454652 (outline, dark hair, shadow)\n#A9714E #D9A57C #F2D3B0 (skin)\n\nSTYLE: flat fills only. Two-tone shading \u2014 one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.\n\nBACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.",
+        "size": {
+          "width": 28,
+          "height": 28
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-08-27T23:36:06.421183+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-27T23:36:46.594763"
+}

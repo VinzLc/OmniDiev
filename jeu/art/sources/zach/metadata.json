@@ -1,0 +1,32 @@
+{
+  "group_id": "91bd05f0-9d2a-4749-8319-b650130a5bec",
+  "states": [
+    {
+      "character": {
+        "id": "7ae76d13-bbd5-43a5-86a7-d3d435ad22f0",
+        "name": "Idle",
+        "prompt": "Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).\n\nCHARACTER: Zach, a boy of eight. A SMALL CHILD with a very large head and a small body. Messy BLACK hair, large bright eyes, a wide open grin.\n\nCLOTHES: he wears a BRIGHT SEA-BLUE TUNIC \u2014 a strong saturated blue, unmistakably darker than his skin. The blue tunic has SHORT SLEEVES and reaches BELOW THE KNEES. Under it, DARK BROWN trousers to the ankle. A brown rope belt. Brown sandals. Only his FACE, his HANDS and his FOREARMS are bare skin; everything else is blue or brown cloth.\n\nPALETTE \u2014 these colors only:\n#2D5FA8 #5B9BD8 #A8D6E0 (the sea-blue tunic \u2014 the largest area of the sprite)\n#3D2A12 #7A5223 (dark brown trousers, rope belt, sandals)\n#0B0A10 #22222C (black hair, outline)\n#A9714E #D9A57C (skin \u2014 face, hands and forearms only, nowhere else)\n\nSTYLE: flat fills only. Two-tone shading \u2014 one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur: every pixel is fully opaque or fully transparent. CHILD proportions: very large head, small body, short limbs.\n\nBACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.",
+        "size": {
+          "width": 24,
+          "height": 24
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-08-27T23:43:55.326606+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-27T23:45:00.249099"
+}

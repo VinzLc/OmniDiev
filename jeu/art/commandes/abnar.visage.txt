@@ -1,0 +1,15 @@
+Pixel art bust portrait, Game Boy Advance style, of a single young man seen from the chest up, facing the viewer. Dark plain background.
+
+FRAMING: they FILL THE WHOLE FRAME. The head occupies the upper half of the picture, edge to edge; the shoulders run off both sides and are cut by the border; the bottom of the picture cuts across the chest. No empty margin anywhere — this is a close portrait, not a figure standing in a void.
+
+WHO: Abnar, the Crystal Magician, who passes for a young apprentice. He looks twenty-two and is five hundred years old; the face is SMOOTH, AGELESS and gives nothing away. No beard.
+
+HAIR: LONG MOONLIGHT-PALE hair, almost white, falling past the shoulders, unbound.
+
+EYES: pale grey, calm, unreadable.
+
+CLOTHES: a plain WHITE AND SILVER robe across the chest, high-necked, unadorned. Everything white, silver and cold — no gold, no green, no brown.
+
+STYLE: flat fills, two-tone shading, hard dark outline, no anti-aliasing, no gradients.
+
+No text, no letters, no frame, no watermark, no second figure.

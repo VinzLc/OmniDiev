@@ -1,0 +1,32 @@
+{
+  "group_id": "0d7a102f-7184-4b7d-947f-c01cce93db1c",
+  "states": [
+    {
+      "character": {
+        "id": "e57b4759-ce02-466f-8e08-dc30cd2d0ffa",
+        "name": "Idle",
+        "prompt": "Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).\n\nCHARACTER: Burge, King of Rubis and father of Wellan, a man of sixty. IMPOSING STATURE and heavy build \u2014 his son inherited both. A broad grey beard, thick grey hair, a wide weathered face that laughs easily.\n\nCLOTHES: a long CRIMSON robe over a gold-trimmed tunic, a heavy leather belt, and a simple gold circlet \u2014 no jewels. Everything about him is warm-toned: deep red, gold, brown leather. No green, no silver.\n\nPALETTE \u2014 these colors only:\n#0B0A10 #22222C #454652 (black, dark)\n#8B2020 #D14545 (crimson robe)\n#3D2A12 #7A5223 #C08F34 #F0D174 (gold, leather)\n#A6A8B2 #DDDDE4 (grey beard and hair)\n#A9714E #D9A57C #F2D3B0 (skin)\n\nSTYLE: flat fills only. Two-tone shading \u2014 one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.\n\nBACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.",
+        "size": {
+          "width": 32,
+          "height": 32
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-08-27T21:22:46.023339+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-27T21:23:31.902692"
+}

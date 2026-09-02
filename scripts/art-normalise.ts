@@ -326,7 +326,10 @@ function snap(frames: Frame[], palette: RGB[]): SnapStat {
   };
 }
 
-type Retouche = { cheveux?: { teinte: number; saturationMax: number } };
+type Retouche = {
+  cheveux?: { teinte: number; saturationMax: number };
+  vetement?: { de: [number, number]; teinte: number; saturationMax: number; pourquoi?: string };
+};
 
 function hsl(r: number, g: number, b: number): [number, number, number] {
   r /= 255; g /= 255; b /= 255;
@@ -363,9 +366,50 @@ function fromHsl(h: number, s: number, l: number): RGB {
  * imperceptible — exactement le comportement d'une vraie chevelure blond foncé.
  */
 function retoucher(frames: Frame[], r: Retouche): number {
-  if (!r.cheveux) return 0;
-  const { teinte, saturationMax } = r.cheveux;
   let touched = 0;
+
+  /* Un vêtement se vise par sa teinte, sur toute la figure.
+   *
+   * Les cheveux se cherchent dans la bande de la tête parce qu'ils partagent
+   * leurs bruns avec les cuirs. Une robe n'a pas ce problème : elle est la seule
+   * chose de sa couleur sur le personnage, et elle descend jusqu'aux pieds. On
+   * la prend donc par la teinte seule, dans une fenêtre déclarée — et l'on
+   * garde la luminance, qui porte les plis.
+   *
+   * Ce que ça règle : Cull est sorti en robe ROUGE malgré une consigne qui
+   * n'énumérait que des gris. Or le rouge appartient au sang, au feu et à
+   * l'Empereur dans la palette du monde ; le Roi d'Argent en robe d'Empire est
+   * un contresens que le contrôleur ne peut pas voir. Régénérer aurait risqué
+   * la couronne et la fourrure, obtenues au deuxième essai seulement. */
+  if (r.vetement) {
+    const { de, teinte, saturationMax } = r.vetement;
+    for (const f of frames) {
+      for (let i = 0; i < f.width * f.height; i++) {
+        const o = i * f.channels;
+        if (f.data[o + 3] < 16) continue;
+        const [h, sat, l] = hsl(f.data[o], f.data[o + 1], f.data[o + 2]);
+        // Une teinte trop pâle n'a pas d'identité à déplacer : la déplacer
+        // retournerait un neutre, ce qui a déjà noirci un manteau une fois.
+        if (sat <= 0.22) continue;
+        /* La carnation ne se reteint jamais, quelle que soit la fenêtre
+         * déclarée. Le premier essai visait les rouges de la robe de Cull en
+         * [340, 20] : les ombres de la peau vivent à 20-30 degrés, et le roi
+         * est ressorti le visage et les mains gris. C'est la faute que le
+         * contrôleur mécanique ne peut pas voir — il mesure la palette et la
+         * géométrie, jamais un visage. Une consigne mal bornée ne doit pas
+         * pouvoir la produire, donc la garde est ici et non dans le fichier. */
+        if (h >= 14 && h <= 44 && l >= 0.30) continue;
+        const dedans = de[0] <= de[1] ? h >= de[0] && h <= de[1] : h >= de[0] || h <= de[1];
+        if (!dedans) continue;
+        const [nr, ng, nb] = fromHsl(teinte, Math.min(sat, saturationMax), l);
+        f.data[o] = nr; f.data[o + 1] = ng; f.data[o + 2] = nb;
+        touched++;
+      }
+    }
+  }
+
+  if (!r.cheveux) return touched;
+  const { teinte, saturationMax } = r.cheveux;
 
   for (const f of frames) {
     let top = f.height;

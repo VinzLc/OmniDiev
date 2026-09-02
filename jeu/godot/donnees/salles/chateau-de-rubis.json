@@ -1,0 +1,226 @@
+{
+  "id": "chateau-de-rubis",
+  "lieu": "royaume-de-rubis",
+  "nom": "Le Château de Rubis",
+  "taille": [
+    26,
+    16
+  ],
+  "depart": [
+    13,
+    14
+  ],
+  "_taille": "La salle où Wellan a grandi, et la seule pièce que le chapitre I,23 ait besoin de montrer : l'arrivée, la famille, la nuit et le départ s'y suivent.",
+  "_zones": "terrain 0 = le grès pâle, presque crème, terrain 1 = le tapis cramoisi. L'inverse d'Émeraude, où le fond est la pierre grise et le tapis vert : ici la pierre est chaude et le tapis est rouge, et l'on sait en un coup d'œil qu'on n'est plus chez le Roi Émeraude.",
+  "fond": 0,
+  "zones": [
+    {
+      "terrain": 1,
+      "x": 10,
+      "y": 2,
+      "l": 7,
+      "h": 12
+    },
+    {
+      "terrain": 1,
+      "x": 5,
+      "y": 3,
+      "l": 17,
+      "h": 6
+    }
+  ],
+  "personnages": [
+    {
+      "fiche": "christa",
+      "x": 9,
+      "y": 10,
+      "regarde": "nord",
+      "des": "i-23",
+      "dit": [
+        {
+          "qui": "christa",
+          "dit": "Petit frère. Tu as fait deux jours de route pour lever des hommes et tu repars demain, m'a-t-on dit."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Christa.",
+          "humeur": "doux"
+        },
+        {
+          "qui": "christa",
+          "dit": "J'ai fait quatre jours depuis Fal pour te voir une soirée. Ne t'excuse pas, je serais partie de toute façon."
+        },
+        {
+          "qui": "recit",
+          "dit": "Elle a la même mâchoire que lui, les mêmes cheveux, et quinze centimètres de moins. On les prendrait pour des jumeaux à contre-jour."
+        },
+        {
+          "qui": "christa",
+          "dit": "Mère ne descendra pas demain matin. Ce n'est pas contre toi : elle ne descend pour personne, et elle a pleuré quand tu es parti à sept ans."
+        },
+        {
+          "qui": "christa",
+          "dit": "Je te le dis parce qu'elle ne te le dira jamais, et parce qu'un de nous deux doit le faire."
+        }
+      ]
+    },
+    {
+      "fiche": "giller",
+      "x": 19,
+      "y": 10,
+      "regarde": "ouest",
+      "des": "i-23",
+      "donne": {
+        "id": "cuirasse-de-perle",
+        "nom": "La cuirasse de Perle",
+        "categorie": "equipement",
+        "emplacement": "armure",
+        "bonus": {
+          "defense": 9
+        },
+        "texte": [
+          "Bleue, écaillée comme un poisson, fermée par une boucle d'or que personne n'a jamais trouvée discrète.",
+          "Elle vaut trois chevaux. Giller vous l'a rappelé quatre fois pendant qu'il vous la tendait."
+        ]
+      },
+      "dit": [
+        {
+          "qui": "giller",
+          "dit": "Giller, Monarque de Perle. Je n'aime pas votre Ordre. Je le dis maintenant pour qu'on n'ait pas à y revenir plus tard."
+        },
+        {
+          "qui": "giller",
+          "dit": "Vous m'avez pris ma fille à sept ans. Elle s'appelle Bridgess. Elle est devenue quelqu'un de très bien. Ce n'est pas grâce à vous."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Elle est l'un de nos meilleurs Chevaliers."
+        },
+        {
+          "qui": "giller",
+          "dit": "Je sais. Elle m'écrit deux fois par an. Elle parle de vous dans les deux lettres. Je compte."
+        },
+        {
+          "qui": "giller",
+          "dit": "Voilà une cuirasse. Elle vient de Perle, elle est meilleure que la vôtre, et cela m'ennuie beaucoup de vous la donner."
+        },
+        {
+          "qui": "giller",
+          "dit": "Si vous mourez avec, on saura que c'était votre faute et non la mienne. C'est la seule chose qui m'intéresse dans cette affaire."
+        }
+      ]
+    }
+  ],
+  "objets": [
+    {
+      "type": "trone",
+      "x": 13,
+      "y": 3,
+      "nom": "Le trône de Rubis",
+      "texte": [
+        "Rembourré, doré aux accoudoirs, avec un coussin qu'on retape chaque matin. Rien à voir avec la poutre taillée d'Émeraude.",
+        "Ton père s'y assoit tous les jours. Il dit qu'un roi qu'on ne voit pas assis n'est pas un roi, et il a probablement raison pour Rubis."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 9,
+      "y": 3,
+      "nom": "La bannière de Rubis",
+      "texte": [
+        "Cramoisi et or. Pas de bête, pas de croix : trois chevrons, et c'est tout.",
+        "Rubis n'a jamais eu besoin d'un emblème qui fasse peur. C'est un royaume de l'intérieur des terres, et cela s'est vu jusqu'à cette année."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 17,
+      "y": 3,
+      "nom": "Une bannière verte",
+      "texte": [
+        "Vert et noir, la croix d'Émeraude. Elle est pendue là depuis quinze ans, seule de sa couleur dans une salle rouge.",
+        "Ton père l'a fait accrocher le jour où l'on t'a emmené. Ta mère a demandé qu'on la retire deux fois par an depuis."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 6,
+      "y": 5,
+      "nom": "Un brasero de Rubis",
+      "texte": [
+        "Plus haut que ceux d'Émeraude, et plein de braises de bois fruitier qui sentent le verger.",
+        "C'est l'odeur que tu as cherchée pendant deux ans après ton départ, sans jamais réussir à la nommer."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 20,
+      "y": 5
+    },
+    {
+      "type": "autel",
+      "x": 3,
+      "y": 8,
+      "nom": "La table des repas",
+      "texte": [
+        "Longue de douze places. Vous étiez quatre.",
+        "On y mangeait en silence. Tu as cru longtemps que toutes les familles faisaient ainsi, et tu as découvert le contraire à Émeraude, à sept ans, en une seule soirée."
+      ]
+    },
+    {
+      "type": "statue",
+      "x": 3,
+      "y": 12,
+      "nom": "Une statue d'ancêtre",
+      "texte": [
+        "Un roi de Rubis mort il y a deux cents ans, dont personne dans cette salle ne saurait dire le nom.",
+        "Toi si. Tu l'as appris à six ans pour faire plaisir à ta mère, et elle n'a rien dit."
+      ]
+    },
+    {
+      "type": "lit",
+      "x": 6,
+      "y": 13,
+      "nom": "Ton lit d'enfant",
+      "texte": [
+        "On l'a descendu de la chambre haute pour te loger cette nuit, faute d'avoir prévu que tu reviendrais.",
+        "Il fait quatre pieds de long. Tu en fais six et demi. Personne n'a osé le dire à voix haute et l'on a ajouté deux couvertures au bout."
+      ]
+    },
+    {
+      "type": "coffre",
+      "x": 22,
+      "y": 8,
+      "nom": "Un coffre de famille",
+      "texte": [
+        "Fermé, poussiéreux sur le dessus et propre sur les côtés : on l'époussette sans l'ouvrir.",
+        "Il contient les affaires que tu as laissées à sept ans. Personne ne les a triées, personne ne les a jetées."
+      ]
+    },
+    {
+      "type": "tombe",
+      "x": 22,
+      "y": 12
+    },
+    {
+      "type": "chandelier",
+      "x": 10,
+      "y": 13
+    },
+    {
+      "type": "tonneau",
+      "x": 20,
+      "y": 13
+    },
+    {
+      "type": "caisse",
+      "x": 1,
+      "y": 2
+    },
+    {
+      "type": "tabouret",
+      "x": 16,
+      "y": 13
+    }
+  ]
+}

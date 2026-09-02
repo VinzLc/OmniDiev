@@ -1,0 +1,223 @@
+{
+  "id": "i-08",
+  "titre": "De déchirants adieux",
+  "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 8",
+  "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure. Le chapitre se partage entre Émeraude et Shola ; il est replié sur Shola, où se trouve Wellan, et la crise de Kira au Château lui parvient par la télépathie sholienne que le chapitre I,5 a établie.",
+  "salle": "palais-de-glace",
+  "ambiance": {
+    "teinte": "#7a8296",
+    "lumieres": true
+  },
+  "ouverture": [
+    "Deux jours qu'on brûle les morts, parce qu'on ne creuse pas la glace.",
+    "On a retrouvé le Roi Shill sous une poutre du grand escalier. On n'a pas retrouvé tout le monde, et l'on a cessé de chercher quand il a fallu choisir entre chercher et brûler."
+  ],
+  "cloture": [
+    "Le palais de glace s'effondra le lendemain matin, sans bruit, comme une chose qui attendait la permission.",
+    "Wellan divisa les siens en sept routes et garda pour lui celle qui menait chez les Elfes. Personne ne discuta ce partage, et Santo, qui l'aurait fait, ne dit rien."
+  ],
+  "etapes": [
+    {
+      "id": "le-caveau",
+      "objectif": "Porter la Reine au caveau",
+      "attend": {
+        "parler": "santo"
+      },
+      "_apparaissent": "Santo et Bergeau sont déjà là : ils n'ont pas dormi non plus.",
+      "apparaissent": [
+        {
+          "fiche": "santo",
+          "x": 9,
+          "y": 12,
+          "regarde": "est",
+          "depuis": [
+            14,
+            17
+          ]
+        },
+        {
+          "fiche": "bergeau",
+          "x": 19,
+          "y": 12,
+          "regarde": "ouest",
+          "depuis": [
+            14,
+            17
+          ]
+        }
+      ],
+      "dialogues": {
+        "santo": [
+          {
+            "qui": "santo",
+            "dit": "Le caveau est ouvert. Il était déjà ouvert, Wellan — quelqu'un l'a ouvert avant nous et n'a rien pris."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Elle est prête ?",
+            "humeur": "grave"
+          },
+          {
+            "qui": "santo",
+            "dit": "Je l'ai lavée moi-même. Je n'ai laissé personne d'autre le faire et je ne saurais pas te dire pourquoi."
+          },
+          {
+            "qui": "recit",
+            "dit": "Wellan porte la Reine de Shola jusqu'au caveau. Il ne laisse personne l'aider. Le trajet fait quarante pas et il met longtemps."
+          },
+          {
+            "qui": "santo",
+            "dit": "Tu ne l'as vue qu'une fois. Une seule fois, il y a des années, dans la salle du trône."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Oui.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "santo",
+            "dit": "Bien. Je voulais m'assurer que je me souvenais correctement, parce que ce que je vois là ne ressemble pas à quelqu'un qui l'a vue une fois."
+          }
+        ],
+        "bergeau": [
+          {
+            "qui": "bergeau",
+            "dit": "Chez moi on rend les morts au sable, et le sable les rend au vent. Ici on les rend au feu."
+          },
+          {
+            "qui": "bergeau",
+            "dit": "J'ai porté du bois pendant deux jours. Je n'ai pas trouvé un seul mot à dire, et j'en trouve toujours."
+          }
+        ]
+      }
+    },
+    {
+      "id": "la-crise",
+      "objectif": "Comprendre ce qui traverse",
+      "attend": {
+        "parler": "bergeau"
+      },
+      "dialogues": {
+        "bergeau": [
+          {
+            "qui": "recit",
+            "dit": "Wellan tombe à genoux sans prévenir. Ce n'est pas la fatigue : quelque chose vient d'entrer et de traverser, et cela a la forme d'un cri d'enfant."
+          },
+          {
+            "qui": "bergeau",
+            "dit": "Wellan. Wellan. Regarde-moi."
+          },
+          {
+            "qui": "wellan",
+            "dit": "La petite. C'est la petite, à Émeraude. Elle hurle et personne ne l'entend.",
+            "humeur": "trouble"
+          },
+          {
+            "qui": "recit",
+            "dit": "Ce qu'il voit ne lui appartient pas. Des dragons au ras de la neige, des choses debout sur leur dos qui ont des bras et des mains, et un palais qui n'est pas encore tombé."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Ils étaient montés. Bergeau, les dragons étaient montés.",
+            "humeur": "trouble"
+          },
+          {
+            "qui": "bergeau",
+            "dit": "Par qui ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Par des hommes. Ou par ce qui s'en approche assez pour tenir des rênes.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "santo",
+            "dit": "Une enfant de trois ans vient de nous dire ce que deux jours de fouilles ne nous avaient pas dit."
+          }
+        ],
+        "santo": [
+          {
+            "qui": "santo",
+            "dit": "Elle a senti sa mère mourir. À deux cents lieues, dans une chambre où personne ne sait ce qu'elle est."
+          }
+        ]
+      }
+    },
+    {
+      "id": "les-empreintes",
+      "objectif": "Lire la plage",
+      "attend": {
+        "parler": "santo"
+      },
+      "dialogues": {
+        "santo": [
+          {
+            "qui": "santo",
+            "dit": "Descends sur la grève. Il faut que tu voies ça toi-même, je ne saurais pas te le décrire sans que tu croies que j'exagère."
+          },
+          {
+            "qui": "recit",
+            "dit": "Des empreintes de dragon dans le sable gelé, par centaines, toutes tournées vers la mer. Et entre elles, deux lignes droites et parallèles, profondes de trois doigts, qui vont de l'eau jusqu'au plateau."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Des rampes. On les a débarqués.",
+            "humeur": "resolu"
+          },
+          {
+            "qui": "santo",
+            "dit": "Des bateaux, Wellan. Quelqu'un a construit des bateaux assez grands pour porter des dragons, et personne sur ce continent ne sait en construire."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Ils ne sont pas venus piller. Ils ont brûlé un royaume et ils sont repartis avec leurs bêtes."
+          },
+          {
+            "qui": "wellan",
+            "dit": "On ne fait pas cela pour de l'or. On fait cela quand on cherche quelque chose et qu'on ne l'a pas trouvé.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "recit",
+            "dit": "Santo comprend en même temps que lui, et ni l'un ni l'autre ne prononce le nom de l'enfant qui dort au Château d'Émeraude."
+          }
+        ],
+        "bergeau": [
+          {
+            "qui": "bergeau",
+            "dit": "Deux cents lieues d'eau. Je n'avais jamais pensé que l'ouest était une direction."
+          }
+        ]
+      }
+    }
+  ],
+  "fin": {
+    "objectif": "Chapitre I,8 — joué",
+    "attend": {
+      "parler": "santo"
+    },
+    "dialogues": {
+      "santo": [
+        {
+          "qui": "santo",
+          "dit": "Sept routes, sept royaumes de la côte. Et toi tu prends celle des Elfes."
+        },
+        {
+          "qui": "santo",
+          "dit": "Wellan. Leur royaume touche Shola. Ils ont vu la fumée et ils ne sont pas venus."
+        },
+        {
+          "qui": "santo",
+          "dit": "Prends quelqu'un avec toi. Je te le demande comme guérisseur, pas comme ami — c'est le seul titre qui te fasse encore obéir."
+        }
+      ],
+      "bergeau": [
+        {
+          "qui": "bergeau",
+          "dit": "Moi je vais à Zénor. On m'a dit qu'il y pleuvait. On m'a menti sur beaucoup de choses cette semaine."
+        }
+      ]
+    }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée."
+}

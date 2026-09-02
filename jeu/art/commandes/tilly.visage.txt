@@ -1,0 +1,15 @@
+Pixel art bust portrait, Game Boy Advance style, of a single man seen from the chest up, facing the viewer. Dark plain background.
+
+FRAMING: they FILL THE WHOLE FRAME. The head occupies the upper half of the picture, edge to edge; the shoulders run off both sides and are cut by the border; the bottom of the picture cuts across the chest. No empty margin anywhere — this is a close portrait, not a figure standing in a void.
+
+WHO: Tilly, King of the Fairies, ageless — neither young nor old, a face without lines but without youth either. Serene, faintly smiling, looking slightly past the viewer. NO WINGS ANYWHERE in the picture.
+
+HAIR: very pale GREEN-WHITE, long, falling straight past the shoulders.
+
+EYES: bright leaf GREEN.
+
+CLOTHES: a MOSS-GREEN robe with a high collar, and a crown of small GREEN LEAVES resting on the hair.
+
+STYLE: flat fills, two-tone shading, hard dark outline, no anti-aliasing, no gradients.
+
+No text, no letters, no frame, no watermark, no second figure.

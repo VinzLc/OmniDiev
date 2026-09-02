@@ -1,0 +1,199 @@
+{
+  "id": "dortoir-des-sept",
+  "lieu": "chateau-d-emeraude",
+  "nom": "Le dortoir des Sept",
+  "taille": [
+    20,
+    13
+  ],
+  "depart": [
+    10,
+    2
+  ],
+  "passages": [
+    {
+      "x": 10,
+      "y": 0,
+      "vers": "galerie-des-sept",
+      "arrivee": [
+        14,
+        9
+      ]
+    }
+  ],
+  "personnages": [],
+  "_objets": "Sept lits contre les murs, sept coffres en deux colonnes au-dedans, un par enfant. L'âtre, la bannière et la dalle descellée ont cédé la place : à trois tuiles d'écart, quatorze meubles saturent déjà une salle de vingt sur treize.",
+  "objets": [
+    {
+      "type": "coffre",
+      "x": 6,
+      "y": 5,
+      "nom": "Le coffre de Santo",
+      "texte": [
+        "Ouvert, en désordre, et une harpe posée dessus faute de tenir dedans.",
+        "Il l'a portée depuis Fal sur son dos. On lui a fait remarquer qu'un Chevalier voyage léger ; il a répondu qu'un Chevalier revient, et qu'il faudra bien quelque chose à jouer ce soir-là."
+      ]
+    },
+    {
+      "type": "coffre",
+      "x": 6,
+      "y": 9,
+      "nom": "Le coffre de Bergeau",
+      "texte": [
+        "Presque vide. Deux outres, une couverture, et du sable au fond que personne n'a balayé.",
+        "Il vient du Désert. Il dit qu'un homme qui possède beaucoup marche lentement, et que dans le Désert on ne marche pas lentement."
+      ]
+    },
+    {
+      "type": "coffre",
+      "x": 6,
+      "y": 12,
+      "nom": "Le coffre de Jasson",
+      "texte": [
+        "Le couvercle porte des traces de brûlé sur tout le pourtour.",
+        "Il s'exerce à faire léviter le coffre. Le coffre ne lévite pas. Quelque chose d'autre se produit, chaque fois, et ce n'est pas de la lévitation."
+      ]
+    },
+    {
+      "type": "coffre",
+      "x": 13,
+      "y": 5,
+      "nom": "Le coffre de Dempsey",
+      "texte": [
+        "Rangé au cordeau. Les vêtements pliés par taille, les bottes cirées, rien qui dépasse.",
+        "Fils de roi. Il a expliqué une fois que chez lui le désordre d'un enfant se lit comme une opinion sur son père. Il n'a pas dit s'il en avait une."
+      ]
+    },
+    {
+      "type": "coffre",
+      "x": 13,
+      "y": 9,
+      "nom": "Le coffre de Falcon",
+      "texte": [
+        "Fermé, et retourné contre le mur de sorte qu'on ne voie pas la serrure.",
+        "Il n'y a rien dedans qui vaille d'être caché. Il tient seulement à ce qu'on ne sache pas ce qu'il y a dedans, ce qui est un tempérament plus qu'un secret."
+      ]
+    },
+    {
+      "type": "coffre",
+      "x": 13,
+      "y": 12,
+      "nom": "Le coffre de Chloé",
+      "texte": [
+        "Le plus petit des sept, et le seul qui contienne un miroir — un éclat de verre monté sur bois.",
+        "Elle vient de Diamant, où les salles sont hautes et vides. Elle dit qu'elle s'en sert pour voir s'il y a quelqu'un derrière elle, et que c'est une habitude qu'elle n'arrive pas à perdre."
+      ]
+    },
+    {
+      "type": "coffre",
+      "x": 10,
+      "y": 9,
+      "nom": "Un coffre encore vide",
+      "texte": [
+        "Le septième. On l'a apporté ce matin, à la place qui restait — la plus éloignée de la porte et la plus proche du feu.",
+        "Il n'a pas encore de nom sur le couvercle. Le tien y sera peint demain, quand on aura vérifié comment il s'écrit."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 6,
+      "y": 2,
+      "nom": "Un brasero",
+      "texte": [
+        "On l'éteint à la nuit. Une servante passe, le couvre, et compte les têtes.",
+        "Elle s'appelle Armène. Elle compte deux fois : une en entrant, une en sortant. Il lui est arrivé de ne pas trouver le même nombre."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 13,
+      "y": 2,
+      "nom": "Un brasero",
+      "texte": [
+        "Celui de la porte, qu'on laisse rougeoyer toute la nuit.",
+        "Ce n'est pas pour la chaleur. C'est pour qu'un enfant qui se réveille voie où est la sortie avant de se demander où il est."
+      ]
+    },
+    {
+      "type": "lit",
+      "x": 2,
+      "y": 5,
+      "nom": "Le lit de Santo",
+      "texte": [
+        "La paillasse la plus tassée des sept : il s'y assoit pour jouer, et l'on ne joue pas couché.",
+        "La couverture est repliée en trois au pied, toujours de la même façon. C'est la seule chose qu'il range."
+      ]
+    },
+    {
+      "type": "lit",
+      "x": 2,
+      "y": 9,
+      "nom": "Le lit de Bergeau",
+      "texte": [
+        "Trop court pour lui de deux mains, et il a refusé qu'on en fasse un autre.",
+        "Chez lui, dans le Désert, on dort sur le sable et le sable épouse qui s'y couche. Il dit qu'un lit qui ne cède pas apprend la patience."
+      ]
+    },
+    {
+      "type": "lit",
+      "x": 2,
+      "y": 12,
+      "nom": "Le lit de Jasson",
+      "texte": [
+        "Le montant du fond porte une brûlure de la taille d'une main.",
+        "Il s'exerce à faire léviter ce qui l'entoure. Ce qui l'entoure ne lévite pas, mais quelque chose se produit tout de même."
+      ]
+    },
+    {
+      "type": "lit",
+      "x": 17,
+      "y": 5,
+      "nom": "Le lit de Dempsey",
+      "texte": [
+        "Bordé au carré, l'oreiller centré, sans un pli. Il le refait chaque matin avant que la cloche sonne.",
+        "Personne ne le lui a demandé. C'est précisément pour cela qu'il le fait."
+      ]
+    },
+    {
+      "type": "lit",
+      "x": 17,
+      "y": 9,
+      "nom": "Le lit de Falcon",
+      "texte": [
+        "Poussé contre le mur, la tête vers la porte. Aucun des six autres n'est orienté ainsi.",
+        "Il n'a pas expliqué pourquoi, et l'on a fini par comprendre qu'il ne l'expliquerait pas."
+      ]
+    },
+    {
+      "type": "lit",
+      "x": 17,
+      "y": 12,
+      "nom": "Le lit de Chloé",
+      "texte": [
+        "Le seul qui porte deux couvertures. Diamant est un royaume froid, et l'habitude est restée après le froid.",
+        "Sous la paillasse, un éclat de verre monté sur bois. Elle le glisse là chaque soir et le reprend chaque matin."
+      ]
+    },
+    {
+      "type": "lit",
+      "x": 10,
+      "y": 12,
+      "nom": "Un lit qui n'a pas encore de nom",
+      "texte": [
+        "Monté ce matin, au bout du rang, à la place qui restait — la plus loin de la porte et la plus près du feu.",
+        "La paille est neuve et sent encore le champ. C'est le tien jusqu'à ce qu'on t'en donne un autre, ce qui prendra quinze ans."
+      ]
+    }
+  ],
+  "_zones": "Le tapis couvre le milieu, là où les paillasses se posent ; la pierre reste nue le long des murs, où passent les coffres et les pieds.",
+  "fond": 1,
+  "zones": [
+    {
+      "terrain": 0,
+      "x": 3,
+      "y": 3,
+      "l": 14,
+      "h": 7
+    }
+  ]
+}

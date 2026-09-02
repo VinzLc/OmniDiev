@@ -1,0 +1,16 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Mori, magician of Béryl, an old man who reads the stars. Stooped, thin, a long white beard reaching his chest, deep-set eyes under heavy brows. He carries himself like someone who has been awake all night.
+
+CLOTHES: a long DARK BLUE robe scattered with small gold points like stars, wide sleeves, a rope belt. A soft cap of the same blue. Blue and gold throughout, no green, no red.
+
+PALETTE — these colors only:
+#0B0A10 #22222C #454652 (black, dark)
+#2D5FA8 #5B9BD8 (dark blue robe)
+#C08F34 #F0D174 (gold stars)
+#F2F2F5 #DDDDE4 #A6A8B2 (white beard)
+#A9714E #D9A57C #F2D3B0 (skin)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

@@ -1,0 +1,15 @@
+Pixel art bust portrait, Game Boy Advance style, of a single older man seen from the chest up, facing the viewer. Dark plain background.
+
+FRAMING: they FILL THE WHOLE FRAME. The head occupies the upper half of the picture, edge to edge; the shoulders run off both sides and are cut by the border; the bottom of the picture cuts across the chest. No empty margin anywhere — this is a close portrait, not a figure standing in a void.
+
+WHO: Lang, King of the Realm of Jade, fifty, who trains soldiers himself. Square-shouldered and upright, a weathered outdoor face.
+
+HAIR: SHORT IRON-GREY hair and a CLIPPED GREY BEARD.
+
+EYES: dark, steady, measuring.
+
+CLOTHES: a PALE JADE-GREEN robe over a darker green tunic across the chest, and a plain circlet of GREEN STONE. Understated — Jade has no army and does not dress like it does.
+
+STYLE: flat fills, two-tone shading, hard dark outline, no anti-aliasing, no gradients.
+
+No text, no letters, no frame, no watermark, no second figure.

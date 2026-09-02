@@ -1,0 +1,15 @@
+Pixel art bust portrait, Game Boy Advance style, of a single man seen from the chest up, facing the viewer. Dark plain background.
+
+FRAMING: they FILL THE WHOLE FRAME. The head occupies the upper half of the picture, edge to edge; the shoulders run off both sides and are cut by the border; the bottom of the picture cuts across the chest. No empty margin anywhere — this is a close portrait, not a figure standing in a void.
+
+WHO: Nathan, King of Opale, forty-five, whose kingdom borders the Realm of Shadows. A lean hard face, hollow cheeks, the look of a man who sleeps badly.
+
+HAIR: dark hair going grey at the temples, a SHORT DARK BEARD.
+
+EYES: grey, tired, level.
+
+CLOTHES: a BONE-WHITE surcoat over dark grey mail across the chest, and a plain IRON CIRCLET on the brow. Pale and grey throughout — no gold, no red.
+
+STYLE: flat fills, two-tone shading, hard dark outline, no anti-aliasing, no gradients.
+
+No text, no letters, no frame, no watermark, no second figure.

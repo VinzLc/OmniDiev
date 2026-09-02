@@ -1,0 +1,32 @@
+{
+  "group_id": "d22a69db-b631-4ead-9fdf-fa78103af652",
+  "states": [
+    {
+      "character": {
+        "id": "55db4123-9dc1-41f9-8aeb-d599c7355435",
+        "name": "Idle",
+        "prompt": "Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).\n\nCHARACTER: Nogait, thirteen, Squire to the Knight Jasson. A wiry restless boy with a crooked grin \u2014 the one who talks back. Untidy sandy-brown hair falling in his eyes, freckles across the nose.\n\nCLOTHES: the plain gear of a Squire \u2014 a black tunic and black hose under a short SLEEVELESS green over-tunic, undecorated. No armour, no cross. Flat leather boots, one lace undone.\n\nPALETTE \u2014 these colors only:\n#0B0A10 #22222C #454652 #71727E (black)\n#0F3826 #1C7A4E #43C47F (green over-tunic)\n#7A5223 #C08F34 #F0D174 (sandy hair)\n#A9714E #D9A57C #F2D3B0 (skin)\n\nSTYLE: flat fills only. Two-tone shading \u2014 one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.\n\nBACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.",
+        "size": {
+          "width": 28,
+          "height": 28
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-08-27T23:07:09.434107+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-27T23:07:43.767800"
+}

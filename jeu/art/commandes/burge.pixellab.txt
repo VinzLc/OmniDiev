@@ -1,0 +1,16 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Burge, King of Rubis and father of Wellan, a man of sixty. IMPOSING STATURE and heavy build — his son inherited both. A broad grey beard, thick grey hair, a wide weathered face that laughs easily.
+
+CLOTHES: a long CRIMSON robe over a gold-trimmed tunic, a heavy leather belt, and a simple gold circlet — no jewels. Everything about him is warm-toned: deep red, gold, brown leather. No green, no silver.
+
+PALETTE — these colors only:
+#0B0A10 #22222C #454652 (black, dark)
+#8B2020 #D14545 (crimson robe)
+#3D2A12 #7A5223 #C08F34 #F0D174 (gold, leather)
+#A6A8B2 #DDDDE4 (grey beard and hair)
+#A9714E #D9A57C #F2D3B0 (skin)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

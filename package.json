@@ -25,6 +25,7 @@
     "art:generer": "tsx scripts/art-generer.ts",
     "jeu": "npm run jeu:donnees && tsx scripts/jeu.ts",
     "jeu:donnees": "tsx scripts/build-jeu-donnees.ts",
+    "jeu:chapitres": "tsx scripts/jeu-chapitres.ts",
     "art:expressions": "tsx scripts/art-expressions.ts"
   },
   "dependencies": {

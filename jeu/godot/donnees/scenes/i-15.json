@@ -1,0 +1,273 @@
+{
+  "id": "i-15",
+  "titre": "De précieux collaborateurs",
+  "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 15",
+  "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure.",
+  "salle": "salle-du-trone",
+  "ouverture": [
+    "Les sept sont rentrés de sept royaumes en dix jours, et aucun n'a la même histoire à raconter.",
+    "Ce matin, Élund attribue les premiers Écuyers. C'est une chose qu'il a refusée pendant trente ans et qu'il fait aujourd'hui de mauvaise grâce, en trois quarts d'heure."
+  ],
+  "cloture": [
+    "Ainsi l'Ordre cessa d'être sept hommes et devint une école, ce qu'Élund considérait comme une catastrophe et le Roi comme une nécessité.",
+    "Les deux avaient raison, et il fallut douze ans pour qu'on sache lequel des deux avait le plus raison."
+  ],
+  "etapes": [
+    {
+      "id": "le-squelette",
+      "objectif": "Écouter Bergeau",
+      "attend": {
+        "parler": "bergeau"
+      },
+      "dialogues": {
+        "bergeau": [
+          {
+            "qui": "bergeau",
+            "dit": "Zénor. Il y pleut, on ne m'avait pas menti sur ce point-là."
+          },
+          {
+            "qui": "bergeau",
+            "dit": "Les paysannes m'ont mené au village, et le village m'a mené à une grange. Dans la grange il y avait un dragon."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Vivant ?"
+          },
+          {
+            "qui": "bergeau",
+            "dit": "Mort depuis cinq cents ans, et remonté os par os par un vieux qui n'a rien d'autre à faire de ses hivers. Il a mis quarante ans."
+          },
+          {
+            "qui": "bergeau",
+            "dit": "Wellan. Il fait onze pas de long et sa tête touche la charpente. Ce que nous avons vu à Shola, ce n'étaient pas des lézards."
+          },
+          {
+            "qui": "recit",
+            "dit": "Bergeau parle beaucoup et ne s'arrête jamais. Il vient de s'arrêter."
+          },
+          {
+            "qui": "bergeau",
+            "dit": "J'ai passé une nuit à dormir sous cette bête. Je ne recommencerai pas."
+          }
+        ],
+        "santo": [
+          {
+            "qui": "santo",
+            "dit": "Il ne dort plus. Il ne le dit pas, alors je le dis pour lui."
+          }
+        ]
+      }
+    },
+    {
+      "id": "la-visiteuse",
+      "objectif": "Ce que les autres ont appris",
+      "attend": {
+        "parler": "jasson"
+      },
+      "dialogues": {
+        "jasson": [
+          {
+            "qui": "jasson",
+            "dit": "Alors. Il paraît qu'on a reçu de la visite cette nuit."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Qui t'a dit cela ?",
+            "humeur": "grave"
+          },
+          {
+            "qui": "jasson",
+            "dit": "Armène. Armène a dit à Chloé, Chloé a dit à Falcon, et Falcon ne dit jamais rien mais il a souri, ce qui est pire."
+          },
+          {
+            "qui": "jasson",
+            "dit": "Une reine morte. Une reine morte, Wellan. Nous, on rapporte des squelettes et des messages de rois grincheux, et toi tu reçois."
+          },
+          {
+            "qui": "recit",
+            "dit": "Le rire fait le tour de la salle du trône et met un temps déraisonnable à s'éteindre. Wellan attend qu'il s'éteigne."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Elle est venue pour sa fille.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "jasson",
+            "dit": "Bien sûr. Elle est venue pour sa fille."
+          },
+          {
+            "qui": "jasson",
+            "dit": "Je te taquine parce que tu es rentré des Elfes avec une tête qui m'a fait peur. Tu ris, donc je peux arrêter."
+          }
+        ],
+        "chloe": [
+          {
+            "qui": "chloe",
+            "dit": "À Diamant, quand quelqu'un voit un mort, on le fait taire. Ici on lui donne un Écuyer. Je préfère ici."
+          }
+        ],
+        "falcon": [
+          {
+            "qui": "falcon",
+            "dit": "Une Immortelle s'intéresse à nous depuis des années et personne ne se demande pourquoi. Moi je me le demande."
+          }
+        ]
+      }
+    },
+    {
+      "id": "les-ecuyers",
+      "objectif": "Recevoir ton Écuyer",
+      "apparaissent": [
+        {
+          "fiche": "bridgess",
+          "x": 14,
+          "y": 10,
+          "regarde": "nord",
+          "depuis": [
+            14,
+            16
+          ]
+        }
+      ],
+      "attend": {
+        "parler": "bridgess"
+      },
+      "dialogues": {
+        "bridgess": [
+          {
+            "qui": "elund",
+            "dit": "Bridgess, du Royaume d'Émeraude. Onze ans. Elle lit, elle compte, et elle a soulevé une table sans y toucher devant trois témoins."
+          },
+          {
+            "qui": "bridgess",
+            "dit": "Sire Wellan."
+          },
+          {
+            "qui": "wellan",
+            "dit": "On ne dit pas Sire. On dit Wellan.",
+            "humeur": "doux"
+          },
+          {
+            "qui": "bridgess",
+            "dit": "On m'a dit de dire Sire."
+          },
+          {
+            "qui": "wellan",
+            "dit": "On t'a dit beaucoup de choses ce matin et la moitié sera fausse d'ici un mois. Commence par celle-là."
+          },
+          {
+            "qui": "recit",
+            "dit": "Elle réfléchit, décide que c'est un ordre, et l'exécute. C'est la première chose qu'il apprend d'elle."
+          },
+          {
+            "qui": "bridgess",
+            "dit": "Wellan. Est-ce que je vais me battre ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Un jour. Pas avant d'avoir appris à porter de l'eau, à panser un cheval et à te taire pendant qu'on parle.",
+            "humeur": "resolu"
+          },
+          {
+            "qui": "bridgess",
+            "dit": "Je sais déjà me taire."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Alors il en reste deux."
+          }
+        ],
+        "elund": [
+          {
+            "qui": "elund",
+            "dit": "Je te donne la meilleure et je le fais exprès. Si tu la casses, on saura que le tort venait du maître."
+          }
+        ]
+      }
+    },
+    {
+      "id": "la-reprimande",
+      "objectif": "Répondre au Roi",
+      "attend": {
+        "parler": "emeraude-ier"
+      },
+      "dialogues": {
+        "emeraude-ier": [
+          {
+            "qui": "emeraude-ier",
+            "dit": "Le Roi des Elfes m'a écrit. Trois lignes, très polies, où il ne se plaint de rien."
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "C'est cela qui m'inquiète. Un homme qui se plaint a fini d'y penser."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Je l'ai mis à genoux, Majesté. Il n'avait pas d'armes et il a mon double d'âge.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Je sais. Jasson n'a rien dit, ce qui m'a suffi pour comprendre qu'il y avait quelque chose à taire."
+          },
+          {
+            "qui": "recit",
+            "dit": "Le Roi ne s'assoit pas sur son trône. Il ne s'y assoit que pour recevoir les royaumes, et ceci n'est pas une audience."
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Tu vas commander cet Ordre, Wellan. Ce n'est pas une récompense, c'est ce qui reste quand personne d'autre n'en veut."
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Un chef qui frappe un roi désarmé nous coûte un allié par colère. Nous avons sept alliés et beaucoup de colères devant nous."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Cela ne se reproduira pas.",
+            "humeur": "resolu"
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Ne me promets rien. Promets-moi seulement de prévenir quelqu'un avant, la prochaine fois. Ce sera déjà énorme."
+          }
+        ]
+      }
+    }
+  ],
+  "fin": {
+    "objectif": "Chapitre I,15 — joué",
+    "attend": {
+      "parler": "bridgess"
+    },
+    "dialogues": {
+      "bridgess": [
+        {
+          "qui": "bridgess",
+          "dit": "Wellan. Où est-ce que je dors ?"
+        },
+        {
+          "qui": "wellan",
+          "dit": "Là où dorment les Écuyers.",
+          "humeur": "doux"
+        },
+        {
+          "qui": "bridgess",
+          "dit": "Il n'y en avait pas, hier."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Il n'y en avait pas hier. Va voir Armène : elle aura trouvé, parce qu'elle trouve toujours et que personne ne la remercie."
+        }
+      ],
+      "emeraude-ier": [
+        {
+          "qui": "emeraude-ier",
+          "dit": "Onze enfants ce matin. Soixante avant l'été, si Élund cesse de résister."
+        }
+      ]
+    }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée."
+}

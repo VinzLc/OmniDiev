@@ -2,16 +2,199 @@
   "id": "palais-de-glace",
   "lieu": "shola",
   "nom": "Le palais de glace de Shola",
-  "taille": [28, 18],
-  "depart": [14, 15],
-
+  "taille": [
+    28,
+    18
+  ],
+  "depart": [
+    14,
+    15
+  ],
   "_zones": "terrain 0 = la neige du plateau (#a8d5df), terrain 1 = le dallage de glace du palais (#e1f2fd). La salle du trône occupe le centre ; la neige entre par les brèches.",
   "fond": 0,
   "zones": [
-    { "terrain": 1, "x": 6, "y": 3, "l": 15, "h": 10 },
-    { "terrain": 1, "x": 12, "y": 12, "l": 4, "h": 4 }
+    {
+      "terrain": 1,
+      "x": 6,
+      "y": 3,
+      "l": 15,
+      "h": 10
+    },
+    {
+      "terrain": 1,
+      "x": 12,
+      "y": 12,
+      "l": 4,
+      "h": 4
+    }
   ],
-
   "personnages": [],
-  "objets": []
+  "objets": [
+    {
+      "type": "trone",
+      "x": 14,
+      "y": 3,
+      "nom": "Le trône de Shola",
+      "texte": [
+        "Taillé dans un seul bloc de glace, et si clair qu'on voit au travers le mur qui est derrière.",
+        "Il est intact. C'est la première chose qui cloche : on saccage un palais en commençant par le trône, et celui-là, personne n'y a touché."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 10,
+      "y": 3,
+      "nom": "Une bannière de Shola",
+      "texte": [
+        "Blanc et bleu, une étoile à huit branches. Le tissu est gelé raide et sonne quand on le touche.",
+        "Émeraude en a reçu une pareille il y a des années. Elle est pliée dans un coffre, quelque part au Château, et personne ne saurait dire lequel."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 18,
+      "y": 3,
+      "nom": "Une bannière arrachée",
+      "texte": [
+        "Celle-ci pend d'un seul côté, la hampe cassée net à mi-hauteur.",
+        "La cassure est franche et haute. Ce qui l'a rompue frappait au-dessus de la tête d'un homme."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 8,
+      "y": 6,
+      "nom": "Un brasero éteint",
+      "texte": [
+        "Les braises sont froides jusqu'au fond. Il faut deux jours pleins pour qu'un brasero de cette taille cesse d'être tiède.",
+        "Deux jours. On peut donc dater ce qui s'est passé ici, et l'on préférerait ne pas savoir le faire."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 20,
+      "y": 6,
+      "nom": "Un brasero renversé",
+      "texte": [
+        "Couché sur le flanc, ses braises répandues en éventail vers la porte.",
+        "Quelqu'un l'a jeté à terre en courant. Vers la sortie, non vers l'ennemi — et l'on ne lui en veut pas."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 14,
+      "y": 12,
+      "nom": "Le brasero du milieu",
+      "texte": [
+        "Le seul qui brûle encore. Bergeau l'a rallumé en entrant, sans qu'on le lui demande.",
+        "« On ne traverse pas une maison dans le noir », a-t-il dit. Ce n'était pas une question de lumière."
+      ]
+    },
+    {
+      "type": "statue",
+      "x": 7,
+      "y": 9,
+      "nom": "Une statue de glace",
+      "texte": [
+        "Une femme en manteau, les mains ouvertes vers le bas. On ne sait pas si elle donne ou si elle lâche.",
+        "Le visage a été taillé avec assez de soin pour qu'on cherche à le reconnaître. On n'y arrive pas : personne ici n'a jamais vu de Sholien avant aujourd'hui."
+      ]
+    },
+    {
+      "type": "statue",
+      "x": 21,
+      "y": 9,
+      "nom": "Une statue brisée",
+      "texte": [
+        "Le socle et les jambes. Le reste est en morceaux à trois pas, et les morceaux sont propres.",
+        "La glace ne se casse pas ainsi toute seule. On l'a poussée."
+      ]
+    },
+    {
+      "type": "tombe",
+      "x": 11,
+      "y": 9,
+      "nom": "Une forme sous un drap",
+      "texte": [
+        "Santo l'a couverte avant que tu entres. Il en a couvert onze, et il a cessé de compter à voix haute.",
+        "Il ne dira pas ce qu'il a vu. Il dira, plus tard, qu'il aurait préféré apprendre à recoudre avant d'apprendre à frapper."
+      ]
+    },
+    {
+      "type": "tombe",
+      "x": 17,
+      "y": 9,
+      "nom": "Une autre forme",
+      "texte": [
+        "Petite.",
+        "Il n'y a rien à ajouter et Wellan n'ajoute rien."
+      ]
+    },
+    {
+      "type": "autel",
+      "x": 4,
+      "y": 8,
+      "nom": "Une table de pierre",
+      "texte": [
+        "Dressée dehors, sur la neige, face au levant. Du pain gelé, une coupe, du sel.",
+        "Une offrande du matin. Elle a été posée le jour même : le pain n'a pas eu le temps de se couvrir de givre avant de geler."
+      ]
+    },
+    {
+      "type": "stele",
+      "x": 24,
+      "y": 8,
+      "nom": "Une borne du plateau",
+      "texte": [
+        "Une pierre plantée dans la neige, gravée d'une étoile à huit branches et d'un nombre.",
+        "Le nombre compte les pas jusqu'au palais. Les voyageurs de Shola en plantent une tous les mille pas, parce que le plateau efface les traces en une heure."
+      ]
+    },
+    {
+      "type": "tonneau",
+      "x": 24,
+      "y": 4,
+      "nom": "Un tonneau crevé",
+      "texte": [
+        "Défoncé par le haut, vidé, et la neige a pris dedans.",
+        "Il ne contenait que de l'eau douce. Ce qui est entré ici a défoncé un tonneau d'eau pour voir ce qu'il y avait dedans."
+      ]
+    },
+    {
+      "type": "coffre",
+      "x": 24,
+      "y": 14,
+      "nom": "Un coffre forcé",
+      "texte": [
+        "Le couvercle arraché, les ferrures tordues vers l'extérieur.",
+        "Rien n'a été pris : les étoffes sont encore dedans, et une bourse par-dessus. On cherchait quelque chose, et ce n'était pas de l'or."
+      ]
+    },
+    {
+      "type": "caisse",
+      "x": 4,
+      "y": 14,
+      "nom": "Des caisses empilées",
+      "texte": [
+        "Du ravitaillement, sanglé et prêt à partir. Étiqueté pour Émeraude.",
+        "Shola nous envoyait des vivres. On l'apprend en arrivant trop tard, ce qui est la façon dont on apprend la plupart des choses."
+      ]
+    },
+    {
+      "type": "rocher",
+      "x": 3,
+      "y": 11,
+      "nom": "Un bloc de glace",
+      "texte": [
+        "Tombé de la falaise, poli par le vent, plus haut qu'un homme.",
+        "Il y en a des dizaines sur le plateau. De loin, chacun ressemble à quelqu'un qui attend."
+      ]
+    },
+    {
+      "type": "rocher",
+      "x": 25,
+      "y": 11
+    }
+  ],
+  "_objets": "Un palais saccagé, non un palais en ruine : tout est encore debout et à sa place. C'est ce qui doit se lire — on entre chez des gens dont la vie s'est arrêtée au milieu d'une phrase. Les meubles se tiennent à trois tuiles des cases où la scène fait paraître Santo, Bergeau et la Reine. Le brasero du milieu est descendu d'une case : sa lueur et celle que Wellan porte s'additionnent, et à deux tuiles l'une de l'autre le centre de la salle partait en blanc — la même auréole qu'on avait déjà payée sur les effets."
 }

@@ -9,6 +9,7 @@ extends Node2D
 
 const Partie := preload("res://partie.gd")
 const Donnees := preload("res://donnees.gd")
+const Sons := preload("res://sons.gd")
 const EMPLACEMENTS := Partie.EMPLACEMENTS
 
 var _campagne: Dictionary
@@ -19,6 +20,7 @@ var _au_titre := true
 var _titre: CanvasLayer
 var _liste: VBoxContainer
 var _invite: Label
+var _sons: Node
 
 
 func _ready() -> void:
@@ -31,13 +33,22 @@ func _ready() -> void:
 	# processus restait là, sans erreur ni sortie, jusqu'au délai d'attente. Un
 	# test doit pouvoir traverser ce qui attend un joueur.
 	var a := OS.get_cmdline_user_args()
-	if (a.has("--capture") or a.has("--effets") or a.has("--scene")
+	if (a.has("--capture") or a.has("--effets") or a.has("--scene") or a.has("--verifier")
 			or OS.get_cmdline_args().has("--capture")) and not a.has("--capture-titre"):
 		_commencer()
 		return
 
 	_batir()
 	_rafraichir()
+
+	# La musique du titre tient les deux temps de cet écran — le titre puis le
+	# choix de l'emplacement. C'est une seule scène : passer de l'un à l'autre
+	# ne la relance pas, et la relancer se serait entendu comme un accroc au
+	# moment précis où l'on s'apprête à jouer.
+	var monde := Donnees.lire("res://donnees/monde.json")
+	_sons = Sons.new(monde.get("sons", []), monde.get("musiques", []))
+	add_child(_sons)
+	_sons.musique("ecran-titre")
 
 	if a.has("--capture-titre"):
 		_capturer()
@@ -173,21 +184,34 @@ func _unhandled_input(e: InputEvent) -> void:
 	if _au_titre:
 		if e.is_action_pressed("ui_accept"):
 			_au_titre = false
+			_bruit("menu-choix")
 			_rafraichir()
 		return
 
 	if e.is_action_pressed("ui_down"):
 		_choix = (_choix + 1) % EMPLACEMENTS
+		_bruit("menu-deplace")
 		_rafraichir()
 	elif e.is_action_pressed("ui_up"):
 		_choix = (_choix + EMPLACEMENTS - 1) % EMPLACEMENTS
+		_bruit("menu-deplace")
 		_rafraichir()
 	elif e.is_action_pressed("ui_text_backspace"):
 		(_parties["parties"] as Array)[_choix] = null
+		_bruit("menu-choix")
 		_ecrire()
 		_rafraichir()
 	elif e.is_action_pressed("ui_accept"):
+		_bruit("menu-choix")
 		_commencer()
+
+
+## Le banc entre directement dans le jeu, sans que l'écran soit bâti : rien
+## n'existe alors pour jouer un son, et l'appeler ferait échouer le test à la
+## place du jeu.
+func _bruit(nom: String) -> void:
+	if _sons != null:
+		_sons.jouer(nom)
 
 
 ## Ouvre la partie choisie et passe la main au jeu.
@@ -211,12 +235,18 @@ func _capturer() -> void:
 	for i in 10:
 		await get_tree().process_frame
 	get_viewport().get_texture().get_image().save_png("res://capture-titre.png")
-	print("TITRE affiché")
+	print("TITRE affiché — musique « %s » à %.2fs" % [_sons.morceau(), _sons.ou_en_est()])
 
+	# Ce qu'on éprouve ici : que passer au choix de l'emplacement ne relance pas
+	# la musique. Elle doit avoir avancé, non être revenue à zéro.
+	var avant: float = _sons.ou_en_est()
 	_au_titre = false
 	_rafraichir()
-	for i in 8:
+	for i in 40:
 		await get_tree().process_frame
 	get_viewport().get_texture().get_image().save_png("res://capture-parties.png")
+	var apres: float = _sons.ou_en_est()
 	print("PARTIES : %d emplacements, choix %d" % [EMPLACEMENTS, _choix])
+	print("TITRE musique après le passage : %.2fs → %.2fs — %s" % [
+		avant, apres, "elle tient" if apres > avant else "RELANCÉE"])
 	get_tree().quit()

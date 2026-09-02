@@ -1,0 +1,32 @@
+{
+  "group_id": "52c16a2a-2307-47e5-ab32-8d390f55446f",
+  "states": [
+    {
+      "character": {
+        "id": "52464878-9c02-4fe5-bd43-5ed0ce3ac93f",
+        "name": "Idle",
+        "prompt": "Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).\n\nCHARACTER: Tilly, King of the Fairies, a slender ageless man. Long pale green-white hair falling past the shoulders, a calm faintly smiling face, very upright and still.\n\nCLOTHES: a long moss-green robe with wide sleeves, bark-brown at the hem as though the cloth were growing out of wood. A crown of small green leaves. Bare feet.\n\nPALETTE \u2014 these colors only:\n#0F3826 #1C7A4E #43C47F #8FE0AC (green robe, leaf crown)\n#3D2A12 #7A5223 (bark-brown hem)\n#A6A8B2 #DDDDE4 #F2F2F5 (pale hair)\n#0B0A10 #22222C (outline, shadow)\n#D9A57C #F2D3B0 (pale skin)\n\nSTYLE: flat fills only. Two-tone shading \u2014 one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.\n\nBACKGROUND: fully transparent. No wings. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.",
+        "size": {
+          "width": 28,
+          "height": 28
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-08-27T23:35:19.279464+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-27T23:36:04.836959"
+}

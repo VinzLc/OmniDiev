@@ -1,0 +1,171 @@
+{
+  "id": "frontiere-d-opale",
+  "lieu": "royaume-d-opale",
+  "nom": "La frontière d'Opale",
+  "taille": [
+    26,
+    17
+  ],
+  "depart": [
+    13,
+    15
+  ],
+  "_zones": "terrain 0 = la terre claire et craquelée de la plaine, terrain 1 = l'herbe rase et sombre. Le contraire des forêts, où c'est l'herbe qui éclaire : ici c'est le sol nu qui est pâle, et l'herbe qui fait tache.",
+  "fond": 0,
+  "zones": [
+    {
+      "terrain": 1,
+      "x": 6,
+      "y": 4,
+      "l": 14,
+      "h": 8
+    },
+    {
+      "terrain": 1,
+      "x": 2,
+      "y": 10,
+      "l": 5,
+      "h": 4
+    }
+  ],
+  "personnages": [
+    {
+      "fiche": "swan",
+      "x": 6,
+      "y": 8,
+      "regarde": "est",
+      "des": "i-20",
+      "dit": [
+        {
+          "qui": "swan",
+          "dit": "T'es grand. T'es plus grand que papa."
+        },
+        {
+          "qui": "wellan",
+          "dit": "C'est possible.",
+          "humeur": "doux"
+        },
+        {
+          "qui": "swan",
+          "dit": "Je peux faire tomber les piquets. Regarde."
+        },
+        {
+          "qui": "recit",
+          "dit": "Elle ne bouge pas. Le piquet, à quatre pas d'elle, se couche dans le sable sans que rien ne l'ait touché."
+        },
+        {
+          "qui": "swan",
+          "dit": "Maman dit que c'est le vent. Il n'y a pas de vent."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Non. Il n'y en a pas.",
+          "humeur": "grave"
+        }
+      ]
+    }
+  ],
+  "_objets": "Rien de bâti : c'est une frontière, non un lieu. Les pierres levées marquent la limite du Royaume des Ombres, et l'on ne va pas plus loin que la dernière.",
+  "objets": [
+    {
+      "type": "stele",
+      "x": 13,
+      "y": 3,
+      "nom": "La dernière borne",
+      "texte": [
+        "Une pierre levée, seule, gravée d'un côté seulement. Le côté gravé regarde Opale.",
+        "Au-delà commence le Royaume des Ombres. Personne à Opale ne sait ce qu'il y a dedans, et personne n'a jamais rencontré quelqu'un qui le sache."
+      ]
+    },
+    {
+      "type": "tombe",
+      "x": 9,
+      "y": 6,
+      "nom": "Un cairn sans nom",
+      "texte": [
+        "Des pierres empilées à hauteur de genou, entretenues : quelqu'un vient les redresser.",
+        "Les soldats d'Opale en comptent onze le long de la frontière. Ils n'expliquent pas ce qu'ils marquent et changent de sujet si l'on insiste."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 17,
+      "y": 6,
+      "nom": "Un feu de garde",
+      "texte": [
+        "Allumé au crépuscule, éteint à l'aube, tous les jours depuis quatre générations.",
+        "Il n'éclaire rien d'utile. Il dit à ce qui regarde d'en face que quelqu'un regarde aussi."
+      ]
+    },
+    {
+      "type": "caisse",
+      "x": 5,
+      "y": 12,
+      "nom": "Le matériel de creusement",
+      "texte": [
+        "Pelles, pioches, cordes, et deux cents piquets taillés en pointe.",
+        "Le Roi Nathan les a fait porter avant même d'avoir dit oui. Il a dit oui ensuite, ce qui était devenu une formalité."
+      ]
+    },
+    {
+      "type": "tonneau",
+      "x": 21,
+      "y": 12,
+      "nom": "Un tonneau d'eau",
+      "texte": [
+        "Pour les hommes qui creusent. On en vide trois par jour et l'on n'a pas de rivière à moins d'une demi-journée.",
+        "C'est ce détail-là, non la peur des dragons, qui décidera de la longueur des tranchées."
+      ]
+    },
+    {
+      "type": "rocher",
+      "x": 2,
+      "y": 3
+    },
+    {
+      "type": "rocher",
+      "x": 23,
+      "y": 3
+    },
+    {
+      "type": "rocher",
+      "x": 2,
+      "y": 16
+    },
+    {
+      "type": "rocher",
+      "x": 23,
+      "y": 16
+    },
+    {
+      "type": "buisson",
+      "x": 7,
+      "y": 2
+    },
+    {
+      "type": "buisson",
+      "x": 19,
+      "y": 2
+    },
+    {
+      "type": "buisson",
+      "x": 10,
+      "y": 15
+    },
+    {
+      "type": "buisson",
+      "x": 16,
+      "y": 15
+    },
+    {
+      "type": "souche",
+      "x": 24,
+      "y": 9
+    },
+    {
+      "type": "rocher",
+      "x": 1,
+      "y": 8
+    }
+  ]
+}

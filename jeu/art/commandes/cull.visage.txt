@@ -1,0 +1,15 @@
+Pixel art bust portrait, Game Boy Advance style, of a single old man seen from the chest up, facing the viewer. Dark plain background.
+
+FRAMING: they FILL THE WHOLE FRAME. The head occupies the upper half of the picture, edge to edge; the shoulders run off both sides and are cut by the border; the bottom of the picture cuts across the chest. No empty margin anywhere — this is a close portrait, not a figure standing in a void.
+
+WHO: Cull, King of Silver, sixty. A blunt, heavy face, deep lines, small eyes under thick brows. The expression of a man who has been asked to wait and does not intend to say so.
+
+HAIR: WHITE, thinning, swept back. A LONG WHITE BEARD covering the chest.
+
+EYES: pale grey.
+
+CLOTHES: a thick WHITE FUR collar across both shoulders, over a plain LIGHT GREY robe. A wide plain SILVER CROWN on the brow. Nothing blue, nothing red.
+
+STYLE: flat fills, two-tone shading, hard dark outline, no anti-aliasing, no gradients.
+
+No text, no letters, no frame, no watermark, no second figure.

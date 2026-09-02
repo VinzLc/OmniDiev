@@ -1,0 +1,233 @@
+{
+  "id": "i-24",
+  "titre": "Point de ralliement",
+  "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 24",
+  "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure. Le chapitre traverse Jade, puis Béryl, puis Zénor : il est replié sur la voie royale de Jade, d'où l'on voit partir les volontaires et où le magicien Mori vient au-devant des Chevaliers. Le Roi Wyler de Béryl n'a pas de fiche au Codex ; il est nommé sans paraître.",
+  "salle": "voie-de-jade",
+  "ouverture": [
+    "Le Royaume de Jade n'a ni armée ni murailles. Il a une voie royale dallée d'un bout à l'autre, et un puits tous les demi-jours de marche.",
+    "C'est ce qu'on bâtit quand on a décidé, il y a très longtemps, que personne ne viendrait jamais."
+  ],
+  "cloture": [
+    "Jade envoya quatre cents volontaires, Béryl deux cents, et les deux royaumes fêtèrent l'équinoxe en les regardant partir.",
+    "À Zénor, Wellan mesura le squelette d'un dragon abattu et comprit que les fosses devraient être plus profondes. On les creusa plus profondes. Cela ne suffit pas non plus."
+  ],
+  "etapes": [
+    {
+      "id": "le-roi-lang",
+      "objectif": "Demander des volontaires au Roi Lang",
+      "attend": {
+        "parler": "roi-lang"
+      },
+      "apparaissent": [
+        {
+          "fiche": "roi-lang",
+          "x": 14,
+          "y": 7,
+          "regarde": "sud",
+          "pose": true
+        },
+        {
+          "fiche": "bridgess",
+          "x": 10,
+          "y": 6,
+          "regarde": "est",
+          "pose": true
+        }
+      ],
+      "dialogues": {
+        "roi-lang": [
+          {
+            "qui": "roi-lang",
+            "dit": "Chevalier. Vous avez fait quatre jours de route pour me demander quelque chose, alors demandez-le en entrant plutôt qu'en sortant."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Des hommes. Pour creuser à Zénor, pas pour se battre.",
+            "humeur": "resolu"
+          },
+          {
+            "qui": "roi-lang",
+            "dit": "Combien ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Autant que vous pouvez en perdre pendant six semaines."
+          },
+          {
+            "qui": "roi-lang",
+            "dit": "Quatre cents. Volontaires — je ne réquisitionne pas, Jade n'a jamais réquisitionné personne et je ne vais pas commencer par une guerre qui n'est pas la nôtre."
+          },
+          {
+            "qui": "recit",
+            "dit": "Il dit « qui n'est pas la nôtre » et il donne quatre cents hommes dans la même phrase. Wellan met un moment à décider si c'est une contradiction."
+          },
+          {
+            "qui": "roi-lang",
+            "dit": "Ne me regardez pas comme cela. Nous n'avons pas d'armée parce que nous n'en avons jamais eu besoin. Cela ne veut pas dire que nous n'avons pas de bras."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Pourquoi acceptez-vous ?"
+          },
+          {
+            "qui": "roi-lang",
+            "dit": "Parce que ma fille a l'âge de votre Écuyer, et que j'ai fait le calcul de ce que Shola devait avoir comme enfants."
+          }
+        ],
+        "bridgess": [
+          {
+            "qui": "bridgess",
+            "dit": "Il a dit oui tout de suite. À Opale, il a fallu un duel."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Opale a une frontière à défendre. Jade n'en a pas, donc Jade n'a rien à protéger d'autre que l'idée qu'il se fait de lui-même.",
+            "humeur": "grave"
+          }
+        ]
+      }
+    },
+    {
+      "id": "le-magicien-de-beryl",
+      "objectif": "Entendre Mori",
+      "apparaissent": [
+        {
+          "fiche": "mori",
+          "x": 18,
+          "y": 6,
+          "regarde": "ouest",
+          "depuis": [
+            27,
+            7
+          ]
+        }
+      ],
+      "attend": {
+        "parler": "mori"
+      },
+      "dialogues": {
+        "mori": [
+          {
+            "qui": "mori",
+            "dit": "Chevalier d'Émeraude. Le Roi Wyler m'envoie au-devant de vous pour vous épargner deux jours de route, ce qui est une politesse de Béryl et non une urgence."
+          },
+          {
+            "qui": "mori",
+            "dit": "Il donne deux cents hommes. Il les donnait déjà avant que vous partiez d'Émeraude ; il attendait qu'on les lui demande."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Et vous, que m'apportez-vous ?"
+          },
+          {
+            "qui": "mori",
+            "dit": "Des présages, et vous n'y croyez pas. Écoutez-les quand même, cela ne coûte rien à un homme pressé."
+          },
+          {
+            "qui": "mori",
+            "dit": "Depuis onze nuits, les oiseaux de Béryl ne dorment pas. Ils tournent au-dessus de la mer et rentrent à l'aube."
+          },
+          {
+            "qui": "mori",
+            "dit": "C'est arrivé une fois avant, il y a cinq cents ans, et l'on a écrit dessus quatre lignes que je peux vous réciter. Vous n'aimerez pas les deux dernières."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Dites-les.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "mori",
+            "dit": "« Ils vinrent où la terre est basse. Ils repartirent avec ce qu'ils étaient venus chercher. »"
+          },
+          {
+            "qui": "recit",
+            "dit": "Zénor est l'endroit où la terre est le plus basse de tout le continent. Wellan le savait déjà, et l'entendre le fait changer de couleur."
+          }
+        ]
+      }
+    },
+    {
+      "id": "la-consigne",
+      "objectif": "Fixer sa place à ton Écuyer",
+      "attend": {
+        "parler": "bridgess"
+      },
+      "dialogues": {
+        "bridgess": [
+          {
+            "qui": "wellan",
+            "dit": "À Zénor, tu resteras derrière la seconde ligne de fosses.",
+            "humeur": "resolu"
+          },
+          {
+            "qui": "bridgess",
+            "dit": "Combien de temps ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Tant que je serai debout."
+          },
+          {
+            "qui": "bridgess",
+            "dit": "Et si vous ne l'êtes plus ?"
+          },
+          {
+            "qui": "recit",
+            "dit": "Elle a douze ans, et elle vient de poser la question que ni Santo ni Jasson n'ont osé poser depuis six mois."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Alors tu écouteras Santo, et Santo te dira de rester derrière la seconde ligne de fosses.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "bridgess",
+            "dit": "Ce n'est pas une réponse."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Non. C'est la seule que j'ai et je te la donne entière, ce qui est plus que ce qu'on m'a donné à ton âge."
+          }
+        ],
+        "mori": [
+          {
+            "qui": "mori",
+            "dit": "Elle vous tiendra tête toute sa vie, celle-là. Vous avez de la chance et vous ne le saurez que dans vingt ans."
+          }
+        ]
+      }
+    }
+  ],
+  "fin": {
+    "objectif": "Chapitre I,24 — joué",
+    "attend": {
+      "parler": "roi-lang"
+    },
+    "dialogues": {
+      "roi-lang": [
+        {
+          "qui": "roi-lang",
+          "dit": "Mes quatre cents partent demain à l'aube. Ils emportent leurs outils et trois semaines de vivres."
+        },
+        {
+          "qui": "roi-lang",
+          "dit": "Ramenez-m'en le plus possible, Chevalier. Je ne vous demande pas tous — je ne suis pas naïf à ce point — mais ramenez-m'en le plus possible."
+        }
+      ],
+      "bridgess": [
+        {
+          "qui": "bridgess",
+          "dit": "Quatre cents de Jade, deux cents de Béryl, deux cents d'Opale. Ça fait huit cents hommes qui n'ont jamais tenu une arme."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Ça fait huit cents hommes qui savent creuser. C'est ce dont j'ai besoin.",
+          "humeur": "resolu"
+        }
+      ]
+    }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée."
+}

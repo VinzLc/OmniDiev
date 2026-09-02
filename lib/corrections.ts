@@ -14,6 +14,9 @@ import { fold } from "./text.ts";
 
 export type Rejection = { from: string; to: string; motif: string };
 
+/** Un lieu que les passes n'ont pas relevé et qu'on rétablit à la main. */
+export type LieuAjoute = { id: string; nom: string; role: string; motif: string };
+
 const KIN =
   /\b(p[èe]re|m[èe]re|fils|fille|fr[èe]re|s(?:œ|oe)ur|[ée]pou[xs]e?|enfant|parent)\b/i;
 const ARMES = /\b(?:fr[èe]res?|s(?:œ|oe)urs?)\s+d['’\s]\s*armes?\b/i;
@@ -69,6 +72,27 @@ export function loadRejections(root = process.cwd()): Rejection[] {
     add(r.from, r.to, r.raison);
   }
   return out;
+}
+
+/**
+ * Les lieux que l'Oracle a manqués.
+ *
+ * Le relevé des lieux est une passe de lecture comme les autres, et une passe
+ * de lecture oublie. Le Royaume de Rubis en est la preuve : sept royaumes sont
+ * nommés dans le premier tome, Wellan y est né, et il ne figure pas dans les
+ * cinquante-sept lieux relevés. L'omission ne se voit que le jour où l'on veut
+ * y placer une salle.
+ *
+ * On ne corrige pas `codex.json`, qui est produit : on déclare ici, et ce qui
+ * consomme le Codex applique la correction. C'est la même règle que pour les
+ * liens de parenté rejetés — le fichier dit ce qu'une machine a manqué, avec
+ * le motif, et rien ne se perd au prochain `npm run codex`.
+ */
+export function loadLieuxAjoutes(root = process.cwd()): LieuAjoute[] {
+  const manual = path.join(root, "data", "corrections.json");
+  if (!fs.existsSync(manual)) return [];
+  const d = JSON.parse(fs.readFileSync(manual, "utf8"));
+  return (d.lieuxAjoutes ?? []) as LieuAjoute[];
 }
 
 /** Liens rejetés concernant une entité, dans un sens ou dans l'autre. */

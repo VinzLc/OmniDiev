@@ -1,0 +1,15 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Nogait, thirteen, Squire to the Knight Jasson. A wiry restless boy with a crooked grin — the one who talks back. Untidy sandy-brown hair falling in his eyes, freckles across the nose.
+
+CLOTHES: the plain gear of a Squire — a black tunic and black hose under a short SLEEVELESS green over-tunic, undecorated. No armour, no cross. Flat leather boots, one lace undone.
+
+PALETTE — these colors only:
+#0B0A10 #22222C #454652 #71727E (black)
+#0F3826 #1C7A4E #43C47F (green over-tunic)
+#7A5223 #C08F34 #F0D174 (sandy hair)
+#A9714E #D9A57C #F2D3B0 (skin)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

@@ -1,0 +1,15 @@
+Pixel art bust portrait, Game Boy Advance style, of a single man seen from the chest up, facing the viewer. Dark plain background.
+
+FRAMING: they FILL THE WHOLE FRAME. The head occupies the upper half of the picture, edge to edge; the shoulders run off both sides and are cut by the border; the bottom of the picture cuts across the chest. No empty margin anywhere — this is a close portrait, not a figure standing in a void.
+
+WHO: Kardey, captain of the soldiers of Opale, thirty-five. A blunt square face, a heavy jaw, a small scar. He looks like a man whose job is to stop people.
+
+HAIR: CLOSE-CROPPED DARK hair, a few days of stubble.
+
+EYES: dark, direct, unimpressed.
+
+CLOTHES: POLISHED SILVER ARMOUR over black cloth — a silver breastplate and pauldrons filling the chest. No emblem, no colour but black and silver.
+
+STYLE: flat fills, two-tone shading, hard dark outline, no anti-aliasing, no gradients.
+
+No text, no letters, no frame, no watermark, no second figure.

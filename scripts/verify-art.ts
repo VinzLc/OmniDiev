@@ -103,7 +103,8 @@ function softEdges({ data, width, height, channels }: Pixels): number {
 
 async function inspect(file: string): Promise<Finding[]> {
   const rel = path.relative(ROOT, file);
-  const kind = rel.includes(`${path.sep}personnages${path.sep}`) ? "personnage" : "lieu";
+  const kind = rel.includes(`${path.sep}personnages${path.sep}`) ? "personnage"
+    : rel.includes(`${path.sep}portraits${path.sep}`) ? "portrait" : "lieu";
   const out: Finding[] = [];
 
   const { data, info } = await sharp(file).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
@@ -112,6 +113,23 @@ async function inspect(file: string): Promise<Finding[]> {
       const pal = palette(px);
       const block = blockSize(px, pal.colors);
       const soft = softEdges(px);
+
+      /* ── Rien du tout ─────────────────────────────────────────────────
+       * Une image d'une seule couleur, opaque, de la bonne taille et du bon
+       * poids : c'est ce que le service rend quand une génération échoue sans
+       * le dire. Trois visages sur onze sont sortis ainsi — carré gris uni —
+       * et rien dans la chaîne ne s'en serait aperçu : le fichier existe, donc
+       * `build-jeu-donnees` déclare le portrait présent, et le jeu l'affiche.
+       * Le contrôleur mesurait la palette, la définition, les bords ; il ne
+       * demandait pas s'il y avait quelque chose dessus. */
+      if (pal.colors <= 1) {
+        out.push({
+          level: "erreur",
+          message: "image vide — une seule couleur sur toute la surface",
+          remede: "la génération a échoué en silence : relancer avec une autre graine",
+        });
+        return out;
+      }
 
       // ── Définition ────────────────────────────────────────────────────
       if (block > 1) {
@@ -229,12 +247,12 @@ async function main() {
   if (args.length) {
     files = args.map((a) => path.resolve(ROOT, a));
   } else {
-    for (const sub of ["personnages", "lieux"]) files.push(...collect(path.join(ART, sub)));
+    for (const sub of ["personnages", "lieux", "portraits"]) files.push(...collect(path.join(ART, sub)));
   }
   files.sort();
 
   if (!files.length) {
-    console.log(`Aucune image dans ${path.relative(ROOT, ART)}/personnages ou /lieux.`);
+    console.log(`Aucune image dans ${path.relative(ROOT, ART)}/personnages, /lieux ou /portraits.`);
     console.log("Les commandes à jouer sont dans jeu/art/commandes/.");
     return;
   }

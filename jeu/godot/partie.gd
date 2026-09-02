@@ -14,6 +14,14 @@ const FICHIER_ESSAI := "user://parties-essai.json"
 const EMPLACEMENTS := 3
 const CAMPAGNE := "res://donnees/campagne.json"
 
+## Le chapitre qu'on a demandé à rejouer, le temps d'un rechargement de scène.
+##
+## Statique plutôt qu'écrit dans le carnet : c'est une intention qui ne survit
+## pas à la session, et l'inscrire dans la sauvegarde du joueur y laisserait la
+## trace de quelque chose qui n'est pas sa progression. Le script reste chargé
+## d'une scène à l'autre, la valeur aussi.
+static var rejoue := ""
+
 
 ## Où se note la partie.
 ##
@@ -23,7 +31,7 @@ const CAMPAGNE := "res://donnees/campagne.json"
 static func carnet() -> String:
 	var a := OS.get_cmdline_user_args()
 	if OS.get_cmdline_args().has("--capture") or a.has("--capture") \
-		or a.has("--capture-titre") or a.has("--effets"):
+		or a.has("--capture-titre") or a.has("--effets") or a.has("--verifier"):
 		return FICHIER_ESSAI
 	return FICHIER
 
@@ -65,8 +73,36 @@ static func noter(chapitre: String) -> void:
 	if n >= 0 and n < parties.size():
 		var partie := _emplacement(parties, n)
 		partie["chapitre"] = chapitre
+		# Le plus loin qu'on soit allé, qui ne redescend jamais.
+		#
+		# Sans lui, rejouer le premier chapitre effacerait toute l'avance : la
+		# sauvegarde ne porte que « où j'en suis », et « où j'en suis » vaudrait
+		# soudain « chapitre un ». C'est la même règle que partout ailleurs —
+		# une écriture ne rend jamais moins que ce qu'elle a trouvé.
+		if rang(chapitre) > rang(str(partie.get("atteint", ""))):
+			partie["atteint"] = chapitre
 		parties[n] = partie
 	enregistrer(c)
+
+
+## Retient un fait dans l'emplacement courant, sans rien effacer d'autre.
+##
+## Même règle que `noter` : on complète, on ne remplace pas. C'est par là que le
+## jeu se souvient d'avoir déjà montré l'écran des commandes.
+static func retenir(cle: String, valeur) -> void:
+	var c := charger()
+	var n := int(c.get("courante", 0))
+	var parties: Array = c["parties"]
+	if n < 0 or n >= parties.size():
+		return
+	var partie := _emplacement(parties, n)
+	partie[cle] = valeur
+	parties[n] = partie
+	enregistrer(c)
+
+
+static func retenu(cle: String, defaut = null):
+	return courante().get(cle, defaut)
 
 
 ## L'emplacement n, créé vide s'il n'existe pas encore.
@@ -97,9 +133,85 @@ static func rencontrer(id: String) -> bool:
 	return true
 
 
+## Ramasse un objet. Vrai si c'est la première fois.
+##
+## Même forme que `rencontrer`, et pour la même raison : c'est ce qui permet de
+## n'annoncer une prise qu'une fois, et d'écrire sur-le-champ plutôt qu'à la
+## sauvegarde. Un coffre ouvert doit rester ouvert même si l'on quitte sans
+## noter.
+static func prendre(id: String) -> bool:
+	var c := charger()
+	var n := int(c.get("courante", 0))
+	var parties: Array = c["parties"]
+	if n < 0 or n >= parties.size():
+		return false
+	var partie := _emplacement(parties, n)
+	var sac: Array = partie.get("sac", [])
+	if sac.has(id):
+		return false
+	sac.append(id)
+	partie["sac"] = sac
+	parties[n] = partie
+	enregistrer(c)
+	return true
+
+
+## Ce qu'on porte, dans l'ordre où on l'a ramassé.
+static func sac() -> Array:
+	return courante().get("sac", [])
+
+
+## Porte un équipement à son emplacement. Rend ce qui s'y trouvait.
+##
+## Un emplacement ne tient qu'une pièce : porter une seconde épée repose la
+## première dans le sac plutôt que de l'y ajouter deux fois. Passer une chaîne
+## vide déséquipe.
+static func equiper(emplacement: String, id: String) -> String:
+	var c := charger()
+	var n := int(c.get("courante", 0))
+	var parties: Array = c["parties"]
+	if n < 0 or n >= parties.size():
+		return ""
+	var partie := _emplacement(parties, n)
+	var porte: Dictionary = partie.get("equipe", {})
+	var avant := str(porte.get(emplacement, ""))
+	if id == "":
+		porte.erase(emplacement)
+	else:
+		porte[emplacement] = id
+	partie["equipe"] = porte
+	parties[n] = partie
+	enregistrer(c)
+	return avant
+
+
+## Ce qu'on porte, par emplacement.
+static func equipe() -> Dictionary:
+	return courante().get("equipe", {})
+
+
 ## Tous ceux à qui l'on a parlé, dans l'ordre où on les a rencontrés.
 static func rencontres() -> Array:
 	return courante().get("rencontres", [])
+
+
+## Le chapitre le plus avancé qu'on ait ouvert.
+##
+## Les anciennes sauvegardes ne le portent pas : on retombe alors sur le
+## chapitre courant, qui était la seule marque d'avance qui existât.
+static func atteint() -> String:
+	var c := courante()
+	return str(c.get("atteint", c.get("chapitre", "")))
+
+
+## Les chapitres qu'on a le droit de rejouer : tous ceux déjà ouverts.
+static func joues() -> Array:
+	var loin := rang(atteint())
+	var liste := []
+	for id in campagne():
+		if rang(str(id)) <= loin:
+			liste.append(str(id))
+	return liste
 
 
 ## L'ordre de lecture des chapitres.

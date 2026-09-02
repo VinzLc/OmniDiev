@@ -1,0 +1,15 @@
+Pixel art bust portrait, Game Boy Advance style, of a single young elf seen from the chest up, facing the viewer. Dark plain background.
+
+FRAMING: they FILL THE WHOLE FRAME. The head occupies the upper half of the picture, edge to edge; the shoulders run off both sides and are cut by the border; the bottom of the picture cuts across the chest. No empty margin anywhere — this is a close portrait, not a figure standing in a void.
+
+WHO: Hawke, a young Elf magician of twenty-two. SMALL-FEATURED and delicate, with POINTED EARS clearly visible, and SNOW-WHITE SKIN — paler than anyone around him.
+
+HAIR: LONG DARK hair worn loose, framing the face.
+
+EYES: dark and watchful.
+
+CLOTHES: a FOREST GREEN robe over brown cloth. No metal, no gold, no jewels.
+
+STYLE: flat fills, two-tone shading, hard dark outline, no anti-aliasing, no gradients.
+
+No text, no letters, no frame, no watermark, no second figure.

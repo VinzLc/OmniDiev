@@ -1,0 +1,32 @@
+{
+  "group_id": "9793dffa-a535-442b-91b1-29654d60ccb1",
+  "states": [
+    {
+      "character": {
+        "id": "5a4310df-d52c-4732-8279-8af4940ba3ae",
+        "name": "Idle",
+        "prompt": "Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).\n\nCHARACTER: Nathan, King of Opale, a man of forty-five whose kingdom borders the Realm of Shadows. Lean, hard-faced, a short dark beard, the look of a man who sleeps badly. A soldier before a courtier.\n\nCLOTHES: a bone-white surcoat over a dark grey mail shirt, a heavy dark cloak, and a plain iron circlet. Pale and grey throughout \u2014 the colours of the chalk plain he rules. No gold, no red.\n\nPALETTE \u2014 these colors only:\n#0B0A10 #22222C #454652 #71727E (black, grey mail)\n#F2F2F5 #DDDDE4 #A6A8B2 (bone-white surcoat)\n#3D2A12 #7A5223 (leather)\n#A9714E #D9A57C #F2D3B0 (skin)\n\nSTYLE: flat fills only. Two-tone shading \u2014 one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.\n\nBACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.",
+        "size": {
+          "width": 28,
+          "height": 28
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-08-27T21:20:26.736857+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {}
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-08-27T21:20:55.840734"
+}

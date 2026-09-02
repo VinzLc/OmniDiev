@@ -1,0 +1,57 @@
+{
+  "id": "chambre-de-kira",
+  "lieu": "chateau-d-emeraude",
+  "nom": "La chambre de Kira",
+  "taille": [16, 11],
+  "depart": [8, 2],
+  "_taille": "Petite, et c'est le sujet. On a logé l'enfant de Shola sous la tour d'Élund, à l'écart du dortoir des sept — ce qui se voulait une commodité et se lit comme une mise à l'écart.",
+  "passages": [
+    { "x": 8, "y": 0, "vers": "bibliotheque-d-elund", "arrivee": [11, 12] }
+  ],
+  "personnages": [],
+  "objets": [
+    {
+      "type": "lit", "x": 3, "y": 4, "nom": "Le lit de Kira",
+      "texte": [
+        "Trop grand pour elle de moitié. On l'a pris dans une chambre d'adulte faute d'en avoir un autre sous la main.",
+        "Elle ne dort pas dedans. Elle dort dessous, roulée contre le mur, et l'on a cessé de le lui reprocher."
+      ]
+    },
+    {
+      "type": "coffre", "x": 3, "y": 8, "nom": "Un coffre presque vide",
+      "texte": [
+        "Trois robes, deux paires de chaussons, un peigne. Tout ce qu'elle possède tient dans un tiers du coffre.",
+        "Sa mère est repartie sans lui laisser un objet. Personne au Château ne sait si c'était un oubli."
+      ]
+    },
+    {
+      "type": "brasier", "x": 12, "y": 3, "nom": "Un brasero qu'on ne laisse pas mourir",
+      "texte": [
+        "Armène le recharge deux fois par nuit. La chambre est au nord de la tour et le nord de la tour est froid.",
+        "L'enfant, elle, n'a jamais froid. Armène recharge quand même : elle dit que ce n'est pas pour l'enfant."
+      ]
+    },
+    {
+      "type": "chandelier", "x": 12, "y": 7, "nom": "Un chandelier laissé allumé",
+      "texte": [
+        "Trois chandelles, qu'on remplace avant qu'elles s'éteignent.",
+        "Ce n'est pas Kira qui l'a demandé. C'est le Château qui préfère qu'on voie clair dans cette chambre-là."
+      ]
+    },
+    {
+      "type": "tabouret", "x": 7, "y": 8, "nom": "Un tabouret contre le lit",
+      "texte": [
+        "Bas, à trois pieds, tourné vers le lit. Quelqu'un s'assoit là.",
+        "Élund vient chaque soir. Il ne parle pas, il n'examine rien : il s'assoit, et il repart quand l'enfant s'endort."
+      ]
+    },
+    { "type": "banniere", "x": 13, "y": 1 },
+    { "type": "caisse", "x": 1, "y": 1 },
+    { "type": "tonneau", "x": 14, "y": 9 }
+  ],
+  "_zones": "Un tapis sous le lit et rien d'autre : la pierre nue partout ailleurs. La chambre n'a pas été aménagée, elle a été attribuée.",
+  "fond": 1,
+  "zones": [
+    { "terrain": 0, "x": 2, "y": 3, "l": 6, "h": 6 }
+  ]
+}

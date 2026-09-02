@@ -1,0 +1,15 @@
+Pixel art bust portrait, Game Boy Advance style, of a single very old man seen from the chest up, facing the viewer. Dark plain background.
+
+FRAMING: they FILL THE WHOLE FRAME. The head occupies the upper half of the picture, edge to edge; the shoulders run off both sides and are cut by the border; the bottom of the picture cuts across the chest. No empty margin anywhere — this is a close portrait, not a figure standing in a void.
+
+WHO: Mori, magician of Béryl, who reads the stars. Very old, THIN and STOOPED, deep-set eyes under heavy brows, the face of someone who has been awake all night.
+
+HAIR: a LONG WHITE BEARD reaching the chest, thin white hair under a soft cap.
+
+EYES: deep-set, pale, sharp.
+
+CLOTHES: a DARK BLUE robe scattered with small GOLD POINTS like stars across the chest, and a soft dark blue cap. Blue and gold throughout — no green, no red.
+
+STYLE: flat fills, two-tone shading, hard dark outline, no anti-aliasing, no gradients.
+
+No text, no letters, no frame, no watermark, no second figure.

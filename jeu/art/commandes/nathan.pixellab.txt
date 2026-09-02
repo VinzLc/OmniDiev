@@ -1,0 +1,15 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Nathan, King of Opale, a man of forty-five whose kingdom borders the Realm of Shadows. Lean, hard-faced, a short dark beard, the look of a man who sleeps badly. A soldier before a courtier.
+
+CLOTHES: a bone-white surcoat over a dark grey mail shirt, a heavy dark cloak, and a plain iron circlet. Pale and grey throughout — the colours of the chalk plain he rules. No gold, no red.
+
+PALETTE — these colors only:
+#0B0A10 #22222C #454652 #71727E (black, grey mail)
+#F2F2F5 #DDDDE4 #A6A8B2 (bone-white surcoat)
+#3D2A12 #7A5223 (leather)
+#A9714E #D9A57C #F2D3B0 (skin)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

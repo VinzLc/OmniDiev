@@ -103,6 +103,16 @@ async function create(id: string) {
    */
   const port = arg("port") ?? "heroic";
   const taille = Number(arg("taille") ?? 26);
+  /* Seize pixels est le plancher du service, et il refuse en dessous par un 422
+   * dont le corps parle de `image_size.width` — un message d'API, pas un
+   * message de projet. Un enfant de huit ans se commande donc à 16 et non plus
+   * petit : c'est une contrainte à connaître avant d'écrire la consigne, pas à
+   * découvrir après l'appel. */
+  if (taille < 16) {
+    console.error(`${C.red}Taille ${taille} : le service refuse en dessous de 16 pixels.${C.off}`);
+    console.error(`${C.dim}Un enfant se commande à 16 ; un adulte entre 18 et 21.${C.off}`);
+    process.exit(1);
+  }
   const body: Record<string, unknown> = {
     description,
     /*
@@ -542,8 +552,16 @@ async function portraitDecrit(id: string) {
  * qu'une tuile, et les rogner à la taille du sol les rendrait méconnaissables.
  * Ils se posent donc comme les personnages, calés par le bas.
  */
-async function objet(nom: string) {
-  const file = path.join(ROOT, "jeu", "art", "commandes", `objet-${nom}.txt`);
+/**
+ * Une image d'objet, sur fond transparent.
+ *
+ * Deux banques, parce que deux usages : `objets/` porte le mobilier qu'on pose
+ * dans une salle, `inventaire/` les icônes de ce qu'on porte. Les mêler ferait
+ * apparaître une épée courte parmi les meubles qu'une salle peut placer, et un
+ * brasero parmi ce qu'on peut ranger dans son sac.
+ */
+async function objet(nom: string, banque = "objets", prefixe = "objet") {
+  const file = path.join(ROOT, "jeu", "art", "commandes", `${prefixe}-${nom}.txt`);
   if (!fs.existsSync(file)) {
     console.error(`Commande absente : ${path.relative(ROOT, file)}`);
     process.exit(1);
@@ -574,10 +592,10 @@ async function objet(nom: string) {
   const trouve = chercherImage(sortie);
   if (!trouve) { console.error(JSON.stringify(sortie).slice(0, 300)); process.exit(1); }
 
-  const dossier = path.join(ROOT, "jeu", "art", "objets");
+  const dossier = path.join(ROOT, "jeu", "art", banque);
   fs.mkdirSync(dossier, { recursive: true });
   fs.writeFileSync(path.join(dossier, `${nom}.png`), Buffer.from(trouve, "base64"));
-  console.log(`${C.green}✓${C.off} jeu/art/objets/${nom}.png`);
+  console.log(`${C.green}✓${C.off} jeu/art/${banque}/${nom}.png`);
 }
 
 async function main() {
@@ -592,6 +610,8 @@ async function main() {
   }
   const chose = arg("objet");
   if (chose) { await objet(chose); return; }
+  const porte = arg("item");
+  if (porte) { await objet(porte, "inventaire", "item"); return; }
   const visage = arg("portrait");
   if (visage) { await portrait(visage); return; }
   const tuilesId = arg("tuiles");
@@ -609,17 +629,53 @@ async function main() {
     process.exit(1);
   }
 
-  const list = await characters();
-  const match = list.filter((c) => c.name?.toLowerCase() === who.toLowerCase());
-  if (!match.length) {
-    console.error(`Aucun personnage nommé « ${who} » chez PixelLab.`);
-    console.error(`Connus : ${[...new Set(list.map((c) => c.name))].join(", ") || "aucun"}`);
-    process.exit(1);
+  /*
+   * Retrouver le personnage à animer, par son carnet local d'abord.
+   *
+   * Les treize premiers ont été créés dans l'interface web, où l'humain leur a
+   * donné leur nom : « Wellan », « Kira ». Ceux que `--creer` fabrique par
+   * l'API n'en reçoivent pas — le service les enregistre sous le nom de leur
+   * état, c'est-à-dire « Idle » pour tout le monde. Chercher par le nom ne
+   * pouvait donc jamais les retrouver, et l'erreur listait cinquante
+   * descriptions entières en guise de noms connus.
+   *
+   * L'identifiant, lui, est écrit dans le `metadata.json` que la création
+   * enregistre à côté des images. C'est la source sûre : elle est locale, elle
+   * est datée du moment où l'on a accepté le rendu, et elle ne dépend pas de
+   * ce que le service a bien voulu appeler la chose.
+   */
+  let base: { id: string; name?: string; state_name?: string } | undefined;
+
+  const carnet = path.join(ROOT, "jeu", "art", "sources");
+  if (fs.existsSync(carnet)) {
+    const dossier = fs.readdirSync(carnet)
+      .filter((d) => d === who || d.startsWith(`${who}-v`))
+      .sort()
+      .pop();
+    const meta = dossier && path.join(carnet, dossier, "metadata.json");
+    if (meta && fs.existsSync(meta)) {
+      const d = JSON.parse(fs.readFileSync(meta, "utf8"));
+      const etats = (d.states ?? []).map((s: { character?: { id: string; name?: string } }) => s.character);
+      const repos = etats.find((c: { name?: string }) => /idle|repos/i.test(c?.name ?? "")) ?? etats[0];
+      if (repos?.id) {
+        base = { id: repos.id, name: who, state_name: repos.name };
+        console.log(`${C.dim}identifiant lu dans jeu/art/sources/${dossier}/metadata.json${C.off}`);
+      }
+    }
   }
 
-  /* Un personnage peut porter plusieurs états ; on anime à partir du repos,
-   * qui est la pose de référence. */
-  const base = match.find((c) => /idle|repos/i.test(c.state_name ?? "")) ?? match[0];
+  if (!base) {
+    const list = await characters();
+    const match = list.filter((c) => c.name?.toLowerCase() === who.toLowerCase());
+    if (!match.length) {
+      console.error(`Aucun personnage nommé « ${who} » chez PixelLab, ni de carnet local sous jeu/art/sources/${who}.`);
+      console.error(`Noms connus : ${[...new Set(list.map((c) => (c.name ?? "").slice(0, 40)))].join(", ") || "aucun"}`);
+      process.exit(1);
+    }
+    /* Un personnage peut porter plusieurs états ; on anime à partir du repos,
+     * qui est la pose de référence. */
+    base = match.find((c) => /idle|repos/i.test(c.state_name ?? "")) ?? match[0];
+  }
 
   const before = await showBalance("Solde avant");
   console.log(`\n${base.name} (${base.state_name ?? "—"})  ${C.dim}${base.id}${C.off}`);

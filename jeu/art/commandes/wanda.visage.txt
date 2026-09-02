@@ -1,0 +1,15 @@
+Pixel art bust portrait, Game Boy Advance style, of a single girl seen from the chest up, facing the viewer. Dark plain background.
+
+FRAMING: they FILL THE WHOLE FRAME. The head occupies the upper half of the picture, edge to edge; the shoulders run off both sides and are cut by the border; the bottom of the picture cuts across the chest. No empty margin anywhere — this is a close portrait, not a figure standing in a void.
+
+WHO: Wanda, thirteen, a Squire of the Knights of Emerald. A square jaw and a LEVEL UNSMILING gaze, straight at the viewer. She looks like she is waiting for you to finish talking.
+
+HAIR: a BOY'S CROP. Black hair shaved close at the sides and back, barely a finger long on top. The ears are fully visible. NOT long, NOT shoulder-length, NOT falling around the face, no strands, no fringe covering the forehead. The shortest hair of anyone in the castle — shorter than any boy's.
+
+EYES: dark, steady.
+
+CLOTHES: a black tunic with a dark GREEN sleeveless over-tunic across the chest. No armour, no cross.
+
+STYLE: flat fills, two-tone shading, hard dark outline, no anti-aliasing, no gradients.
+
+No text, no letters, no frame, no watermark, no second figure.

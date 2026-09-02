@@ -1,6 +1,6 @@
 {
  "version": 1,
- "batiLe": "2026-08-27",
+ "batiLe": "2026-09-02",
  "provenance": "Fiches du Codex — résumés produits par l'Oracle. Aucune phrase des romans.",
  "personnages": {
   "abnar": {
@@ -30,8 +30,8 @@
     23,
     43
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "abnar.png",
+   "portrait": "portrait-abnar.png",
    "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
@@ -123,8 +123,8 @@
     12,
     14
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "ariane.png",
+   "portrait": "portrait-ariane.png",
    "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
@@ -273,8 +273,8 @@
     30,
     38
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "bridgess.png",
+   "portrait": "portrait-bridgess.png",
    "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
@@ -333,8 +333,8 @@
     7,
     9
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "burge.png",
+   "portrait": "portrait-burge.png",
    "humeurs": [],
    "teinte": "#736C82",
    "liens": [
@@ -466,8 +466,8 @@
     7,
     38
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "christa.png",
+   "portrait": "portrait-christa.png",
    "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
@@ -496,8 +496,8 @@
     6,
     10
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "cull.png",
+   "portrait": "portrait-cull.png",
    "humeurs": [],
    "teinte": "#A76BC4",
    "liens": [
@@ -774,8 +774,8 @@
     9,
     12
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "giller.png",
+   "portrait": "portrait-giller.png",
    "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
@@ -867,8 +867,8 @@
     24,
     25
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "hawke.png",
+   "portrait": "portrait-hawke.png",
    "humeurs": [],
    "teinte": "#1C7A4E",
    "liens": [
@@ -954,8 +954,8 @@
     12,
     14
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "kardey.png",
+   "portrait": "portrait-kardey.png",
    "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
@@ -987,8 +987,8 @@
     6,
     14
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "kerns.png",
+   "portrait": "portrait-kerns.png",
    "humeurs": [],
    "teinte": "#736C82",
    "liens": [
@@ -1128,8 +1128,8 @@
     6,
     7
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "mira.png",
+   "portrait": "portrait-mira.png",
    "humeurs": [],
    "teinte": "#C08F34",
    "liens": [
@@ -1152,8 +1152,8 @@
     7,
     38
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "mori.png",
+   "portrait": "portrait-mori.png",
    "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
@@ -1181,8 +1181,8 @@
     6,
     11
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "nathan.png",
+   "portrait": "portrait-nathan.png",
    "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
@@ -1227,8 +1227,8 @@
     23,
     24
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "nogait.png",
+   "portrait": "portrait-nogait.png",
    "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
@@ -1390,8 +1390,8 @@
     10,
     11
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "roi-lang.png",
+   "portrait": "portrait-roi-lang.png",
    "humeurs": [],
    "teinte": "#7A5223",
    "liens": [
@@ -1508,8 +1508,8 @@
     9,
     20
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "stem.png",
+   "portrait": "portrait-stem.png",
    "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
@@ -1560,8 +1560,8 @@
     23,
     24
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "swan.png",
+   "portrait": "portrait-swan.png",
    "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
@@ -1600,8 +1600,8 @@
     25,
     38
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "tilly.png",
+   "portrait": "portrait-tilly.png",
    "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
@@ -1632,8 +1632,8 @@
     3,
     5
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "vail.png",
+   "portrait": "portrait-vail.png",
    "humeurs": [],
    "teinte": "#43C47F",
    "liens": [
@@ -1678,8 +1678,8 @@
     25,
     38
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "wanda.png",
+   "portrait": "portrait-wanda.png",
    "humeurs": [],
    "teinte": "#2D5FA8",
    "liens": [
@@ -1824,8 +1824,8 @@
     18,
     19
    ],
-   "planche": null,
-   "portrait": null,
+   "planche": "zach.png",
+   "portrait": "portrait-zach.png",
    "humeurs": [],
    "teinte": "#8B2020",
    "liens": [
@@ -12998,7 +12998,7 @@
   "royaume-d-opale": {
    "nom": "Royaume d'Opale",
    "role": "Royaume continental dont le roi s'allie aux Chevaliers d'Émeraude pour la défense du continent.",
-   "tuiles": null
+   "tuiles": "royaume-d-opale.png"
   },
   "royaume-de-cristal": {
    "nom": "Royaume de Cristal",
@@ -13008,7 +13008,7 @@
   "royaume-de-jade": {
    "nom": "Royaume de Jade",
    "role": "Région lointaine d'Enkidiev, centre de ralliement et territoire d'accueil pour les personnages en quête de refuge ou de renouveau.",
-   "tuiles": null
+   "tuiles": "royaume-de-jade.png"
   },
   "royaume-de-shola": {
    "nom": "Royaume de Shola",
@@ -13244,6 +13244,366 @@
    "nom": "Duranki",
    "role": "Citadelle fortifiée aux confins des territoires contrôlés par les créatures surnaturelles, servant tour à tour de prison, de forteresse militaire et de base stratégique.",
    "tuiles": null
+  },
+  "royaume-de-rubis": {
+   "nom": "Royaume de Rubis",
+   "role": "Royaume d'Enkidiev gouverné par le Roi Burge et la Reine Mira. Royaume natal de Wellan, chef de l'Ordre des Chevaliers d'Émeraude, et de son frère Stem.",
+   "tuiles": "royaume-de-rubis.png"
   }
- }
+ },
+ "mobilier": [
+  "arbre",
+  "autel",
+  "banniere",
+  "brasier",
+  "buisson",
+  "caisse",
+  "chandelier",
+  "coffre",
+  "enclume",
+  "etagere",
+  "feu",
+  "lit",
+  "porte",
+  "puits",
+  "pupitre",
+  "ratelier",
+  "rocher",
+  "sacs",
+  "souche",
+  "statue",
+  "stele",
+  "table",
+  "tabouret",
+  "tombe",
+  "tonneau",
+  "trone"
+ ],
+ "prises": {
+  "epee-de-wellan": {
+   "id": "epee-de-wellan",
+   "nom": "Ton épée",
+   "categorie": "equipement",
+   "emplacement": "arme",
+   "bonus": {
+    "force": 3
+   },
+   "texte": [
+    "Une lame d'homme, enfin. Celle qu'on t'a remise le jour où tu as cessé d'être Écuyer.",
+    "Le pommeau porte une émeraude que personne n'a jamais estimée, et qu'on ne vendra pas."
+   ],
+   "ou": "À toi depuis le premier jour",
+   "image": 9
+  },
+  "surcot-d-emeraude": {
+   "id": "surcot-d-emeraude",
+   "nom": "Ton surcot",
+   "categorie": "equipement",
+   "emplacement": "armure",
+   "bonus": {
+    "defense": 2
+   },
+   "texte": [
+    "Vert et noir, partagés dans la hauteur : la croix d'Émeraude en noir sur le vert, un dragon vert sur le noir.",
+    "Il y en a sept exactement pareils. C'est le propos : de loin, on ne doit pas savoir lequel des sept on regarde."
+   ],
+   "ou": "À toi depuis le premier jour",
+   "image": 15
+  },
+  "chronique-de-rubis": {
+   "id": "chronique-de-rubis",
+   "nom": "La chronique de Rubis",
+   "categorie": "objet",
+   "texte": [
+    "Ton royaume, dans son étui de cuir, entre celle d'Argent et celle de Turquoise.",
+    "Tu l'as prise sans demander. Élund t'a vu faire et n'a rien dit, ce qui n'est pas la même chose qu'une permission."
+   ],
+   "ou": "La bibliothèque d'Élund",
+   "image": 4
+  },
+  "releve-de-cote": {
+   "id": "releve-de-cote",
+   "nom": "Un relevé de côte",
+   "categorie": "objet",
+   "texte": [
+    "Roulé serré, daté de quarante ans. Il s'arrête à la ligne où la mer commence.",
+    "Il y a beaucoup de cartes de l'endroit d'où l'on regarde, et aucune de l'endroit qu'on regarde."
+   ],
+   "ou": "La bibliothèque d'Élund",
+   "image": 14
+  },
+  "cuirasse-de-perle": {
+   "id": "cuirasse-de-perle",
+   "nom": "La cuirasse de Perle",
+   "categorie": "equipement",
+   "emplacement": "armure",
+   "bonus": {
+    "defense": 9
+   },
+   "texte": [
+    "Bleue, écaillée comme un poisson, fermée par une boucle d'or que personne n'a jamais trouvée discrète.",
+    "Elle vaut trois chevaux. Giller vous l'a rappelé quatre fois pendant qu'il vous la tendait."
+   ],
+   "ou": "Donné par Giller",
+   "image": 6
+  },
+  "bottes-de-seve": {
+   "id": "bottes-de-seve",
+   "nom": "Les bottes de sève",
+   "categorie": "equipement",
+   "emplacement": "bottes",
+   "bonus": {
+    "vitesse": 4
+   },
+   "texte": [
+    "Elles ont poussé. Le lacet est vivant : il se resserre tout seul quand vous marchez trop lentement.",
+    "Ne pas les planter. On vous l'a dit deux fois, et deux personnes avant vous ne l'ont pas écouté."
+   ],
+   "ou": "Donné par Tilly",
+   "image": 0
+  },
+  "couverture": {
+   "id": "couverture",
+   "nom": "Une couverture de laine",
+   "categorie": "objet",
+   "texte": [
+    "Grise, épaisse, qui sent la fumée du brasero contre lequel elle a passé l'hiver.",
+    "C'est le coffre où l'on met ce qui n'a pas d'autre endroit. Personne ne comptera celle-ci."
+   ],
+   "ou": "La galerie des Sept",
+   "image": 5
+  },
+  "bouclier-de-la-cite-morte": {
+   "id": "bouclier-de-la-cite-morte",
+   "nom": "Le bouclier de la cité morte",
+   "categorie": "equipement",
+   "emplacement": "bouclier",
+   "bonus": {
+    "defense": 8
+   },
+   "texte": [
+    "Cinq cents ans dans le sable, et pas une fêlure qu'on n'ait déjà réparée avant vous.",
+    "Le bras qui le tenait était encore dedans. Un enfant de huit ans l'a retiré et n'y a plus repensé."
+   ],
+   "ou": "Donné par Zach",
+   "image": 2
+  },
+  "epee-de-bois": {
+   "id": "epee-de-bois",
+   "nom": "Une lame d'exercice",
+   "categorie": "equipement",
+   "emplacement": "arme",
+   "bonus": {
+    "force": 2
+   },
+   "texte": [
+    "Du bois dur lesté de plomb au pommeau, pour peser le poids d'une vraie.",
+    "Elle casse, elle ne coupe pas. On s'en sert jusqu'à ce qu'on cesse de se blesser soi-même."
+   ],
+   "ou": "La salle d'armes",
+   "image": 8
+  },
+  "epee-courte": {
+   "id": "epee-courte",
+   "nom": "Une épée courte",
+   "categorie": "equipement",
+   "emplacement": "arme",
+   "bonus": {
+    "force": 5
+   },
+   "texte": [
+    "Forgée à la taille de ton bras, non à celle d'un homme. Élund a insisté.",
+    "Il faudra la refaire dans deux ans. On te l'a dit en te la donnant, comme une promesse plutôt que comme un regret."
+   ],
+   "ou": "La salle d'armes",
+   "image": 7
+  },
+  "plastron-de-cuir": {
+   "id": "plastron-de-cuir",
+   "nom": "Un plastron de cuir",
+   "categorie": "equipement",
+   "emplacement": "armure",
+   "bonus": {
+    "defense": 4
+   },
+   "texte": [
+    "Rien de métal. Le métal chauffe, pèse, et donne à un enfant l'idée qu'il est protégé.",
+    "Celui-ci porte déjà trois entailles. Il a servi avant toi et il servira après."
+   ],
+   "ou": "La salle d'armes",
+   "image": 13
+  },
+  "casque-de-cuir": {
+   "id": "casque-de-cuir",
+   "nom": "Un casque de cuir",
+   "categorie": "equipement",
+   "emplacement": "casque",
+   "bonus": {
+    "defense": 2
+   },
+   "texte": [
+    "Un dôme de cuir durci, un nasal de fer, deux lanières.",
+    "Le maître d'armes exige qu'on le porte à l'exercice. Il ne dit pas pourquoi, et personne n'a envie de le lui demander."
+   ],
+   "ou": "La salle d'armes",
+   "image": 3
+  },
+  "fleche-mouchetee": {
+   "id": "fleche-mouchetee",
+   "nom": "Une flèche mouchetée",
+   "categorie": "objet",
+   "texte": [
+    "La pointe est enveloppée d'étoupe et de cire. Elle marque sans percer.",
+    "On tire sur des bottes de paille, jamais sur des cibles peintes : une cible a un centre, une botte n'en a pas."
+   ],
+   "ou": "La salle d'armes",
+   "image": 10
+  },
+  "lame-des-fees": {
+   "id": "lame-des-fees",
+   "nom": "La lame sans nom",
+   "categorie": "equipement",
+   "emplacement": "arme",
+   "bonus": {
+    "force": 10,
+    "vitesse": 1
+   },
+   "texte": [
+    "Elle ne pèse rien. On la lève trop haut la première fois et l'on se sent bête.",
+    "Le fil ne brille pas. Il ne s'ébrèche pas non plus, ce qui est une façon plus utile d'être une épée."
+   ],
+   "ou": "Donné par Ariane",
+   "image": 12
+  },
+  "bouclier-de-bois": {
+   "id": "bouclier-de-bois",
+   "nom": "Un bouclier de bois",
+   "categorie": "equipement",
+   "emplacement": "bouclier",
+   "bonus": {
+    "defense": 3,
+    "vitesse": -1
+   },
+   "texte": [
+    "Rond, cerclé de fer, avec un ombon bombé au centre. Il pèse plus qu'il n'en a l'air.",
+    "On avance moins vite derrière. C'est le premier marché que l'Ordre te propose, et ce ne sera pas le dernier."
+   ],
+   "ou": "Salle du trône",
+   "image": 1
+  },
+  "heaume-d-argent": {
+   "id": "heaume-d-argent",
+   "nom": "Le heaume d'Argent",
+   "categorie": "equipement",
+   "emplacement": "casque",
+   "bonus": {
+    "defense": 6
+   },
+   "texte": [
+    "Un heaume d'Argent, fait pour une tête d'Argent. La vôtre est plus grande, mais il entre si l'on force un peu.",
+    "À l'intérieur, gravé au clou : « NE PAS PRÊTER ». Trop tard."
+   ],
+   "ou": "Donné par Cull",
+   "image": 11
+  }
+ },
+ "emplacements": [
+  "arme",
+  "armure",
+  "bouclier",
+  "casque",
+  "bottes"
+ ],
+ "depart": [
+  {
+   "id": "epee-de-wellan",
+   "emplacement": "arme"
+  },
+  {
+   "id": "surcot-d-emeraude",
+   "emplacement": "armure"
+  }
+ ],
+ "sons": [
+  "epee",
+  "fer-touche",
+  "sort",
+  "sort-touche",
+  "sort-glisse",
+  "griffe",
+  "ennemi-meurt",
+  "parole",
+  "menu-deplace",
+  "menu-choix",
+  "codex-ajout",
+  "wellan-tombe"
+ ],
+ "carte": {
+  "cellule": 5,
+  "largeur": 320,
+  "hauteur": 180,
+  "escales": [
+   {
+    "lieu": "shola",
+    "nom": "Shola",
+    "x": 28,
+    "y": 4,
+    "salle": "palais-de-glace"
+   },
+   {
+    "lieu": "royaume-d-opale",
+    "nom": "Opale",
+    "x": 36,
+    "y": 10,
+    "salle": "frontiere-d-opale"
+   },
+   {
+    "lieu": "chateau-d-emeraude",
+    "nom": "Émeraude",
+    "x": 24,
+    "y": 16,
+    "salle": "salle-du-trone"
+   },
+   {
+    "lieu": "royaume-de-rubis",
+    "nom": "Rubis",
+    "x": 35,
+    "y": 17,
+    "salle": "chateau-de-rubis"
+   },
+   {
+    "lieu": "royaume-de-jade",
+    "nom": "Jade",
+    "x": 33,
+    "y": 21,
+    "salle": "voie-de-jade"
+   },
+   {
+    "lieu": "zenor",
+    "nom": "Zénor",
+    "x": 6,
+    "y": 20,
+    "salle": "greve-de-zenor"
+   },
+   {
+    "lieu": "foret",
+    "nom": "Forêt des Elfes",
+    "x": 30,
+    "y": 25,
+    "salle": "foret-des-elfes"
+   }
+  ]
+ },
+ "musiques": [
+  {
+   "nom": "chateau-d-emeraude",
+   "images": 920348,
+   "duree": 41.73913832199546
+  },
+  {
+   "nom": "ecran-titre",
+   "images": 557053,
+   "duree": 25.263174603174605
+  }
+ ]
 }

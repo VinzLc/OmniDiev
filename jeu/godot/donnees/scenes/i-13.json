@@ -1,0 +1,208 @@
+{
+  "id": "i-13",
+  "titre": "La colère de Wellan",
+  "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 13",
+  "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure. Le village est un lieu distinct de la clairière du chapitre I,6, où les six autres Chevaliers sont postés : Wellan y vient seul. Le chapitre se termine au Château d'Émeraude ; ce retour est replié sur la clôture, le jeu suivant Wellan sans changer de lieu au dernier moment.",
+  "salle": "village-des-elfes",
+  "ouverture": [
+    "Le royaume des Elfes touche Shola. De leur village, par temps clair, on voit le plateau.",
+    "Ils ont vu la fumée pendant deux jours. Ils ont regardé, et ils ont continué de vivre."
+  ],
+  "cloture": [
+    "Wellan rentra seul, et pleura une fois, sur la route, à un endroit où personne ne pouvait le voir. Puis il ferma cette porte-là et ne la rouvrit plus avant longtemps.",
+    "Au Château, il partagea les royaumes entre ses compagnons et imposa à Élund les Écuyers. Le magicien céda, ce qu'il ne faisait jamais, et lui dit une chose qu'il ne comprit pas encore."
+  ],
+  "etapes": [
+    {
+      "id": "l-accusation",
+      "objectif": "Trouver le Roi des Elfes",
+      "attend": {
+        "parler": "hamil"
+      },
+      "apparaissent": [
+        {
+          "fiche": "hamil",
+          "x": 11,
+          "y": 5,
+          "regarde": "sud"
+        }
+      ],
+      "dialogues": {
+        "hamil": [
+          {
+            "qui": "hamil",
+            "dit": "Chevalier. Vous entrez dans ce bois avec la démarche de quelqu'un qui n'a pas l'intention d'en sortir poliment."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Vous avez vu la fumée.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "hamil",
+            "dit": "Nous l'avons vue."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Deux jours. Vous êtes à une demi-journée de marche.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "hamil",
+            "dit": "Mon peuple ne fait pas la guerre, Chevalier. Nous n'avons pas d'armes. Envoyer trois cents Elfes désarmés sur un plateau où l'on tuait n'aurait pas sauvé Shola : cela aurait ajouté trois cents morts."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Vous auriez pu envoyer un coureur. Un. Un seul, jusqu'à Émeraude.",
+            "humeur": "resolu"
+          },
+          {
+            "qui": "recit",
+            "dit": "Le Roi des Elfes ne répond pas tout de suite. C'est le silence qui met le feu, non ce qu'il dit ensuite."
+          },
+          {
+            "qui": "hamil",
+            "dit": "Nous ne nous mêlons pas de ce qui n'est pas notre bois."
+          }
+        ]
+      }
+    },
+    {
+      "id": "la-torture",
+      "objectif": "Ce que Jasson doit arrêter",
+      "apparaissent": [
+        {
+          "fiche": "jasson",
+          "x": 12,
+          "y": 11,
+          "regarde": "nord",
+          "depuis": [
+            12,
+            15
+          ]
+        }
+      ],
+      "attend": {
+        "parler": "jasson"
+      },
+      "dialogues": {
+        "jasson": [
+          {
+            "qui": "recit",
+            "dit": "Ce qui se passe ensuite n'est pas un coup. Wellan n'a pas levé la main. Le Roi des Elfes est à genoux et il ne comprend pas pourquoi."
+          },
+          {
+            "qui": "jasson",
+            "dit": "Wellan. Wellan, lâche-le."
+          },
+          {
+            "qui": "jasson",
+            "dit": "WELLAN."
+          },
+          {
+            "qui": "recit",
+            "dit": "Jasson s'interpose. Il n'est ni le plus grand ni le plus fort, et il le sait mieux que quiconque : il se met devant quand même."
+          },
+          {
+            "qui": "jasson",
+            "dit": "Regarde tes mains. Regarde ce que tu es en train de faire à un vieil homme qui n'a pas d'armes."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Il l'a laissée mourir.",
+            "humeur": "trouble"
+          },
+          {
+            "qui": "jasson",
+            "dit": "Il ne la connaissait pas. Toi non plus, Wellan. Toi non plus."
+          },
+          {
+            "qui": "recit",
+            "dit": "C'est cette phrase qui l'arrête, et non les deux mains de Jasson sur son plastron."
+          },
+          {
+            "qui": "jasson",
+            "dit": "On rentre. On rentre maintenant, et je ne dirai rien à personne, mais je ne dirai rien à personne une seule fois."
+          }
+        ],
+        "hamil": [
+          {
+            "qui": "hamil",
+            "dit": "Il a mal, votre chef. Il ne sait pas encore que ce n'est pas de la colère."
+          },
+          {
+            "qui": "hamil",
+            "dit": "Dites-lui, quand il pourra l'entendre, que j'ai envoyé un coureur. Il est parti le premier soir. Il n'est jamais arrivé, et je ne l'ai su qu'hier."
+          }
+        ]
+      }
+    },
+    {
+      "id": "ce-qu-on-avoue",
+      "objectif": "Entendre ce que Hamil n'a pas dit",
+      "attend": {
+        "parler": "hamil"
+      },
+      "dialogues": {
+        "hamil": [
+          {
+            "qui": "hamil",
+            "dit": "Il s'appelait Aelis. Il avait dix-neuf ans et il courait plus vite que les chevaux d'Émeraude."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Pourquoi ne l'avez-vous pas dit tout de suite ?",
+            "humeur": "trouble"
+          },
+          {
+            "qui": "hamil",
+            "dit": "Parce que vous seriez reparti soulagé, et que je ne voulais pas de votre soulagement. Un coureur ne suffit pas. J'aurais dû en envoyer dix."
+          },
+          {
+            "qui": "recit",
+            "dit": "Wellan cherche quelque chose à répondre à cela pendant longtemps, et ne trouve rien qui ne soit pas une excuse."
+          },
+          {
+            "qui": "hamil",
+            "dit": "Rentrez chez vous, Chevalier. Faites votre guerre. Et quand elle sera finie, revenez me dire ce qu'elle a coûté — j'aimerais l'apprendre de quelqu'un qui y était."
+          }
+        ],
+        "jasson": [
+          {
+            "qui": "jasson",
+            "dit": "Il avait envoyé quelqu'un. Il avait envoyé quelqu'un et tu l'as mis à genoux."
+          },
+          {
+            "qui": "jasson",
+            "dit": "Je ne te le reprocherai pas deux fois. Mais je viens de te le reprocher une fois."
+          }
+        ]
+      }
+    }
+  ],
+  "fin": {
+    "objectif": "Chapitre I,13 — joué",
+    "attend": {
+      "parler": "jasson"
+    },
+    "dialogues": {
+      "jasson": [
+        {
+          "qui": "jasson",
+          "dit": "Tu vas prendre le commandement en rentrant. Je le sais parce que personne d'autre n'en veut."
+        },
+        {
+          "qui": "jasson",
+          "dit": "Fais-le. Mais souviens-toi que je me suis mis devant toi une fois, et que la prochaine fois ce sera peut-être quelqu'un de plus lent."
+        }
+      ],
+      "hamil": [
+        {
+          "qui": "hamil",
+          "dit": "Un jour on écrira que le Roi des Elfes n'a rien fait. C'est presque vrai, et le presque ne se transmet pas."
+        }
+      ]
+    }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée."
+}

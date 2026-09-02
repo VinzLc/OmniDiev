@@ -1,13 +1,24 @@
 {
   "titre": "Les Chevaliers d'Émeraude",
-  "_chapitres": "L'ordre de lecture. Les trous sont assumés : on écrit les chapitres au fur et à mesure, et la campagne enchaîne ce qui existe. Ajouter un chapitre, c'est écrire son fichier de scène et glisser son identifiant ici.",
+  "_chapitres": "L'ordre de lecture. Les trous sont assumés. Ceux du tome I qui manquent encore ne montrent pas Wellan — Chloé aux Fées, Santo à Argent, Dempsey à Cristal, Bergeau à Zénor, Jasson chez les Elfes — et un jeu qui suit un seul protagoniste ne les joue pas. Ce qu'ils portent d'essentiel revient par les rapports : le squelette de dragon du chapitre I,12 arrive dans la bouche de Bergeau au chapitre I,15.",
   "chapitres": [
     "i-01",
     "i-02",
     "i-03",
     "i-04",
+    "i-05",
     "i-06",
     "i-07",
+    "i-08",
+    "i-13",
+    "i-14",
+    "i-15",
+    "i-16",
+    "i-20",
+    "i-21",
+    "i-23",
+    "i-24",
+    "i-25",
     "i-26"
   ]
 }

@@ -1,0 +1,16 @@
+{
+  "tuile": 16,
+  "colonnes": 16,
+  "ordre": "signature des coins, NO NE SO SE lus en binaire — colonne = NO*8 + NE*4 + SO*2 + SE",
+  "terrain0": {
+    "couleur": "#482914"
+  },
+  "terrain1": {
+    "couleur": "#f0e9e6"
+  },
+  "decrits": {
+    "lower": "large pale cream sandstone floor blocks worn smooth with thin darker mortar lines and simple two-tone light and shadow",
+    "upper": "fine even textured deep crimson woven carpet with basic two-tone shading strictly in deep red without pink orange or brown tones"
+  },
+  "note": "Les deux terrains sont séparés par regroupement des couleurs des images, non lus dans les étiquettes : le service les a déjà rendues permutées. « decrits » rappelle ce qui a été demandé, sans garantir l'ordre."
+}

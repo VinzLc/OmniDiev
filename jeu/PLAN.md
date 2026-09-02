@@ -147,18 +147,26 @@ le suivant, et la partie se retrouve où on l'a laissée. **Ajouter un chapitre,
 son fichier de scène et glisser son identifiant dans la liste** — plus les personnages qu'il
 exige, une génération chacun.
 
-Sept chapitres s'enchaînent : **I,1 · I,2 · I,3 · I,4 · I,6 · I,7 · I,26** — de la fondation
-de l'Ordre au massacre de Shola et à la révélation sur Kira, puis au premier débarquement de
-Zénor.
+Treize chapitres s'enchaînent : **I,1 à I,8 · I,13 à I,16 · I,26** — de la fondation de
+l'Ordre à la mort de la Reine Fan, la colère de Wellan chez les Elfes, la nuit du spectre, les
+premiers Écuyers, puis le débarquement de Zénor. **422 répliques, 7 655 mots écrits.**
+
+Les trous restants du tome I sont les chapitres I,9 à I,12 et I,17 à I,25 : ce sont les
+missions dans les royaumes — Fées, Argent, Cristal, Diamant, Opale, Rubis, Jade, Béryl. Chacun
+demande un jeu de tuiles qui n'existe pas encore (0,007 USD la génération), là où les treize
+écrits se jouent tous dans les quatre lieux déjà dessinés.
 
 Le coût d'un chapitre est désormais connu : son écriture, plus les décors et personnages
 qu'il exige — **0,007 USD le jeu de tuiles, 0,011 le personnage**. L'art n'est plus la
 contrainte ; le temps d'écriture l'est.
 
 Tous les chapitres ne sont pas jouables tels quels. Le roman coupe d'un lieu à l'autre ; un
-jeu qui suit Wellan ne le peut pas. Le chapitre I,5 se déroule au château pendant qu'il est
-sur la route : sa scène est repliée sur son sommeil, ce que les pouvoirs télépathiques de
-Kira autorisent. Le champ `avertissement` de chaque scène dit ce qui a été replié.
+jeu qui suit Wellan ne le peut pas. Le chapitre I,5 se joue au Château alors que le résumé y
+met Wellan sur la route : la scène le ramène, et il devient l'un des cavaliers qu'on envoie
+plutôt que l'un de ceux qu'on cherche à joindre. Le chapitre I,8 se partage entre Émeraude et
+Shola : il est replié sur Shola, la crise de Kira arrivant par la télépathie sholienne que le
+chapitre I,5 a établie. Le champ `avertissement` de chaque scène dit ce qui a été replié — et
+c'est la seule chose qui rende ces montages honnêtes.
 
 ---
 

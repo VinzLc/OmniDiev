@@ -1,0 +1,51 @@
+{
+  "id": "voie-de-jade",
+  "lieu": "royaume-de-jade",
+  "nom": "La voie royale de Jade",
+  "taille": [28, 15],
+  "depart": [14, 13],
+  "_zones": "terrain 0 = la terre battue de la vallée, terrain 1 = le dallage vert pâle de la voie royale. La voie traverse d'un bout à l'autre : elle est ce que Jade a bâti, et tout le reste est ce que Jade a laissé.",
+  "fond": 0,
+  "zones": [
+    { "terrain": 1, "x": 0, "y": 5, "l": 28, "h": 4 },
+    { "terrain": 1, "x": 12, "y": 2, "l": 5, "h": 11 }
+  ],
+  "personnages": [],
+  "_objets": "Une voie entretenue au milieu d'une vallée qui ne l'est pas. Jade a peu d'hommes et beaucoup de pierre, et l'a mise là où on la verrait.",
+  "objets": [
+    {
+      "type": "stele", "x": 14, "y": 3, "nom": "La borne du carrefour",
+      "texte": [
+        "Quatre noms gravés, quatre directions, et les distances en journées de marche plutôt qu'en lieues.",
+        "Vers Béryl : deux jours. Vers Zénor : quatre. Les deux chiffres ont été regravés récemment, et regravés plus courts."
+      ]
+    },
+    {
+      "type": "puits", "x": 6, "y": 11, "nom": "Un puits de voyage",
+      "texte": [
+        "Maçonné, couvert, avec un seau de cuir accroché à la poutre et une louche que personne n'emporte.",
+        "Il y en a un tous les demi-jours de marche le long de la voie. C'est cela, le Royaume de Jade : pas d'armée, pas de murailles, et un puits tous les demi-jours."
+      ]
+    },
+    {
+      "type": "statue", "x": 22, "y": 11, "nom": "Une statue de bord de route",
+      "texte": [
+        "Une femme de pierre verte, la main levée, le visage tourné vers le nord.",
+        "Les gens de Jade posent une fleur à ses pieds en passant. Ils ne savent plus qui elle représente et ils continuent, ce qui est peut-être la définition d'un peuple."
+      ]
+    },
+    {
+      "type": "chandelier", "x": 22, "y": 3, "nom": "Un mât de fête",
+      "texte": [
+        "Dressé pour l'équinoxe, chargé de lampes qu'on allumera ce soir.",
+        "Béryl fête l'équinoxe à deux jours d'ici et Jade en dresse aussi, par habitude de voisinage. Cette année les deux royaumes le feront en sachant ce qui approche."
+      ]
+    },
+    { "type": "arbre", "x": 3, "y": 2 }, { "type": "arbre", "x": 8, "y": 2 },
+    { "type": "arbre", "x": 19, "y": 2 }, { "type": "arbre", "x": 25, "y": 2 },
+    { "type": "arbre", "x": 3, "y": 13 }, { "type": "arbre", "x": 10, "y": 13 },
+    { "type": "arbre", "x": 18, "y": 13 }, { "type": "arbre", "x": 25, "y": 13 },
+    { "type": "buisson", "x": 1, "y": 8 }, { "type": "buisson", "x": 26, "y": 8 },
+    { "type": "rocher", "x": 9, "y": 8 }, { "type": "rocher", "x": 18, "y": 8 }
+  ]
+}

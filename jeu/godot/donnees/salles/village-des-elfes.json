@@ -1,0 +1,62 @@
+{
+  "id": "village-des-elfes",
+  "lieu": "foret",
+  "nom": "Le village des Elfes",
+  "taille": [24, 16],
+  "depart": [12, 14],
+  "_taille": "Un lieu distinct de la clairière où l'Ordre fut reçu au chapitre I,6 : là on accueillait sept Chevaliers, ici un seul homme entre en colère. La même forêt, un autre endroit — et six Chevaliers postés au milieu auraient contredit le chapitre.",
+  "personnages": [],
+  "_objets": "Presque rien de bâti. Les Elfes ne coupent pas les arbres, donc ils ne construisent pas : le village est une disposition d'arbres où l'on a cessé de marcher.",
+  "objets": [
+    {
+      "type": "feu", "x": 12, "y": 8, "nom": "Un feu qu'on a laissé mourir",
+      "texte": [
+        "Des cendres froides au centre du village, cerclées de pierres blanches posées avec soin.",
+        "Il brûlait il y a trois jours. Depuis Shola, on n'allume plus rien ici : la fumée se voit de loin, et l'on vient de comprendre que c'était vrai dans les deux sens."
+      ]
+    },
+    {
+      "type": "souche", "x": 8, "y": 5, "nom": "Le siège du Roi",
+      "texte": [
+        "Une souche large, polie par cinq générations. C'est là que le Roi des Elfes s'assoit pour écouter.",
+        "Elle n'est pas plus haute que les autres. Chez les Elfes, celui qui décide s'assoit à la hauteur de ceux qui parlent."
+      ]
+    },
+    {
+      "type": "stele", "x": 16, "y": 5, "nom": "Une pierre de nom",
+      "texte": [
+        "Une seule ligne gravée, en caractères qu'on ne trouve nulle part ailleurs sur ce continent.",
+        "C'est un nom. Les Elfes en gravent un chaque fois qu'un des leurs ne revient pas. La pierre en porte onze, et la onzième est fraîche."
+      ]
+    },
+    {
+      "type": "tonneau", "x": 5, "y": 11, "nom": "Un tonneau d'eau de pluie",
+      "texte": [
+        "Ouvert au ciel, à moitié plein, avec des feuilles à la surface qu'on ne retire pas.",
+        "Ils ne creusent pas de puits. Ils disent qu'on ne prend pas à la terre ce que le ciel donne."
+      ]
+    },
+    {
+      "type": "buisson", "x": 19, "y": 11, "nom": "Un buisson d'épines blanches",
+      "texte": [
+        "Planté en cercle autour de rien. On ne voit pas ce qu'il protège et l'on n'ose pas écarter les branches.",
+        "Hamil regarde ailleurs quand on passe devant. C'est la seule fois où il regarde ailleurs."
+      ]
+    },
+    { "type": "arbre", "x": 2, "y": 2 }, { "type": "arbre", "x": 6, "y": 2 },
+    { "type": "arbre", "x": 10, "y": 2 }, { "type": "arbre", "x": 14, "y": 2 },
+    { "type": "arbre", "x": 18, "y": 2 }, { "type": "arbre", "x": 22, "y": 2 },
+    { "type": "arbre", "x": 2, "y": 6 }, { "type": "arbre", "x": 22, "y": 6 },
+    { "type": "arbre", "x": 2, "y": 10 }, { "type": "arbre", "x": 22, "y": 10 },
+    { "type": "arbre", "x": 2, "y": 14 }, { "type": "arbre", "x": 6, "y": 15 },
+    { "type": "arbre", "x": 10, "y": 15 }, { "type": "arbre", "x": 18, "y": 15 },
+    { "type": "arbre", "x": 22, "y": 14 },
+    { "type": "buisson", "x": 5, "y": 8 }, { "type": "buisson", "x": 19, "y": 8 },
+    { "type": "souche", "x": 15, "y": 12 }, { "type": "rocher", "x": 9, "y": 12 }
+  ],
+  "_zones": "Une clairière plus étroite encore que celle du camp : les Elfes n'ont dégagé que ce qu'il fallait pour s'asseoir en rond.",
+  "fond": 0,
+  "zones": [
+    { "terrain": 1, "x": 7, "y": 4, "l": 10, "h": 8 }
+  ]
+}

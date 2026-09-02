@@ -1,0 +1,15 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Christa, Queen of Fal and elder sister of Wellan, a woman of thirty-five. She has the same wide jaw and the same DARK BLOND hair as her brother, worn long and braided over one shoulder. Tall for a woman, and standing very straight.
+
+CLOTHES: a long travelling gown of deep CRIMSON — the colour of Rubis, where she was born, not of Fal where she reigns — with a dark cloak over one shoulder and a thin gold circlet.
+
+PALETTE — these colors only:
+#0B0A10 #22222C #454652 (black, dark cloak)
+#8B2020 #D14545 (crimson gown)
+#7A5223 #C08F34 #F0D174 (dark blond braid, gold circlet)
+#A9714E #D9A57C #F2D3B0 (skin)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

@@ -1,0 +1,228 @@
+{
+  "id": "i-05",
+  "titre": "Le feu dans le ciel",
+  "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 5",
+  "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure. Deux montages : le chapitre se déroule en plusieurs pièces du Château, il est replié sur la bibliothèque d'Élund où se trouve la table qui sert aux examens ; et le résumé place les Chevaliers sur les routes au moment où le Roi décide de les avertir. Le jeu suit Wellan, donc Wellan est là — il est l'un des sept cavaliers qui partiront le soir même, et non l'un des sept qu'on cherche à joindre.",
+  "salle": "bibliotheque-d-elund",
+  "ouverture": [
+    "Trois jours que l'enfant de Shola ne mange plus. On a essayé le pain, le lait, le miel ; on a essayé de la gronder, puis de la supplier.",
+    "Elle ne refuse pas. Elle regarde le nord, et elle oublie d'avaler."
+  ],
+  "cloture": [
+    "Ce soir-là, sept cavaliers quittèrent Émeraude par sept routes, avec le même message et l'ordre de ne pas s'arrêter.",
+    "Aucun d'eux n'arriva à temps. Mais aucun d'eux ne le savait encore, et c'est ce qui leur permit de galoper."
+  ],
+  "etapes": [
+    {
+      "id": "l-enfant-qui-ne-mange-pas",
+      "objectif": "Voir Élund",
+      "attend": {
+        "parler": "elund"
+      },
+      "dialogues": {
+        "elund": [
+          {
+            "qui": "elund",
+            "dit": "Trois jours, Wellan. Je l'ai posée sur la table de cristal deux fois par jour et la table ne dit rien."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Que devrait-elle dire ?",
+            "humeur": "grave"
+          },
+          {
+            "qui": "elund",
+            "dit": "Qu'un corps est malade. Le sien ne l'est pas. Elle a le pouls d'une enfant qui vient de courir et elle n'a pas bougé depuis trois jours."
+          },
+          {
+            "qui": "recit",
+            "dit": "Kira est assise au bord de la table, les pieds dans le vide. Elle ne regarde ni le magicien ni Wellan. Elle regarde le mur du nord, comme s'il n'était pas là."
+          },
+          {
+            "qui": "elund",
+            "dit": "J'ai lu tout ce que ma tour possède sur les enfants de sang mêlé. Trente-quatre volumes. Aucun ne parle de ceci."
+          },
+          {
+            "qui": "elund",
+            "dit": "Va chercher Hawke. Il est plus jeune que moi de quarante ans et il lit des choses que je ne lis plus."
+          }
+        ],
+        "kira": [
+          {
+            "qui": "kira",
+            "dit": "…"
+          },
+          {
+            "qui": "recit",
+            "dit": "Elle ne répond pas. Sa main gauche est fermée sur quelque chose qui n'y est pas, et serrée à en blanchir."
+          }
+        ]
+      },
+      "apparaissent": [
+        {
+          "fiche": "elund",
+          "x": 13,
+          "y": 5,
+          "regarde": "sud",
+          "pose": true
+        },
+        {
+          "fiche": "kira",
+          "x": 10,
+          "y": 9,
+          "regarde": "nord",
+          "pose": true
+        }
+      ],
+      "_apparaissent": "Élund et l'enfant sont déjà dans la tour quand on y monte : « pose » les installe sans les faire entrer."
+    },
+    {
+      "id": "ce-que-hawke-comprend",
+      "objectif": "Écouter Hawke",
+      "apparaissent": [
+        {
+          "fiche": "hawke",
+          "x": 6,
+          "y": 8,
+          "regarde": "est",
+          "depuis": [
+            21,
+            7
+          ]
+        }
+      ],
+      "attend": {
+        "parler": "hawke"
+      },
+      "_apparaissent": "Hawke monte de la galerie, par la porte du levant, comme tout le monde.",
+      "dialogues": {
+        "hawke": [
+          {
+            "qui": "hawke",
+            "dit": "Vous cherchez ce qu'elle a. Elle n'a rien. Ce n'est pas elle qui souffre."
+          },
+          {
+            "qui": "elund",
+            "dit": "Explique-toi, et vite."
+          },
+          {
+            "qui": "hawke",
+            "dit": "Les Sholiens tiennent leurs enfants par l'esprit, maître, non par la voix. Une mère de Shola sait où est sa fille à cent lieues, et sa fille sait ce qu'elle éprouve."
+          },
+          {
+            "qui": "hawke",
+            "dit": "Regardez sa main gauche. Elle la tient depuis trois jours au même endroit, sous la côte."
+          },
+          {
+            "qui": "recit",
+            "dit": "Élund se penche. Il ne touche pas l'enfant. Il regarde seulement la main, et son visage change de la façon dont un visage change quand on cesse d'espérer."
+          },
+          {
+            "qui": "elund",
+            "dit": "Une arme. Une arme froide, et pas la nôtre — nous ne frappons pas sous la côte, nous frappons au ventre."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Vous parlez de la Reine de Shola.",
+            "humeur": "trouble"
+          },
+          {
+            "qui": "hawke",
+            "dit": "Je parle de ce que l'enfant tient dans sa main."
+          }
+        ],
+        "elund": [
+          {
+            "qui": "elund",
+            "dit": "Il a raison et il a vingt-deux ans. Je note les deux."
+          }
+        ]
+      }
+    },
+    {
+      "id": "ce-qui-est-remonte",
+      "objectif": "Prévenir le Roi",
+      "apparaissent": [
+        {
+          "fiche": "emeraude-ier",
+          "x": 20,
+          "y": 11,
+          "regarde": "ouest",
+          "depuis": [
+            21,
+            7
+          ]
+        }
+      ],
+      "attend": {
+        "parler": "emeraude-ier"
+      },
+      "dialogues": {
+        "emeraude-ier": [
+          {
+            "qui": "emeraude-ier",
+            "dit": "Élund m'a fait appeler par un serviteur qui tremblait. Cela ne lui était pas arrivé en trente ans."
+          },
+          {
+            "qui": "elund",
+            "dit": "Majesté. Une arme a percé la Reine de Shola sous la côte, et l'enfant le sent d'ici."
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Shola est à deux cents lieues. Qui a fait cela ? Les Sholiens n'ont pas d'ennemis, ils n'ont même pas de voisins."
+          },
+          {
+            "qui": "hawke",
+            "dit": "Ils en avaient. Il y a cinq cents ans."
+          },
+          {
+            "qui": "recit",
+            "dit": "Le Roi ne dit rien. Il traverse la bibliothèque, décroche un relevé de côte, le déroule sur la table des astres, et pose l'index à l'ouest de la mer, dans le vide où quelqu'un a tracé une croix au charbon."
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Mon grand-père a fait relever les murailles de la côte trois étés de suite sans savoir dire à quoi elles serviraient."
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "Je le lui ai reproché toute ma jeunesse. Je voudrais qu'il soit là pour que je puisse le lui dire."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Que fait-on ?",
+            "humeur": "resolu"
+          },
+          {
+            "qui": "emeraude-ier",
+            "dit": "On écrit sept fois la même lettre et on la donne à sept cavaliers. Ce soir. Pas demain."
+          }
+        ]
+      }
+    }
+  ],
+  "fin": {
+    "objectif": "Chapitre I,5 — joué",
+    "attend": {
+      "parler": "elund"
+    },
+    "dialogues": {
+      "elund": [
+        {
+          "qui": "elund",
+          "dit": "Elle a mangé, tout à l'heure. Une bouchée, sans qu'on le lui demande."
+        },
+        {
+          "qui": "elund",
+          "dit": "Cela veut dire que ce qu'elle tenait dans sa main a cessé de faire mal. Réfléchis à ce que cela veut dire d'autre."
+        }
+      ],
+      "hawke": [
+        {
+          "qui": "hawke",
+          "dit": "Je n'ai pas aimé avoir raison. Je voulais qu'on me dise que je lisais trop."
+        }
+      ]
+    }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée."
+}

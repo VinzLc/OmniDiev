@@ -1,0 +1,274 @@
+{
+  "id": "galerie-des-sept",
+  "lieu": "chateau-d-emeraude",
+  "nom": "La galerie des Sept",
+  "taille": [
+    30,
+    11
+  ],
+  "depart": [
+    14,
+    5
+  ],
+  "_taille": "Longue et basse : trente sur onze. Une galerie qui tiendrait tout entière dans le cadre serait une salle ; c'est le défilement latéral qui la fait lire comme un couloir.",
+  "_passages": "Le carrefour du Château. Quatre portes : la salle du trône au nord, la bibliothèque au couchant, la salle d'armes au levant, le dortoir au sud.",
+  "passages": [
+    {
+      "x": 14,
+      "y": 0,
+      "vers": "salle-du-trone",
+      "arrivee": [
+        14,
+        15
+      ]
+    },
+    {
+      "x": 0,
+      "y": 5,
+      "vers": "bibliotheque-d-elund",
+      "arrivee": [
+        20,
+        7
+      ]
+    },
+    {
+      "x": 29,
+      "y": 5,
+      "vers": "salle-d-armes",
+      "arrivee": [
+        1,
+        6
+      ]
+    },
+    {
+      "x": 14,
+      "y": 10,
+      "vers": "dortoir-des-sept",
+      "arrivee": [
+        10,
+        2
+      ]
+    }
+  ],
+  "personnages": [
+    {
+      "fiche": "nogait",
+      "x": 6,
+      "y": 7,
+      "regarde": "est",
+      "des": "i-15",
+      "dit": [
+        {
+          "qui": "nogait",
+          "dit": "Écuyer de Jasson. On m'a dit que c'était un honneur ; on ne m'a pas dit qu'il parlait autant."
+        },
+        {
+          "qui": "nogait",
+          "dit": "Il m'a fait porter de l'eau pendant six jours. Le septième, je lui ai demandé à quoi ça servait."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Et qu'a-t-il répondu ?"
+        },
+        {
+          "qui": "nogait",
+          "dit": "« À rien. » Puis il a ri pendant une minute entière et il m'a appris à faire léviter le seau."
+        },
+        {
+          "qui": "nogait",
+          "dit": "Je ne sais toujours pas si les six premiers jours étaient nécessaires. Je crois que c'est la leçon."
+        }
+      ]
+    }
+  ],
+  "_objets": "Sept bannières au mur du nord, quatre de part et d'autre de la porte du trône — non : quatre et trois, et c'est le déséquilibre qui compte. On en a cousu sept avant de savoir s'il y aurait sept enfants, et la galerie le montre sans le dire.",
+  "objets": [
+    {
+      "type": "banniere",
+      "x": 2,
+      "y": 1,
+      "nom": "La première bannière",
+      "texte": [
+        "Le tissu a le pli des choses pendues depuis longtemps. Elle est datée de trois ans avant que le premier des sept n'arrive.",
+        "On a donc cousu la bannière avant l'enfant. Personne au Château ne trouve cela étrange, ce qui est la partie étrange."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 5,
+      "y": 1,
+      "nom": "Une bannière",
+      "texte": [
+        "Vert et noir, la croix d'Émeraude et le dragon. Toutes sont identiques : aucune ne porte de nom, aucune ne porte d'armes de famille.",
+        "C'était voulu. On ne voulait pas qu'un enfant de Diamant puisse se reconnaître à la sienne et un enfant du Désert non."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 8,
+      "y": 1,
+      "nom": "Une bannière",
+      "texte": [
+        "Celle-ci est mal accrochée : l'ourlet du bas frôle le sol et la couleur y a bu la poussière.",
+        "Une servante la redresse chaque semaine. Chaque semaine elle retombe. On a fini par y voir un présage, faute d'y voir un clou mal planté."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 11,
+      "y": 1,
+      "nom": "Une bannière",
+      "texte": [
+        "La quatrième depuis le couchant. Il y en a quatre de ce côté-ci de la porte et trois de l'autre.",
+        "Le tapissier s'en est excusé auprès du Roi, qui a répondu qu'un nombre impair ne se partage pas et qu'il n'y avait rien à corriger."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 17,
+      "y": 1,
+      "nom": "Une bannière",
+      "texte": [
+        "Le dragon vert, sur le noir. Il a trois griffes à chaque patte et une gueule trop large pour sa tête.",
+        "Aucun de ceux qui l'ont brodé n'en avait vu. Ils ont travaillé d'après une description transmise de bouche en bouche pendant cinq cents ans."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 20,
+      "y": 1,
+      "nom": "Une bannière",
+      "texte": [
+        "Un accroc, recousu au fil d'une autre teinte. Le raccommodage se voit de loin.",
+        "Un des sept a essayé une épée dans la galerie. On ne sait pas lequel, et les six autres ne le savent pas non plus — du moins l'affirment-ils."
+      ]
+    },
+    {
+      "type": "banniere",
+      "x": 23,
+      "y": 1,
+      "nom": "La septième bannière",
+      "texte": [
+        "La dernière du rang, et la seule dont le bois de hampe soit encore clair.",
+        "Elle a été montée le matin même. Le Château savait donc, ce matin-là, qu'il en faudrait exactement une de plus."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 6,
+      "y": 4,
+      "nom": "Un brasero de galerie",
+      "texte": [
+        "Plus bas que ceux de la salle du trône, et sur trois pieds au lieu de quatre : on le déplace selon l'endroit où l'on veut lire.",
+        "Il porte les marques de tous les endroits où l'on a voulu lire."
+      ]
+    },
+    {
+      "type": "brasier",
+      "x": 22,
+      "y": 4,
+      "nom": "Un brasero de galerie",
+      "texte": [
+        "Son jumeau, immobile depuis des années. On a cessé de le déplacer le jour où le tapis a pris feu.",
+        "La brûlure est encore là, sous le brasero. C'est pour cela qu'il ne bouge plus."
+      ]
+    },
+    {
+      "type": "coffre",
+      "x": 3,
+      "y": 8,
+      "nom": "Un coffre de galerie",
+      "texte": [
+        "Des couvertures, des chandelles, deux paires de bottes dépareillées. Le coffre où l'on met ce qui n'a pas d'autre endroit.",
+        "Chaque château en a un. Celui-ci déborde depuis que les enfants sont arrivés."
+      ],
+      "contient": [
+        {
+          "id": "couverture",
+          "nom": "Une couverture de laine",
+          "categorie": "objet",
+          "texte": [
+            "Grise, épaisse, qui sent la fumée du brasero contre lequel elle a passé l'hiver.",
+            "C'est le coffre où l'on met ce qui n'a pas d'autre endroit. Personne ne comptera celle-ci."
+          ]
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "x": 27,
+      "y": 2,
+      "nom": "Une table basse",
+      "texte": [
+        "Une cruche, deux gobelets, un jeu de dés en os. Les gardes y passent le temps entre deux rondes.",
+        "Élund a interdit le jeu dans la galerie. La table n'a jamais été enlevée, ce qui est une manière de répondre."
+      ]
+    },
+    {
+      "type": "stele",
+      "x": 27,
+      "y": 8,
+      "nom": "Une pierre de seuil",
+      "texte": [
+        "Une dalle plus claire que les autres, posée en travers du passage. On y a gravé une seule ligne, à hauteur de pied :",
+        "« Ici commence ce qu'on garde. »",
+        "Personne ne sait si cela désigne la galerie, le Château, ou le continent."
+      ]
+    },
+    {
+      "type": "statue",
+      "x": 17,
+      "y": 8,
+      "nom": "Une statue d'armure vide",
+      "texte": [
+        "Un homme de pierre en armure, les deux mains sur une épée pointe en bas. Le visage est usé jusqu'au lisse.",
+        "Ce n'est le portrait de personne : on l'a taillée avant qu'il y ait un Ordre, pour figurer ce qu'on espérait qu'il vienne."
+      ]
+    },
+    {
+      "type": "tonneau",
+      "x": 10,
+      "y": 8,
+      "nom": "Un tonneau d'eau",
+      "texte": [
+        "Plein, couvert d'un ais de bois, avec une louche accrochée au flanc.",
+        "Il y en a un par galerie depuis l'incendie de l'écurie. Personne n'a jamais dit lequel des sept avait mis le feu."
+      ]
+    },
+    {
+      "type": "chandelier",
+      "x": 22,
+      "y": 8,
+      "nom": "Un chandelier de fer",
+      "texte": [
+        "Trois chandelles sur une tige de fer à pied large. On l'allume au crépuscule et on le déplace selon qui veille.",
+        "Ce soir il est près de la porte du dortoir. Il y est presque toutes les nuits depuis que les enfants sont arrivés."
+      ]
+    }
+  ],
+  "_zones": "Un tapis en croix : le long de la galerie, et une amorce vers chacune des deux portes de l'axe. Le tissu dit où l'on va avant que la porte se voie.",
+  "fond": 1,
+  "zones": [
+    {
+      "terrain": 0,
+      "x": 2,
+      "y": 4,
+      "l": 26,
+      "h": 3
+    },
+    {
+      "terrain": 0,
+      "x": 13,
+      "y": 0,
+      "l": 2,
+      "h": 4
+    },
+    {
+      "terrain": 0,
+      "x": 13,
+      "y": 7,
+      "l": 2,
+      "h": 4
+    }
+  ]
+}

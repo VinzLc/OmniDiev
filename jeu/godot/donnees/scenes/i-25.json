@@ -1,0 +1,228 @@
+{
+  "id": "i-25",
+  "titre": "Les pièges de Zénor",
+  "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 25",
+  "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure.",
+  "salle": "greve-de-zenor",
+  "ouverture": [
+    "Trois semaines qu'on creuse. Les volontaires de Jade et de Béryl sont arrivés avec leurs pelles et leurs propres provisions, ce qui ne s'était jamais vu.",
+    "Les fosses font quatre pas de large et deux hommes de profondeur. On les recouvre de branches et de sable, et l'on prie pour qu'une bête de onze pas y mette une patte."
+  ],
+  "cloture": [
+    "Cette nuit-là, les tentes furent déplacées à cent pas des fosses, face à la mer, contre l'avis de tout le monde et sur l'ordre d'un seul.",
+    "L'ennemi vint par le sud, comme il l'avait dit. On ne lui en sut jamais gré : on retint seulement qu'il avait eu raison, ce qui est une autre chose."
+  ],
+  "etapes": [
+    {
+      "id": "le-conseil",
+      "objectif": "Réunir les Chevaliers",
+      "attend": {
+        "parler": "jasson"
+      },
+      "dialogues": {
+        "jasson": [
+          {
+            "qui": "jasson",
+            "dit": "Le nord, Wellan. Ils ont frappé Shola au nord, ils reviendront au nord. C'est ce que tout le monde pense et pour une fois tout le monde a l'air d'accord."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Ils reviendront ici.",
+            "humeur": "resolu"
+          },
+          {
+            "qui": "jasson",
+            "dit": "Pourquoi ici ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Parce qu'à Shola ils n'ont pas trouvé ce qu'ils cherchaient, et que ce qu'ils cherchent est maintenant à Émeraude. Zénor est la côte la plus proche d'Émeraude."
+          },
+          {
+            "qui": "recit",
+            "dit": "Personne ne dit le nom de l'enfant. Cela fait des mois que personne ne le dit, et cela commence à ressembler à une habitude plutôt qu'à une prudence."
+          },
+          {
+            "qui": "jasson",
+            "dit": "Tu tiens ça d'où ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "D'une source que tu trouveras ridicule.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "jasson",
+            "dit": "Je trouve tout ridicule et je te suis quand même. Cela dit, tu as vu où sont nos tentes ? À une demi-lieue des fosses."
+          }
+        ],
+        "bergeau": [
+          {
+            "qui": "bergeau",
+            "dit": "J'ai creusé onze fosses. J'ai regardé le squelette du roi Vail pendant une nuit entière avant ça, et je sais exactement ce qu'on essaie d'attraper dedans."
+          },
+          {
+            "qui": "bergeau",
+            "dit": "Ce n'est pas assez profond, Wellan. Rien ne sera jamais assez profond."
+          }
+        ]
+      }
+    },
+    {
+      "id": "les-tentes",
+      "objectif": "Déplacer le camp",
+      "apparaissent": [
+        {
+          "fiche": "santo",
+          "x": 12,
+          "y": 16,
+          "regarde": "est",
+          "depuis": [
+            15,
+            19
+          ]
+        },
+        {
+          "fiche": "bridgess",
+          "x": 15,
+          "y": 12,
+          "regarde": "sud",
+          "depuis": [
+            15,
+            19
+          ]
+        }
+      ],
+      "attend": {
+        "parler": "santo"
+      },
+      "dialogues": {
+        "santo": [
+          {
+            "qui": "wellan",
+            "dit": "On déplace les tentes. Cent pas des fosses, face à l'eau."
+          },
+          {
+            "qui": "santo",
+            "dit": "Cent pas. Wellan, si quelque chose sort de cette mer la nuit, cent pas c'est le temps de mettre ses bottes."
+          },
+          {
+            "qui": "wellan",
+            "dit": "C'est aussi le temps qu'il faut pour voir arriver, au lieu d'apprendre au matin.",
+            "humeur": "resolu"
+          },
+          {
+            "qui": "santo",
+            "dit": "Tu as songé à ce que les Écuyers vont dormir à cent pas d'une plage où l'on attend des dragons ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "J'y songe depuis trois jours et je n'ai pas trouvé de meilleure disposition."
+          },
+          {
+            "qui": "recit",
+            "dit": "Santo n'insiste pas. Il fait déplacer les tentes lui-même, et il place la sienne du côté de la mer, ce que personne ne lui a demandé."
+          }
+        ],
+        "bridgess": [
+          {
+            "qui": "bridgess",
+            "dit": "On dit dans le camp que vous parlez à une morte."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Qui dit cela ?",
+            "humeur": "grave"
+          },
+          {
+            "qui": "bridgess",
+            "dit": "Tout le monde. Depuis longtemps. Je ne demande pas si c'est vrai, je demande comment c'est possible."
+          }
+        ]
+      }
+    },
+    {
+      "id": "ce-qu-on-explique",
+      "objectif": "Répondre à ton Écuyer",
+      "attend": {
+        "parler": "bridgess"
+      },
+      "dialogues": {
+        "bridgess": [
+          {
+            "qui": "wellan",
+            "dit": "Elle n'est pas une morte. Elle est une Immortelle, ce qui n'est pas la même chose et ce que je ne comprends pas mieux que toi.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "bridgess",
+            "dit": "Elle vous dit ce qui va arriver ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Elle me dit ce qu'elle voit. Ce n'est pas pareil, et j'ai mis un an à comprendre la différence."
+          },
+          {
+            "qui": "bridgess",
+            "dit": "Est-ce qu'elle a dit quelque chose sur moi ?"
+          },
+          {
+            "qui": "recit",
+            "dit": "C'est la question d'une enfant de douze ans, et c'est aussi la seule question intelligente que quiconque ait posée sur ce sujet depuis un an."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Non. Et je ne le lui demanderai pas.",
+            "humeur": "doux"
+          },
+          {
+            "qui": "bridgess",
+            "dit": "Pourquoi ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Parce que si elle me répondait, tu passerais ta vie à essayer de lui donner tort ou raison. Personne ne mérite ça."
+          }
+        ]
+      }
+    }
+  ],
+  "fin": {
+    "objectif": "Chapitre I,25 — joué",
+    "attend": {
+      "parler": "bridgess"
+    },
+    "dialogues": {
+      "bridgess": [
+        {
+          "qui": "wellan",
+          "dit": "Quand ils viendront, tu resteras derrière la deuxième ligne de fosses.",
+          "humeur": "resolu"
+        },
+        {
+          "qui": "bridgess",
+          "dit": "Non."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Ce n'est pas une conversation."
+        },
+        {
+          "qui": "bridgess",
+          "dit": "Vous m'avez appris à porter de l'eau, à panser un cheval et à me taire. J'ai appris les trois. Vous ne m'avez jamais dit que je regarderais."
+        },
+        {
+          "qui": "recit",
+          "dit": "Elle a douze ans. Elle a raison sur le fond, et Wellan le sait, et il ne cède pas — ce qu'il regrettera dans exactement onze jours."
+        }
+      ],
+      "jasson": [
+        {
+          "qui": "jasson",
+          "dit": "Elle te tient tête à douze ans. Attends d'en voir seize."
+        }
+      ]
+    }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée."
+}

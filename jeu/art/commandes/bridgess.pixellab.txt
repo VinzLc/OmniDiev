@@ -1,0 +1,16 @@
+Top-down 3/4 pixel art character sprite sheet, Game Boy Advance style (Pokemon Ruby/Sapphire/Emerald, 2002-2005).
+
+CHARACTER: Bridgess, twelve years old, Squire to Wellan of the Knights of Emerald. A tall lanky girl, all elbows and long legs, standing very straight because she has been told to. BLONDE hair, straight and shoulder-length, tied back out of the way. A serious face that does not smile easily.
+
+CLOTHES: the plain gear of a Squire, not a Knight — a black tunic and black hose, with a short SLEEVELESS green over-tunic, undecorated. No surcoat, no cross, no armour: she has not earned them. Flat leather boots.
+
+PALETTE — these colors only:
+#0B0A10 #22222C #454652 #71727E (black)
+#0F3826 #1C7A4E #43C47F (green over-tunic)
+#C08F34 #F0D174 (blonde hair)
+#A9714E #D9A57C #F2D3B0 (skin)
+#5B9BD8 (eyes)
+
+STYLE: flat fills only. Two-tone shading — one base color, one shadow, never a third. Hard dark outline around the whole figure. NO anti-aliasing, NO gradients, NO blur, NO soft shadow: every pixel is fully opaque or fully transparent. Chunky readable GBA proportions, large head, short limbs.
+
+BACKGROUND: fully transparent. No scenery, no ground, no frame, no text, no watermark, no signature. Not 3D, not digital painting, not modern anime.

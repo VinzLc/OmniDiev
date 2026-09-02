@@ -1,0 +1,302 @@
+{
+  "id": "i-16",
+  "titre": "Une leçon d'humilité",
+  "source": "Les Chevaliers d'Émeraude, tome I — Le Feu dans le ciel, chapitre 16",
+  "avertissement": "Répliques écrites pour le jeu d'après le résumé du chapitre et les fiches du Codex. Aucune phrase des romans n'y figure. Le bain, le repas du soir, l'orage et le lendemain matin se suivent dans la galerie : le jeu ne change pas de lieu quatre fois pour une même journée.",
+  "salle": "galerie-des-sept",
+  "ouverture": [
+    "Il y a des jours où l'on défend un continent, et des jours où l'on essaie de faire entrer une enfant de trois ans dans une bassine.",
+    "Les seconds sont plus fréquents que les récits ne le disent."
+  ],
+  "cloture": [
+    "Ainsi se passa une journée ordinaire de la première année de l'Ordre : un bain, une dispute, un orage, et des excuses au petit-déjeuner.",
+    "Aucune de ces quatre choses ne figure dans les chroniques. Les trois premières sont pourtant ce qui a tenu les sept ensemble jusqu'à la guerre."
+  ],
+  "etapes": [
+    {
+      "id": "le-bain",
+      "objectif": "Faire descendre Kira",
+      "attend": {
+        "parler": "kira"
+      },
+      "apparaissent": [
+        {
+          "fiche": "kira",
+          "x": 9,
+          "y": 5,
+          "regarde": "sud",
+          "depuis": [
+            0,
+            5
+          ]
+        }
+      ],
+      "dialogues": {
+        "kira": [
+          {
+            "qui": "recit",
+            "dit": "Elle est en haut du coffre de la galerie, dos au mur, et trois servantes se tiennent à distance respectueuse d'une enfant de trois ans."
+          },
+          {
+            "qui": "kira",
+            "dit": "Non."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Je n'ai rien demandé."
+          },
+          {
+            "qui": "kira",
+            "dit": "Non quand même."
+          },
+          {
+            "qui": "recit",
+            "dit": "Armène a renoncé il y a une heure. Elle est allée chercher le seul homme du Château à qui l'enfant adresse la parole, et elle n'a pas eu à expliquer pourquoi."
+          },
+          {
+            "qui": "wellan",
+            "dit": "L'eau est chaude. Elle ne le restera pas."
+          },
+          {
+            "qui": "kira",
+            "dit": "Je ne veux pas."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Je sais. Descends quand même.",
+            "humeur": "resolu"
+          },
+          {
+            "qui": "recit",
+            "dit": "Elle descend. Personne au Château ne comprendra jamais pourquoi cela a marché, et Wellan moins que quiconque."
+          },
+          {
+            "qui": "kira",
+            "dit": "C'est toi qui restes à côté."
+          },
+          {
+            "qui": "wellan",
+            "dit": "C'est moi qui reste à côté.",
+            "humeur": "doux"
+          }
+        ]
+      }
+    },
+    {
+      "id": "le-repas",
+      "objectif": "Annoncer les trois groupes",
+      "apparaissent": [
+        {
+          "fiche": "jasson",
+          "x": 13,
+          "y": 6,
+          "regarde": "est",
+          "depuis": [
+            14,
+            10
+          ]
+        },
+        {
+          "fiche": "santo",
+          "x": 18,
+          "y": 5,
+          "regarde": "ouest",
+          "depuis": [
+            29,
+            5
+          ]
+        }
+      ],
+      "attend": {
+        "parler": "jasson"
+      },
+      "dialogues": {
+        "jasson": [
+          {
+            "qui": "wellan",
+            "dit": "Trois groupes. Chloé et Dempsey aux Fées. Falcon et Bergeau à Diamant. Santo et moi à Opale."
+          },
+          {
+            "qui": "jasson",
+            "dit": "Et moi ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Toi tu restes. Il faut quelqu'un ici."
+          },
+          {
+            "qui": "jasson",
+            "dit": "Il faut quelqu'un chez les Elfes, aussi. Leur royaume touche Shola et leur roi te doit une visite."
+          },
+          {
+            "qui": "recit",
+            "dit": "La galerie se tait d'un coup, ce qui n'arrive jamais pendant un repas."
+          },
+          {
+            "qui": "jasson",
+            "dit": "Quoi ? On ne peut pas le dire ? On a le droit d'aller chez tout le monde sauf chez ceux que tu as mis à genoux ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Jasson.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "jasson",
+            "dit": "J'irai. Moi j'irai, et je serai poli, et je reviendrai avec des archers."
+          },
+          {
+            "qui": "recit",
+            "dit": "Ce qui suit n'est pas une dispute : c'est un homme très grand qui se lève trop vite, et six personnes qui reposent leur cuillère."
+          }
+        ],
+        "santo": [
+          {
+            "qui": "santo",
+            "dit": "Assieds-toi."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Il m'a provoqué devant tout le monde.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "santo",
+            "dit": "Oui. Et tu l'as laissé faire pendant trois phrases, ce qui est trois de trop pour quelqu'un qui commande."
+          },
+          {
+            "qui": "santo",
+            "dit": "Il n'a pas tort sur le fond, Wellan. C'est pour cela que ça pique."
+          },
+          {
+            "qui": "santo",
+            "dit": "Tu iras chez les Elfes toi-même, un jour. Pas ce mois-ci. Mais tu iras, et tu diras ce qu'il faut dire."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Tu es guérisseur, pas confesseur."
+          },
+          {
+            "qui": "santo",
+            "dit": "C'est le même métier vu de deux côtés. Mange, ça refroidit."
+          }
+        ]
+      }
+    },
+    {
+      "id": "l-orage",
+      "objectif": "La nuit d'orage",
+      "apparaissent": [
+        {
+          "fiche": "bridgess",
+          "x": 25,
+          "y": 5,
+          "regarde": "ouest",
+          "depuis": [
+            29,
+            5
+          ]
+        }
+      ],
+      "attend": {
+        "parler": "bridgess"
+      },
+      "disparaissent": [
+        "kira"
+      ],
+      "dialogues": {
+        "bridgess": [
+          {
+            "qui": "recit",
+            "dit": "Le tonnerre passe sur le Château vers minuit. Une petite silhouette traverse la galerie pieds nus et s'arrête à deux pas."
+          },
+          {
+            "qui": "bridgess",
+            "dit": "Je ne dormais pas."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Je vois cela."
+          },
+          {
+            "qui": "bridgess",
+            "dit": "Ce n'est pas parce que j'ai peur. C'est parce que c'est bruyant."
+          },
+          {
+            "qui": "wellan",
+            "dit": "Bien sûr.",
+            "humeur": "doux"
+          },
+          {
+            "qui": "recit",
+            "dit": "Il ne la renvoie pas. Il ne la console pas non plus : il s'assoit sur le banc de la galerie et ne dit plus rien, et cela suffit."
+          },
+          {
+            "qui": "bridgess",
+            "dit": "Vous avez peur de quelque chose, vous ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "Oui.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "bridgess",
+            "dit": "De quoi ?"
+          },
+          {
+            "qui": "wellan",
+            "dit": "D'avoir raison sur ce qui arrive.",
+            "humeur": "grave"
+          },
+          {
+            "qui": "recit",
+            "dit": "Elle s'endort assise contre le montant du banc, et il attend la fin de l'orage sans bouger, ce qui prend deux heures."
+          }
+        ]
+      }
+    }
+  ],
+  "fin": {
+    "objectif": "Chapitre I,16 — joué",
+    "attend": {
+      "parler": "jasson"
+    },
+    "dialogues": {
+      "jasson": [
+        {
+          "qui": "jasson",
+          "dit": "Bon."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Bon."
+        },
+        {
+          "qui": "jasson",
+          "dit": "J'ai dit ce que je pensais devant sept personnes au lieu de te le dire à toi. C'était petit."
+        },
+        {
+          "qui": "wellan",
+          "dit": "J'ai failli renverser une table à cause d'une phrase juste. C'était pire.",
+          "humeur": "doux"
+        },
+        {
+          "qui": "jasson",
+          "dit": "On est d'accord, alors : tu es pire que moi. Je m'en contenterai."
+        },
+        {
+          "qui": "recit",
+          "dit": "Ils déjeunent côte à côte sans rien ajouter. C'est la façon dont ces sept-là se réconcilient, et elle marchera pendant quinze ans."
+        }
+      ],
+      "santo": [
+        {
+          "qui": "santo",
+          "dit": "Ils se sont parlé au pain. Je n'ai rien eu à faire, ce qui est le meilleur des résultats."
+        }
+      ]
+    }
+  },
+  "_humeurs": "Une réplique peut porter une « humeur » : le portrait la prend si elle a été déclinée."
+}

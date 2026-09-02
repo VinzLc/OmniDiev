@@ -14,6 +14,12 @@ signal peri
 
 @export var vie_max := 6
 @export var immunise_magie := false
+## Ce que l'armure retranche à chaque coup reçu.
+##
+## Jamais jusqu'à zéro : un coup qui ne fait rien du tout se lit comme un coup
+## qui n'a pas porté, et le joueur cherche ce qu'il a mal fait. Un point de
+## dégât minimum garde la mêlée lisible.
+@export var reduction := 0
 @export var camp := "ennemi"
 
 var vie := 6
@@ -35,7 +41,7 @@ func encaisser(degats: int, genre: String) -> bool:
 	if maintenant < _repit:
 		return false
 
-	vie -= degats
+	vie -= maxi(1, degats - reduction)
 	# Un bref répit après chaque coup, sans quoi un adversaire au contact vide
 	# une barre de vie en une fraction de seconde et l'on ne peut rien y faire.
 	_repit = maintenant + 0.45

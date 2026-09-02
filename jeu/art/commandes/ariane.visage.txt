@@ -1,0 +1,15 @@
+Pixel art bust portrait, Game Boy Advance style, of a single young woman seen from the chest up, facing the viewer. Dark plain background.
+
+FRAMING: they FILL THE WHOLE FRAME. The head occupies the upper half of the picture, edge to edge; the shoulders run off both sides and are cut by the border; the bottom of the picture cuts across the chest. No empty margin anywhere — this is a close portrait, not a figure standing in a void.
+
+WHO: Ariane, twenty, a fairy who gave up her wings to become a Knight. Very fine, sharp features, high cheekbones, a level and slightly impatient gaze. Pale skin. NO WINGS ANYWHERE in the picture.
+
+HAIR: SILVER-BLOND, almost white, pulled back tightly into a single tail.
+
+EYES: very pale grey-green, large.
+
+CLOTHES: a plain sleeveless GREEN over-tunic above a black collar. No armour, no jewellery, no crown.
+
+STYLE: flat fills, two-tone shading, hard dark outline, no anti-aliasing, no gradients.
+
+No text, no letters, no frame, no watermark, no second figure.

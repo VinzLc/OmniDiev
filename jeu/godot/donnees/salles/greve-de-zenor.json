@@ -47,23 +47,241 @@
       "x": 21,
       "y": 14,
       "regarde": "nord"
+    },
+    {
+      "fiche": "vail",
+      "x": 19,
+      "y": 9,
+      "regarde": "ouest",
+      "des": "i-25",
+      "dit": [
+        {
+          "qui": "vail",
+          "dit": "Vail. Roi de Zénor, si l'on tient à le dire — je vis au village, le château ne tient plus debout depuis cinq cents ans."
+        },
+        {
+          "qui": "vail",
+          "dit": "Votre Bergeau a dormi sous mon dragon. Il est le premier à l'avoir fait sans partir avant l'aube."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Vous l'avez monté vous-même ?"
+        },
+        {
+          "qui": "vail",
+          "dit": "Quarante ans. Os par os, et il en manque encore trois à la queue."
+        },
+        {
+          "qui": "recit",
+          "dit": "Le sourire du Roi de Zénor s'efface d'un coup, et ses yeux gris se remplissent de quelque chose qui n'est pas de la fierté."
+        },
+        {
+          "qui": "vail",
+          "dit": "Je ne l'ai pas monté pour l'admirer, Chevalier. Je l'ai monté pour qu'on sache de quelle taille est la chose, le jour où elle reviendrait."
+        },
+        {
+          "qui": "vail",
+          "dit": "Elle revient. Creusez profond."
+        }
+      ]
+    },
+    {
+      "fiche": "zach",
+      "x": 12,
+      "y": 10,
+      "regarde": "est",
+      "des": "i-25",
+      "donne": {
+        "id": "bouclier-de-la-cite-morte",
+        "nom": "Le bouclier de la cité morte",
+        "categorie": "equipement",
+        "emplacement": "bouclier",
+        "bonus": {
+          "defense": 8
+        },
+        "texte": [
+          "Cinq cents ans dans le sable, et pas une fêlure qu'on n'ait déjà réparée avant vous.",
+          "Le bras qui le tenait était encore dedans. Un enfant de huit ans l'a retiré et n'y a plus repensé."
+        ]
+      },
+      "dit": [
+        {
+          "qui": "zach",
+          "dit": "Je suis Zach. Je suis prince. Mon château est tombé il y a cinq cents ans alors j'habite dans une maison. C'est pareil mais plus petit et il y a mon père dedans."
+        },
+        {
+          "qui": "zach",
+          "dit": "Vous êtes très grand. Est-ce que vous devez vous baisser pour tout ? Mon père se cogne. Au moins une fois par jour, et après il dit un mot."
+        },
+        {
+          "qui": "wellan",
+          "dit": "Quel mot ?"
+        },
+        {
+          "qui": "zach",
+          "dit": "Ma mère ne veut pas que je le répète. C'est un mot pour les adultes qui se cognent."
+        },
+        {
+          "qui": "zach",
+          "dit": "J'ai trouvé ça dans le sable. Il y avait un bras dedans. Je l'ai sorti et je l'ai remis dans le sable, parce que ça se fait."
+        },
+        {
+          "qui": "zach",
+          "dit": "C'est un bouclier. Il est plus vieux que tout le monde ici. Il ne s'est jamais cassé — et pourtant celui qui le tenait, si."
+        },
+        {
+          "qui": "zach",
+          "dit": "Prenez-le. Moi il me fait tomber en avant."
+        }
+      ]
     }
   ],
   "objets": [
     {
       "type": "brasier",
-      "x": 7,
-      "y": 13
+      "x": 5,
+      "y": 12,
+      "nom": "Un brasero de veille",
+      "texte": [
+        "Allumé au crépuscule, face à la mer. On en a posé trois le long de la grève.",
+        "Ils n'éclairent pas jusqu'à l'eau. Ils servent à savoir où l'on est quand on recule."
+      ]
     },
     {
       "type": "brasier",
-      "x": 23,
-      "y": 13
+      "x": 25,
+      "y": 12,
+      "nom": "Un brasero de veille",
+      "texte": [
+        "Le troisième, au bout de la ligne. Bergeau le surveille.",
+        "Il a demandé celui-là précisément, qui est le plus exposé. Personne n'a discuté."
+      ]
     },
     {
       "type": "brasier",
       "x": 15,
-      "y": 9
+      "y": 9,
+      "nom": "Le brasero avancé",
+      "texte": [
+        "Le plus près de l'eau, et le seul qu'on ait posé sur le dallage ancien.",
+        "Il éclaire une mosaïque que personne n'a le temps de regarder."
+      ]
+    },
+    {
+      "type": "stele",
+      "x": 7,
+      "y": 5,
+      "nom": "Une pierre enkieve",
+      "texte": [
+        "Dressée avant que Zénor tombe, donc il y a plus de cinq cents ans. La gravure est effacée jusqu'à la moitié.",
+        "Ce qui reste se lit encore : un mot, répété trois fois. Élund l'a traduit une fois, puis a dit qu'il s'était trompé."
+      ]
+    },
+    {
+      "type": "stele",
+      "x": 22,
+      "y": 6,
+      "nom": "Un pan de mur",
+      "texte": [
+        "Un mètre de pierre debout, seul au milieu du sable. Le reste du bâtiment est sous la grève.",
+        "Les ruines de Zénor ne sont pas tombées : elles ont été enfouies. Ce n'est pas la même chose et l'on ne sait pas ce qui les a enfouies."
+      ]
+    },
+    {
+      "type": "rocher",
+      "x": 4,
+      "y": 17,
+      "nom": "Un bloc échoué",
+      "texte": [
+        "Rond, lisse, hors de proportion avec la grève. La mer ne roule pas des pierres de cette taille.",
+        "Il y en a une ligne, régulièrement espacée, tout au long du littoral. Régulièrement."
+      ]
+    },
+    {
+      "type": "rocher",
+      "x": 2,
+      "y": 8
+    },
+    {
+      "type": "rocher",
+      "x": 27,
+      "y": 8
+    },
+    {
+      "type": "rocher",
+      "x": 2,
+      "y": 12
+    },
+    {
+      "type": "rocher",
+      "x": 27,
+      "y": 12
+    },
+    {
+      "type": "rocher",
+      "x": 12,
+      "y": 18
+    },
+    {
+      "type": "rocher",
+      "x": 18,
+      "y": 18
+    },
+    {
+      "type": "rocher",
+      "x": 5,
+      "y": 2
+    },
+    {
+      "type": "rocher",
+      "x": 25,
+      "y": 2
+    },
+    {
+      "type": "rocher",
+      "x": 11,
+      "y": 3
+    },
+    {
+      "type": "rocher",
+      "x": 19,
+      "y": 3
+    },
+    {
+      "type": "rocher",
+      "x": 27,
+      "y": 17
+    },
+    {
+      "type": "buisson",
+      "x": 2,
+      "y": 16
+    },
+    {
+      "type": "buisson",
+      "x": 27,
+      "y": 16
+    },
+    {
+      "type": "buisson",
+      "x": 4,
+      "y": 10
+    },
+    {
+      "type": "buisson",
+      "x": 26,
+      "y": 10
+    },
+    {
+      "type": "buisson",
+      "x": 9,
+      "y": 18
+    },
+    {
+      "type": "buisson",
+      "x": 21,
+      "y": 18
     }
-  ]
+  ],
+  "_objets": "Des blocs et des ruines, rien de vivant : Zénor est un royaume mort depuis cinq cents ans. Les braseros sont ceux qu'on a allumés en arrivant, et ce sont les seuls objets de cette grève que quelqu'un ait posés."
 }
