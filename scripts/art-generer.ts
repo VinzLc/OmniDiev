@@ -677,8 +677,17 @@ async function main() {
     base = match.find((c) => /idle|repos/i.test(c.state_name ?? "")) ?? match[0];
   }
 
+  /*
+   * Le nom sous lequel l'archive se dépliera, et que la commande suivante
+   * attendra. Les deux chemins d'accès y arrivent : le carnet local pose
+   * `name: who`, et la recherche par nom n'a pu retenir que des personnages
+   * dont le nom est déjà celui demandé. On le calcule une fois pour que le
+   * dossier écrit et la commande annoncée ne puissent pas diverger.
+   */
+  const nom = (base.name ?? who).toLowerCase();
+
   const before = await showBalance("Solde avant");
-  console.log(`\n${base.name} (${base.state_name ?? "—"})  ${C.dim}${base.id}${C.off}`);
+  console.log(`\n${base.name ?? who} (${base.state_name ?? "—"})  ${C.dim}${base.id}${C.off}`);
   console.log(`animation « ${action} », ${frames} images, direction(s) : ${dirs.join(", ")}`);
   console.log(`${C.dim}mode v3 — une génération par image et par direction, environ${C.off}\n`);
 
@@ -702,7 +711,7 @@ async function main() {
   const failed = jobs.filter((j) => j.status === "failed");
   for (const f of failed) console.log(`${C.red}✗${C.off} travail ${f.id} en échec`);
 
-  const dir = path.join(SOURCES, base.name.toLowerCase());
+  const dir = path.join(SOURCES, nom);
   fs.mkdirSync(dir, { recursive: true });
   const zip = await characterZip(base.id);
   const tmp = path.join(dir, ".export.zip");
@@ -719,7 +728,7 @@ async function main() {
   } else {
     console.log(C.off);
   }
-  console.log(`\nEnsuite : npm run art:normalise -- ${base.name.toLowerCase()}`);
+  console.log(`\nEnsuite : npm run art:normalise -- ${nom}`);
 }
 
 main().catch((e) => { console.error(`${C.red}${e.message}${C.off}`); process.exit(1); });

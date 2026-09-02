@@ -37,3 +37,7 @@ jeu/godot/capture*.png.import
 # Vignette d'amorce que `art:generer` retaille depuis la planche à chaque appel.
 # Une copie versionnée ne serait jamais relue : elle est réécrite avant usage.
 jeu/art/portraits/.*.cellule.png
+
+# Réglages personnels de Claude Code : la publication automatique vise le dépôt
+# de Vinz, elle n'a pas à s'imposer à qui clone.
+.claude/settings.local.json
