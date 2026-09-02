@@ -51,6 +51,27 @@ CH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 Puis lire `/tmp/vue.png`. `--virtual-time-budget` laisse les `fetch` du client aboutir : sans
 lui on photographie une page vide et l'on conclut que rien ne s'affiche.
 
+**Pour le mobile, cette recette ment.** `--window-size=390,844` rétrécit la fenêtre sans
+émuler un téléphone : la capture montre une page coupée même quand la mise en page est
+juste, et l'on part corriger un défaut qui n'existe pas. Il faut piloter Chrome par CDP et
+poser `Emulation.setDeviceMetricsOverride` avec `mobile: true`. Node 22 porte un client
+WebSocket, donc rien à installer :
+
+```js
+await envoie("Emulation.setDeviceMetricsOverride",
+  { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
+await envoie("Network.setCacheDisabled", { cacheDisabled: true }); // sur le site publié
+```
+
+Et **mesurer plutôt que regarder** pour le débordement horizontal : comparer
+`documentElement.scrollWidth` à `clientWidth`, puis relever les éléments dont le
+`getBoundingClientRect().right` dépasse. L'œil ne distingue pas une page qui déborde d'une
+capture mal cadrée ; ces deux nombres, si.
+
+Sur le site publié, le CDN sert parfois une feuille périmée alors que `curl` en reçoit la
+neuve : un `flex-wrap` calculé à `wrap` là où la feuille téléchargée dit `nowrap` est un
+cache, pas un bogue. `Network.setCacheDisabled` tranche.
+
 **Les liens profonds rendent chaque écran atteignable** — c'est ce qui permet de viser une
 fiche précise plutôt que de cliquer à l'aveugle :
 
