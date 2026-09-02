@@ -82,6 +82,14 @@ export default function Page() {
 
 
   useEffect(() => {
+    /*
+     * Suivre la dernière réplique n'a de sens que s'il y en a une. Au montage,
+     * ce défilement s'appliquait aussi à l'écran d'accueil : sur un grand écran
+     * il ne se voyait pas, l'accueil y tenant tout entier, mais sur un
+     * téléphone il passait par-dessus le titre et l'on arrivait sur une page
+     * commencée au milieu d'une phrase.
+     */
+    if (turns.length === 0) return;
     thread.current?.scrollTo({ top: thread.current.scrollHeight, behavior: "smooth" });
   }, [turns.length]);
 

@@ -69,10 +69,24 @@ a { color: var(--emerald); }
   position: relative;
   z-index: 1;
   height: 100vh;
+  /* Sur mobile, `100vh` compte la barre d'adresse comme si elle n'existait pas :
+     le bas de la colonne — donc le champ de saisie — se retrouve sous elle. La
+     hauteur dynamique suit la barre quand elle se rétracte. `100vh` reste au
+     dessus pour les navigateurs qui ignorent l'unité. */
+  height: 100dvh;
   max-width: var(--shell);
   margin: 0 auto;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
+  /*
+   * Une grille sans colonne déclarée s'en donne une, en `auto` — c'est-à-dire
+   * dimensionnée sur le `max-content` de ce qu'elle porte. Un titre qui ne veut
+   * pas se couper suffit alors à pousser toute la page au-delà de l'écran, et
+   * rien ne le montre tant que l'écran est plus large que le texte. D'où le
+   * `minmax(0, 1fr)`, ici et sur chaque grille d'ossature : la colonne a le
+   * droit de rétrécir, donc le contenu se replie au lieu de déborder.
+   */
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .masthead {
@@ -149,6 +163,7 @@ a { color: var(--emerald); }
 .column {
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
   min-height: 0;
 }
 
@@ -162,7 +177,12 @@ a { color: var(--emerald); }
 
 /* L'accueil se centre : sans conversation, le texte ne doit pas flotter
    en haut d'un écran vide. */
-.thread.empty { display: grid; align-content: center; padding-bottom: 40px; }
+.thread.empty {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  padding-bottom: 40px;
+}
 
 .thread-inner { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 30px; }
 
@@ -645,10 +665,11 @@ a { color: var(--emerald); }
   z-index: 1;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   min-height: 0;
 }
 
-.dex-empty { display: grid; place-items: center; padding: 40px; color: var(--text-soft); }
+.dex-empty { display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; padding: 40px; color: var(--text-soft); }
 .dex-empty code { font-family: var(--mono); font-size: 12px; color: var(--gold); }
 
 .dex-bar {
@@ -1120,4 +1141,114 @@ a { color: var(--emerald); }
 @media (max-width: 720px) {
   .gen-overlay { padding: 10px; }
   .gen-modal { width: 100%; height: 96vh; }
+}
+
+/* ── Téléphone ─────────────────────────────────────────────────────────────
+   La mise en page savait déjà se replier — à 1320, 1080, 720. Ce qui manquait
+   était la déclaration de fenêtre d'affichage, dans app/layout.tsx : sans elle
+   le téléphone composait tout sur 980 pixels et n'en montrait que le tiers
+   gauche. Une fois la largeur réelle rendue au navigateur, il reste à traiter
+   ce qu'aucune règle de bureau ne pouvait prévoir : le pouce, la barre
+   d'adresse, et l'agrandissement automatique d'iOS. */
+@media (max-width: 720px) {
+  /* Le bandeau ne tient pas sur une ligne : marque, trois onglets et limite de
+     lecture. On le plie en deux — identité et limite en haut, onglets en
+     dessous sur toute la largeur, là où le pouce les atteint vraiment. */
+  .masthead { flex-wrap: wrap; gap: 9px 12px; padding: 11px 14px; }
+  .masthead .spacer { display: none; }
+  .brand { flex: 1 1 auto; }
+  .brand h1 { font-size: 17px; }
+
+  .tabs { order: 3; flex: 1 0 100%; gap: 4px; }
+  .tabs button { flex: 1; justify-content: center; padding: 9px 6px; }
+
+  /* La limite de lecture reste : c'est la protection contre les révélations,
+     pas un ornement. Seul son libellé s'efface — le bouclier le dit déjà. Il
+     s'efface à l'œil et non au lecteur d'écran, qui sans lui n'aurait plus rien
+     pour nommer la liste. */
+  .spoiler { gap: 6px; }
+  .spoiler label {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  /* La limite prend sa propre ligne : le nom du tome y tient enfin. Le
+     `min-width: 0` est ce qui autorise la liste à se réduire — un élément
+     flexible refuse par défaut de passer sous son contenu minimum, et la liste
+     débordait de dix pixels par la droite. */
+  .spoiler { flex: 1 1 100%; min-width: 0; }
+  .spoiler select { flex: 1; min-width: 0; max-width: none; }
+
+  /* L'accueil est centré sur grand écran. Sur un téléphone il est plus haut que
+     l'écran, et un contenu centré qui déborde voit son début passer au-dessus
+     du cadre, hors d'atteinte du défilement : le titre était coupé. */
+  .thread.empty { align-content: start; padding-top: 24px; }
+
+  /* La barre de filtres est fixe — elle ne défile pas avec les fiches. Empilées,
+     ses deux rangées de pastilles prenaient plus de trois cents pixels sur les
+     huit cents de l'écran. Elles glissent latéralement à la place ; une pastille
+     à demi visible au bord dit qu'il y en a d'autres. */
+  .dex-filters {
+    flex: 1 1 100%;
+    min-width: 0; /* sans quoi la rangée s'étire sur son contenu et `overflow` ne sert à rien */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .dex-filters::-webkit-scrollbar { display: none; }
+  .chip { flex: none; }
+
+  /* Une fiche ouverte occupe tout l'écran : la grille est déjà masquée, et des
+     filtres qui ne filtrent plus rien de visible ne méritent pas ce tiers-là. */
+  .dex.open .dex-bar { display: none; }
+
+  /* Vingt-six pixels de marge de chaque côté ne laissaient que 338 au contenu
+     sur un écran de 390. */
+  .thread { padding: 18px 14px 6px; }
+  .composer-wrap { padding: 10px 14px 14px; }
+  .dex-bar { padding: 11px 14px; gap: 8px; }
+  .dex-grid { padding: 14px 14px 22px; gap: 9px; }
+  .dex-detail { padding: 16px 15px 32px; }
+  .gen-canvas { padding: 18px 14px 24px; }
+
+  /* La recherche prend sa ligne : à 220 pixels de base elle la partageait avec
+     les pastilles, et les deux étaient à l'étroit. */
+  .dex-search { flex: 1 0 100%; max-width: none; }
+  .dex-count { margin-left: 0; }
+
+  .welcome .crest { width: 46px; height: 46px; margin-bottom: 14px; }
+  .welcome h2 { font-size: 25px; }
+  .welcome p.lede { font-size: 14.5px; margin-bottom: 20px; }
+
+  .dex-detail-head h2 { font-size: 21px; }
+
+  /* iOS agrandit la page dès qu'on pose le doigt dans un champ de moins de
+     seize pixels, et ne la réduit jamais ensuite. Ce n'est pas un choix de
+     taille : c'est ce qui évite que le site parte de travers au premier appui. */
+  .dex-search, .dex-limit, .spoiler select, .composer textarea { font-size: 16px; }
+
+  /* Vingt-six pixels de côté, ça se rate au pouce. */
+  .dex-close { width: 40px; height: 40px; top: 7px; right: 7px; font-size: 16px; }
+  .chip { padding: 7px 12px; font-size: 12px; }
+
+  /* Un arbre plus large que l'écran doit pouvoir glisser. Centré, un contenu
+     débordant voit son début rogné hors d'atteinte : le défilement ne remonte
+     pas avant le point de départ. */
+  .gen-canvas { justify-content: flex-start; }
+  .gen-modal { height: 96dvh; }
+}
+
+/* ── Écrans étroits ────────────────────────────────────────────────────────
+   En deçà de 400 pixels, le portrait de 128 et le texte de la fiche ne tiennent
+   plus côte à côte : le visage passe au-dessus plutôt que de comprimer le nom
+   sur quatre lignes. */
+@media (max-width: 400px) {
+  .brand h1 { font-size: 15.5px; }
+  .dex-detail-head.a-visage { grid-template-columns: minmax(0, 1fr); row-gap: 12px; }
+  .dex-detail-head.a-visage .dex-visage { grid-row: auto; }
+  .dex-detail-head.a-visage .dex-num.big,
+  .dex-detail-head.a-visage > div { grid-column: 1; }
 }
