@@ -1281,6 +1281,13 @@ a { color: var(--emerald); }
   .masthead { padding: 7px 12px; gap: 6px 10px; }
   .brand h1 { font-size: 15px; }
   .tabs button { padding: 6px 6px; }
+
+  /* Le jeu prend tout ce qui reste : sur 390 pixels de haut, une marge et un
+     cadre arrondi lui coûtaient une bande de trente pixels qu'il aurait mieux
+     employée. Le plein écran reste à un doigt, mais il ne doit pas être la
+     seule façon de voir quelque chose. */
+  .jeu { padding: 0; }
+  .jeu-cadre { border: none; border-radius: 0; }
 }
 
 @media (max-width: 720px) {
