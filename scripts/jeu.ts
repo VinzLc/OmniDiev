@@ -15,6 +15,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
+import { pathToFileURL } from "node:url";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const ART = path.join(ROOT, "jeu", "art");
@@ -66,7 +67,7 @@ const INDISPENSABLES = [
   { fichier: "chateau-d-emeraude.png", quoi: "le sol du Château" },
 ];
 
-function godot(): string {
+export function godot(): string {
   for (const candidat of ["godot", "/opt/homebrew/bin/godot", "/usr/local/bin/godot",
                           "/Applications/Godot.app/Contents/MacOS/Godot"]) {
     const r = spawnSync(candidat, ["--version"], { encoding: "utf8" });
@@ -109,7 +110,14 @@ function annoncerLaReprise() {
   if (rang > 1) console.log(`${C.dim}pour reprendre au début : npm run jeu -- --recommencer${C.off}`);
 }
 
-function main() {
+/**
+ * Les planches de l'atelier vers le projet Godot.
+ *
+ * Exporté parce que l'export web en a besoin exactement comme le lancement :
+ * deux listes de planches auraient fini par différer, et c'est le genre
+ * d'écart qui se voit dans le jeu six semaines plus tard.
+ */
+export function preparerLesPlanches(): void {
   const tout = planches();
   const noms = new Set(tout.map((p) => p.vers));
   const manquant = INDISPENSABLES.filter((i) => !noms.has(i.fichier));
@@ -123,6 +131,10 @@ function main() {
   fs.mkdirSync(ASSETS, { recursive: true });
   for (const p of tout) fs.copyFileSync(p.de, path.join(ASSETS, p.vers));
   console.log(`${C.dim}${tout.length} planche(s) copiée(s) dans ${path.relative(ROOT, ASSETS)}/${C.off}`);
+}
+
+function main() {
+  preparerLesPlanches();
 
   if (process.argv.includes("--recommencer")) {
     /* La progression vit dans le dossier utilisateur de Godot, sous le nom du
@@ -176,4 +188,7 @@ function main() {
   process.exitCode = r.status ?? 0;
 }
 
-main();
+/* Lancé directement, on joue. Importé — par `jeu-web.ts`, qui vient y chercher
+ * la préparation des planches — on ne fait rien : ouvrir une fenêtre de jeu au
+ * milieu d'un export serait une surprise. */
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

@@ -6,6 +6,7 @@ import { Answer } from "@/components/Answer";
 import { Sources, type CodexHit, type SourceHit } from "@/components/Sources";
 import { Codex } from "@/components/Codex";
 import { Genealogy } from "@/components/Genealogy";
+import Jeu from "@/components/Jeu";
 
 const ROMAN = ["", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
 
@@ -69,7 +70,7 @@ export default function Page() {
   // Position absolue du dernier tome lu, sur les 24 : 0 signifie « tout lu ».
   const [maxOrder, setMaxOrder] = useState<number>(0);
   const [focus, setFocus] = useState<number | null>(null);
-  const [tab, setTab] = useState<"oracle" | "codex" | "genealogie">("oracle");
+  const [tab, setTab] = useState<"oracle" | "codex" | "genealogie" | "jeu">("oracle");
 
   const abort = useRef<AbortController | null>(null);
   const thread = useRef<HTMLDivElement>(null);
@@ -198,6 +199,7 @@ export default function Page() {
     const asked = params.get("tab");
     if (asked === "codex" || params.get("fiche")) setTab("codex");
     else if (asked === "genealogie" || params.get("arbre")) setTab("genealogie");
+    else if (asked === "jeu") setTab("jeu");
     const q = params.get("q");
     if (q?.trim()) void ask(q);
     // `ask` change à chaque rendu ; le garde-fou ci-dessus suffit à n'ouvrir
@@ -235,6 +237,14 @@ export default function Page() {
             >
               Généalogie
             </button>
+            <button
+              role="tab"
+              aria-selected={tab === "jeu"}
+              className={tab === "jeu" ? "on" : ""}
+              onClick={() => setTab("jeu")}
+            >
+              Jeu
+            </button>
           </nav>
           <div className="spacer" />
           <a
@@ -246,7 +256,7 @@ export default function Page() {
             Le code sur GitHub ↗
           </a>
         </header>
-        {tab === "genealogie" ? <Genealogy /> : <Codex standalone />}
+        {tab === "jeu" ? <Jeu /> : tab === "genealogie" ? <Genealogy /> : <Codex standalone />}
       </div>
     );
   }
@@ -287,6 +297,14 @@ export default function Page() {
             onClick={() => setTab("genealogie")}
           >
             Généalogie
+          </button>
+          <button
+            role="tab"
+            aria-selected={tab === "jeu"}
+            className={tab === "jeu" ? "on" : ""}
+            onClick={() => setTab("jeu")}
+          >
+            Jeu
           </button>
         </nav>
 
@@ -331,7 +349,9 @@ export default function Page() {
         )}
       </header>
 
-      {tab === "genealogie" ? (
+      {tab === "jeu" ? (
+        <Jeu />
+      ) : tab === "genealogie" ? (
         <Genealogy />
       ) : tab === "codex" ? (
         <Codex maxOrder={maxOrder} />

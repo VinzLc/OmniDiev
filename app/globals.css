@@ -1143,6 +1143,98 @@ a { color: var(--emerald); }
   .gen-modal { width: 100%; height: 96vh; }
 }
 
+/* ── Le jeu ────────────────────────────────────────────────────────────────
+   L'iframe remplit l'espace sans chercher à tenir le 16/9 : le jeu compose sur
+   une toile de 640×360 et pose lui-même ses bandes noires. Deux cadrages
+   concurrents se seraient battus, et la page aurait tremblé au redimensionnement. */
+
+.jeu {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 0;
+  place-items: center;
+  padding: 16px 26px 22px;
+}
+
+.jeu-cadre {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #000;
+}
+
+/* Le recouvrement, qui tient lieu de plein écran là où l'API n'existe pas. */
+.jeu.plein {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  padding: 0;
+  background: #000;
+}
+.jeu.plein .jeu-cadre { border: none; border-radius: 0; }
+
+.jeu-plein {
+  position: absolute;
+  top: 12px; right: 12px;
+  z-index: 2;
+  width: 36px; height: 36px;
+  display: grid; place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: rgba(6, 15, 11, 0.66);
+  color: var(--text-soft);
+  font-size: 15px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.jeu-plein:hover { color: var(--emerald); border-color: var(--emerald-dim); }
+
+/* Le jeu est en 16/9 : de face, un téléphone n'en montre qu'un timbre-poste. */
+.jeu-paysage {
+  position: absolute;
+  left: 0; right: 0; bottom: 14px;
+  margin: 0;
+  text-align: center;
+  font-size: 12.5px;
+  color: var(--text-faint);
+  pointer-events: none;
+}
+@media (orientation: landscape) { .jeu-paysage { display: none; } }
+
+/* ── Le seuil ──────────────────────────────────────────────────────────────
+   Quarante mégaoctets ne se téléchargent pas à l'insu de qui vient lire une
+   fiche : l'iframe n'existe qu'après ce bouton, et le poids est annoncé. */
+
+.jeu-seuil { max-width: 460px; text-align: center; }
+
+.jeu-seuil h2 {
+  font-family: var(--serif);
+  font-size: 27px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: var(--text);
+}
+
+.jeu-lede { color: var(--text-soft); margin: 0 0 22px; font-size: 14.5px; }
+
+.jeu-lancer {
+  padding: 11px 30px;
+  border-radius: 10px;
+  border: 1px solid var(--emerald-dim);
+  background: rgba(61, 220, 151, 0.11);
+  color: var(--emerald);
+  font-family: var(--serif);
+  font-size: 17px;
+  transition: background 0.15s, transform 0.14s;
+}
+.jeu-lancer:hover { background: rgba(61, 220, 151, 0.2); transform: translateY(-1px); }
+
+.jeu-poids { margin: 16px 0 0; font-size: 11.5px; color: var(--text-faint); }
+.jeu-poids b { color: var(--text-soft); font-weight: 600; }
+
 /* ── Téléphone ─────────────────────────────────────────────────────────────
    La mise en page savait déjà se replier — à 1320, 1080, 720. Ce qui manquait
    était la déclaration de fenêtre d'affichage, dans app/layout.tsx : sans elle
@@ -1150,14 +1242,18 @@ a { color: var(--emerald); }
    gauche. Une fois la largeur réelle rendue au navigateur, il reste à traiter
    ce qu'aucune règle de bureau ne pouvait prévoir : le pouce, la barre
    d'adresse, et l'agrandissement automatique d'iOS. */
-@media (max-width: 720px) {
-  /* Le bandeau ne tient pas sur une ligne : marque, trois onglets et limite de
-     lecture. On le plie en deux — identité et limite en haut, onglets en
-     dessous sur toute la largeur, là où le pouce les atteint vraiment. */
+/* ── Le bandeau se plie ────────────────────────────────────────────────────
+   Quatre onglets depuis que le jeu en a un, plus la marque et la limite de
+   lecture : la ligne unique cède bien avant le téléphone. Elle cédait à 844,
+   c'est-à-dire un téléphone couché — et le titre se dessinait par-dessus les
+   onglets, faute d'un `nowrap` qui ne sait pas se taire. On plie donc à mille,
+   ce qui couvre aussi une fenêtre de bureau étroite. */
+@media (max-width: 1000px) {
   .masthead { flex-wrap: wrap; gap: 9px 12px; padding: 11px 14px; }
   .masthead .spacer { display: none; }
-  .brand { flex: 1 1 auto; }
-  .brand h1 { font-size: 17px; }
+  .brand { flex: 1 1 auto; min-width: 0; }
+  /* Sans quoi le titre déborde au lieu de se laisser réduire. */
+  .brand h1 { white-space: normal; }
 
   .tabs { order: 3; flex: 1 0 100%; gap: 4px; }
   .tabs button { flex: 1; justify-content: center; padding: 9px 6px; }
@@ -1175,6 +1271,20 @@ a { color: var(--emerald); }
     clip-path: inset(50%);
     white-space: nowrap;
   }
+  .spoiler select { max-width: 38vw; }
+}
+
+/* ── Paysage court ─────────────────────────────────────────────────────────
+   Un téléphone couché n'a que 390 pixels de haut. Trois lignes de bandeau y
+   mangeaient le tiers de ce que le jeu pouvait occuper. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .masthead { padding: 7px 12px; gap: 6px 10px; }
+  .brand h1 { font-size: 15px; }
+  .tabs button { padding: 6px 6px; }
+}
+
+@media (max-width: 720px) {
+  .brand h1 { font-size: 17px; }
   /* La limite prend sa propre ligne : le nom du tome y tient enfin. Le
      `min-width: 0` est ce qui autorise la liste à se réduire — un élément
      flexible refuse par défaut de passer sous son contenu minimum, et la liste
@@ -1204,6 +1314,13 @@ a { color: var(--emerald); }
   /* Une fiche ouverte occupe tout l'écran : la grille est déjà masquée, et des
      filtres qui ne filtrent plus rien de visible ne méritent pas ce tiers-là. */
   .dex.open .dex-bar { display: none; }
+
+  /* Le jeu prend toute la largeur : une marge de vingt-six pixels autour d'une
+     toile de 640×360 lui coûtait un septième de sa hauteur. */
+  .jeu { padding: 0; }
+  .jeu-cadre { border: none; border-radius: 0; }
+  .jeu-seuil { padding: 0 18px; }
+  .jeu-seuil h2 { font-size: 23px; }
 
   /* Vingt-six pixels de marge de chaque côté ne laissaient que 338 au contenu
      sur un écran de 390. */

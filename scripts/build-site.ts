@@ -52,6 +52,24 @@ function main() {
     console.log("Routes serveur restaurées après une exécution interrompue.\n");
   }
 
+  /*
+   * Le jeu doit être là avant qu'on construise quoi que ce soit.
+   *
+   * `public/jeu/` n'est pas versionné — quarante mégaoctets de WebAssembly
+   * reconstruits à la demande. Publier sans lui aurait donné un site complet
+   * dont l'onglet « Jeu » sert une page blanche : exactement la dégradation
+   * qui ne se voit qu'une fois en ligne. On refuse ici, en nommant le remède.
+   */
+  const jeu = path.join(ROOT, "public", "jeu");
+  const piecesDuJeu = ["index.html", "index.js", "index.wasm", "index.pck"];
+  const sansJeu = piecesDuJeu.filter((f) => !fs.existsSync(path.join(jeu, f)));
+  if (sansJeu.length) {
+    console.error("PUBLICATION REFUSÉE — l'export web du jeu est absent ou incomplet.");
+    console.error(`  manque : ${sansJeu.join(", ")}`);
+    console.error("\n  npm run jeu:web      le reconstruit (environ une minute)");
+    process.exit(1);
+  }
+
   console.log("→ Génération des fiches\n");
   run("npx", ["tsx", "scripts/build-pages.ts"]);
 
@@ -92,7 +110,14 @@ function main() {
 
   const size = execFileSync("du", ["-sh", OUT]).toString().split("\t")[0];
   const files = execFileSync("bash", ["-c", `find ${JSON.stringify(OUT)} -type f | wc -l`]).toString().trim();
+  const jeuPublie = piecesDuJeu.filter((f) => !fs.existsSync(path.join(OUT, "jeu", f)));
+  if (jeuPublie.length) {
+    console.error(`PUBLICATION REFUSÉE — le jeu n'a pas suivi dans out/ : ${jeuPublie.join(", ")}`);
+    process.exit(1);
+  }
+
   console.log(`  aucun secret, aucun index de recherche`);
+  console.log(`  le jeu est du voyage`);
   console.log(`  ${files} fichiers · ${size}`);
   console.log(`\nSite prêt dans out/. Publication : npm run deploy`);
 }

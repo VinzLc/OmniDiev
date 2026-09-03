@@ -45,6 +45,7 @@ const Banc := preload("res://banc.gd")
 const Interface := preload("res://interface.gd")
 const Sons := preload("res://sons.gd")
 const Donnees := preload("res://donnees.gd")
+const Tactile := preload("res://tactile.gd")
 
 ## Le combat, en clair. Ces nombres sont à nous ; ce qui vient du texte, c'est
 ## que la carapace des hommes-insectes boit la magie.
@@ -246,6 +247,8 @@ func _ready() -> void:
 	_batir_wellan()
 	_ui = Interface.new()
 	add_child(_ui)
+	# Les commandes du pouce, qui se retirent d'elles-mêmes hors tactile.
+	add_child(Tactile.new())
 	# Le second vient après l'interface, non avant : il pousse les jauges, et
 	# les pousser vers une interface qui n'existe pas encore levait une erreur à
 	# chaque lancement. Elle était sans effet — la passe de physique remettait
@@ -1763,7 +1766,7 @@ const NOMS_STATS := {
 ## touche — ce qui attrape la seule dérive qui compte, celle d'une commande
 ## renommée ou disparue.
 const COMMANDES := [
-	{ "touches": "↑ ↓ ← →   ·   W A S D", "action": "ui_up", "quoi": "Se déplacer" },
+	{ "touches": "Flèches   ·   W A S D", "action": "ui_up", "quoi": "Se déplacer" },
 	{ "touches": "P", "action": "courir", "quoi": "Courir" },
 	{ "touches": "Espace", "action": "ui_accept", "quoi": "Parler, examiner, franchir une porte" },
 	{ "touches": "J", "action": "frapper", "quoi": "L'épée" },

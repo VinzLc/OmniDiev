@@ -10,6 +10,7 @@ extends Node2D
 const Partie := preload("res://partie.gd")
 const Donnees := preload("res://donnees.gd")
 const Sons := preload("res://sons.gd")
+const Tactile := preload("res://tactile.gd")
 const EMPLACEMENTS := Partie.EMPLACEMENTS
 
 var _campagne: Dictionary
@@ -58,6 +59,10 @@ func _batir() -> void:
 	var couche := CanvasLayer.new()
 	add_child(couche)
 	_titre = couche
+
+	# De quoi choisir une partie au pouce. En mode « menu » : sans les touches
+	# de combat, qui n'ont rien à frapper ici.
+	add_child(Tactile.new("menu"))
 
 	var fond := TextureRect.new()
 	fond.texture = load("res://assets/ecran-titre.png")

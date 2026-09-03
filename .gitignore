@@ -41,3 +41,10 @@ jeu/art/portraits/.*.cellule.png
 # Réglages personnels de Claude Code : la publication automatique vise le dépôt
 # de Vinz, elle n'a pas à s'imposer à qui clone.
 .claude/settings.local.json
+
+# Export web du jeu : 40 Mo de WebAssembly reconstruits par `npm run jeu:web`.
+# Versionnés, ils alourdiraient le dépôt d'un blob à chaque retouche du jeu.
+# `build-site.ts` refuse de publier sans eux — l'absence se voit, elle ne se
+# glisse pas dans une mise en ligne silencieusement amputée.
+public/jeu/
+public/.jeu.chantier/
